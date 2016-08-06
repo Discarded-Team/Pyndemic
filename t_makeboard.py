@@ -2,7 +2,7 @@
 # vim: tabstop=4 softtabstop=4 shiftwidth=4 smarttab expandtab:
 
 import unittest
-import makeboard
+from makeboard import startinggame
 
 global nocountries
 
@@ -11,6 +11,7 @@ class T( unittest.TestCase ):
 # This def should test if the createcountry
 	def test_setup (self):
 		nocountries = 'thewrongnumber'
-		startinggame.setup ( )
+		sg = startinggame ( )
+		sg.setup ()
 		self.assertEqual(nocountries,0, msg = 'number of countries is not correct')
 

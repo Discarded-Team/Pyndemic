@@ -2,8 +2,9 @@
 # vim: tabstop=4 softtabstop=4 shiftwidth=4 smarttab expandtab:
 
 global nocountries
+
 class startinggame:
-	def setup (self):
+	def setup (nocountries):
 		print "well here is something"
 		nocountries = 0
 		rcubes = 20
