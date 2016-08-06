@@ -4,7 +4,7 @@
 global nocountries
 
 class startinggame:
-	def setup (nocountries):
+	def setup (self):
 		print "well here is something"
 		nocountries = 0
 		rcubes = 20
