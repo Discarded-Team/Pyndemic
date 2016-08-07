@@ -1,15 +1,22 @@
 #!/usr/bin/env python
 # vim: tabstop=4 softtabstop=4 shiftwidth=4 smarttab expandtab:
 
-global nocountries
+import sqlite3
 
 class startinggame:
 	def setup (self):
-		print "well here is something"
-		nocountries = 0
-		rcubes = 20
-		gcubes = 20
-		ucubes = 20
-		bcubes = 20
+		print "creating table of countries"
+		with sqlite3.connect('pandemic.db') as conn:
+            	cursor = conn.cursor()
+            	tobedone = 'DROP TABLE if exists countries;'
+            	cursor.execute( tobedone )
+		conn.commit()
+		tobedone = '''CREATE TABLE countries(
+		"Name",
+		"NoConnect",
+		"NaConnect");'''
+		cursor.execute( tobedone )
+		conn.commit()
+		
 
 

@@ -11,7 +11,7 @@ class T( unittest.TestCase ):
 # This def should test if the createcountry
 	def test_setup (self):
 		nocountries = 'thewrongnumber'
-		sg = startinggame ( )
-		sg.setup ()
+		sg = startinggame ()
+		sg.setup (nocountries)
 		self.assertEqual(nocountries,0, msg = 'number of countries is not correct')
 
