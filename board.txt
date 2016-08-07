@@ -1,2 +1,2 @@
-Atlanta,2,Chicago,Newyork
-Chicago,3,Atlanta,Newyork,Denver
+'Atlanta',2,'Chicago','Newyork',0,0,0,0
+'Chicago',3,'Atlanta','Newyork','Denver',0,0,0
