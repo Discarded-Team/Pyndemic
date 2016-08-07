@@ -17,7 +17,6 @@ class T( unittest.TestCase ):
 			tobedone = 'SELECT * FROM countries;'
 			cursor.execute( tobedone)
 			answer = cursor.fetchone ( )
-			print answer
 		print "This is the answer", answer
-		self.assertEqual(answer,0,'number of countries is not correct.')
+		self.assertEqual(answer,None,'The table for countries was not created.')
 
