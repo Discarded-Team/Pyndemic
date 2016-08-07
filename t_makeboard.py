@@ -18,7 +18,5 @@ class T( unittest.TestCase ):
 			cursor.execute( tobedone)
 			answer = cursor.fetchone ( )
 			print answer
-		foundtable = answer [0]
-		print foundtable
-		self.assertEqual(foundtable,0, msg = 'number of countries is not correct')
+		self.assertEqual(answer,0,'number of countries is not correct.')
 
