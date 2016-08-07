@@ -70,4 +70,9 @@ class startinggame:
 		            	cursor.execute( tobedone )
 				conn.commit()
 
-
+	def setupplayerdeck (self,board):
+		boardfile = open(board,'r') 
+		print boardfile
+		for line in boardfile:
+			print line
+		

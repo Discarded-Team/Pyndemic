@@ -57,9 +57,9 @@ class T( unittest.TestCase ):
 		answerR = answer [0]
 		self.assertEqual(answerR,20,'The amount of Red cubes is wrong.')
 	
-	def test_setupplayer (self):
+	def test_setupplayerdeck (self):
 		sg = startinggame ()
-		sg.setupplayer ('testboard.txt')
+		sg.setupplayerdeck ('testboard.txt')
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
 			tobedone = 'SELECT * FROM playerdeck;'
