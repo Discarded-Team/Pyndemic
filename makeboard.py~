@@ -19,10 +19,10 @@ class startinggame:
 			conn.commit()
 		
 	def setupboard (self,board):
-		print "populating table of countries "
+		print "populating table of countries"
 		with sqlite3.connect('pandemic.db') as conn:
 	            	cursor = conn.cursor()
-	            	tobedone = """INSERT INTO countries (Name,NoConnect,NaConnect) VALUES ('Atlanta',2,'Chicago,Newyork');"""
+	            	tobedone = """INSERT INTO countries (Name,NoConnect,NaConnect) VALUES (thing,thing2,thing3);"""
 	            	cursor.execute( tobedone )
 			conn.commit()
 
