@@ -34,3 +34,14 @@ class T( unittest.TestCase ):
 		self.assertEqual(col2,2,'The number of countries was not added to the database')
 		self.assertEqual(col4,'Newyork','The names of connecting countries were not added to the database')
 
+	def test_setupresearchad (self):
+		sg = startinggame ()
+		sg.setup ( )
+		with sqlite3.connect('pandemic.db') as conn:
+			cursor = conn.cursor()
+			tobedone = 'SELECT research FROM countries WHERE name is 'Atlanta';'
+			cursor.execute( tobedone)
+			answer = cursor.fetchone ( )
+		self.assertEqual(answer,1,'A research station cannot be found in Atlanta.')
+
+
