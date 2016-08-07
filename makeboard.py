@@ -37,7 +37,8 @@ class startinggame:
 			        cursor = conn.cursor()
 		            	tobedone = """ALTER TABLE countries ADD COLUMN research;"""
 		            	cursor.execute( tobedone )
-				tobedone = """UPDATE TABLE countries SET research TO 0 WHERE name is 'Atlanta""";
+				conn.commit()
+				tobedone = """UPDATE countries SET research = 0 WHERE name is 'Atlanta'""";
 		            	cursor.execute( tobedone )
 				conn.commit()
 
