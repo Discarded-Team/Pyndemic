@@ -64,10 +64,10 @@ class T( unittest.TestCase ):
 			cursor = conn.cursor()
 			tobedone = 'SELECT * FROM playerdeck;'
 			cursor.execute( tobedone)
-			answer = cursor.fetchone ( )
+			answer = cursor.fetchall ()
 			col1 = answer [0]
 			col2 = answer [1]
-			col4 = answer [3]
-		self.assertEqual(col1,'Notsure','Notsure')
-		self.assertEqual(col2,'Notsure','TNotsurehe number of countries was not added to the database')
-		self.assertEqual(col4,'Notsure','Notsure')
+			col3 = answer [2]
+		self.assertEqual(col1,'Atlanta','Player card not found')
+		self.assertEqual(col2,'Chicago','Player card not found')
+		self.assertEqual(col4,'Denver','Player card not found')

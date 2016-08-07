@@ -71,7 +71,7 @@ class startinggame:
 	def setupplayerdeck (self,board):
     		sg = startinggame ()
     		sg.setup ( )
-    		sg.setupboard ('testboard.txt')
+    		sg.setupboard (board)
 		with sqlite3.connect('pandemic.db') as conn:
 			        cursor = conn.cursor()
 		            	tobedone = """DROP TABLE IF EXISTS playerdeck;"""
