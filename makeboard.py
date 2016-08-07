@@ -25,10 +25,12 @@ class startinggame:
 		
 	def setupboard (self,board):
 		print "populating table of countries "
+		print board
+		boardfile = open('board.txt','r') 
+		print boardfile.read()
 		with sqlite3.connect('pandemic.db') as conn:
 	            	cursor = conn.cursor()
-			print board
-	            	tobedone = """INSERT INTO countries (Name,NoConnect,Co1,Co2) VALUES ('Atlanta',2,'Chicago','Newyork');"""
+	            	tobedone = """INSERT INTO countries (Name,NoConnect,Co1,Co2) VALUES ('Wrong',1,'wrong','wrong');"""
 	            	cursor.execute( tobedone )
 			conn.commit()
 
