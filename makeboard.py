@@ -14,7 +14,12 @@ class startinggame:
 			tobedone = '''CREATE TABLE countries(
 			"Name",
 			"NoConnect",
-			"NaConnect");'''
+			"Co1",
+			"Co2",
+			"Co3",		
+			"Co4",
+			"Co5",
+			"Co6");'''
 			cursor.execute( tobedone )
 			conn.commit()
 		
@@ -22,7 +27,8 @@ class startinggame:
 		print "populating table of countries "
 		with sqlite3.connect('pandemic.db') as conn:
 	            	cursor = conn.cursor()
-	            	tobedone = """INSERT INTO countries (Name,NoConnect,NaConnect) VALUES ('Atlanta',2,'Chicago,Newyork');"""
+			print board
+	            	tobedone = """INSERT INTO countries (Name,NoConnect,Co1,Co2) VALUES ('Atlanta',2,'Chicago','Newyork');"""
 	            	cursor.execute( tobedone )
 			conn.commit()
 

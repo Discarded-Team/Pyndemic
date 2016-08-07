@@ -29,14 +29,14 @@ class T( unittest.TestCase ):
 			tobedone = 'SELECT * FROM countries;'
 			cursor.execute( tobedone)
 			answer = cursor.fetchone ( )
-			line1 = answer [0]
-			line2 = answer [1]
-			line3 = answer [2]
+			col1 = answer [0]
+			col2 = answer [1]
+			col4 = answer [3]
 		print "This is the answer", answer
-		print "This is line1", line1
-		print "This is line2", line2
-		print "This is line3", line3
-		self.assertEqual(line1,'Atlanta','The table for countries was not created.')
-		self.assertEqual(line2,2,'The table for countries was not created.')
-		self.assertEqual(line3,'Chicago','The table for countries was not created.')
+		print "This is col1", col1
+		print "This is col2", col2
+		print "This is col4", col4
+		self.assertEqual(col1,'Atlanta','The country name was not added to the database')
+		self.assertEqual(col2,2,'The number of countries was not added to the database')
+		self.assertEqual(col4,'Newyork','The names of connecting countries were not added to the database')
 
