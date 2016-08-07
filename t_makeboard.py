@@ -41,7 +41,8 @@ class T( unittest.TestCase ):
 			cursor = conn.cursor()
 			tobedone = """SELECT research FROM countries WHERE name is 'Atlanta';"""
 			cursor.execute( tobedone)
-			answer = cursor.fetchone ( )
-		self.assertEqual(answer,1,'A research station cannot be found in Atlanta.')
+			answer = cursor.fetchone ()
+		answerR = answer [0]
+		self.assertEqual(answerR,1,'A research station cannot be found in Atlanta.')
 
 
