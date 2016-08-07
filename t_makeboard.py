@@ -22,7 +22,7 @@ class T( unittest.TestCase ):
 
 	def test_setupboard (self):
 		sg = startinggame ()
-		sg.setup ('testboard.txt')
+		sg.setupboard ('testboard.txt')
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
 			tobedone = 'SELECT * FROM countries;'

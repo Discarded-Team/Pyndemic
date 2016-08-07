@@ -18,5 +18,18 @@ class startinggame:
 			cursor.execute( tobedone )
 			conn.commit()
 		
+	def setupboard (self):
+		print "populating table of countries"
+		with sqlite3.connect('pandemic.db') as conn:
+	            	cursor = conn.cursor()
+	            	tobedone = 'DROP TABLE if exists countries;'
+	            	cursor.execute( tobedone )
+			conn.commit()
+			tobedone = '''CREATE TABLE countries(
+			"Name",
+			"NoConnect",
+			"NaConnect");'''
+			cursor.execute( tobedone )
+			conn.commit()
 
 
