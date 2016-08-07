@@ -54,5 +54,5 @@ class T( unittest.TestCase ):
 			tobedone = """SELECT nocubes FROM cubes WHERE col is 'Red';"""
 			cursor.execute( tobedone)
 			answer = cursor.fetchone ()
-		answerR = answer [0]
+		answerR = answer [1]
 		self.assertEqual(answerR,20,'The amount of Red cubes is wrong.')
