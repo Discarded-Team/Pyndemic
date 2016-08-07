@@ -20,3 +20,16 @@ class T( unittest.TestCase ):
 		print "This is the answer", answer
 		self.assertEqual(answer,None,'The table for countries was not created.')
 
+	def test_setupboard (self):
+		sg = startinggame ()
+		sg.setup (testboard.txt)
+		with sqlite3.connect('pandemic.db') as conn:
+			cursor = conn.cursor()
+			tobedone = 'SELECT * FROM countries;'
+			cursor.execute( tobedone)
+			answer = cursor.fetchone ( )
+			line1 = answer [0]
+		print "This is the answer", answer
+		print "This is line1", line1
+		self.assertEqual(Line1,'Atlanta,2,Newyork,Chiago','The table for countries was not created.')
+
