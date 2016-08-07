@@ -1,0 +1,2 @@
+Atlanta,2,Chicago,Newyork
+Chicago,3,Atlanta,Newyork,Denver
