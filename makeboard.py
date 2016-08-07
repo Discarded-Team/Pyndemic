@@ -42,3 +42,30 @@ class startinggame:
 		            	cursor.execute( tobedone )
 				conn.commit()
 
+	def setupcubes (self):
+		with sqlite3.connect('pandemic.db') as conn:
+			        cursor = conn.cursor()
+		            	tobedone = """DROP TABLE IF EXISTS cubes;"""
+		            	cursor.execute( tobedone )
+				conn.commit()
+				tobedone = """CREATE TABLE cubes ('col','nocubes');""";
+		            	cursor.execute( tobedone )
+				conn.commit()
+
+		            	tobedone = """INSERT INTO cubes (col,nocubes) VALUES ('Red','20');"""
+		            	cursor.execute( tobedone )
+				conn.commit()
+
+		            	tobedone = """INSERT INTO cubes (col,nocubes) VALUES ('Blue','20');"""
+		            	cursor.execute( tobedone )
+				conn.commit()
+
+		            	tobedone = """INSERT INTO cubes (col,nocubes) VALUES ('Yellow','20');"""
+		            	cursor.execute( tobedone )
+				conn.commit()
+
+		            	tobedone = """INSERT INTO cubes (col,nocubes) VALUES ('Black','20');"""
+		            	cursor.execute( tobedone )
+				conn.commit()
+
+
