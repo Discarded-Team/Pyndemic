@@ -46,3 +46,13 @@ class T( unittest.TestCase ):
 		self.assertEqual(answerR,1,'A research station cannot be found in Atlanta.')
 
 
+	def test_setupcubes (self):
+		sg = startinggame ()
+		sg.setupcubes( )
+		with sqlite3.connect('pandemic.db') as conn:
+			cursor = conn.cursor()
+			tobedone = """SELECT nocubes FROM cubes WHERE col is 'Red';"""
+			cursor.execute( tobedone)
+			answer = cursor.fetchone ()
+		answerR = answer [0]
+		self.assertEqual(answerR,20,'The amount of Red cubes is wrong.')
