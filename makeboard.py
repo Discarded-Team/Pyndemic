@@ -31,3 +31,13 @@ class startinggame:
 		            	tobedone = """INSERT INTO countries (Name,NoConnect,Co1,Co2,Co3,Co4,Co5,Co6) VALUES (%s);""" % (line)
 		            	cursor.execute( tobedone )
 				conn.commit()
+
+	def setupresearch (self):
+		with sqlite3.connect('pandemic.db') as conn:
+			        cursor = conn.cursor()
+		            	tobedone = """ALTER TABLE countries ADD COLUMN research;"""
+		            	cursor.execute( tobedone )
+				tobedone = """UPDATE TABLE countries SET research TO 0 WHERE name is 'Atlanta""";
+		            	cursor.execute( tobedone )
+				conn.commit()
+
