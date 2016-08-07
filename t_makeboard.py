@@ -14,7 +14,7 @@ class T( unittest.TestCase ):
 		sg.setup ( )
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
-			tobedone = 'SELECT * FROM countries:'
+			tobedone = 'SELECT * FROM countries;'
 			cursor.execute( tobedone)
 			answer = cursor.fetchone ( )
 			print answer
