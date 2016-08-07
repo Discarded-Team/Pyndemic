@@ -25,12 +25,10 @@ class startinggame:
 		
 	def setupboard (self,board):
 		boardfile = open(board,'r') 
-		print boardfile
 		for line in boardfile:
 			with sqlite3.connect('pandemic.db') as conn:
 			        cursor = conn.cursor()
 		            	tobedone = """INSERT INTO countries (Name,NoConnect,Co1,Co2,Co3,Co4,Co5,Co6) VALUES (%s);""" % (line)
-				print tobedone
 		            	cursor.execute( tobedone )
 				conn.commit()
 
@@ -71,8 +69,17 @@ class startinggame:
 				conn.commit()
 
 	def setupplayerdeck (self,board):
+    		sg = startinggame ()
+    		sg.setup ( )
+    		sg.setupboard ('testboard.txt')
+
+		with sqlite3.connect('pandemic.db') as conn:
+			        cursor = conn.cursor()
+		            	tobedone = """DROP TABLE IF EXISTS playerdeck;"""
+		            	cursor.execute( tobedone )
+				conn.commit()
+				tobedone = """CREATE TABLE playerdeck ('card' TEXT);""";
+		            	cursor.execute( tobedone )
+				conn.commit()
 		boardfile = open(board,'r') 
-		print boardfile
-		for line in boardfile:
-			print line
-		
+
