@@ -48,7 +48,7 @@ class startinggame:
 		            	tobedone = """DROP TABLE IF EXISTS cubes;"""
 		            	cursor.execute( tobedone )
 				conn.commit()
-				tobedone = """CREATE TABLE cubes ('col','nocubes');""";
+				tobedone = """CREATE TABLE cubes ('col' TEXT,'nocubes'NUM);""";
 		            	cursor.execute( tobedone )
 				conn.commit()
 
