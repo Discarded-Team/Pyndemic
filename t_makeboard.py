@@ -56,3 +56,18 @@ class T( unittest.TestCase ):
 			answer = cursor.fetchone ()
 		answerR = answer [0]
 		self.assertEqual(answerR,20,'The amount of Red cubes is wrong.')
+	
+	def test_setupplayer (self):
+		sg = startinggame ()
+		sg.setupplayer ('testboard.txt')
+		with sqlite3.connect('pandemic.db') as conn:
+			cursor = conn.cursor()
+			tobedone = 'SELECT * FROM playerdeck;'
+			cursor.execute( tobedone)
+			answer = cursor.fetchone ( )
+			col1 = answer [0]
+			col2 = answer [1]
+			col4 = answer [3]
+		self.assertEqual(col1,'Notsure','Notsure')
+		self.assertEqual(col2,'Notsure','TNotsurehe number of countries was not added to the database')
+		self.assertEqual(col4,'Notsure','Notsure')
