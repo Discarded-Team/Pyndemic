@@ -72,14 +72,14 @@ class startinggame:
     		sg = startinggame ()
     		sg.setup ( )
     		sg.setupboard ('testboard.txt')
-
 		with sqlite3.connect('pandemic.db') as conn:
 			        cursor = conn.cursor()
 		            	tobedone = """DROP TABLE IF EXISTS playerdeck;"""
 		            	cursor.execute( tobedone )
 				conn.commit()
-				tobedone = """CREATE TABLE playerdeck ('card' TEXT);""";
+				tobedone = """CREATE TABLE playerdeck ('card' TEXT);"""
 		            	cursor.execute( tobedone )
 				conn.commit()
-		boardfile = open(board,'r') 
-
+		            	tobedone = """INSERT INTO playerdeck (card) SELECT name FROM countries;"""
+				cursor.execute( tobedone )
+				conn.commit()
