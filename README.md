@@ -16,10 +16,7 @@ python -m unittest nameoftests
 
 **What am I trying to learn?**
 
-I'd like to get my head round Python, SQL, and anything else relevant to make this work.
-
-In the future I'd like to learn more about how to use the command line in Linux, 
-Version control via Git
+I'd like to get my head round Python, SQL, and anything else relevant to make this work. I think that probably includes Git and how to use the command line in Linux (running Ubuntu at the moment). In the future I'd also like to learn
 
 At least one kind of web server language, probably two (Apache, PHP I think)
 At least one version of SQL
