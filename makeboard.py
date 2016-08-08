@@ -118,7 +118,6 @@ class startinggame:
 			"co46",
 			"co47",
 			"co48") VALUES (%s);""" % (line)
-				print tobedone
 		            	cursor.execute( tobedone )
 				conn.commit()
 
