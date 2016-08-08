@@ -60,7 +60,7 @@ class startinggame:
 			"co45",
 			"co46",
 			"co47",
-			"co48",);'''
+			"co48");'''
 			cursor.execute( tobedone )
 			conn.commit()
 		
