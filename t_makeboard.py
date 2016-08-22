@@ -87,7 +87,17 @@ class T( unittest.TestCase ):
 			col1 = answer [0]
 		self.assertNotEqual(col1,'NULL','No infection cards found')
 
-
+# This def checks event cards have been added
+	def test_setupevent (self):
+		sg = startinggame ()
+		sg.setupevent ('testboard.txt')
+		with sqlite3.connect('pandemic.db') as conn:
+			cursor = conn.cursor()
+			tobedone = 'SELECT nextevent FROM playerdeck;'
+			cursor.execute( tobedone)
+			answer = cursor.fetchone ()
+			col1 = answer [0]
+		self.assertNotEqual(col1,'NULL','No event cards found')
 
 
 
