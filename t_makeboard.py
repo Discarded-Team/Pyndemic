@@ -100,8 +100,27 @@ class T( unittest.TestCase ):
 		self.assertNotEqual(col1,'NULL','No event cards found')
 
 
+	def test_setupinfectcities (self):
+		sg = startinggame ()
+		sg.setupinfectcities ('testboard.txt')
+		with sqlite3.connect('pandemic.db') as conn:
+			cursor = conn.cursor()
+			tobedone = """SELECT bcube FROM countries WHERE name is 'Atlanta';"""
+			cursor.execute( tobedone)
+			answer = cursor.fetchone ()
+			col1 = answer [0]
+			tobedone = """SELECT bcube FROM countries WHERE bcube = 3;"""
+			cursor.execute( tobedone)
+			answer = cursor.fetchone ()
+			col2 = answer [0]
+			tobedone = """SELECT name FROM discard;"""
+			cursor.execute( tobedone)
+			answer = cursor.fetchone ()
+			col3 = answer [0]
+		self.assertNotEqual(col1,'NULL','No cube column for Atlanta')
+		self.assertNotEqual(col2,'NULL','No places with 3 cubes found')
+		self.assertEqual(col3,'NULL','discard pile cannot be found')
 
-#2 event cards are added per player to the player deck
 #9 infection cards are drawn, and then discarded.
 #3 cubes are placed on the first 3 cards drawn.
 #2 cubes are placed on the next 3 cards drawn.
