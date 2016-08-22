@@ -75,12 +75,22 @@ class T( unittest.TestCase ):
 		self.assertEqual(col2,'Chicago','Player card not found')
 		self.assertEqual(col4,'Denver','Player card not found')
 
-# 
-#6 Research stations are taken out of the box.
-#A research station is placed on Atlanta.
-#20 cubes of each disease are taken out of the box.
-#20 player cards are shuffled into a player deck
-#20 infection cards are shuffled into the infection deck
+# This def checks that the infection cards have been shuffled into the playerdeck
+	def test_setupinfect (self):
+		sg = startinggame ()
+		sg.setupinfect ('testboard.txt')
+		with sqlite3.connect('pandemic.db') as conn:
+			cursor = conn.cursor()
+			tobedone = 'SELECT nextinfect FROM playerdeck;'
+			cursor.execute( tobedone)
+			answer = cursor.fetchone ()
+			col1 = answer [0]
+		self.assertNotEqual(col1,'NULL','No infection cards found')
+
+
+
+
+
 #2 event cards are added per player to the player deck
 #9 infection cards are drawn, and then discarded.
 #3 cubes are placed on the first 3 cards drawn.
