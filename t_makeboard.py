@@ -8,7 +8,7 @@ from makeboard import startinggame
 
 class T( unittest.TestCase ):
 
-# This def should test if the createcountry
+# This def tests if a table containing a list of countries is created.
 	def test_setup (self):
 		sg = startinggame ()
 		sg.setup ( )
@@ -19,6 +19,7 @@ class T( unittest.TestCase ):
 			answer = cursor.fetchone ( )
 		self.assertEqual(answer,None,'The table for countries was not created.')
 
+# This def tests that the table containging a list of countries has been created.
 	def test_setupboard (self):
 		sg = startinggame ()
 		sg.setupboard ('testboard.txt')
@@ -34,6 +35,7 @@ class T( unittest.TestCase ):
 		self.assertEqual(col2,2,'The number of countries was not added to the database')
 		self.assertEqual(col4,'Newyork','The names of connecting countries were not added to the database')
 
+# This def tests that a research station can be found in Atlanta after game setup.
 	def test_setupresearch (self):
 		sg = startinggame ()
 		sg.setupresearch( )
@@ -45,7 +47,7 @@ class T( unittest.TestCase ):
 		answerR = answer [0]
 		self.assertEqual(answerR,1,'A research station cannot be found in Atlanta.')
 
-
+# This def checks that the number of red cubs is correct
 	def test_setupcubes (self):
 		sg = startinggame ()
 		sg.setupcubes( )
@@ -57,6 +59,7 @@ class T( unittest.TestCase ):
 		answerR = answer [0]
 		self.assertEqual(answerR,20,'The amount of Red cubes is wrong.')
 	
+# This def checks that the playerdeck has been created.
 	def test_setupplayerdeck (self):
 		sg = startinggame ()
 		sg.setupplayerdeck ('testboard.txt')
