@@ -74,3 +74,19 @@ class T( unittest.TestCase ):
 		self.assertEqual(col1,'Atlanta','Player card not found')
 		self.assertEqual(col2,'Chicago','Player card not found')
 		self.assertEqual(col4,'Denver','Player card not found')
+
+# 
+#6 Research stations are taken out of the box.
+#A research station is placed on Atlanta.
+#20 cubes of each disease are taken out of the box.
+#20 player cards are shuffled into a player deck
+#20 infection cards are shuffled into the infection deck
+#2 event cards are added per player to the player deck
+#9 infection cards are drawn, and then discarded.
+#3 cubes are placed on the first 3 cards drawn.
+#2 cubes are placed on the next 3 cards drawn.
+#1 cube is placed on the final 3 cards drawn.
+#8 or 9 cards are shared between the players as starting hands
+#The players are given identity cards.
+#The number of epidemic cards is set (from 3-8)
+#The epidemic cards are shuffled into the player deck at regular intervals.
