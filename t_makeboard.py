@@ -1,6 +1,3 @@
-#!/usr/bin/env python
-# vim: tabstop=4 softtabstop=4 shiftwidth=4 smarttab expandtab:
-
 import unittest
 import sqlite3
 from makeboard import startinggame
@@ -9,132 +6,195 @@ from makeboard import startinggame
 class T( unittest.TestCase ):
 
 # This def tests if a table containing a list of countries is created and populated.
-        def test_setup (self):
-                sg = startinggame ()
-                sg.setup ( )
-                with sqlite3.connect('pandemic.db') as conn:
-                        cursor = conn.cursor()
-                        tobedone = 'SELECT name, colour, connect, co1, co5, rcube, bcube, rstation FROM BoardTBL;'
-                        cursor.execute( tobedone)
-                        answerX = cursor.fetchone ( )
-                        answer0 = answerX [0]
-                        answer1 = answerX [1]
-                        answer2 = answerX [2]
-                        answer3 = answerX [3]
-                        answer4 = answerX [4]
-                        answer5 = answerX [5]
-                        answer6 = answerX [6]
-                        answer7 = answerX [7]
-                self.assertNotEqual(answer0,None,'The table for countries has no name column.')
-                self.assertNotEqual(answer1,None,'The table for countries has no colour column.')
-                self.assertNotEqual(answer2,None,'The table for countries has no connect column.')
-                self.assertNotEqual(answer3,None,'The table for countries has no co1 column.')
-                self.assertNotEqual(answer4,None,'The table for countries has no co5 column.')
-                self.assertNotEqual(answer5,None,'The table for countries has no rcube column.')
-                self.assertNotEqual(answer6,None,'The table for countries has no bcube column.')
-                self.assertNotEqual(answer7,None,'The table for countries has no rstation column.')
-
-# This def tests that the table containging a list of countries has been created.
-	def test_setupboard (self):
+	def test_setup_BoardTBL (self):
 		sg = startinggame ()
-		sg.setupboard ('testboard.txt')
+		sg.BoardTBL ( )
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
-			tobedone = 'SELECT * FROM countries;'
+			tobedone = 'SELECT name, colour, connect, co1, co5, rcube, bcube, rstation FROM BoardTBL;'
 			cursor.execute( tobedone)
-			answer = cursor.fetchone ( )
-			col1 = answer [0]
-			col2 = answer [1]
-			col4 = answer [3]
-		self.assertEqual(col1,'Atlanta','The country name was not added to the database')
-		self.assertEqual(col2,2,'The number of countries was not added to the database')
-		self.assertEqual(col4,'Newyork','The names of connecting countries were not added to the database')
+			answerX = cursor.fetchone ( )
+			answer0 = answerX [0]
+			answer1 = answerX [1]
+			answer2 = answerX [2]
+			answer3 = answerX [3]
+			answer4 = answerX [4]
+			answer5 = answerX [5]
+			answer6 = answerX [6]
+			answer7 = answerX [7]
+		self.assertNotEqual(answer0,None,'The table for countries has no name column.')
+		self.assertNotEqual(answer1,None,'The table for countries has no colour column.')
+		self.assertNotEqual(answer2,None,'The table for countries has no connect column.')
+		self.assertNotEqual(answer3,None,'The table for countries has no co1 column.')
+		self.assertNotEqual(answer4,None,'The table for countries has no co5 column.')
+		self.assertNotEqual(answer5,None,'The table for countries has no rcube column.')
+		self.assertNotEqual(answer6,None,'The table for countries has no bcube column.')
+		self.assertNotEqual(answer7,None,'The table for countries has no rstation column.')
 
-# This def tests that a research station can be found in Atlanta after game setup.
-	def test_setupresearch (self):
+# This def tests that the table with the player deck cards in has been set up
+	def test_setup_pdTBL (self):
 		sg = startinggame ()
-		sg.setupresearch( )
+		sg.pdTBL ('testboard.txt')
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
-			tobedone = """SELECT research FROM countries WHERE name is 'Atlanta';"""
+			tobedone = 'SELECT name,pos FROM pdTBL;'
 			cursor.execute( tobedone)
-			answer = cursor.fetchone ()
-		answerR = answer [0]
-		self.assertEqual(answerR,1,'A research station cannot be found in Atlanta.')
+			answerX = cursor.fetchone ( )
+			answer0 = answerX [0]
+			answer1 = answerX [1]
+		self.assertNotEqual(answer0,None,'The table for the player deck has no name column.')
+		self.assertNotEqual(answer1,None,'The table for the player deck has no position in the deck column.')
 
-# This def checks that the number of red cubs is correct
-	def test_setupcubes (self):
-		sg = startinggame ()
-		sg.setupcubes( )
+# This def tests that the table with the player deck cards are discarded into has been set up
+	def test_setup_pddTBL (self):
+		sg = stadrtinggame ()
+		sg.pddTBL ('testboard.txt')
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
-			tobedone = """SELECT nocubes FROM cubes WHERE col is 'Red';"""
+			tobedone = 'SELECT name FROM pddTBL;'
 			cursor.execute( tobedone)
-			answer = cursor.fetchone ()
-		answerR = answer [0]
-		self.assertEqual(answerR,20,'The amount of Red cubes is wrong.')
-	
-# This def checks that the playerdeck has been created.
-	def test_setupplayerdeck (self):
+			answerX = cursor.fetchone ( )
+			answer0 = answerX [0]
+		self.assertNotEqual(answer0,None,'The table for discarded player cards has no name column.')
+
+# This def tests that the table with the infection deck has been setup.
+	def test_setup_idTBL (self):
 		sg = startinggame ()
-		sg.setupplayerdeck ('testboard.txt')
+		sg.idTBL( )
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
-			tobedone = 'SELECT * FROM playerdeck;'
+			tobedone = 'SELECT name,pos FROM idTBL;'
 			cursor.execute( tobedone)
-			answer = cursor.fetchall ()
-			col1 = answer [0]
-			col2 = answer [1]
-			col3 = answer [2]
-		self.assertEqual(col1,'Atlanta','Player card not found')
-		self.assertEqual(col2,'Chicago','Player card not found')
-		self.assertEqual(col4,'Denver','Player card not found')
+			answerX = cursor.fetchone ( )
+			answer0 = answerX [0]
+			answer1 = answerX [1]
+		self.assertNotEqual(answer0,None,'The table for the infection deck has no name column.')
+		self.assertNotEqual(answer1,None,'The table for the infection deck has no position in the deck column.')
 
-# This def checks that the infection cards have been shuffled into the playerdeck
-	def test_setupinfect (self):
+# This def tests that the table with the infection deck has been setup.
+	def test_setup_iddTBL (self):
 		sg = startinggame ()
-		sg.setupinfect ('testboard.txt')
+		sg.idTBL( )
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
-			tobedone = 'SELECT nextinfect FROM playerdeck;'
+			tobedone = 'SELECT name FROM iddTBL;'
 			cursor.execute( tobedone)
-			answer = cursor.fetchone ()
-			col1 = answer [0]
-		self.assertNotEqual(col1,'NULL','No infection cards found')
+			answerX = cursor.fetchone ( )
+			answer0 = answerX [0]
+		self.assertNotEqual(answer0,None,'The table for the infection cards to be discarded into has no name column.')
 
-# This def checks event cards have been added
-	def test_setupevent (self):
+# This def tests the event deck has been setup
+	def test_setup_edTBL (self):
 		sg = startinggame ()
-		sg.setupevent ('testboard.txt')
+		sg.edTBL( )
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
-			tobedone = 'SELECT nextevent FROM playerdeck;'
+			tobedone = 'SELECT name,pos FROM edTBL;'
 			cursor.execute( tobedone)
-			answer = cursor.fetchone ()
-			col1 = answer [0]
-		self.assertNotEqual(col1,'NULL','No event cards found')
+			answerX = cursor.fetchone ( )
+			answer0 = answerX [0]
+			answer1 = answerX [1]
+		self.assertNotEqual(answer0,None,'The table for the event cards has no name column.')
+		self.assertNotEqual(answer1,None,'The table for the event cards deck has no position in the deck column.')
 
-
-	def test_setupinfectcities (self):
+# This checks the character cards table has been set up.
+	def test_setup_cTBL (self):
 		sg = startinggame ()
-		sg.setupinfectcities ('testboard.txt')
+		sg.cTBL( )
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
-			tobedone = """SELECT bcube FROM countries WHERE name is 'Atlanta';"""
+			tobedone = 'SELECT name FROM cTBL;'
 			cursor.execute( tobedone)
-			answer = cursor.fetchone ()
-			col1 = answer [0]
-			tobedone = """SELECT bcube FROM countries WHERE bcube = 3;"""
+			answerX = cursor.fetchone ( )
+			answer0 = answerX [0]
+			answer1 = answerX [1]
+		self.assertNotEqual(answer0,None,'The table for the characters cards has no name column.')
+		self.assertNotEqual(answer1,None,'The table for the characters cards deck has no position in the deck column.')
+
+# This checks the set up of the table for the number of cubes of each colour.
+	def test_setup_cubesTBL (self):
+		sg = startinggame ()
+		sg.cubesTBL( )
+		with sqlite3.connect('pandemic.db') as conn:
+			cursor = conn.cursor()
+			tobedone = 'SELECT red,yellow,blue,black,purple FROM cubesTBL;'
+
 			cursor.execute( tobedone)
-			answer = cursor.fetchone ()
-			col2 = answer [0]
-			tobedone = """SELECT name FROM discard;"""
+			answerX = cursor.fetchone ( )
+			answer0 = answerX [0]
+			answer1 = answerX [1]
+			answer2 = answerX [2]
+			answer3 = answerX [3]
+			answer4 = answerX [4]
+		self.assertEqual(answer0,24,'The table for cubes has the wrong number of cubes in the red column.')
+		self.assertEqual(answer1,24,'The table for cubes has the wrong number of cubes in the yellow column.')
+		self.assertEqual(answer2,24,'The table for cubes has the wrong number of cubes in the blue column.')
+		self.assertEqual(answer3,24,'The table for cubes has the wrong number of cubes in the black column.')
+		self.assertEqual(answer4,24,'The table for cubes has the wrong number of cubes in the purple column.')
+
+
+# This checks the set up of the table for player2's hand
+	def test_setup_player2TBL (self):
+		sg = startinggame ()
+		sg.player2TBL( )
+		with sqlite3.connect('pandemic.db') as conn:
+			cursor = conn.cursor()
+			tobedone = 'SELECT * player2TBL;'
 			cursor.execute( tobedone)
-			answer = cursor.fetchone ()
-			col3 = answer [0]
-		self.assertNotEqual(col1,'NULL','No cube column for Atlanta')
-		self.assertNotEqual(col2,'NULL','No places with 3 cubes found')
-		self.assertEqual(col3,'NULL','discard pile cannot be found')
+			answerX = cursor.fetchone ( )
+			answer0 = answerX [0]
+		self.assertNotEqual(answer0,None,"""Player 2's hand has not set up properly.""")
+
+# This checks the set up of the table for player3's hand
+	def test_setup_player3TBL (self):
+		sg = startinggame ()
+		sg.player3TBL( )
+		with sqlite3.connect('pandemic.db') as conn:
+			cursor = conn.cursor()
+			tobedone = 'SELECT * player3TBL;'
+			cursor.execute( tobedone)
+			answerX = cursor.fetchone ( )
+			answer0 = answerX [0]
+		self.assertNotEqual(answer0,None,"""Player 3's hand has not set up properly.""")
+
+# This checks the set up of the table for player4's hand
+	def test_setup_player4TBL (self):
+		sg = startinggame ()
+		sg.player4TBL( )
+		with sqlite3.connect('pandemic.db') as conn:
+			cursor = conn.cursor()
+			tobedone = 'SELECT * player4TBL;'
+			cursor.execute( tobedone)
+			answerX = cursor.fetchone ( )
+			answer0 = answerX [0]
+		self.assertNotEqual(answer0,None,"""Player 4's hand has not set up properly.""")
+
+# This checks the set up of the table for player1's hand
+	def test_setup_player1TBL (self):
+		sg = startinggame ()
+		sg.player1TBL( )
+		with sqlite3.connect('pandemic.db') as conn:
+			cursor = conn.cursor()
+			tobedone = 'SELECT * player1TBL;'
+			cursor.execute( tobedone)
+			answerX = cursor.fetchone ( )
+			answer0 = answerX [0]
+		self.assertNotEqual(answer0,None,"""Player 1's hand has not set up properly.""")
+
+
+# This checks the character cards table has been set up.
+	def test_setup_epTBL (self):
+		sg = startinggame ()
+		sg.epTBL( )
+		with sqlite3.connect('pandemic.db') as conn:
+			cursor = conn.cursor()
+			tobedone = 'SELECT name FROM epTBL;'
+			cursor.execute( tobedone)
+			answerX = cursor.fetchone ( )
+			answer0 = answerX [0]
+			answer1 = answerX [1]
+		self.assertNotEqual(answer0,None,'The table for the epidemic cards has no name column.')
+		self.assertNotEqual(answer1,None,'The table for the epidemic cards cards deck has no position in the deck column.')
 
 #9 infection cards are drawn, and then discarded.
 #3 cubes are placed on the first 3 cards drawn.
