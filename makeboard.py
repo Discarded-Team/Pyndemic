@@ -4,33 +4,42 @@
 import sqlite3
 
 class startinggame:
-	def setup (self):
-		print "creating table of countries"
+	def BoardTBL (self,board):
+		print "creating table of BoardTBL"
 		with sqlite3.connect('pandemic.db') as conn:
 	            	cursor = conn.cursor()
-	            	tobedone = 'DROP TABLE if exists countries;'
+	            	tobedone = 'DROP TABLE if exists BoardTBL;'
 	            	cursor.execute( tobedone )
 			conn.commit()
-			tobedone = '''CREATE TABLE countries(
-			"Name",
-			"NoConnect",
-			"Co1",
-			"Co2",
-			"Co3",		
-			"Co4",
-			"Co5",
-			"Co6");'''
+			tobedone = '''CREATE TABLE BoardTBL(
+			"name",
+			"colour",
+			"connect",
+			"co1",
+			"co2",
+			"co3",		
+			"co4",
+			"co5",
+			"co6",
+			"rcube",
+			"ycube",
+			"bcube",
+			"ucube",
+			"pcube",
+			"rstation",
+			"player1",
+			"player2",
+			"player3",
+			"player4");'''
 			cursor.execute( tobedone )
 			conn.commit()
-		
-	def setupboard (self,board):
-		boardfile = open(board,'r') 
-		for line in boardfile:
-			with sqlite3.connect('pandemic.db') as conn:
-			        cursor = conn.cursor()
-		            	tobedone = """INSERT INTO countries (Name,NoConnect,Co1,Co2,Co3,Co4,Co5,Co6) VALUES (%s);""" % (line)
-		            	cursor.execute( tobedone )
-				conn.commit()
+			boardfile = open(board,'r') 
+			for line in boardfile:
+				with sqlite3.connect('pandemic.db') as conn:
+			        	cursor = conn.cursor()
+		            		tobedone = """INSERT INTO BoardTBL (Name,NoConnect,Co1,Co2,Co3,Co4,Co5,Co6) VALUES (%s);""" % (line)
+		            		cursor.execute( tobedone )
+					conn.commit()
 
 	def setupresearch (self):
 		with sqlite3.connect('pandemic.db') as conn:
