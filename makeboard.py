@@ -33,11 +33,32 @@ class startinggame:
 			"player4");'''
 			cursor.execute( tobedone )
 			conn.commit()
+			print "created table"
 			boardfile = open(board,'r') 
 			for line in boardfile:
 				with sqlite3.connect('pandemic.db') as conn:
 			        	cursor = conn.cursor()
-		            		tobedone = """INSERT INTO BoardTBL (Name,NoConnect,Co1,Co2,Co3,Co4,Co5,Co6) VALUES (%s);""" % (line)
+					print "adding data"
+		            		tobedone = """INSERT INTO BoardTBL (name,
+			colour,
+			connect,
+			co1,
+			co2,
+			co3,		
+			co4,
+			co5,
+			co6,
+			rcube,
+			ycube,
+			bcube,
+			ucube,
+			pcube,
+			rstation,
+			player1,
+			player2,
+			player3,
+			player4) VALUES (%s);""" % (line)
+					print tobedone
 		            		cursor.execute( tobedone )
 					conn.commit()
 

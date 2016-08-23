@@ -1,6 +1,5 @@
-name,colour,connect,co1,co2,co3,co4,co5,co6,rcube,ycube,bcube,ucube,pcube,rstation,player1,player2,player3,player4
-'Atlanta',u,2,'Chicago','Newyork',0,0,0,0,0,0,0,0,0,0,0,0,0,0
-'Chicago',u,3,'Atlanta','Newyork','Denver',0,0,0,0,0,0,0,0,0,0,0,0,0
-'Denver',y,2,'Chicago','Newyork',0,0,0,0,0,0,0,0,0,0,0,0,0,0
-'Newyork',r,3,'Chicago','Denver','Miami',0,0,0,0,0,0,0,0,0,0,0,0,0
-'Miami',b,2,'Newyork','Washington',0,0,0,0,0,0,0,0,0,0,0,0,0,0
+'Atlanta','u',2,'Chicago','Newyork',0,0,0,0,0,0,0,0,0,0,0,0,0,0
+'Chicago','u',3,'Atlanta','Newyork','Denver',0,0,0,0,0,0,0,0,0,0,0,0,0
+'Denver','y',2,'Chicago','Newyork',0,0,0,0,0,0,0,0,0,0,0,0,0,0
+'Newyork','r',3,'Chicago','Denver','Miami',0,0,0,0,0,0,0,0,0,0,0,0,0
+'Miami','b',2,'Newyork','Washington',0,0,0,0,0,0,0,0,0,0,0,0,0,0
