@@ -7,7 +7,7 @@ class T( unittest.TestCase ):
 
 # This def tests if a table containing a list of countries is created and populated.
 	def test_setup_BoardTBL (self):
-		sg = startinggame ()
+		sg = startinggame ('testboard.txt')
 		sg.BoardTBL ( )
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
