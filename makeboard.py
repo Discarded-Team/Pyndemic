@@ -60,7 +60,7 @@ class startinggame:
 					conn.commit()
 
 # This sets up the player deck and populates it
-	def pdTBL (self,player):
+	def pdTBL (self):
 		with sqlite3.connect('pandemic.db') as conn:
 	            	cursor = conn.cursor()
 	            	tobedone = 'DROP TABLE if exists pdTBL;'
@@ -71,15 +71,12 @@ class startinggame:
 			"pos");'''
 			cursor.execute( tobedone )
 			conn.commit()
-			playerfile = open(player,'r') 
-			for line in playerfile:
-				with sqlite3.connect('pandemic.db') as conn:
-		            		tobedone = """INSERT INTO pdTBL (name) select name from BoardTBL;""" 
-		            		cursor.execute( tobedone )
-					conn.commit()
-		            		tobedone = """UPDATE pdTBL SET pos = 0;""" 
-		            		cursor.execute( tobedone )
-					conn.commit()
+		        tobedone = """INSERT INTO pdTBL (name) select name from BoardTBL;""" 
+	 		cursor.execute( tobedone )
+			conn.commit()
+	       		tobedone = """UPDATE pdTBL SET pos = 0;""" 
+	       		cursor.execute( tobedone )
+			conn.commit()
 
 # This sets up the player deck discard pile
 	def pddTBL (self,player):
@@ -149,6 +146,9 @@ class startinggame:
 		            		tobedone = """INSERT INTO edTBL (name,pos) VALUES (%s);""" % (line)
 		            		cursor.execute( tobedone )
 					conn.commit()
+			tobedone = '''UPDATE edTBL SET pos = ABS(RANDOM() % 500);'''
+			cursor.execute( tobedone )
+			conn.commit()
 
 # This sets up the character deck and populates it
 	def cTBL (self,character):
@@ -188,3 +188,28 @@ class startinggame:
 		        tobedone = """INSERT INTO cubesTBL (redr,yellowy,blackb,blueu,purplep) VALUES (24,24,24,24,24);"""
 			cursor.execute( tobedone )
 			conn.commit()
+
+
+# This sets up the shuffled player deck (with event cards)
+	def shuf (self,nplayers):
+		with sqlite3.connect('pandemic.db') as conn:
+			nevents = 2* nplayers
+	            	cursor = conn.cursor()
+	            	tobedone = 'DROP TABLE if exists shuf;'
+	            	cursor.execute( tobedone )
+			conn.commit()
+			tobedone = '''CREATE TABLE shuf(
+			"name",
+			"pos");'''
+			cursor.execute( tobedone )
+			conn.commit()
+		        tobedone = """INSERT INTO shuf (name,pos) select name,pos from edTBL limit %s;""" % (nevents) 
+			print tobedone
+	  		cursor.execute( tobedone )
+			conn.commit()
+		        tobedone = """INSERT INTO shuf (name,pos) select name,ABS(RANDOM() % 500) from pdTBL;""" 
+			print tobedone
+	  		cursor.execute( tobedone )
+			conn.commit()
+
+

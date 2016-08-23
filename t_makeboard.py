@@ -34,7 +34,7 @@ class T( unittest.TestCase ):
 # This def tests that the table with the player deck cards in has been set up
 	def test_setup_pdTBL (self):
 		sg = startinggame ()
-		sg.pdTBL ('testboard.txt')
+		sg.pdTBL ()
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
 			tobedone = 'SELECT name,pos FROM pdTBL;'
@@ -192,6 +192,25 @@ class T( unittest.TestCase ):
 			answer1 = answerX [1]
 		self.assertNotEqual(answer0,None,'The table for the epidemic cards has no name column.')
 		self.assertNotEqual(answer1,None,'The table for the epidemic cards cards deck has no position in the deck column.')
+	
+# This checks the player deck has been shuffled, without epidemic cards included.
+	def test_setup_shuf (self):
+		sg = startinggame ()
+		sg.BoardTBL ('testboard.txt')
+		sg.pddTBL ('testboard.txt')
+		sg.edTBL('testevent.txt' )
+		sg.shuf(3)
+		with sqlite3.connect('pandemic.db') as conn:
+			cursor = conn.cursor()
+			tobedone = 'SELECT pos FROM shuf;'
+			print tobedone
+			cursor.execute( tobedone)
+			answerX = cursor.fetchall ( )
+			answer0 = answerX [0]
+			answer1 = answerX [1]
+		self.assertNotEqual(answer0,0,'The deck has not shuffled correctly.')
+		self.assertNotEqual(answer1,0,'The deck has not shuffled correctly.')
+
 
 #9 infection cards are drawn, and then discarded.
 #3 cubes are placed on the first 3 cards drawn.
