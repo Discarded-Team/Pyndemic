@@ -1,0 +1,5 @@
+'Atlanta','u',2,'Chicago','Newyork',0,0,0,0,0,0,0,0,0,0,0,0,0,0
+'Chicago','u',3,'Atlanta','Newyork','Denver',0,0,0,0,0,0,0,0,0,0,0,0,0
+'Denver','y',2,'Chicago','Newyork',0,0,0,0,0,0,0,0,0,0,0,0,0,0
+'Newyork','r',3,'Chicago','Denver','Miami',0,0,0,0,0,0,0,0,0,0,0,0,0
+'Miami','b',2,'Newyork','Washington',0,0,0,0,0,0,0,0,0,0,0,0,0,0
