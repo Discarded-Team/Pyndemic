@@ -451,7 +451,10 @@ class startinggame:
 
 # This sets up the shuffled player deck (with event & epidemic cards, after hands drawn)
 	def epTBL (self,nep):
+		epidemicsaddedtopack = 0
+		maxposold = 0
 		with sqlite3.connect('pandemic.db') as conn:
+			epidemicsaddedtopack = epidemicsaddedtopack + 1
 	            	cursor = conn.cursor()
 	            	tobedone = 'DROP TABLE if exists epTBL;'
 	            	cursor.execute( tobedone )
@@ -465,11 +468,22 @@ class startinggame:
 	  		cursor.execute( tobedone )
 			conn.commit()
 			answerX = cursor.fetchone ( )
-			print answerX
-			pile = answerX [0]
-			npile = pile / 4
-			npiler = (npile, 2)
-			print npiler
-			print npile
-
+			thingy = answerX [0]
+			npile = thingy / nep
+			numberofcardsinapile = int(npile)
+			with sqlite3.connect('pandemic.db') as conn:
+		      	 	tobedone = """SELECT pos FROM shuf ORDER BY pos DESC;""" 
+	  			cursor.execute( tobedone )
+				conn.commit()
+				whichcard = numberofcardsinapile * epidemicsaddedtopack 
+				answerZ = cursor.fetchall ()
+				print answerZ
+				print "answerZ"
+				print "whichcard"
+				print whichcard
+				print "problem"
+				posnew = answerZ [whichcard]
+				print posnew
+				maxposnew = posnew [0]
+				print maxposnew
 

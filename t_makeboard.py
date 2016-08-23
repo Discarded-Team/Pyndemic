@@ -220,7 +220,11 @@ class T( unittest.TestCase ):
 # This checks the character cards table has been set up.
 	def test_setup_epTBL (self):
 		sg = startinggame ()
-		sg.epTBL(4)
+		sg.BoardTBL ('testboard.txt')
+		sg.pddTBL ('testboard.txt')
+		sg.edTBL('testevent.txt' )
+		sg.shuf(3)
+		sg.epTBL(5)
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
 			tobedone = 'SELECT name FROM epTBL;'
