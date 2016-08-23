@@ -8,16 +8,31 @@ from makeboard import startinggame
 
 class T( unittest.TestCase ):
 
-# This def tests if a table containing a list of countries is created.
-	def test_setup (self):
-		sg = startinggame ()
-		sg.setup ( )
-		with sqlite3.connect('pandemic.db') as conn:
-			cursor = conn.cursor()
-			tobedone = 'SELECT * FROM countries;'
-			cursor.execute( tobedone)
-			answer = cursor.fetchone ( )
-		self.assertEqual(answer,None,'The table for countries was not created.')
+# This def tests if a table containing a list of countries is created and populated.
+        def test_setup (self):
+                sg = startinggame ()
+                sg.setup ( )
+                with sqlite3.connect('pandemic.db') as conn:
+                        cursor = conn.cursor()
+                        tobedone = 'SELECT name, colour, connect, co1, co5, rcube, bcube, rstation FROM BoardTBL;'
+                        cursor.execute( tobedone)
+                        answerX = cursor.fetchone ( )
+                        answer0 = answerX [0]
+                        answer1 = answerX [1]
+                        answer2 = answerX [2]
+                        answer3 = answerX [3]
+                        answer4 = answerX [4]
+                        answer5 = answerX [5]
+                        answer6 = answerX [6]
+                        answer7 = answerX [7]
+                self.assertNotEqual(answer0,None,'The table for countries has no name column.')
+                self.assertNotEqual(answer1,None,'The table for countries has no colour column.')
+                self.assertNotEqual(answer2,None,'The table for countries has no connect column.')
+                self.assertNotEqual(answer3,None,'The table for countries has no co1 column.')
+                self.assertNotEqual(answer4,None,'The table for countries has no co5 column.')
+                self.assertNotEqual(answer5,None,'The table for countries has no rcube column.')
+                self.assertNotEqual(answer6,None,'The table for countries has no bcube column.')
+                self.assertNotEqual(answer7,None,'The table for countries has no rstation column.')
 
 # This def tests that the table containging a list of countries has been created.
 	def test_setupboard (self):
