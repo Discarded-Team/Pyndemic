@@ -1,5 +1,5 @@
-*Rules of Pandemic*
-pndemic is a cooperative game, meaning that rather than competing with each other, players will be working together as a team to try to stop the deadly pandemic from spreading across the world map. Here is a quick guide to getting started.
+**Rules of Pandemic**
+pandemic is a cooperative game, meaning that rather than competing with each other, players will be working together as a team to try to stop the deadly pandemic from spreading across the world map. Here is a quick guide to getting started.
 
 Players
 
