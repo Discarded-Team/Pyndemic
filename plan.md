@@ -3,6 +3,7 @@
 So I think I need a plan of how I'm going to work this whole thing out. Once I've got this I can create the tests, as right now everything feels a bit directionless.
 
 **Step 1 - Set Up of the game**
+
 So to set up the game and visualise it I'm going to have python create 12 tables in SQLite3, as described below. In a nutshell the main table will be BoardTBL. This will contain all the information the board in the regular game contains.
 
 After this 4 more tables will be created for the 2 main decks and their discard piles. 
