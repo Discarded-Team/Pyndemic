@@ -105,7 +105,6 @@ class T( unittest.TestCase ):
 			cursor.execute( tobedone)
 			answerX = cursor.fetchone ( )
 			answer0 = answerX [0]
-			print answerX
 		self.assertEqual(answer0,'Dispatcher','The table for the characters cards has no name column.')
 
 # This checks the set up of the table for the number of cubes of each colour.
@@ -133,65 +132,102 @@ class T( unittest.TestCase ):
 # This checks the set up of the table for player2's hand
 	def test_setup_player2TBL (self):
 		sg = startinggame ()
-		sg.player2TBL( )
+		sg.BoardTBL ('testboard.txt')
+		sg.pddTBL ('testboard.txt')
+		sg.edTBL('testevent.txt' )
+		sg.shuf(2)
+		sg.player2TBL(2)
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
-			tobedone = 'SELECT * player2TBL;'
-			cursor.execute( tobedone)
+			tobedone = 'SELECT * FROM player2TBL;'
+			cursor.execute(tobedone)
 			answerX = cursor.fetchone ( )
 			answer0 = answerX [0]
-		self.assertNotEqual(answer0,None,"""Player 2's hand has not set up properly.""")
+			tobedone = 'SELECT * FROM shuf ORDER BY pos ASC;'
+			cursor.execute( tobedone)
+			answerY = cursor.fetchone ( )
+			answer1 = answerY [0]
+		self.assertNotEqual(answer0,None,"""Nothing found in the hand""")
+		self.assertNotEqual(answer0,answer1,"""Player 1's hand has cards still in the player deck.""")
+
+
 
 # This checks the set up of the table for player3's hand
 	def test_setup_player3TBL (self):
 		sg = startinggame ()
-		sg.player3TBL( )
+		sg.BoardTBL ('testboard.txt')
+		sg.pddTBL ('testboard.txt')
+		sg.edTBL('testevent.txt' )
+		sg.shuf(3)
+		sg.player3TBL(3)
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
-			tobedone = 'SELECT * player3TBL;'
-			cursor.execute( tobedone)
+			tobedone = 'SELECT * FROM player3TBL;'
+			cursor.execute(tobedone)
 			answerX = cursor.fetchone ( )
 			answer0 = answerX [0]
-		self.assertNotEqual(answer0,None,"""Player 3's hand has not set up properly.""")
+			tobedone = 'SELECT * FROM shuf ORDER BY pos ASC;'
+			cursor.execute( tobedone)
+			answerY = cursor.fetchone ( )
+			answer1 = answerY [0]
+		self.assertNotEqual(answer0,None,"""Nothing found in the hand""")
+		self.assertNotEqual(answer0,answer1,"""Player 4's hand has cards still in the player deck.""")
 
 # This checks the set up of the table for player4's hand
 	def test_setup_player4TBL (self):
 		sg = startinggame ()
-		sg.player4TBL( )
+		sg.BoardTBL ('testboard.txt')
+		sg.pddTBL ('testboard.txt')
+		sg.edTBL('testevent.txt' )
+		sg.shuf(4)
+		sg.player4TBL(4)
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
-			tobedone = 'SELECT * player4TBL;'
-			cursor.execute( tobedone)
+			tobedone = 'SELECT * FROM player4TBL;'
+			cursor.execute(tobedone)
 			answerX = cursor.fetchone ( )
 			answer0 = answerX [0]
-		self.assertNotEqual(answer0,None,"""Player 4's hand has not set up properly.""")
+			tobedone = 'SELECT * FROM shuf ORDER BY pos ASC;'
+			cursor.execute( tobedone)
+			answerY = cursor.fetchone ( )
+			answer1 = answerY [0]
+		self.assertNotEqual(answer0,None,"""Nothing found in the hand""")
+		self.assertNotEqual(answer0,answer1,"""Player 4's hand has cards still in the player deck.""")
+
 
 # This checks the set up of the table for player1's hand
 	def test_setup_player1TBL (self):
 		sg = startinggame ()
-		sg.player1TBL( )
+		sg.BoardTBL ('testboard.txt')
+		sg.pddTBL ('testboard.txt')
+		sg.edTBL('testevent.txt' )
+		sg.shuf(1)
+		sg.player1TBL(1)
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
-			tobedone = 'SELECT * player1TBL;'
-			cursor.execute( tobedone)
+			tobedone = 'SELECT * FROM player1TBL;'
+			cursor.execute(tobedone)
 			answerX = cursor.fetchone ( )
 			answer0 = answerX [0]
-		self.assertNotEqual(answer0,None,"""Player 1's hand has not set up properly.""")
+			tobedone = 'SELECT * FROM shuf ORDER BY pos ASC;'
+			cursor.execute( tobedone)
+			answerY = cursor.fetchone ( )
+			answer1 = answerY [0]
+		self.assertNotEqual(answer0,None,"""Nothing found in the hand""")
+		self.assertNotEqual(answer0,answer1,"""Player 1's hand has cards still in the player deck.""")
 
 
 # This checks the character cards table has been set up.
 	def test_setup_epTBL (self):
 		sg = startinggame ()
-		sg.epTBL( )
+		sg.epTBL(4)
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
 			tobedone = 'SELECT name FROM epTBL;'
 			cursor.execute( tobedone)
 			answerX = cursor.fetchone ( )
-			answer0 = answerX [0]
-			answer1 = answerX [1]
-		self.assertNotEqual(answer0,None,'The table for the epidemic cards has no name column.')
-		self.assertNotEqual(answer1,None,'The table for the epidemic cards cards deck has no position in the deck column.')
+		self.assertNotEqual(answerX,None,'The table for the epidemic cards has no name column.')
+		self.assertEqual(answerX,None,'The table for the epidemic cards cards deck has no position in the deck column.')
 	
 # This checks the player deck has been shuffled, without epidemic cards included.
 	def test_setup_shuf (self):
@@ -203,7 +239,6 @@ class T( unittest.TestCase ):
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
 			tobedone = 'SELECT pos FROM shuf;'
-			print tobedone
 			cursor.execute( tobedone)
 			answerX = cursor.fetchall ( )
 			answer0 = answerX [0]

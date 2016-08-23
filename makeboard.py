@@ -204,12 +204,272 @@ class startinggame:
 			cursor.execute( tobedone )
 			conn.commit()
 		        tobedone = """INSERT INTO shuf (name,pos) select name,pos from edTBL limit %s;""" % (nevents) 
-			print tobedone
 	  		cursor.execute( tobedone )
 			conn.commit()
-		        tobedone = """INSERT INTO shuf (name,pos) select name,ABS(RANDOM() % 500) from pdTBL;""" 
-			print tobedone
+	        	tobedone = """INSERT INTO shuf (name,pos) select name,ABS(RANDOM() % 500) from pdTBL;""" 
 	  		cursor.execute( tobedone )
 			conn.commit()
+
+# This def draws a hand for player1
+	def player1TBL (self,nplayers):
+		if nplayers == 1:
+			with sqlite3.connect('pandemic.db') as conn:
+		            	cursor = conn.cursor()
+		            	tobedone = 'DROP TABLE if exists player1TBL;'
+	       		     	cursor.execute( tobedone )
+				conn.commit()
+				tobedone = '''CREATE TABLE player1TBL(
+				"name");'''
+				cursor.execute( tobedone )
+				conn.commit()
+		        	tobedone = 'INSERT INTO player1TBL (name) select name from shuf ORDER BY pos DESC limit 6;'
+	       		     	cursor.execute( tobedone )
+		        	tobedone = 'SELECT pos FROM shuf ORDER BY pos DESC limit 6;'
+	       		     	cursor.execute( tobedone )
+				conn.commit()
+				answerX = cursor.fetchall ( )
+				answer1 = answerX [6]
+				funny1 = answer1 [0]
+		        	tobedone = """DELETE FROM shuf WHERE pos >= %s;""" % (funny1)
+	       		     	cursor.execute( tobedone )
+				conn.commit()
+
+		elif nplayers == 2:
+			with sqlite3.connect('pandemic.db') as conn:
+		            	cursor = conn.cursor()
+		            	tobedone = 'DROP TABLE if exists player1TBL;'
+	       		     	cursor.execute( tobedone )
+				conn.commit()
+				tobedone = '''CREATE TABLE player1TBL(
+				"name");'''
+				cursor.execute( tobedone )
+				conn.commit()
+		        	tobedone = 'INSERT INTO player1TBL (name) select name from shuf ORDER BY pos DESC limit 4;'
+	       		     	cursor.execute( tobedone )
+		        	tobedone = 'SELECT pos FROM shuf ORDER BY pos DESC limit 4;'
+	       		     	cursor.execute( tobedone )
+				conn.commit()
+				answerX = cursor.fetchall ( )
+				answer1 = answerX [4]
+				funny1 = answer1 [0]
+		        	tobedone = """DELETE FROM shuf WHERE pos >= %s;""" % (funny1)
+	       		     	cursor.execute( tobedone )
+				conn.commit()
+
+		elif nplayers == 3:
+			with sqlite3.connect('pandemic.db') as conn:
+		            	cursor = conn.cursor()
+		            	tobedone = 'DROP TABLE if exists player1TBL;'
+	       		     	cursor.execute( tobedone )
+				conn.commit()
+				tobedone = '''CREATE TABLE player1TBL(
+				"name");'''
+				cursor.execute( tobedone )
+				conn.commit()
+		        	tobedone = 'INSERT INTO player1TBL (name) select name from shuf ORDER BY pos DESC limit 3;'
+	       		     	cursor.execute( tobedone )
+		        	tobedone = 'SELECT pos FROM shuf ORDER BY pos DESC limit 3;'
+	       		     	cursor.execute( tobedone )
+				conn.commit()
+				answerX = cursor.fetchall ( )
+				answer1 = answerX [3]
+				funny1 = answer1 [0]
+		        	tobedone = """DELETE FROM shuf WHERE pos >= %s;""" % (funny1)
+	       		     	cursor.execute( tobedone )
+				conn.commit()
+
+		elif nplayers == 4:
+			with sqlite3.connect('pandemic.db') as conn:
+		            	cursor = conn.cursor()
+		            	tobedone = 'DROP TABLE if exists player1TBL;'
+	       		     	cursor.execute( tobedone )
+				conn.commit()
+				tobedone = '''CREATE TABLE player1TBL(
+				"name");'''
+				cursor.execute( tobedone )
+				conn.commit()
+		        	tobedone = 'INSERT INTO player1TBL (name) select name from shuf ORDER BY pos DESC limit 2;'
+	       		     	cursor.execute( tobedone )
+		        	tobedone = 'SELECT pos FROM shuf ORDER BY pos DESC limit 2;'
+	       		     	cursor.execute( tobedone )
+				conn.commit()
+				answerX = cursor.fetchall ( )
+				answer1 = answerX [2]
+				funny1 = answer1 [0]
+		        	tobedone = """DELETE FROM shuf WHERE pos >= %s;""" % (funny1)
+	       		     	cursor.execute( tobedone )
+				conn.commit()
+		else:
+			print "something went wrong"
+
+
+# This def draws a hand for player4
+	def player4TBL (self,nplayers):
+		with sqlite3.connect('pandemic.db') as conn:
+	            	cursor = conn.cursor()
+	            	tobedone = 'DROP TABLE if exists player4TBL;'
+       		     	cursor.execute( tobedone )
+			conn.commit()
+			tobedone = '''CREATE TABLE player4TBL(
+			"name");'''
+			cursor.execute( tobedone )
+			conn.commit()
+	        	tobedone = 'INSERT INTO player4TBL (name) select name from shuf ORDER BY pos DESC limit 2;'
+       		     	cursor.execute( tobedone )
+	        	tobedone = 'SELECT pos FROM shuf ORDER BY pos DESC limit 2;'
+       		     	cursor.execute( tobedone )
+			conn.commit()
+			answerX = cursor.fetchall ( )
+			answer1 = answerX [2]
+
+			funny1 = answer1 [0]
+	        	tobedone = """DELETE FROM shuf WHERE pos >= %s;""" % (funny1)
+       		     	cursor.execute( tobedone )
+			conn.commit()
+
+
+# This def draws a hand for player2
+	def player2TBL (self,nplayers):
+		if nplayers == 2:
+			with sqlite3.connect('pandemic.db') as conn:
+		            	cursor = conn.cursor()
+		            	tobedone = 'DROP TABLE if exists player2TBL;'
+	       		     	cursor.execute( tobedone )
+				conn.commit()
+				tobedone = '''CREATE TABLE player2TBL(
+				"name");'''
+				cursor.execute( tobedone )
+				conn.commit()
+		        	tobedone = 'INSERT INTO player2TBL (name) select name from shuf ORDER BY pos DESC limit 4;'
+	       		     	cursor.execute( tobedone )
+		        	tobedone = 'SELECT pos FROM shuf ORDER BY pos DESC limit 4;'
+	       		     	cursor.execute( tobedone )
+				conn.commit()
+				answerX = cursor.fetchall ( )
+				answer1 = answerX [4]
+				funny1 = answer1 [0]
+		        	tobedone = """DELETE FROM shuf WHERE pos >= %s;""" % (funny1)
+
+	       		     	cursor.execute( tobedone )
+				conn.commit()
+
+		elif nplayers == 3:
+			with sqlite3.connect('pandemic.db') as conn:
+		            	cursor = conn.cursor()
+		            	tobedone = 'DROP TABLE if exists player2TBL;'
+	       		     	cursor.execute( tobedone )
+				conn.commit()
+				tobedone = '''CREATE TABLE player2TBL(
+				"name");'''
+				cursor.execute( tobedone )
+				conn.commit()
+		        	tobedone = 'INSERT INTO player2TBL (name) select name from shuf ORDER BY pos DESC limit 3;'
+	       		     	cursor.execute( tobedone )
+		        	tobedone = 'SELECT pos FROM shuf ORDER BY pos DESC limit 3;'
+	       		     	cursor.execute( tobedone )
+				conn.commit()
+				answerX = cursor.fetchall ( )
+				answer1 = answerX [3]
+				funny1 = answer1 [0]
+		        	tobedone = """DELETE FROM shuf WHERE pos >= %s;""" % (funny1)
+	       		     	cursor.execute( tobedone )
+				conn.commit()
+
+		elif nplayers == 4:
+			with sqlite3.connect('pandemic.db') as conn:
+		            	cursor = conn.cursor()
+		            	tobedone = 'DROP TABLE if exists player2TBL;'
+	       		     	cursor.execute( tobedone )
+				conn.commit()
+				tobedone = '''CREATE TABLE player2TBL(
+				"name");'''
+				cursor.execute( tobedone )
+				conn.commit()
+		        	tobedone = 'INSERT INTO player2TBL (name) select name from shuf ORDER BY pos DESC limit 2;'
+	       		     	cursor.execute( tobedone )
+		        	tobedone = 'SELECT pos FROM shuf ORDER BY pos DESC limit 2;'
+	       		     	cursor.execute( tobedone )
+				conn.commit()
+				answerX = cursor.fetchall ( )
+				answer1 = answerX [2]
+				funny1 = answer1 [0]
+		        	tobedone = """DELETE FROM shuf WHERE pos >= %s;""" % (funny1)
+	       		     	cursor.execute( tobedone )
+				conn.commit()
+		else:
+			print "error!!!"
+
+
+# This def draws a hand for player3
+	def player3TBL (self,nplayers):
+		if nplayers == 3:
+			with sqlite3.connect('pandemic.db') as conn:
+		            	cursor = conn.cursor()
+		            	tobedone = 'DROP TABLE if exists player3TBL;'
+	       		     	cursor.execute( tobedone )
+				conn.commit()
+				tobedone = '''CREATE TABLE player3TBL(
+				"name");'''
+				cursor.execute( tobedone )
+				conn.commit()
+		        	tobedone = 'INSERT INTO player3TBL (name) select name from shuf ORDER BY pos DESC limit 3;'
+	       		     	cursor.execute( tobedone )
+		        	tobedone = 'SELECT pos FROM shuf ORDER BY pos DESC limit 3;'
+	       		     	cursor.execute( tobedone )
+				conn.commit()
+				answerX = cursor.fetchall ( )
+				answer1 = answerX [3]
+				funny1 = answer1 [0]
+		        	tobedone = """DELETE FROM shuf WHERE pos >= %s;""" % (funny1)
+	       		     	cursor.execute( tobedone )
+				conn.commit()
+
+		elif nplayers == 4:
+			with sqlite3.connect('pandemic.db') as conn:
+		            	cursor = conn.cursor()
+		            	tobedone = 'DROP TABLE if exists player3TBL;'
+	       		     	cursor.execute( tobedone )
+				conn.commit()
+				tobedone = '''CREATE TABLE player3TBL(
+				"name");'''
+				cursor.execute( tobedone )
+				conn.commit()
+		        	tobedone = 'INSERT INTO player3TBL (name) select name from shuf ORDER BY pos DESC limit 2;'
+	       		     	cursor.execute( tobedone )
+		        	tobedone = 'SELECT pos FROM shuf ORDER BY pos DESC limit 2;'
+	       		     	cursor.execute( tobedone )
+				conn.commit()
+				answerX = cursor.fetchall ( )
+				answer1 = answerX [2]
+				funny1 = answer1 [0]
+		        	tobedone = """DELETE FROM shuf WHERE pos >= %s;""" % (funny1)
+	       		     	cursor.execute( tobedone )
+				conn.commit()
+		else:
+			print "something went wrong"
+
+
+# This sets up the shuffled player deck (with event & epidemic cards, after hands drawn)
+	def epTBL (self,nep):
+		with sqlite3.connect('pandemic.db') as conn:
+	            	cursor = conn.cursor()
+	            	tobedone = 'DROP TABLE if exists epTBL;'
+	            	cursor.execute( tobedone )
+			conn.commit()
+			tobedone = '''CREATE TABLE epTBL(
+			"name",
+			"pos");'''
+			cursor.execute( tobedone )
+			conn.commit()
+		        tobedone = """SELECT COUNT (name) FROM shuf;""" 
+	  		cursor.execute( tobedone )
+			conn.commit()
+			answerX = cursor.fetchone ( )
+			print answerX
+			pile = answerX [0]
+			npile = pile / 4
+			npiler = (npile, 2)
+			print npiler
+			print npile
 
 
