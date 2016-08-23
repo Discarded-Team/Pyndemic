@@ -1,13 +1,12 @@
 **Rules of Pandemic**
+
 pandemic is a cooperative game, meaning that rather than competing with each other, players will be working together as a team to try to stop the deadly pandemic from spreading across the world map. Here is a quick guide to getting started.
 
-Players
-
-2 to 4
+Players- 2 to 4
 
 Components
 
-96 wooden disease cubes, 5 player pawns, 6 wooden research stations,6 markers (4 cure, 1 outbreak, 1 infection), 115 Cards (48 infection cards, 59 player cards, 4 role cards, 4 quick reference cards), and one board depicting a map of the world with connections between cities.
+96 wooden disease cubes, 5 player pawns, 6 wooden research stations,6 markers (4 cure, 1 outbreak, 1 infection), 115 Cards (48 infection cards, 59 player cards (48 cities and 11 events), 12 role cards, 4 quick reference cards), and one board depicting a map of the world with connections between cities.
 
 Goal
 
@@ -18,7 +17,7 @@ Setup
 Each player takes a random role card, a reference sheet, and a starting hand of cards (four each for 2 players, three for 3 players, two for 4 players). Infection and outbreak markers are placed at the first space on their respective tracks. A research station is placed in Atlanta, and players each put the pawn matching their role card in Atlanta.
 
 
-huffle the infection deck. Draw three cards, and put three cubes of the appropriate color in each city. Draw three more cards, and put two cubes in each of those cities. Draw three more cards, and put one cube in each of those cities. All cards, once drawn, are placed in the infection discard pile.
+Shuffle the infection deck. Draw three cards, and put three cubes of the appropriate color in each city. Draw three more cards, and put two cubes in each of those cities. Draw three more cards, and put one cube in each of those cities. All cards, once drawn, are placed in the infection discard pile.
 
 Divide the player deck into four equal piles, and shuffle one Epidemic card into each pile. Then place the four piles on top of each other to form the player deck.
 
