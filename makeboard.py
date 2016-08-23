@@ -3,9 +3,9 @@
 
 import sqlite3
 
+# This creates and populates the table which contains the information from the game board.
 class startinggame:
 	def BoardTBL (self,board):
-		print "creating table of BoardTBL"
 		with sqlite3.connect('pandemic.db') as conn:
 	            	cursor = conn.cursor()
 	            	tobedone = 'DROP TABLE if exists BoardTBL;'
@@ -33,12 +33,10 @@ class startinggame:
 			"player4");'''
 			cursor.execute( tobedone )
 			conn.commit()
-			print "created table"
 			boardfile = open(board,'r') 
 			for line in boardfile:
 				with sqlite3.connect('pandemic.db') as conn:
 			        	cursor = conn.cursor()
-					print "adding data"
 		            		tobedone = """INSERT INTO BoardTBL (name,
 			colour,
 			connect,
@@ -58,58 +56,135 @@ class startinggame:
 			player2,
 			player3,
 			player4) VALUES (%s);""" % (line)
-					print tobedone
 		            		cursor.execute( tobedone )
 					conn.commit()
 
-	def setupresearch (self):
+# This sets up the player deck and populates it
+	def pdTBL (self,player):
 		with sqlite3.connect('pandemic.db') as conn:
-			        cursor = conn.cursor()
-		            	tobedone = """ALTER TABLE countries ADD COLUMN research;"""
-		            	cursor.execute( tobedone )
-				conn.commit()
-				tobedone = """UPDATE countries SET research = 1 WHERE name is 'Atlanta'""";
-		            	cursor.execute( tobedone )
-				conn.commit()
+	            	cursor = conn.cursor()
+	            	tobedone = 'DROP TABLE if exists pdTBL;'
+	            	cursor.execute( tobedone )
+			conn.commit()
+			tobedone = '''CREATE TABLE pdTBL(
+			"name",
+			"pos");'''
+			cursor.execute( tobedone )
+			conn.commit()
+			playerfile = open(player,'r') 
+			for line in playerfile:
+				with sqlite3.connect('pandemic.db') as conn:
+		            		tobedone = """INSERT INTO pdTBL (name) select name from BoardTBL;""" 
+		            		cursor.execute( tobedone )
+					conn.commit()
+		            		tobedone = """UPDATE pdTBL SET pos = 0;""" 
+		            		cursor.execute( tobedone )
+					conn.commit()
 
-	def setupcubes (self):
+# This sets up the player deck discard pile
+	def pddTBL (self,player):
 		with sqlite3.connect('pandemic.db') as conn:
-			        cursor = conn.cursor()
-		            	tobedone = """DROP TABLE IF EXISTS cubes;"""
-		            	cursor.execute( tobedone )
-				conn.commit()
-				tobedone = """CREATE TABLE cubes ('col' TEXT,'nocubes'NUM);""";
-		            	cursor.execute( tobedone )
-				conn.commit()
+	            	cursor = conn.cursor()
+	            	tobedone = 'DROP TABLE if exists pddTBL;'
+	            	cursor.execute( tobedone )
+			conn.commit()
+			tobedone = '''CREATE TABLE pddTBL(
+			"name");'''
+			cursor.execute( tobedone )
+			conn.commit()
 
-		            	tobedone = """INSERT INTO cubes (col,nocubes) VALUES ('Red','20');"""
-		            	cursor.execute( tobedone )
-				conn.commit()
-
-		            	tobedone = """INSERT INTO cubes (col,nocubes) VALUES ('Blue','20');"""
-		            	cursor.execute( tobedone )
-				conn.commit()
-
-		            	tobedone = """INSERT INTO cubes (col,nocubes) VALUES ('Yellow','20');"""
-		            	cursor.execute( tobedone )
-				conn.commit()
-
-		            	tobedone = """INSERT INTO cubes (col,nocubes) VALUES ('Black','20');"""
-		            	cursor.execute( tobedone )
-				conn.commit()
-
-	def setupplayerdeck (self,board):
-    		sg = startinggame ()
-    		sg.setup ( )
-    		sg.setupboard (board)
+# This sets up the infection deck and populates it
+	def idTBL (self,infect):
 		with sqlite3.connect('pandemic.db') as conn:
-			        cursor = conn.cursor()
-		            	tobedone = """DROP TABLE IF EXISTS playerdeck;"""
-		            	cursor.execute( tobedone )
-				conn.commit()
-				tobedone = """CREATE TABLE playerdeck ('card' TEXT);"""
-		            	cursor.execute( tobedone )
-				conn.commit()
-		            	tobedone = """INSERT INTO playerdeck (card) SELECT name FROM countries;"""
-				cursor.execute( tobedone )
-				conn.commit()
+	            	cursor = conn.cursor()
+	            	tobedone = 'DROP TABLE if exists idTBL;'
+	            	cursor.execute( tobedone )
+			conn.commit()
+			tobedone = '''CREATE TABLE idTBL(
+			"name",
+			"pos");'''
+			cursor.execute( tobedone )
+			conn.commit()
+			infectfile = open(infect,'r') 
+			for line in infectfile:
+				with sqlite3.connect('pandemic.db') as conn:
+		            		tobedone = """INSERT INTO idTBL (name) select name from BoardTBL;""" 
+		            		cursor.execute( tobedone )
+					conn.commit()
+		            		tobedone = """UPDATE idTBL SET pos = 0;""" 
+		            		cursor.execute( tobedone )
+					conn.commit()
+
+# This sets up the infection deck discard pile
+	def iddTBL (self,infect):
+		with sqlite3.connect('pandemic.db') as conn:
+	            	cursor = conn.cursor()
+	            	tobedone = 'DROP TABLE if exists iddTBL;'
+	            	cursor.execute( tobedone )
+			conn.commit()
+			tobedone = '''CREATE TABLE iddTBL(
+			"name");'''
+			cursor.execute( tobedone )
+			conn.commit(
+
+
+
+)
+
+# This sets up the event deck and populates it
+	def edTBL (self,event):
+		with sqlite3.connect('pandemic.db') as conn:
+	            	cursor = conn.cursor()
+	            	tobedone = 'DROP TABLE if exists edTBL;'
+	            	cursor.execute( tobedone )
+			conn.commit()
+			tobedone = '''CREATE TABLE edTBL(
+			"name",
+			"pos");'''
+			cursor.execute( tobedone )
+			conn.commit()
+			eventfile = open(event,'r') 
+			for line in eventfile:
+				with sqlite3.connect('pandemic.db') as conn:
+		            		tobedone = """INSERT INTO edTBL (name,pos) VALUES (%s);""" % (line)
+		            		cursor.execute( tobedone )
+					conn.commit()
+
+# This sets up the character deck and populates it
+	def cTBL (self,character):
+		with sqlite3.connect('pandemic.db') as conn:
+	            	cursor = conn.cursor()
+	            	tobedone = 'DROP TABLE if exists cTBL;'
+	            	cursor.execute( tobedone )
+			conn.commit()
+			tobedone = '''CREATE TABLE cTBL(
+			"name",
+			"pos");'''
+			cursor.execute( tobedone )
+			conn.commit()
+			characterfile = open(character,'r') 
+			for line in characterfile:
+				with sqlite3.connect('pandemic.db') as conn:
+		            		tobedone = """INSERT INTO cTBL (name,pos) VALUES (%s);""" % (line)
+		            		cursor.execute( tobedone )
+					conn.commit()
+
+
+# This sets up the table of disease cubes
+	def cubesTBL (self):
+		with sqlite3.connect('pandemic.db') as conn:
+	            	cursor = conn.cursor()
+	            	tobedone = 'DROP TABLE if exists cubesTBL;'
+	            	cursor.execute( tobedone )
+			conn.commit()
+			tobedone = '''CREATE TABLE cubesTBL(
+			"redr",
+			"yellowy",
+			"blackb",
+			"blueu",
+			"purplep");'''
+			cursor.execute( tobedone )
+			conn.commit()
+		        tobedone = """INSERT INTO cubesTBL (redr,yellowy,blackb,blueu,purplep) VALUES (24,24,24,24,24);"""
+			cursor.execute( tobedone )
+			conn.commit()

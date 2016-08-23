@@ -22,14 +22,14 @@ class T( unittest.TestCase ):
 			answer5 = answerX [5]
 			answer6 = answerX [6]
 			answer7 = answerX [7]
-		self.assertNotEqual(answer0,None,'The table for countries has no name column.')
-		self.assertNotEqual(answer1,None,'The table for countries has no colour column.')
-		self.assertNotEqual(answer2,None,'The table for countries has no connect column.')
-		self.assertNotEqual(answer3,None,'The table for countries has no co1 column.')
-		self.assertNotEqual(answer4,None,'The table for countries has no co5 column.')
-		self.assertNotEqual(answer5,None,'The table for countries has no rcube column.')
-		self.assertNotEqual(answer6,None,'The table for countries has no bcube column.')
-		self.assertNotEqual(answer7,None,'The table for countries has no rstation column.')
+		self.assertEqual(answer0,'Atlanta','The table for countries has no name column.')
+		self.assertEqual(answer1,'u','The table for countries has no colour column.')
+		self.assertEqual(answer2,2,'The table for countries has no connect column.')
+		self.assertEqual(answer3,'Chicago','The table for countries has no co1 column.')
+		self.assertEqual(answer4,0,'The table for countries has no co5 column.')
+		self.assertEqual(answer5,0,'The table for countries has no rcube column.')
+		self.assertEqual(answer6,0,'The table for countries has no bcube column.')
+		self.assertEqual(answer7,0,'The table for countries has no rstation column.')
 
 # This def tests that the table with the player deck cards in has been set up
 	def test_setup_pdTBL (self):
@@ -42,25 +42,24 @@ class T( unittest.TestCase ):
 			answerX = cursor.fetchone ( )
 			answer0 = answerX [0]
 			answer1 = answerX [1]
-		self.assertNotEqual(answer0,None,'The table for the player deck has no name column.')
-		self.assertNotEqual(answer1,None,'The table for the player deck has no position in the deck column.')
+		self.assertEqual(answer0,'Atlanta','The table for the player deck has no name column.')
+		self.assertEqual(answer1,0,'The table for the player deck has no position in the deck column.')
 
 # This def tests that the table with the player deck cards are discarded into has been set up
 	def test_setup_pddTBL (self):
-		sg = stadrtinggame ()
+		sg = startinggame ()
 		sg.pddTBL ('testboard.txt')
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
 			tobedone = 'SELECT name FROM pddTBL;'
 			cursor.execute( tobedone)
 			answerX = cursor.fetchone ( )
-			answer0 = answerX [0]
-		self.assertNotEqual(answer0,None,'The table for discarded player cards has no name column.')
+		self.assertEqual(answerX,None,'The table for discarded player cards has no name column.')
 
 # This def tests that the table with the infection deck has been setup.
 	def test_setup_idTBL (self):
 		sg = startinggame ()
-		sg.idTBL( )
+		sg.idTBL('testboard.txt' )
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
 			tobedone = 'SELECT name,pos FROM idTBL;'
@@ -71,22 +70,21 @@ class T( unittest.TestCase ):
 		self.assertNotEqual(answer0,None,'The table for the infection deck has no name column.')
 		self.assertNotEqual(answer1,None,'The table for the infection deck has no position in the deck column.')
 
-# This def tests that the table with the infection deck has been setup.
+# This def tests that the table with the infection deck discard pile has been setup.
 	def test_setup_iddTBL (self):
 		sg = startinggame ()
-		sg.idTBL( )
+		sg.iddTBL('testboard.txt' )
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
 			tobedone = 'SELECT name FROM iddTBL;'
 			cursor.execute( tobedone)
 			answerX = cursor.fetchone ( )
-			answer0 = answerX [0]
-		self.assertNotEqual(answer0,None,'The table for the infection cards to be discarded into has no name column.')
+		self.assertEqual(answerX,None,'The table for the infection cards to be discarded into has no name column.')
 
 # This def tests the event deck has been setup
 	def test_setup_edTBL (self):
 		sg = startinggame ()
-		sg.edTBL( )
+		sg.edTBL('testevent.txt' )
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
 			tobedone = 'SELECT name,pos FROM edTBL;'
@@ -100,16 +98,15 @@ class T( unittest.TestCase ):
 # This checks the character cards table has been set up.
 	def test_setup_cTBL (self):
 		sg = startinggame ()
-		sg.cTBL( )
+		sg.cTBL('testcharacter.txt' )
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
 			tobedone = 'SELECT name FROM cTBL;'
 			cursor.execute( tobedone)
 			answerX = cursor.fetchone ( )
 			answer0 = answerX [0]
-			answer1 = answerX [1]
-		self.assertNotEqual(answer0,None,'The table for the characters cards has no name column.')
-		self.assertNotEqual(answer1,None,'The table for the characters cards deck has no position in the deck column.')
+			print answerX
+		self.assertEqual(answer0,'Dispatcher','The table for the characters cards has no name column.')
 
 # This checks the set up of the table for the number of cubes of each colour.
 	def test_setup_cubesTBL (self):
@@ -117,7 +114,7 @@ class T( unittest.TestCase ):
 		sg.cubesTBL( )
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
-			tobedone = 'SELECT red,yellow,blue,black,purple FROM cubesTBL;'
+			tobedone = 'SELECT redr,yellowy,blueu,blackb,purplep FROM cubesTBL;'
 
 			cursor.execute( tobedone)
 			answerX = cursor.fetchone ( )
