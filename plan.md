@@ -17,12 +17,12 @@ A table will also be set up with the number of cubes of each colour remaining to
 Finally each player will have a table which gives the contents of their hand.
 
 1- BoardTBL this contains: 
-	the name of each country 
-	the colour of each country
-	the number of connections it has
-	the names of the countries this country is connected to (each in it's own column, max of 6)
-	the number of cubes of each colour )each in it's own column, max of 5)
-	the number of research stations in the country
+the name of each country 
+the colour of each country
+the number of connections it has
+the names of the countries this country is connected to (each in it's own column, max of 6)
+the number of cubes of each colour )each in it's own column, max of 5)
+the number of research stations in the country
 
 2 - pdTBL this contains:
 	the name of the city card
