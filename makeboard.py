@@ -31,3 +31,55 @@ class startinggame:
 		            	tobedone = """INSERT INTO countries (Name,NoConnect,Co1,Co2,Co3,Co4,Co5,Co6) VALUES (%s);""" % (line)
 		            	cursor.execute( tobedone )
 				conn.commit()
+
+	def setupresearch (self):
+		with sqlite3.connect('pandemic.db') as conn:
+			        cursor = conn.cursor()
+		            	tobedone = """ALTER TABLE countries ADD COLUMN research;"""
+		            	cursor.execute( tobedone )
+				conn.commit()
+				tobedone = """UPDATE countries SET research = 1 WHERE name is 'Atlanta'""";
+		            	cursor.execute( tobedone )
+				conn.commit()
+
+	def setupcubes (self):
+		with sqlite3.connect('pandemic.db') as conn:
+			        cursor = conn.cursor()
+		            	tobedone = """DROP TABLE IF EXISTS cubes;"""
+		            	cursor.execute( tobedone )
+				conn.commit()
+				tobedone = """CREATE TABLE cubes ('col' TEXT,'nocubes'NUM);""";
+		            	cursor.execute( tobedone )
+				conn.commit()
+
+		            	tobedone = """INSERT INTO cubes (col,nocubes) VALUES ('Red','20');"""
+		            	cursor.execute( tobedone )
+				conn.commit()
+
+		            	tobedone = """INSERT INTO cubes (col,nocubes) VALUES ('Blue','20');"""
+		            	cursor.execute( tobedone )
+				conn.commit()
+
+		            	tobedone = """INSERT INTO cubes (col,nocubes) VALUES ('Yellow','20');"""
+		            	cursor.execute( tobedone )
+				conn.commit()
+
+		            	tobedone = """INSERT INTO cubes (col,nocubes) VALUES ('Black','20');"""
+		            	cursor.execute( tobedone )
+				conn.commit()
+
+	def setupplayerdeck (self,board):
+    		sg = startinggame ()
+    		sg.setup ( )
+    		sg.setupboard (board)
+		with sqlite3.connect('pandemic.db') as conn:
+			        cursor = conn.cursor()
+		            	tobedone = """DROP TABLE IF EXISTS playerdeck;"""
+		            	cursor.execute( tobedone )
+				conn.commit()
+				tobedone = """CREATE TABLE playerdeck ('card' TEXT);"""
+		            	cursor.execute( tobedone )
+				conn.commit()
+		            	tobedone = """INSERT INTO playerdeck (card) SELECT name FROM countries;"""
+				cursor.execute( tobedone )
+				conn.commit()
