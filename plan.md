@@ -23,6 +23,7 @@ the number of connections it has
 the names of the countries this country is connected to (each in it's own column, max of 6)
 the number of cubes of each colour )each in it's own column, max of 5)
 the number of research stations in the country
+the name of any players in the country
 
 2 - pdTBL this contains:
 	the name of the city card
