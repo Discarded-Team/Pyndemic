@@ -5,6 +5,18 @@ from pandemicgame import inaturn
 
 class T( unittest.TestCase ):
 
+# This checks the players have been put in the right starting locations
+	def test_setup_sginfect (self):
+		sg = startinggame ()
+		sg.BoardTBL ('testboard.txt')
+		sg.startinglocals (3)
+		with sqlite3.connect('pandemic.db') as conn:
+                        cursor = conn.cursor()
+                        tobedone = """SELECT rstation,player1,player2,player4 FROM boardTBL WHERE name is 'Atlanta'; """
+                        cursor.execute( tobedone)
+                        answerX = cursor.fetchone ( )
+                self.assertEqual(answerX,(1, 1, 1, 0),'Something wrong with research station and player placement')
+
 # This def tests if a table containing a list of countries is created and populated.
 	def test_setup_BoardTBL (self):
 		sg = startinggame ()

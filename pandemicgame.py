@@ -6,6 +6,38 @@ import random
 
 # This creates and populates the table which contains the information from the game board.
 class startinggame:
+	def startinglocals (self,players):
+		with sqlite3.connect('pandemic.db') as conn:
+		       	cursor = conn.cursor()
+	            	tobedone = """UPDATE BoardTBL set rstation = 1 WHERE name is 'Atlanta';"""
+	            	cursor.execute( tobedone )
+			if players == 1:
+	            		tobedone = """UPDATE BoardTBL set player1 = 1 WHERE name is 'Atlanta';"""
+		            	cursor.execute( tobedone )
+			if players == 2:
+	            		tobedone = """UPDATE BoardTBL set player1 = 1 WHERE name is 'Atlanta';"""
+		            	cursor.execute( tobedone )
+	            		tobedone = """UPDATE BoardTBL set player2 = 1 WHERE name is 'Atlanta';"""
+		            	cursor.execute( tobedone )
+			if players == 3:
+	            		tobedone = """UPDATE BoardTBL set player2 = 1 WHERE name is 'Atlanta';"""
+		            	cursor.execute( tobedone )
+	            		tobedone = """UPDATE BoardTBL set player1 = 1 WHERE name is 'Atlanta';"""
+		            	cursor.execute( tobedone )
+	            		tobedone = """UPDATE BoardTBL set player3 = 1 WHERE name is 'Atlanta';"""
+		            	cursor.execute( tobedone )
+			if players == 4:
+	            		tobedone = """UPDATE BoardTBL set player2 = 1 WHERE name is 'Atlanta';"""
+		            	cursor.execute( tobedone )
+	            		tobedone = """UPDATE BoardTBL set player1 = 1 WHERE name is 'Atlanta';"""
+		            	cursor.execute( tobedone )
+	            		tobedone = """UPDATE BoardTBL set player3 = 1 WHERE name is 'Atlanta';"""
+		            	cursor.execute( tobedone )
+	            		tobedone = """UPDATE BoardTBL set player4 = 1 WHERE name is 'Atlanta';"""
+		            	cursor.execute( tobedone )
+			conn.commit()
+
+
 	def BoardTBL (self,board):
 		with sqlite3.connect('pandemic.db') as conn:
 	            	cursor = conn.cursor()
@@ -679,4 +711,15 @@ class inaturn:
 #		        	tobedone = """DELETE FROM shufpd WHERE pos >= %s;""" % (funny1)
 #	       		     	cursor.execute( tobedone )
 #				conn.commit()
+
+# This def gives the state of the board
+class boardstate:
+	def playerloc (self, player):
+		with sqlite3.connect('pandemic.db') as conn:
+			cursor = conn.cursor()
+			tobedone = """SELECT name from BoardTBL WHERE %s = 1; """ % (player)
+			cursor.execute(tobedone)
+			answerZ = cursor.fetchone ()
+			answer1 = answerZ [0]
+			print answer1
 
