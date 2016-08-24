@@ -524,3 +524,36 @@ class startinggame:
 			tobedone = """INSERT INTO gsTBL (ir,oc,players) VALUES (2,0,%s)""" % (players)
 			cursor.execute( tobedone)
 			conn.commit()
+
+	def sginfect (self):
+		it = inaturn ()
+		it.infectcities (3)
+		it.infectcities (2)
+		it.infectcities (1)
+
+class inaturn:
+# This def infects cities at a given rate.
+	def infectcities (self, rate):
+		with sqlite3.connect('pandemic.db') as conn:
+			cursor = conn.cursor()
+		       	tobedone = 'SELECT name,pos from shufid limit %s ORDER BY pos ASC;'
+			answerX = cursor.fetchall ( )
+			answer1 = [0]
+			print answerX
+			print answer1
+
+
+
+
+#	        	tobedone = 'INSERT INTO player3TBL (name) select name from shufpd ORDER BY pos DESC limit 3;'
+#	       		     	cursor.execute( tobedone )
+#		        	tobedone = 'SELECT pos FROM shufpd ORDER BY pos DESC limit 3;'
+#	       		     	cursor.execute( tobedone )
+#				conn.commit()
+#				answerX = cursor.fetchall ( )
+#				answer1 = answerX [3]
+#				funny1 = answer1 [0]
+#		        	tobedone = """DELETE FROM shufpd WHERE pos >= %s;""" % (funny1)
+#	       		     	cursor.execute( tobedone )
+#				conn.commit()
+

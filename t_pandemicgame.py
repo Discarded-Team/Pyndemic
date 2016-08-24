@@ -1,7 +1,7 @@
 import unittest
 import sqlite3
 from pandemicgame import startinggame
-
+from pandemicgame import inaturn
 
 class T( unittest.TestCase ):
 
@@ -225,6 +225,7 @@ class T( unittest.TestCase ):
                 sg.BoardTBL ('testboard.txt')
                 sg.pddTBL ('testboard.txt')
                 sg.edTBL('testevent.txt' )
+		sg.pdTBL ()
                 sg.shufpd(3)
                 sg.epTBL(5)
                 with sqlite3.connect('pandemic.db') as conn:
@@ -269,11 +270,24 @@ class T( unittest.TestCase ):
 		self.assertEqual(answer0,2,'The infection rate is not two. It should be at the start of the game.')
                 self.assertEqual(answer1,0,'The number of outbreaks is not 0. It should be.')
                 self.assertEqual(answer2,3,'The number of players is not 3. It should be.')
-#9 infection cards are drawn, and then discarded.
-#3 cubes are placed on the first 3 cards drawn.
-#2 cubes are placed on the next 3 cards drawn.
-#1 cube is placed on the final 3 cards drawn.
-#8 or 9 cards are shared between the players as starting hands
-#The players are given identity cards.
-#The number of epidemic cards is set (from 3-8)
-#The epidemic cards are shuffled into the player deck at regular intervals.
+
+# This def tests the infection of the first 9 cities works right.
+	def test_setup_sginfect (self):
+		sg = startinggame ()
+		sg.BoardTBL ('testboard.txt')
+		sg.idTBL('testboard.txt' )
+		sg.shufid ( )
+		sg.sginfect ( )
+		with sqlite3.connect('pandemic.db') as conn:
+			cursor = conn.cursor()
+			tobedone = 'SELECT * FROM boardTBL WHERE rcube > 1 ;'
+			cursor.execute( tobedone)
+			answerX = cursor.fetchone ( )
+			answer0 = answerX [0]
+			answer1 = answerX [1]
+			answer2 = answerX [2]
+		self.assertEqual(answer0,2,'Something wrong')
+                self.assertEqual(answer1,0,'Something wrong')
+                self.assertEqual(answer2,3,'Something wrong')
+
+
