@@ -112,7 +112,7 @@ class startinggame:
 			conn.commit()
 
 # This sets up the player deck discard pile
-	def pddTBL (self,player):
+	def pddTBL (self):
 		with sqlite3.connect('pandemic.db') as conn:
 	            	cursor = conn.cursor()
 	            	tobedone = 'DROP TABLE if exists pddTBL;'
@@ -124,7 +124,7 @@ class startinggame:
 			conn.commit()
 
 # This sets up the infection deck and populates it
-	def idTBL (self,infect):
+	def idTBL (self):
 		with sqlite3.connect('pandemic.db') as conn:
 	            	cursor = conn.cursor()
 	            	tobedone = 'DROP TABLE if exists idTBL;'
@@ -517,13 +517,13 @@ class startinggame:
 			conn.commit()
 			answerX = cursor.fetchone ( )
 			thingy = answerX [0]
-			npile = thingy / nep
-			numberofcardsinapile = int(npile)
+			npile = (thingy / nep)
+			numberofcardsinapile = int(npile)-1
 			while epidemicsaddedtopack < nep+1:
 		      	 	tobedone = """SELECT pos FROM shufpd ORDER BY pos ASC;""" 
 	  			cursor.execute( tobedone )
 				conn.commit()
-				whichcard = numberofcardsinapile * epidemicsaddedtopack 
+				whichcard = numberofcardsinapile * epidemicsaddedtopack
 				answerZ = cursor.fetchall ()
 				posnew = answerZ [whichcard]
 				maxposnew = posnew [0]
@@ -637,6 +637,57 @@ class startinggame:
 			conn.commit()
 			
 
+# This def assigns a character to everybody 
+	def sgchars (self,players):
+		print "not written yet"
+
+# Sets up the board for a given number of players, on a specified boardfile such as 'board.txt', with a specified number of epidemics, and certain pool of event cards.
+	def startnewgame (self,players,board,epidemics,event):
+		sg = startinggame ()
+		print "Laying out the board with everything"
+		sg.BoardTBL (board)
+		print "Shuffling the event cards together, so a random selection can be chosen to shuffle into the player deck."
+		sg.edTBL (event) 
+		print "Making a space for the player deck"
+		sg.pdTBL ()
+		sg.pddTBL ()
+		print "shuffling the player deck (without epidemic cards)"
+		sg.shufpd (players)
+
+		print "Setting out the disease cubes"
+		sg.cubesTBL ()
+		print "Drawing a hand for player One"
+		sg.player1TBL (players)
+		if players == 2:
+			print "Drawing a hand for player Two"
+			sg.player2TBL (players)
+		if players == 3:
+			print "Drawing a hand for player Three"
+			sg.player3TBL (players)
+		if players == 4:
+			print "Drawing a hand for player Four"
+			sg.player4TBL (players)
+		else:
+			print "ONE PLAYER GAME! Not sure this'll work."
+		print "Making a space for discarded infection deck cards"
+		sg.iddTBL ()
+		print "Putting starting game pieces into place"
+		sg.startinglocals (players)
+		sg.pdTBL ()
+		sg.pddTBL ()
+		print "Assigning player identities"
+		sg.sgchars (players)
+		print "Setting the outbreaks to Zero and the infection rate to One. Popping a research station down in Atlanta"
+		sg.gsTBL (players)
+		print "Creating and shuffling the infection deck"
+		sg.idTBL ()
+		sg.shufid ()
+		print "OH NOOOO! Infecting starting cities"
+		sg.sginfect ()
+		print "shuffling Epidemic cards into the infection deck"
+		sg.epTBL (epidemics)
+		print "this hasn't worked!!!!"
+
 class inaturn:
 # This def infects cities at a given rate.
 	def infectcities (self, rate):
@@ -699,63 +750,4 @@ class inaturn:
 	       		     	cursor.execute( tobedone )
 				conn.commit()
 
-# This def assigns a character to everybody 
-	def sgchars (self,players):
-		print "not written yet"
-
-# Sets up the board for a given number of players, on a specified boardfile such as 'board.txt', with a specified number of epidemics. 
-	def startnewgame (self,players,board,epidemics):
-		sg = startinggame ()
-		print "Laying out the board with everything"
-		sg = BoardTBL (board)
-		print "Shuffling the event cards together, so a random selection can be chosen to shuffle into the player deck."
-		sg.edTBL () 
-		print "Making a space for the player deck"
-		sg.pdTBL ()
-		sg.pddTBL ()
-		print "shuffling the player deck (without epidemic cards)"
-		sg.shufpd ()
-
-		print "Setting out the disease cubes"
-		sg.cubesTBL ()
-		print "Drawing a hand for player One"
-		sg.player1TBL (players)
-		if players == 2:
-			print "Drawing a hand for player Two"
-			sg.player2TBL (players)
-		if players == 3:
-			print "Drawing a hand for player Three"
-			sg.player3TBL (players)
-		if players == 4:
-			print "Drawing a hand for player Four"
-			sg.player4TBL (players)
-		else:
-			print "ONE PLAYER GAME! Not sure this'll work."
-		print "Making a space for discarded infection deck cards"
-		sg.iddTBL ()
-		print "Putting starting game pieces into place"
-		sg.startinglocals (players)
-		print "Shuffling the event cards together, so a random selection can be chosen to shuffle into the player deck."
-		sg.edTBL () 
-		sg.pdTBL ()
-		sg.pddTBL ()
-		print "assigning player identities"
-		sg.sgchars (players)
-		print "setting the outbreaks to Zero and the infection rate to One. Popping a research station down in Atlanta"
-		sg.gsTBL (players)
-		print "OH NOOOO! Infecting starting cities"
-		sg.sginfect ()
-		print "shuffling Epidemic cards into the infection deck"
-		sg.epTBL (epidemics)
-
-# This def gives the state of the board
-class boardstate:
-	def playerloc (self, player):
-		with sqlite3.connect('pandemic.db') as conn:
-			cursor = conn.cursor()
-			tobedone = """SELECT name from BoardTBL WHERE %s = 1; """ % (player)
-			cursor.execute(tobedone)
-			answerZ = cursor.fetchone ()
-			answer1 = answerZ [0]
-			print answer1
 

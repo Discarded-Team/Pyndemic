@@ -60,7 +60,7 @@ class T( unittest.TestCase ):
 # This def tests that the table with the player deck cards are discarded into has been set up
 	def test_setup_pddTBL (self):
 		sg = startinggame ()
-		sg.pddTBL ('testboard.txt')
+		sg.pddTBL ()
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
 			tobedone = 'SELECT name FROM pddTBL;'
@@ -71,7 +71,7 @@ class T( unittest.TestCase ):
 # This def tests that the table with the infection deck has been setup.
 	def test_setup_idTBL (self):
 		sg = startinggame ()
-		sg.idTBL('testboard.txt' )
+		sg.idTBL( )
 		sg.shufid ( )
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
@@ -152,7 +152,7 @@ class T( unittest.TestCase ):
 	def test_setup_player2TBL (self):
 		sg = startinggame ()
 		sg.BoardTBL ('testboard.txt')
-		sg.pddTBL ('testboard.txt')
+		sg.pddTBL ()
 		sg.edTBL('testevent.txt' )
 		sg.shufpd(2)
 		sg.player2TBL(2)
@@ -175,7 +175,7 @@ class T( unittest.TestCase ):
 	def test_setup_player3TBL (self):
 		sg = startinggame ()
 		sg.BoardTBL ('testboard.txt')
-		sg.pddTBL ('testboard.txt')
+		sg.pddTBL ()
 		sg.edTBL('testevent.txt' )
 		sg.shufpd(3)
 		sg.player3TBL(3)
@@ -196,7 +196,7 @@ class T( unittest.TestCase ):
 	def test_setup_player4TBL (self):
 		sg = startinggame ()
 		sg.BoardTBL ('testboard.txt')
-		sg.pddTBL ('testboard.txt')
+		sg.pddTBL ()
 		sg.edTBL('testevent.txt' )
 		sg.shufpd(4)
 		sg.player4TBL(4)
@@ -218,7 +218,7 @@ class T( unittest.TestCase ):
 	def test_setup_player1TBL (self):
 		sg = startinggame ()
 		sg.BoardTBL ('testboard.txt')
-		sg.pddTBL ('testboard.txt')
+		sg.pddTBL ()
 		sg.edTBL('testevent.txt' )
 		sg.shufpd(1)
 		sg.player1TBL(1)
@@ -241,7 +241,7 @@ class T( unittest.TestCase ):
 	def test_setup_shufpd (self):
 		sg = startinggame ()
 		sg.BoardTBL ('testboard.txt')
-		sg.pddTBL ('testboard.txt')
+		sg.pddTBL ()
 		sg.edTBL('testevent.txt' )
 		sg.shufpd(3)
 		with sqlite3.connect('pandemic.db') as conn:
@@ -274,7 +274,7 @@ class T( unittest.TestCase ):
 	def test_setup_sginfect (self):
 		sg = startinggame ()
 		sg.BoardTBL ('testboard.txt')
-		sg.idTBL('testboard.txt' )
+		sg.idTBL( )
 		sg.iddTBL ( )
 		sg.shufid ( )
 		sg.sginfect ( )
@@ -303,7 +303,7 @@ class T( unittest.TestCase ):
                 it = inaturn ()
                 sg = startinggame ()
                 sg.BoardTBL ('testboard.txt')
-                sg.idTBL('testboard.txt' )
+                sg.idTBL()
 		sg.iddTBL ()
                 sg.shufid ( )
                 it.infectcities (2)
@@ -333,7 +333,7 @@ class T( unittest.TestCase ):
         def test_setup_epTBL (self):
                 sg = startinggame ()
                 sg.BoardTBL ('testboard.txt')
-                sg.pddTBL ('testboard.txt')
+                sg.pddTBL ()
                 sg.edTBL('testevent.txt' )
 		sg.pdTBL ()
                 sg.shufpd(3)
@@ -348,3 +348,15 @@ class T( unittest.TestCase ):
 		ranswer2 = int(answer2)
                 self.assertEqual(answer1,'Ep2','The second epidemic card cannot be found')
                 self.assertLess(ranswer2,501,'The pos of the second epidemic card is not right')
+
+# This checks the starting the game def
+	def test_startnewgame (self):
+		sg = startinggame ()
+		sg.startnewgame (2,'testboard.txt',4,'testevent.txt')
+		with sqlite3.connect('pandemic.db') as conn:
+                        cursor = conn.cursor()
+                        tobedone = """SELECT rstation,player1,player2,player4 FROM boardTBL WHERE name is 'Atlanta'; """
+                        cursor.execute( tobedone)
+                        answerX = cursor.fetchone ( )
+                self.assertEqual(answerX,(1, 1, 1, 0),'Something wrong with research station and player placement')
+
