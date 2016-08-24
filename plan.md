@@ -8,7 +8,7 @@ So to set up the game and visualise it I'm going to have python create 12 tables
 
 After this 4 more tables will be created for the 2 main decks and their discard piles. 
 
-Smaller tables for the event, epidemic and charater cards will also be created.
+Smaller tables for the event, epidemic and charater cards will also be created, but these are only for the setup of the game.
 
 Each card will be given a unique random number from 1-72 which denotes it's position in either the player or infection deck, apart from charater cards, which will instead each get a unique random number from 1-4 depending on the number of players.
 
