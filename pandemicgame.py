@@ -103,18 +103,15 @@ class startinggame:
 			"pos");'''
 			cursor.execute( tobedone )
 			conn.commit()
-			infectfile = open(infect,'r') 
-			for line in infectfile:
-				with sqlite3.connect('pandemic.db') as conn:
-		            		tobedone = """INSERT INTO idTBL (name) select name from BoardTBL;""" 
-		            		cursor.execute( tobedone )
-					conn.commit()
-		            		tobedone = """UPDATE idTBL SET pos = 0;""" 
-		            		cursor.execute( tobedone )
-					conn.commit()
+		        tobedone = """INSERT INTO idTBL (name) select name from BoardTBL;""" 
+		        cursor.execute( tobedone )
+			conn.commit()
+		        tobedone = """UPDATE idTBL SET pos = 0;""" 
+		        cursor.execute( tobedone )
+			conn.commit()
 
 # This sets up the infection deck discard pile
-	def iddTBL (self,infect):
+	def iddTBL (self):
 		with sqlite3.connect('pandemic.db') as conn:
 	            	cursor = conn.cursor()
 	            	tobedone = 'DROP TABLE if exists iddTBL;'
@@ -527,22 +524,69 @@ class startinggame:
 
 	def sginfect (self):
 		it = inaturn ()
-		it.infectcities (3)
-		it.infectcities (2)
-		it.infectcities (1)
+		it.infectcities (9)
 
 class inaturn:
 # This def infects cities at a given rate.
 	def infectcities (self, rate):
-		with sqlite3.connect('pandemic.db') as conn:
-			cursor = conn.cursor()
-		       	tobedone = 'SELECT name,pos from shufid limit %s ORDER BY pos ASC;'
-			answerX = cursor.fetchall ( )
-			answer1 = [0]
-			print answerX
-			print answer1
+		ci = 0
+		while ci < rate:
+			with sqlite3.connect('pandemic.db') as conn:
+				cursor = conn.cursor()
+			       	tobedone = """SELECT name,pos from shufid ORDER BY pos ASC;"""
+				cursor.execute( tobedone)
+				answerX = cursor.fetchone ( )
+				answer1 = answerX [0] # this is the name of the card in the id
+				answer2 = answerX [1] # this is the pos of the card in the id
+			       	tobedone = """SELECT name,colour,ucube,bcube,rcube,ycube,pcube from BoardTBL where name is '%s';""" % (answer1)
+				cursor.execute( tobedone)
+				answerY = cursor.fetchone ( )
+				answer3 = answerY [0] #name of place
+				answer4 = answerY [1] #colour
+				answer5 = answerY [2] #blue cubes
+				answer6 = answerY [3] #black cubes
+				answer7 = answerY [4] #red cubes
+				answer8 = answerY [5] #yellow cubes
+				answer9 = answerY [6] #purple cubes
+				if answer4 == 'u':
+					newcubes = answer5 + 1
+					tobedone = """UPDATE BoardTBL SET ucube = %s WHERE name is '%s'; """ % (newcubes,answer3)	
+					cursor.execute (tobedone)
+					conn.commit ()
+						
+				elif answer4 == 'b':
+					newcubes = answer6 + 1
+					tobedone = """UPDATE BoardTBL SET bcube = %s WHERE name is '%s'; """ % (newcubes,answer3)	
+					cursor.execute (tobedone)
+					conn.commit ()
+						
+				elif answer4 == 'r':
+					newcubes = answer7 + 1
+					tobedone = """UPDATE BoardTBL SET rcube = %s WHERE name is '%s'; """ % (newcubes,answer3)	
+					cursor.execute (tobedone)
+					conn.commit ()
+						
+				elif answer4 == 'y':
+					newcubes = answer8 + 1
+					tobedone = """UPDATE BoardTBL SET ycube = %s WHERE name is '%s'; """ % (newcubes,answer3)	
+					cursor.execute (tobedone)
+					conn.commit ()
+						
+				elif answer4 == 'p':
+					newcubes = answer9 + 1
+					tobedone = """UPDATE BoardTBL SET pcube = %s WHERE name is '%s'; """ % (newcubes,answer3)	
+					cursor.execute (tobedone)
+					conn.commit ()
+						
+				else:
+					print "something has gone wrong"
 
-
+				ci = ci + 1
+		        	tobedone = """DELETE FROM shufid WHERE name is '%s';""" % (answer3)
+	       		     	cursor.execute( tobedone )
+				tobedone = """INSERT INTO iddTBL (name) VALUES ('%s')""" % (answer3)
+	       		     	cursor.execute( tobedone )
+				conn.commit()
 
 
 #	        	tobedone = 'INSERT INTO player3TBL (name) select name from shufpd ORDER BY pos DESC limit 3;'
