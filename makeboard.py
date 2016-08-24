@@ -509,4 +509,18 @@ class startinggame:
 	            	cursor.execute( tobedone )
 			conn.commit()
 			
-		
+	def gsTBL (self, players):
+		with sqlite3.connect('pandemic.db') as conn:
+			cursor = conn.cursor()
+		       	tobedone = 'DROP TABLE if exists gsTBL;'
+		       	cursor.execute( tobedone )
+			conn.commit()
+			tobedone = '''CREATE TABLE gsTBL(
+			"ir",
+			"oc",
+			"players");'''
+			cursor.execute( tobedone )
+			conn.commit()
+			tobedone = """INSERT INTO gsTBL (ir,oc,players) VALUES (2,0,%s)""" % (players)
+			cursor.execute( tobedone)
+			conn.commit()
