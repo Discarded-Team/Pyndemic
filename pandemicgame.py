@@ -661,10 +661,10 @@ class startinggame:
 		if players == 2:
 			print "Drawing a hand for player Two"
 			sg.player2TBL (players)
-		if players == 3:
+		elif players == 3:
 			print "Drawing a hand for player Three"
 			sg.player3TBL (players)
-		if players == 4:
+		elif players == 4:
 			print "Drawing a hand for player Four"
 			sg.player4TBL (players)
 		else:
@@ -686,7 +686,7 @@ class startinggame:
 		sg.sginfect ()
 		print "shuffling Epidemic cards into the infection deck"
 		sg.epTBL (epidemics)
-		print "this hasn't worked!!!!"
+		print "Time to start the game!"
 
 class inaturn:
 # This def infects cities at a given rate.
