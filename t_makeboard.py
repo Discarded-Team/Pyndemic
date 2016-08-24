@@ -62,13 +62,14 @@ class T( unittest.TestCase ):
 		sg.idTBL('testboard.txt' )
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
-			tobedone = 'SELECT name,pos FROM idTBL;'
+			tobedone = 'SELECT name,pos FROM idTBL WHERE pos > 10;'
 			cursor.execute( tobedone)
 			answerX = cursor.fetchone ( )
 			answer0 = answerX [0]
 			answer1 = answerX [1]
 		self.assertNotEqual(answer0,None,'The table for the infection deck has no name column.')
-		self.assertNotEqual(answer1,None,'The table for the infection deck has no position in the deck column.')
+                self.assertGreater(answer1,'0','The pos of the cards in the infection deck is not right')
+                self.assertLess(answer1,'501','The pos of the cards in the infection deck is not right')
 
 # This def tests that the table with the infection deck discard pile has been setup.
 	def test_setup_iddTBL (self):
@@ -135,7 +136,7 @@ class T( unittest.TestCase ):
 		sg.BoardTBL ('testboard.txt')
 		sg.pddTBL ('testboard.txt')
 		sg.edTBL('testevent.txt' )
-		sg.shuf(2)
+		sg.shufpd(2)
 		sg.player2TBL(2)
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
@@ -143,7 +144,7 @@ class T( unittest.TestCase ):
 			cursor.execute(tobedone)
 			answerX = cursor.fetchone ( )
 			answer0 = answerX [0]
-			tobedone = 'SELECT * FROM shuf ORDER BY pos ASC;'
+			tobedone = 'SELECT * FROM shufpd ORDER BY pos ASC;'
 			cursor.execute( tobedone)
 			answerY = cursor.fetchone ( )
 			answer1 = answerY [0]
@@ -158,7 +159,7 @@ class T( unittest.TestCase ):
 		sg.BoardTBL ('testboard.txt')
 		sg.pddTBL ('testboard.txt')
 		sg.edTBL('testevent.txt' )
-		sg.shuf(3)
+		sg.shufpd(3)
 		sg.player3TBL(3)
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
@@ -166,7 +167,7 @@ class T( unittest.TestCase ):
 			cursor.execute(tobedone)
 			answerX = cursor.fetchone ( )
 			answer0 = answerX [0]
-			tobedone = 'SELECT * FROM shuf ORDER BY pos ASC;'
+			tobedone = 'SELECT * FROM shufpd ORDER BY pos ASC;'
 			cursor.execute( tobedone)
 			answerY = cursor.fetchone ( )
 			answer1 = answerY [0]
@@ -179,7 +180,7 @@ class T( unittest.TestCase ):
 		sg.BoardTBL ('testboard.txt')
 		sg.pddTBL ('testboard.txt')
 		sg.edTBL('testevent.txt' )
-		sg.shuf(4)
+		sg.shufpd(4)
 		sg.player4TBL(4)
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
@@ -187,7 +188,7 @@ class T( unittest.TestCase ):
 			cursor.execute(tobedone)
 			answerX = cursor.fetchone ( )
 			answer0 = answerX [0]
-			tobedone = 'SELECT * FROM shuf ORDER BY pos ASC;'
+			tobedone = 'SELECT * FROM shufpd ORDER BY pos ASC;'
 			cursor.execute( tobedone)
 			answerY = cursor.fetchone ( )
 			answer1 = answerY [0]
@@ -201,7 +202,7 @@ class T( unittest.TestCase ):
 		sg.BoardTBL ('testboard.txt')
 		sg.pddTBL ('testboard.txt')
 		sg.edTBL('testevent.txt' )
-		sg.shuf(1)
+		sg.shufpd(1)
 		sg.player1TBL(1)
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
@@ -209,7 +210,7 @@ class T( unittest.TestCase ):
 			cursor.execute(tobedone)
 			answerX = cursor.fetchone ( )
 			answer0 = answerX [0]
-			tobedone = 'SELECT * FROM shuf ORDER BY pos ASC;'
+			tobedone = 'SELECT * FROM shufpd ORDER BY pos ASC;'
 			cursor.execute( tobedone)
 			answerY = cursor.fetchone ( )
 			answer1 = answerY [0]
@@ -223,11 +224,11 @@ class T( unittest.TestCase ):
                 sg.BoardTBL ('testboard.txt')
                 sg.pddTBL ('testboard.txt')
                 sg.edTBL('testevent.txt' )
-                sg.shuf(3)
+                sg.shufpd(3)
                 sg.epTBL(5)
                 with sqlite3.connect('pandemic.db') as conn:
                         cursor = conn.cursor()
-                        tobedone = '''SELECT * FROM shuf WHERE name = 'Ep2';'''
+                        tobedone = '''SELECT * FROM shufpd WHERE name = 'Ep2';'''
                         cursor.execute( tobedone)
                         answerX = cursor.fetchone ( )
                         answer1 = answerX [0]
@@ -236,21 +237,21 @@ class T( unittest.TestCase ):
                 self.assertLess(answer2,'501','The pos of the second epidemic card is not right')
 	
 # This checks the player deck has been shuffled, without epidemic cards included.
-	def test_setup_shuf (self):
+	def test_setup_shufpd (self):
 		sg = startinggame ()
 		sg.BoardTBL ('testboard.txt')
 		sg.pddTBL ('testboard.txt')
 		sg.edTBL('testevent.txt' )
-		sg.shuf(3)
+		sg.shufpd(3)
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
-			tobedone = 'SELECT pos FROM shuf;'
+			tobedone = 'SELECT pos FROM shufpd;'
 			cursor.execute( tobedone)
 			answerX = cursor.fetchall ( )
 			answer0 = answerX [0]
 			answer1 = answerX [1]
-		self.assertNotEqual(answer0,0,'The deck has not shuffled correctly.')
-		self.assertNotEqual(answer1,0,'The deck has not shuffled correctly.')
+		self.assertNotEqual(answer0,0,'The deck has not shufpdfled correctly.')
+		self.assertNotEqual(answer1,0,'The deck has not shufpdfled correctly.')
 
 
 #9 infection cards are drawn, and then discarded.

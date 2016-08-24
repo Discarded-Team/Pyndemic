@@ -192,22 +192,22 @@ class startinggame:
 
 
 # This sets up the shuffled player deck (with event cards)
-	def shuf (self,nplayers):
+	def shufpd (self,nplayers):
 		with sqlite3.connect('pandemic.db') as conn:
 			nevents = 2* nplayers
 	            	cursor = conn.cursor()
-	            	tobedone = 'DROP TABLE if exists shuf;'
+	            	tobedone = 'DROP TABLE if exists shufpd;'
 	            	cursor.execute( tobedone )
 			conn.commit()
-			tobedone = '''CREATE TABLE shuf(
+			tobedone = '''CREATE TABLE shufpd(
 			"name",
 			"pos");'''
 			cursor.execute( tobedone )
 			conn.commit()
-		        tobedone = """INSERT INTO shuf (name,pos) select name,pos from edTBL limit %s;""" % (nevents) 
+		        tobedone = """INSERT INTO shufpd (name,pos) select name,pos from edTBL limit %s;""" % (nevents) 
 	  		cursor.execute( tobedone )
 			conn.commit()
-	        	tobedone = """INSERT INTO shuf (name,pos) select name,ABS(RANDOM() % 500) from pdTBL;""" 
+	        	tobedone = """INSERT INTO shufpd (name,pos) select name,ABS(RANDOM() % 500) from pdTBL;""" 
 	  		cursor.execute( tobedone )
 			conn.commit()
 
@@ -223,15 +223,15 @@ class startinggame:
 				"name");'''
 				cursor.execute( tobedone )
 				conn.commit()
-		        	tobedone = 'INSERT INTO player1TBL (name) select name from shuf ORDER BY pos DESC limit 6;'
+		        	tobedone = 'INSERT INTO player1TBL (name) select name from shufpd ORDER BY pos DESC limit 6;'
 	       		     	cursor.execute( tobedone )
-		        	tobedone = 'SELECT pos FROM shuf ORDER BY pos DESC limit 6;'
+		        	tobedone = 'SELECT pos FROM shufpd ORDER BY pos DESC limit 6;'
 	       		     	cursor.execute( tobedone )
 				conn.commit()
 				answerX = cursor.fetchall ( )
 				answer1 = answerX [6]
 				funny1 = answer1 [0]
-		        	tobedone = """DELETE FROM shuf WHERE pos >= %s;""" % (funny1)
+		        	tobedone = """DELETE FROM shufpd WHERE pos >= %s;""" % (funny1)
 	       		     	cursor.execute( tobedone )
 				conn.commit()
 
@@ -245,15 +245,15 @@ class startinggame:
 				"name");'''
 				cursor.execute( tobedone )
 				conn.commit()
-		        	tobedone = 'INSERT INTO player1TBL (name) select name from shuf ORDER BY pos DESC limit 4;'
+		        	tobedone = 'INSERT INTO player1TBL (name) select name from shufpd ORDER BY pos DESC limit 4;'
 	       		     	cursor.execute( tobedone )
-		        	tobedone = 'SELECT pos FROM shuf ORDER BY pos DESC limit 4;'
+		        	tobedone = 'SELECT pos FROM shufpd ORDER BY pos DESC limit 4;'
 	       		     	cursor.execute( tobedone )
 				conn.commit()
 				answerX = cursor.fetchall ( )
 				answer1 = answerX [4]
 				funny1 = answer1 [0]
-		        	tobedone = """DELETE FROM shuf WHERE pos >= %s;""" % (funny1)
+		        	tobedone = """DELETE FROM shufpd WHERE pos >= %s;""" % (funny1)
 	       		     	cursor.execute( tobedone )
 				conn.commit()
 
@@ -267,15 +267,15 @@ class startinggame:
 				"name");'''
 				cursor.execute( tobedone )
 				conn.commit()
-		        	tobedone = 'INSERT INTO player1TBL (name) select name from shuf ORDER BY pos DESC limit 3;'
+		        	tobedone = 'INSERT INTO player1TBL (name) select name from shufpd ORDER BY pos DESC limit 3;'
 	       		     	cursor.execute( tobedone )
-		        	tobedone = 'SELECT pos FROM shuf ORDER BY pos DESC limit 3;'
+		        	tobedone = 'SELECT pos FROM shufpd ORDER BY pos DESC limit 3;'
 	       		     	cursor.execute( tobedone )
 				conn.commit()
 				answerX = cursor.fetchall ( )
 				answer1 = answerX [3]
 				funny1 = answer1 [0]
-		        	tobedone = """DELETE FROM shuf WHERE pos >= %s;""" % (funny1)
+		        	tobedone = """DELETE FROM shufpd WHERE pos >= %s;""" % (funny1)
 	       		     	cursor.execute( tobedone )
 				conn.commit()
 
@@ -289,15 +289,15 @@ class startinggame:
 				"name");'''
 				cursor.execute( tobedone )
 				conn.commit()
-		        	tobedone = 'INSERT INTO player1TBL (name) select name from shuf ORDER BY pos DESC limit 2;'
+		        	tobedone = 'INSERT INTO player1TBL (name) select name from shufpd ORDER BY pos DESC limit 2;'
 	       		     	cursor.execute( tobedone )
-		        	tobedone = 'SELECT pos FROM shuf ORDER BY pos DESC limit 2;'
+		        	tobedone = 'SELECT pos FROM shufpd ORDER BY pos DESC limit 2;'
 	       		     	cursor.execute( tobedone )
 				conn.commit()
 				answerX = cursor.fetchall ( )
 				answer1 = answerX [2]
 				funny1 = answer1 [0]
-		        	tobedone = """DELETE FROM shuf WHERE pos >= %s;""" % (funny1)
+		        	tobedone = """DELETE FROM shufpd WHERE pos >= %s;""" % (funny1)
 	       		     	cursor.execute( tobedone )
 				conn.commit()
 		else:
@@ -315,16 +315,16 @@ class startinggame:
 			"name");'''
 			cursor.execute( tobedone )
 			conn.commit()
-	        	tobedone = 'INSERT INTO player4TBL (name) select name from shuf ORDER BY pos DESC limit 2;'
+	        	tobedone = 'INSERT INTO player4TBL (name) select name from shufpd ORDER BY pos DESC limit 2;'
        		     	cursor.execute( tobedone )
-	        	tobedone = 'SELECT pos FROM shuf ORDER BY pos DESC limit 2;'
+	        	tobedone = 'SELECT pos FROM shufpd ORDER BY pos DESC limit 2;'
        		     	cursor.execute( tobedone )
 			conn.commit()
 			answerX = cursor.fetchall ( )
 			answer1 = answerX [2]
 
 			funny1 = answer1 [0]
-	        	tobedone = """DELETE FROM shuf WHERE pos >= %s;""" % (funny1)
+	        	tobedone = """DELETE FROM shufpd WHERE pos >= %s;""" % (funny1)
        		     	cursor.execute( tobedone )
 			conn.commit()
 
@@ -341,15 +341,15 @@ class startinggame:
 				"name");'''
 				cursor.execute( tobedone )
 				conn.commit()
-		        	tobedone = 'INSERT INTO player2TBL (name) select name from shuf ORDER BY pos DESC limit 4;'
+		        	tobedone = 'INSERT INTO player2TBL (name) select name from shufpd ORDER BY pos DESC limit 4;'
 	       		     	cursor.execute( tobedone )
-		        	tobedone = 'SELECT pos FROM shuf ORDER BY pos DESC limit 4;'
+		        	tobedone = 'SELECT pos FROM shufpd ORDER BY pos DESC limit 4;'
 	       		     	cursor.execute( tobedone )
 				conn.commit()
 				answerX = cursor.fetchall ( )
 				answer1 = answerX [4]
 				funny1 = answer1 [0]
-		        	tobedone = """DELETE FROM shuf WHERE pos >= %s;""" % (funny1)
+		        	tobedone = """DELETE FROM shufpd WHERE pos >= %s;""" % (funny1)
 
 	       		     	cursor.execute( tobedone )
 				conn.commit()
@@ -364,15 +364,15 @@ class startinggame:
 				"name");'''
 				cursor.execute( tobedone )
 				conn.commit()
-		        	tobedone = 'INSERT INTO player2TBL (name) select name from shuf ORDER BY pos DESC limit 3;'
+		        	tobedone = 'INSERT INTO player2TBL (name) select name from shufpd ORDER BY pos DESC limit 3;'
 	       		     	cursor.execute( tobedone )
-		        	tobedone = 'SELECT pos FROM shuf ORDER BY pos DESC limit 3;'
+		        	tobedone = 'SELECT pos FROM shufpd ORDER BY pos DESC limit 3;'
 	       		     	cursor.execute( tobedone )
 				conn.commit()
 				answerX = cursor.fetchall ( )
 				answer1 = answerX [3]
 				funny1 = answer1 [0]
-		        	tobedone = """DELETE FROM shuf WHERE pos >= %s;""" % (funny1)
+		        	tobedone = """DELETE FROM shufpd WHERE pos >= %s;""" % (funny1)
 	       		     	cursor.execute( tobedone )
 				conn.commit()
 
@@ -386,15 +386,15 @@ class startinggame:
 				"name");'''
 				cursor.execute( tobedone )
 				conn.commit()
-		        	tobedone = 'INSERT INTO player2TBL (name) select name from shuf ORDER BY pos DESC limit 2;'
+		        	tobedone = 'INSERT INTO player2TBL (name) select name from shufpd ORDER BY pos DESC limit 2;'
 	       		     	cursor.execute( tobedone )
-		        	tobedone = 'SELECT pos FROM shuf ORDER BY pos DESC limit 2;'
+		        	tobedone = 'SELECT pos FROM shufpd ORDER BY pos DESC limit 2;'
 	       		     	cursor.execute( tobedone )
 				conn.commit()
 				answerX = cursor.fetchall ( )
 				answer1 = answerX [2]
 				funny1 = answer1 [0]
-		        	tobedone = """DELETE FROM shuf WHERE pos >= %s;""" % (funny1)
+		        	tobedone = """DELETE FROM shufpd WHERE pos >= %s;""" % (funny1)
 	       		     	cursor.execute( tobedone )
 				conn.commit()
 		else:
@@ -413,15 +413,15 @@ class startinggame:
 				"name");'''
 				cursor.execute( tobedone )
 				conn.commit()
-		        	tobedone = 'INSERT INTO player3TBL (name) select name from shuf ORDER BY pos DESC limit 3;'
+		        	tobedone = 'INSERT INTO player3TBL (name) select name from shufpd ORDER BY pos DESC limit 3;'
 	       		     	cursor.execute( tobedone )
-		        	tobedone = 'SELECT pos FROM shuf ORDER BY pos DESC limit 3;'
+		        	tobedone = 'SELECT pos FROM shufpd ORDER BY pos DESC limit 3;'
 	       		     	cursor.execute( tobedone )
 				conn.commit()
 				answerX = cursor.fetchall ( )
 				answer1 = answerX [3]
 				funny1 = answer1 [0]
-		        	tobedone = """DELETE FROM shuf WHERE pos >= %s;""" % (funny1)
+		        	tobedone = """DELETE FROM shufpd WHERE pos >= %s;""" % (funny1)
 	       		     	cursor.execute( tobedone )
 				conn.commit()
 
@@ -435,15 +435,15 @@ class startinggame:
 				"name");'''
 				cursor.execute( tobedone )
 				conn.commit()
-		        	tobedone = 'INSERT INTO player3TBL (name) select name from shuf ORDER BY pos DESC limit 2;'
+		        	tobedone = 'INSERT INTO player3TBL (name) select name from shufpd ORDER BY pos DESC limit 2;'
 	       		     	cursor.execute( tobedone )
-		        	tobedone = 'SELECT pos FROM shuf ORDER BY pos DESC limit 2;'
+		        	tobedone = 'SELECT pos FROM shufpd ORDER BY pos DESC limit 2;'
 	       		     	cursor.execute( tobedone )
 				conn.commit()
 				answerX = cursor.fetchall ( )
 				answer1 = answerX [2]
 				funny1 = answer1 [0]
-		        	tobedone = """DELETE FROM shuf WHERE pos >= %s;""" % (funny1)
+		        	tobedone = """DELETE FROM shufpd WHERE pos >= %s;""" % (funny1)
 	       		     	cursor.execute( tobedone )
 				conn.commit()
 		else:
@@ -465,7 +465,7 @@ class startinggame:
 			"pos");'''
 			cursor.execute( tobedone )
 			conn.commit()
-		        tobedone = """SELECT COUNT (name) FROM shuf;""" 
+		        tobedone = """SELECT COUNT (name) FROM shufpd;""" 
 	  		cursor.execute( tobedone )
 			conn.commit()
 			answerX = cursor.fetchone ( )
@@ -473,7 +473,7 @@ class startinggame:
 			npile = thingy / nep
 			numberofcardsinapile = int(npile)
 			while epidemicsaddedtopack < nep+1:
-		      	 	tobedone = """SELECT pos FROM shuf ORDER BY pos ASC;""" 
+		      	 	tobedone = """SELECT pos FROM shufpd ORDER BY pos ASC;""" 
 	  			cursor.execute( tobedone )
 				conn.commit()
 				whichcard = numberofcardsinapile * epidemicsaddedtopack 
@@ -487,7 +487,7 @@ class startinggame:
 				epidemicsaddedtopack = epidemicsaddedtopack + 1
 				maxposold = maxposnew
 	            	cursor = conn.cursor()
-	            	tobedone = 'INSERT INTO shuf (name,pos) SELECT * from epTBL;'
+	            	tobedone = 'INSERT INTO shufpd (name,pos) SELECT * from epTBL;'
 	            	cursor.execute( tobedone )
 			conn.commit()
 			
