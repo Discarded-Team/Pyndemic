@@ -1,6 +1,6 @@
 import unittest
 import sqlite3
-from makeboard import startinggame
+from pandemicgame import startinggame
 
 
 class T( unittest.TestCase ):
