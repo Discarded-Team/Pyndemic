@@ -525,6 +525,85 @@ class startinggame:
 	def sginfect (self):
 		it = inaturn ()
 		it.infectcities (9)
+		with sqlite3.connect('pandemic.db') as conn:
+			cursor = conn.cursor()
+			tobedone = """SELECT name from BoardTBL WHERE rcube >= 1 or bcube >= 1 or ycube >= 1 or pcube >= 1 or ucube >= 1 limit 6;"""
+			cursor.execute(tobedone)
+			answerX = cursor.fetchall ( )
+			answer4 = answerX [3]
+			answer5 = answerX [4]
+			answer6 = answerX [5]
+			answer4r = answer4 [0]
+			answer5r = answer5 [0]
+			answer6r = answer6 [0]
+			answer1 = answerX [0]
+			answer2 = answerX [1]
+			answer3 = answerX [2]
+			answer1r = answer1 [0]
+			answer2r = answer2 [0]
+			answer3r = answer3 [0]
+			tobedone = """UPDATE BoardTBL SET rcube = 2 where rcube = 1 and name is '%s' """ % (answer1r)
+			cursor.execute( tobedone)
+			tobedone = """UPDATE BoardTBL SET bcube = 2 where bcube = 1 and name is '%s' """ % (answer1r)
+			cursor.execute( tobedone)
+			tobedone = """UPDATE BoardTBL SET ycube = 2 where ycube = 1 and name is '%s' """ % (answer1r)
+			cursor.execute( tobedone)
+			tobedone = """UPDATE BoardTBL SET ucube = 2 where ucube = 1 and name is '%s' """ % (answer1r)
+			cursor.execute( tobedone)
+			tobedone = """UPDATE BoardTBL SET pcube = 2 where pcube = 1 and name is '%s' """ % (answer1r)
+			cursor.execute( tobedone)
+			tobedone = """UPDATE BoardTBL SET rcube = 2 where rcube = 1 and name is '%s' """ % (answer2r)
+			cursor.execute( tobedone)
+			tobedone = """UPDATE BoardTBL SET bcube = 2 where bcube = 1 and name is '%s' """ % (answer2r)
+			cursor.execute( tobedone)
+			tobedone = """UPDATE BoardTBL SET ycube = 2 where ycube = 1 and name is '%s' """ % (answer2r)
+			cursor.execute( tobedone)
+			tobedone = """UPDATE BoardTBL SET ucube = 2 where ucube = 1 and name is '%s' """ % (answer2r)
+			cursor.execute( tobedone)
+			tobedone = """UPDATE BoardTBL SET pcube = 2 where pcube = 1 and name is '%s' """ % (answer2r)
+			cursor.execute( tobedone)
+			tobedone = """UPDATE BoardTBL SET rcube = 2 where rcube = 1 and name is '%s' """ % (answer3r)
+			cursor.execute( tobedone)
+			tobedone = """UPDATE BoardTBL SET bcube = 2 where bcube = 1 and name is '%s' """ % (answer3r)
+			cursor.execute( tobedone)
+			tobedone = """UPDATE BoardTBL SET ycube = 2 where ycube = 1 and name is '%s' """ % (answer3r)
+			cursor.execute( tobedone)
+			tobedone = """UPDATE BoardTBL SET ucube = 2 where ucube = 1 and name is '%s' """ % (answer3r)
+			cursor.execute( tobedone)
+			tobedone = """UPDATE BoardTBL SET pcube = 2 where pcube = 1 and name is '%s' """ % (answer3r)
+			cursor.execute( tobedone)
+			tobedone = """UPDATE BoardTBL SET rcube = 3 where rcube = 1 and name is '%s' """ % (answer4r)
+			cursor.execute( tobedone)
+			tobedone = """UPDATE BoardTBL SET bcube = 3 where bcube = 1 and name is '%s' """ % (answer4r)
+			cursor.execute( tobedone)
+			tobedone = """UPDATE BoardTBL SET ycube = 3 where ycube = 1 and name is '%s' """ % (answer4r)
+			cursor.execute( tobedone)
+			tobedone = """UPDATE BoardTBL SET ucube = 3 where ucube = 1 and name is '%s' """ % (answer4r)
+			cursor.execute( tobedone)
+			tobedone = """UPDATE BoardTBL SET pcube = 3 where pcube = 1 and name is '%s' """ % (answer4r)
+			cursor.execute( tobedone)
+			tobedone = """UPDATE BoardTBL SET rcube = 3 where rcube = 1 and name is '%s' """ % (answer5r)
+			cursor.execute( tobedone)
+			tobedone = """UPDATE BoardTBL SET bcube = 3 where bcube = 1 and name is '%s' """ % (answer5r)
+			cursor.execute( tobedone)
+			tobedone = """UPDATE BoardTBL SET ycube = 3 where ycube = 1 and name is '%s' """ % (answer5r)
+			cursor.execute( tobedone)
+			tobedone = """UPDATE BoardTBL SET ucube = 3 where ucube = 1 and name is '%s' """ % (answer5r)
+			cursor.execute( tobedone)
+			tobedone = """UPDATE BoardTBL SET pcube = 3 where pcube = 1 and name is '%s' """ % (answer5r)
+			cursor.execute( tobedone)
+			tobedone = """UPDATE BoardTBL SET rcube = 3 where rcube = 1 and name is '%s' """ % (answer6r)
+			cursor.execute( tobedone)
+			tobedone = """UPDATE BoardTBL SET bcube = 3 where bcube = 1 and name is '%s' """ % (answer6r)
+			cursor.execute( tobedone)
+			tobedone = """UPDATE BoardTBL SET ycube = 3 where ycube = 1 and name is '%s' """ % (answer6r)
+			cursor.execute( tobedone)
+			tobedone = """UPDATE BoardTBL SET ucube = 3 where ucube = 1 and name is '%s' """ % (answer6r)
+			cursor.execute( tobedone)
+			tobedone = """UPDATE BoardTBL SET pcube = 3 where pcube = 1 and name is '%s' """ % (answer6r)
+			cursor.execute( tobedone)
+			conn.commit()
+			
 
 class inaturn:
 # This def infects cities at a given rate.
