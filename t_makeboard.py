@@ -60,16 +60,17 @@ class T( unittest.TestCase ):
 	def test_setup_idTBL (self):
 		sg = startinggame ()
 		sg.idTBL('testboard.txt' )
+		sg.shufid ( )
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
-			tobedone = 'SELECT name,pos FROM idTBL WHERE pos > 10;'
+			tobedone = 'SELECT name,pos FROM shufid WHERE pos > 10;'
 			cursor.execute( tobedone)
 			answerX = cursor.fetchone ( )
 			answer0 = answerX [0]
 			answer1 = answerX [1]
 		self.assertNotEqual(answer0,None,'The table for the infection deck has no name column.')
-                self.assertGreater(answer1,'0','The pos of the cards in the infection deck is not right')
-                self.assertLess(answer1,'501','The pos of the cards in the infection deck is not right')
+                self.assertGreater(answer1,0,'The pos of the cards in the infection deck is not right')
+                self.assertLess(answer1,501,'The pos of the cards in the infection deck is not right')
 
 # This def tests that the table with the infection deck discard pile has been setup.
 	def test_setup_iddTBL (self):

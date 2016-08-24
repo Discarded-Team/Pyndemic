@@ -211,6 +211,24 @@ class startinggame:
 	  		cursor.execute( tobedone )
 			conn.commit()
 
+# This sets up the shuffled infection deck
+	def shufid (self):
+		with sqlite3.connect('pandemic.db') as conn:
+	            	cursor = conn.cursor()
+	            	tobedone = 'DROP TABLE if exists shufid;'
+	            	cursor.execute( tobedone )
+			conn.commit()
+			tobedone = '''CREATE TABLE shufid(
+			"name",
+			"pos");'''
+			cursor.execute( tobedone )
+			conn.commit()
+	        	tobedone = """INSERT INTO shufid (name,pos) select name,ABS(RANDOM() % 500) from idTBL;""" 
+	  		cursor.execute( tobedone )
+			conn.commit()
+
+
+
 # This def draws a hand for player1
 	def player1TBL (self,nplayers):
 		if nplayers == 1:
