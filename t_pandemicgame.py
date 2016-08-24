@@ -6,7 +6,7 @@ from pandemicgame import inaturn
 class T( unittest.TestCase ):
 
 # This checks the players have been put in the right starting locations
-	def test_setup_sginfect (self):
+	def test_setup_sglocals (self):
 		sg = startinggame ()
 		sg.BoardTBL ('testboard.txt')
 		sg.startinglocals (3)
