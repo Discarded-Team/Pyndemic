@@ -218,20 +218,22 @@ class T( unittest.TestCase ):
 
 
 # This checks the character cards table has been set up.
-	def test_setup_epTBL (self):
-		sg = startinggame ()
-		sg.BoardTBL ('testboard.txt')
-		sg.pddTBL ('testboard.txt')
-		sg.edTBL('testevent.txt' )
-		sg.shuf(3)
-		sg.epTBL(5)
-		with sqlite3.connect('pandemic.db') as conn:
-			cursor = conn.cursor()
-			tobedone = 'SELECT name FROM epTBL;'
-			cursor.execute( tobedone)
-			answerX = cursor.fetchone ( )
-		self.assertNotEqual(answerX,None,'The table for the epidemic cards has no name column.')
-		self.assertEqual(answerX,None,'The table for the epidemic cards cards deck has no position in the deck column.')
+        def test_setup_epTBL (self):
+                sg = startinggame ()
+                sg.BoardTBL ('testboard.txt')
+                sg.pddTBL ('testboard.txt')
+                sg.edTBL('testevent.txt' )
+                sg.shuf(3)
+                sg.epTBL(5)
+                with sqlite3.connect('pandemic.db') as conn:
+                        cursor = conn.cursor()
+                        tobedone = '''SELECT * FROM shuf WHERE name = 'Ep2';'''
+                        cursor.execute( tobedone)
+                        answerX = cursor.fetchone ( )
+                        answer1 = answerX [0]
+                        answer2 = answerX [1]
+                self.assertEqual(answer1,'Ep2','The second epidemic card cannot be found')
+                self.assertLess(answer2,'501','The pos of the second epidemic card is not right')
 	
 # This checks the player deck has been shuffled, without epidemic cards included.
 	def test_setup_shuf (self):

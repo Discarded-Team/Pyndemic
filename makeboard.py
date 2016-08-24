@@ -2,6 +2,7 @@
 # vim: tabstop=4 softtabstop=4 shiftwidth=4 smarttab expandtab:
 
 import sqlite3
+import random
 
 # This creates and populates the table which contains the information from the game board.
 class startinggame:
@@ -471,19 +472,23 @@ class startinggame:
 			thingy = answerX [0]
 			npile = thingy / nep
 			numberofcardsinapile = int(npile)
-			with sqlite3.connect('pandemic.db') as conn:
-		      	 	tobedone = """SELECT pos FROM shuf ORDER BY pos DESC;""" 
+			while epidemicsaddedtopack < nep+1:
+		      	 	tobedone = """SELECT pos FROM shuf ORDER BY pos ASC;""" 
 	  			cursor.execute( tobedone )
 				conn.commit()
 				whichcard = numberofcardsinapile * epidemicsaddedtopack 
 				answerZ = cursor.fetchall ()
-				print answerZ
-				print "answerZ"
-				print "whichcard"
-				print whichcard
-				print "problem"
 				posnew = answerZ [whichcard]
-				print posnew
 				maxposnew = posnew [0]
-				print maxposnew
-
+				maxposuse = random.randint(maxposold, maxposnew)
+		        	tobedone = '''INSERT INTO epTBL (name,pos) VALUES ('Ep%s','%s');''' % (epidemicsaddedtopack, maxposuse)
+				cursor.execute( tobedone )
+				conn.commit()
+				epidemicsaddedtopack = epidemicsaddedtopack + 1
+				maxposold = maxposnew
+	            	cursor = conn.cursor()
+	            	tobedone = 'INSERT INTO shuf (name,pos) SELECT * from epTBL;'
+	            	cursor.execute( tobedone )
+			conn.commit()
+			
+		
