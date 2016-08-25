@@ -193,8 +193,8 @@ class startinggame:
 			"player");'''
 			cursor.execute( tobedone )
 			conn.commit()
-			characterfile = open(character,'r') 
-			for line in characterfile:
+			eventfile = open(character,'r') 
+			for line in eventfile:
 				with sqlite3.connect('pandemic.db') as conn:
 		            		tobedone = """INSERT INTO cTBL (name,pos) VALUES (%s);""" % (line)
 		            		cursor.execute( tobedone )
@@ -202,6 +202,54 @@ class startinggame:
 			tobedone = '''UPDATE cTBL SET pos = ABS(RANDOM() % 500);'''
 			cursor.execute( tobedone )
 			conn.commit()
+
+# This gives each player an identity
+	def caTBL (self):
+		with sqlite3.connect('pandemic.db') as conn:
+	            	cursor = conn.cursor()
+	            	tobedone = """SELECT name FROM cTBL ORDER BY pos ASC limit 1;"""
+	            	cursor.execute( tobedone )
+			answerX = cursor.fetchone ()
+			answer1 = answerX [0]
+			tobedone = '''UPDATE cTBL SET player = 'player1' WHERE name is '%s' ''' % (answer1)
+			cursor.execute( tobedone )
+			conn.commit()
+			tobedone = '''UPDATE cTBL SET pos = 600 WHERE name is '%s' ''' % (answer1)
+			cursor.execute( tobedone )
+			conn.commit()
+	            	tobedone = """SELECT name FROM cTBL ORDER BY pos ASC limit 1;"""
+	            	cursor.execute( tobedone )
+			answerX = cursor.fetchone ()
+			answer1 = answerX [0]
+			tobedone = '''UPDATE cTBL SET player = 'player2' WHERE name is '%s' ''' % (answer1)
+			cursor.execute( tobedone )
+			conn.commit()
+			tobedone = '''UPDATE cTBL SET pos = 600 WHERE name is '%s' ''' % (answer1)
+			cursor.execute( tobedone )
+			conn.commit()
+	            	tobedone = """SELECT name FROM cTBL ORDER BY pos ASC limit 1;"""
+	            	cursor.execute( tobedone )
+			answerX = cursor.fetchone ()
+			answer1 = answerX [0]
+			tobedone = '''UPDATE cTBL SET player = 'player3' WHERE name is '%s' ''' % (answer1)
+			cursor.execute( tobedone )
+			conn.commit()
+			tobedone = '''UPDATE cTBL SET pos = 600 WHERE name is '%s' ''' % (answer1)
+			cursor.execute( tobedone )
+			conn.commit()
+	            	tobedone = """SELECT name FROM cTBL ORDER BY pos ASC limit 1;"""
+	            	cursor.execute( tobedone )
+			answerX = cursor.fetchone ()
+			answer1 = answerX [0]
+			tobedone = '''UPDATE cTBL SET player = 'player4' WHERE name is '%s' ''' % (answer1)
+			cursor.execute( tobedone )
+			conn.commit()
+			tobedone = '''UPDATE cTBL SET pos = 600 WHERE name is '%s' ''' % (answer1)
+			cursor.execute( tobedone )
+			conn.commit()
+			
+		
+
 
 
 # This sets up the table of disease cubes
@@ -648,7 +696,7 @@ class startinggame:
 # specified pool of character cards
 	def startnewgame (self,players,board,epidemics,event,characters):
 		sg = startinggame ()
-		print "1: Laying out the board with everything."
+		print "1. Laying out the board with everything."
 		sg.BoardTBL (board)
 		print "2. Shuffling the event cards together, so a random selection can be chosen to shuffle into the player deck."
 		sg.edTBL (event) 
@@ -662,13 +710,13 @@ class startinggame:
 		sg.cubesTBL ()
 		print "6. Drawing a hand for player One."
 		sg.player1TBL (players)
-		if players == 2:
+		if players >= 2:
 			print "Also drawing a hand for player Two."
 			sg.player2TBL (players)
-		elif players == 3:
+		if players >= 3:
 			print "Then drawing a hand for player Three."
 			sg.player3TBL (players)
-		elif players == 4:
+		if players >= 4:
 			print "Finally drawing a hand for player Four."
 			sg.player4TBL (players)
 		else:
@@ -679,7 +727,7 @@ class startinggame:
 		sg.pddTBL ()
 		print "9. Assigning player identities."
 		sg.cTBL (characters)
-		sg.caTBL (players)
+		sg.caTBL ()
 		print "10. Setting the outbreaks to Zero and the infection rate to One. Popping a research station down in Atlanta."
 		sg.gsTBL (players)
 		print "11. Creating and shuffling the infection deck."

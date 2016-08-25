@@ -1,2 +1,5 @@
 'Dispatcher',0
 'Medic',0
+'Researcher',0
+'Engineer',0
+'Scientist',0
