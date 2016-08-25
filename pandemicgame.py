@@ -711,13 +711,13 @@ class startinggame:
 		print "6. Drawing a hand for player One."
 		sg.player1TBL (players)
 		if players >= 2:
-			print "Also drawing a hand for player Two."
+			print "7a. Also drawing a hand for player Two."
 			sg.player2TBL (players)
 		if players >= 3:
-			print "Then drawing a hand for player Three."
+			print "7b. Then drawing a hand for player Three."
 			sg.player3TBL (players)
 		if players >= 4:
-			print "Finally drawing a hand for player Four."
+			print "7c. Finally drawing a hand for player Four."
 			sg.player4TBL (players)
 		else:
 			print "ONE PLAYER GAME! Not sure this'll work."
