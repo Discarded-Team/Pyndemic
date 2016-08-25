@@ -456,7 +456,7 @@ class T( unittest.TestCase ):
                 self.assertGreater(AnswerR,0,'The pos of the cards in the infection deck is not right')
                 self.assertLess(AnswerR,501,'The pos of the cards in the infection deck is not right')
 		self.assertLess(AnswerS,55,'There are too many cards in the infection deck')
-		self.assertEqual(AnswerT,None,'The table for the infection cards to be discarded into has no name column.')
+		self.assertNotEqual(AnswerT,None,'The table for the infection cards to be discarded into has no name column.')
 		self.assertNotEqual(AnswerV,None,'The table for the event cards has no name column.')
 		self.assertNotEqual(AnswerW,None,'The table for the event cards deck has no position in the deck column.')
 		self.assertEqual(AnswerAB,24,'The table for cubes has the wrong number of cubes in the red column.')
