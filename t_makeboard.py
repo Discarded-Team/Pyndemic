@@ -469,7 +469,7 @@ class T( unittest.TestCase ):
 		self.assertNotEqual(AnswerAG,AnswerAH,"""Player 1's hand has cards still in the player deck.""")
 		self.assertEqual(AnswerAJ,2,'The infection rate is not two. It should be at the start of the game.')
                 self.assertEqual(AnswerAK,0,'The number of outbreaks is not 0. It should be.')
-                self.assertEqual(AnswerAL,3,'The number of players is not 3. It should be.')
+                self.assertEqual(AnswerAL,4,'The number of players is not 4. It should be.')
 		self.assertNotEqual(AnswerAR,None,'3 countries with 3 cubes not found')
                 self.assertNotEqual(AnswerAN,None,'3 countries with 1 cubes not found')
                 self.assertNotEqual(AnswerAP,None,'3 countries with 2 cubes not found')
