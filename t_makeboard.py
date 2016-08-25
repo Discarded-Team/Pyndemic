@@ -327,10 +327,11 @@ class T( unittest.TestCase ):
 		sg.caTBL (3)
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
-			tobedone = 'SELECT name FROM BoardTBL WHERE rcube = 1 or bcube = 1 or ycube = 1 or pcube = 1 or ucube = 1;'
+			tobedone = """SELECT name FROM cTBL WHERE player = 'player3';"""
 			cursor.execute( tobedone)
-			answerX = cursor.fetchall ( )
-                self.assertEqual(answerX,(1, 1, 1, 0),'Something wrong with research station and player placement')
+			answerX = cursor.fetchone ( )
+			answer1 = answerX [0]
+                self.assertNotEqual(answer1,None,'Player 3 has not identity')
 
 # This checks the starting the game def
 	def test_startnewgame (self):
