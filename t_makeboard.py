@@ -320,10 +320,23 @@ class T( unittest.TestCase ):
                 self.assertEqual(answer1,'Ep2','The second epidemic card cannot be found')
                 self.assertLess(ranswer2,501,'The pos of the second epidemic card is not right')
 
+# This checks the identity cards have been assigned to players
+	def test_setup_sgidentity (self):
+		sg = startinggame ()
+		sg.cTBL ('testcharacter.txt')
+		sg.caTBL (3)
+		with sqlite3.connect('pandemic.db') as conn:
+			cursor = conn.cursor()
+			tobedone = 'SELECT name FROM BoardTBL WHERE rcube = 1 or bcube = 1 or ycube = 1 or pcube = 1 or ucube = 1;'
+			cursor.execute( tobedone)
+			answerX = cursor.fetchall ( )
+                self.assertEqual(answerX,(1, 1, 1, 0),'Something wrong with research station and player placement')
+
 # This checks the starting the game def
 	def test_startnewgame (self):
 		sg = startinggame ()
-		sg.startnewgame (2,'testboard.txt',4,'testevent.txt')
+		print "Testing 4 player game set-up" 
+		sg.startnewgame (4,'testboard.txt',4,'testevent.txt','testcharacter.txt')
 		with sqlite3.connect('pandemic.db') as conn:
                         cursor = conn.cursor()
                         tobedone = """SELECT rstation,player1,player2,player4 FROM boardTBL WHERE name is 'Atlanta'; """

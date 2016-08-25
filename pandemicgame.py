@@ -636,57 +636,57 @@ class startinggame:
 			cursor.execute( tobedone)
 			conn.commit()
 			
-
-# This def assigns a character to everybody 
-	def sgchars (self,players):
-		print "not written yet"
-
-# Sets up the board for a given number of players, on a specified boardfile such as 'board.txt', with a specified number of epidemics, and certain pool of event cards.
-	def startnewgame (self,players,board,epidemics,event):
+# Sets up the board for: 
+# A given number of players
+# on a specified boardfile such as 'board.txt'
+# with a specified number of epidemics
+# specified pool of event cards
+# specified pool of character cards
+	def startnewgame (self,players,board,epidemics,event,characters):
 		sg = startinggame ()
-		print "Laying out the board with everything"
+		print "1: Laying out the board with everything."
 		sg.BoardTBL (board)
-		print "Shuffling the event cards together, so a random selection can be chosen to shuffle into the player deck."
+		print "2. Shuffling the event cards together, so a random selection can be chosen to shuffle into the player deck."
 		sg.edTBL (event) 
-		print "Making a space for the player deck"
+		print "3. Making a space for the player deck"
 		sg.pdTBL ()
 		sg.pddTBL ()
-		print "shuffling the player deck (without epidemic cards)"
+		print "4. Shuffling the player deck (without epidemic cards)"
 		sg.shufpd (players)
 
-		print "Setting out the disease cubes"
+		print "5. Setting out the disease cubes."
 		sg.cubesTBL ()
-		print "Drawing a hand for player One"
+		print "6. Drawing a hand for player One."
 		sg.player1TBL (players)
 		if players == 2:
-			print "Drawing a hand for player Two"
+			print "Also drawing a hand for player Two."
 			sg.player2TBL (players)
 		elif players == 3:
-			print "Drawing a hand for player Three"
+			print "Then drawing a hand for player Three."
 			sg.player3TBL (players)
 		elif players == 4:
-			print "Drawing a hand for player Four"
+			print "Finally drawing a hand for player Four."
 			sg.player4TBL (players)
 		else:
 			print "ONE PLAYER GAME! Not sure this'll work."
-		print "Making a space for discarded infection deck cards"
-		sg.iddTBL ()
-		print "Putting starting game pieces into place"
+		print "8. Putting starting game pieces into place"
 		sg.startinglocals (players)
 		sg.pdTBL ()
 		sg.pddTBL ()
-		print "Assigning player identities"
-		sg.sgchars (players)
-		print "Setting the outbreaks to Zero and the infection rate to One. Popping a research station down in Atlanta"
+		print "9. Assigning player identities."
+		sg.cTBL (characters)
+		sg.caTBL (players)
+		print "10. Setting the outbreaks to Zero and the infection rate to One. Popping a research station down in Atlanta."
 		sg.gsTBL (players)
-		print "Creating and shuffling the infection deck"
+		print "11. Creating and shuffling the infection deck."
 		sg.idTBL ()
+		sg.iddTBL ()
 		sg.shufid ()
-		print "OH NOOOO! Infecting starting cities"
+		print "12. Infecting starting cities."
 		sg.sginfect ()
-		print "shuffling Epidemic cards into the infection deck"
+		print "13. Shuffling epidemic cards into the infection deck"
 		sg.epTBL (epidemics)
-		print "Time to start the game!"
+		print "14. LETS GO! Time to start the game!"
 
 class inaturn:
 # This def infects cities at a given rate.
