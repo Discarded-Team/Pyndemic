@@ -742,6 +742,39 @@ class startinggame:
 		print "14. LETS GO! Time to start the game!"
 
 class inaturn:
+# This def returns the number of cubes in a city
+	def getcubes (self, city):
+		with sqlite3.connect('pandemic.db') as conn:
+			cursor = conn.cursor()
+			tobedone = """SELECT * FROM BoardTBL WHERE name = '%s';""" % (city)
+			cursor.execute( tobedone)
+			answerA = cursor.fetchone ( )
+			if answerA == None:
+				return 'There is no city of that name!'
+			else:			
+				tobedone = """SELECT bcube FROM BoardTBL WHERE name is '%s';""" % (city)
+				cursor.execute( tobedone)
+				answerA= cursor.fetchone( )
+				bcube= answerA [0]
+				tobedone = """SELECT rcube FROM BoardTBL WHERE name is '%s';""" % (city)
+				cursor.execute( tobedone)
+				answerA= cursor.fetchone( )
+				rcube= answerA [0]
+				tobedone = """SELECT ycube FROM BoardTBL WHERE name is '%s';""" % (city)
+				cursor.execute( tobedone)
+				answerA= cursor.fetchone( )
+				ycube= answerA [0]
+				tobedone = """SELECT ucube FROM BoardTBL WHERE name is '%s';""" % (city)
+				cursor.execute( tobedone)
+				answerA= cursor.fetchone( )
+				ucube= answerA [0]
+				tobedone = """SELECT pcube FROM BoardTBL WHERE name is '%s';""" % (city)
+				cursor.execute( tobedone)
+				answerA= cursor.fetchone( )
+				pcube= answerA [0]
+				cubeinfo = """There are %s blue cubes, %s black cubes, %s red cubes, %s yellow cubes and  %s purple cubes in %s.""" % (ucube, bcube, rcube, ycube, pcube, city) 
+				return cubeinfo
+
 # This def infects cities at a given rate.
 	def infectcities (self, rate):
 		ci = 0

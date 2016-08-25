@@ -9,7 +9,7 @@ class T( unittest.TestCase):
                 it = inaturn ()
                 sg = startinggame ()
                 sg.BoardTBL ('testboard.txt')
-                sg.idTBL('testboard.txt' )
+                sg.idTBL()
 		sg.iddTBL ()
                 sg.shufid ( )
                 it.infectcities (2)
@@ -34,3 +34,21 @@ class T( unittest.TestCase):
                 self.assertNotEqual(answerX,None,'Something wrong')
                 self.assertEqual(answer4,1,'A city card in the infection discard pile has no infection cubes on')
 
+# this def tests the how many cubes in a city command
+	def test_inaturn_getcubes (self):
+		it = inaturn ()
+                sg = startinggame ()
+                sg.BoardTBL ('testboard.txt')
+		answerZ = it.getcubes ('notacity')
+		answerX = it.getcubes ('Atlanta')
+                self.assertEqual(answerX,'There are 0 blue cubes, 0 black cubes, 0 red cubes, 0 yellow cubes and  0 purple cubes in Atlanta.','Something wrong with the info!')
+                self.assertEqual(answerZ,'There is no city of that name!','This will not handle requests where city name is wrong')
+		
+#- How many cubes in city X
+#- Location of player X
+#- Cards in idd
+#- Cards in pdd
+#- Cards in player X hand
+#- Cubes of colour X remaining
+#- Infection rate
+#- Number of outbreaks
