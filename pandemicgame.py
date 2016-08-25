@@ -189,7 +189,8 @@ class startinggame:
 			conn.commit()
 			tobedone = '''CREATE TABLE cTBL(
 			"name",
-			"pos");'''
+			"pos",
+			"player");'''
 			cursor.execute( tobedone )
 			conn.commit()
 			characterfile = open(character,'r') 
@@ -198,6 +199,9 @@ class startinggame:
 		            		tobedone = """INSERT INTO cTBL (name,pos) VALUES (%s);""" % (line)
 		            		cursor.execute( tobedone )
 					conn.commit()
+			tobedone = '''UPDATE cTBL SET pos = ABS(RANDOM() % 500);'''
+			cursor.execute( tobedone )
+			conn.commit()
 
 
 # This sets up the table of disease cubes
