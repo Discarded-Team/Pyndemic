@@ -742,7 +742,24 @@ class startinggame:
 		print "14. LETS GO! Time to start the game!"
 
 class inaturn:
-# This def returns the number of cubes in a city
+
+# This def returns the location of a given player
+	def getplayer (self, player):
+		with sqlite3.connect('pandemic.db') as conn:
+			cursor = conn.cursor()
+			tobedone = """SELECT name FROM BoardTBL WHERE '%s' = '%s';""" % (player, player)
+			cursor.execute( tobedone)
+			answerA = cursor.fetchone ( )
+			if answerA == None:
+				return 'There is no player of that name!'
+			else:
+				location = answerA [0]
+				locinfo = """%s is located in %s""" % (player, location) 
+				return locinfo
+
+
+
+# This def returns the number of cubes in a given city
 	def getcubes (self, city):
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()

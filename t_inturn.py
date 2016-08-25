@@ -44,6 +44,17 @@ class T( unittest.TestCase):
                 self.assertEqual(answerX,'There are 0 blue cubes, 0 black cubes, 0 red cubes, 0 yellow cubes and  0 purple cubes in Atlanta.','Something wrong with the info!')
                 self.assertEqual(answerZ,'There is no city of that name!','This will not handle requests where city name is wrong')
 		
+	def test_inaturn_getplayer (self):
+		it = inaturn ()
+                sg = startinggame ()
+                sg.BoardTBL ('testboard.txt')
+		sg.startinglocals (2)
+		answerA = it.getplayer ('notplayer')
+		answerB = it.getplayer ('player2')
+		print answerA
+		print answerB
+                self.assertEqual(answerB,'player2 is located in Atlanta','Something wrong with the info!')
+                self.assertEqual(answerA,'There is no player of that name!','This will not handle requests where player name is wrong')
 #- How many cubes in city X
 #- Location of player X
 #- Cards in idd
