@@ -730,6 +730,7 @@ class startinggame:
 		sg.caTBL ()
 		print "10. Setting the outbreaks to Zero and the infection rate to One. Popping a research station down in Atlanta."
 		sg.gsTBL (players)
+		sg.startinglocals (players)
 		print "11. Creating and shuffling the infection deck."
 		sg.idTBL ()
 		sg.iddTBL ()

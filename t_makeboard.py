@@ -447,7 +447,7 @@ class T( unittest.TestCase ):
 		self.assertEqual(AnswerG,0,'The table for countries has no co5 column.')
 		self.assertEqual(AnswerH,0,'The table for countries has no rcube column.')
 		self.assertEqual(AnswerI,0,'The table for countries has no bcube column.')
-		self.assertEqual(AnswerJ,0,'The table for countries has no rstation column.')
+		self.assertNotEqual(AnswerJ,None,'The table for countries has no rstation column.')
                 self.assertEqual(AnswerA,(1, 1, 1, 0),'Something wrong with research station and player placement')
 		self.assertEqual(AnswerL,'Atlanta','The table for the player deck has no name column.')
 		self.assertEqual(AnswerM,0,'The table for the player deck has no position in the deck column.')
