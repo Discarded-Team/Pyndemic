@@ -30,6 +30,17 @@ Not sure how to do this yet. My first guess is that commands on how to understan
 
 Def's to find out these things are probably the most important thing to code.
 
+There are 8 actions a player can complete in a turn, so I think defs to test each of these things is what is needed next
+
+- Ferry / train to adjacent city
+- direct flight discarding the card of the destination city
+- charter flight discarding card from the departure city
+- shuttle flight from one research station to another
+- treat disease
+- cure disease
+- share knowledge
+- build a research station 
+
 **Step 3 - Checking to see if the game has been won or lost**
 
 Ditto on this. 
