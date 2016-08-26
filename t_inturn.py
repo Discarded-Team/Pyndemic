@@ -56,8 +56,8 @@ class T( unittest.TestCase):
 		answerA = it.getplayer ('notplayer')
 		answerB = it.getplayer ('player2')
 		answerC = it.getplayer ('player4')
-                self.assertEqual(answerB,'player2 is located in Atlanta','Something wrong with the info!')
-                self.assertEqual(answerC,'player4 is located in Atlanta','Something wrong with the info!')
+                self.assertEqual(answerB,'Atlanta','Something wrong with the info!')
+                self.assertEqual(answerC,'Atlanta','Something wrong with the info!')
                 self.assertEqual(answerA,'There is no player of that name!','This will not handle requests where player name is wrong')
 
 # Tests the "get discarded infection deck cards"
