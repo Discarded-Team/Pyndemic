@@ -894,4 +894,12 @@ class inaturn:
 	       		     	cursor.execute( tobedone )
 				conn.commit()
 
-
+# This moves a player from one location to another
+	def move (self, player, location, destination):
+		with sqlite3.connect('pandemic.db') as conn:
+		       	cursor = conn.cursor()
+	            	tobedone = """UPDATE BoardTBL set %s = 0 WHERE name is '%s';""" % (player, location)
+	            	cursor.execute( tobedone )
+	            	tobedone = """UPDATE BoardTBL set %s = 1 WHERE name is '%s';""" % (player, destination)
+	            	cursor.execute( tobedone )
+			conn.commit()

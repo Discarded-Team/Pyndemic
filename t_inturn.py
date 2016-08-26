@@ -10,9 +10,9 @@ class T( unittest.TestCase):
 
         def test_inaturn_infectcities (self):
                 it = inaturn ()
-                sg = startinggame ()
-                sg.BoardTBL ('testboard.txt')
-                sg.idTBL()
+		sg = startinggame ()
+		sg.BoardTBL ('testboard.txt')
+                sg.idTBL ()
 		sg.iddTBL ()
                 sg.shufid ( )
                 it.infectcities (2)
@@ -136,11 +136,12 @@ class T( unittest.TestCase):
 # Moves a given player from a given city to another given city
 	def test_inaturn_move (self):
 		it = inaturn ()
-                sg = startinggame ()
-                sg.BordTBL ('testboard.txt')
+		sg = startinggame ()
+		sg.BoardTBL ('testboard.txt')
 		sg.startinglocals (4)
 		it.move ('player1', 'Atlanta', 'Chicago')
 		AnswerO = it.getplayer ('player1')
+		print AnswerO
                 self.assertEqual(AnswerO,'Chicago','Player 1 has not been moved to Chicago')
 
 # Lets a player make a direct flight from one city to another.
@@ -155,9 +156,9 @@ class T( unittest.TestCase):
 		if usecard != 'event1' or 'event2' or 'event3' or 'event4' or  'event5' or 'event6':
 			it.direct (usecard)
 		else:
-		usecard = cards [1]
+			usecard = cards [1]
 			if usecard != 'event1' or 'event2' or 'event3' or 'event4' or  'event5' or 'event6':
-			it.direct (usecard)
+				it.direct (usecard)
 			else:
 				usecard = cards [1]
 				if usecard != 'event1' or 'event2' or 'event3' or 'event4' or  'event5' or 'event6':
