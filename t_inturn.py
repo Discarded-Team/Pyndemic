@@ -80,7 +80,7 @@ class T( unittest.TestCase):
                 sg.edTBL('testevent.txt' )
                 sg.shufpd(2)
 		sg.player1TBL (2)
-		answerE = it.gethand (player1)
+		answerE = it.gethand ('player1')
                 self.assertNotEqual(answerE,None,"""No cards found in player 1's hand""")
 
 # Gives the cubes of a given colour remaining
@@ -130,7 +130,48 @@ class T( unittest.TestCase):
 		sg.idTBL ( )
 		sg.iddTBL ()
 		sg.infect ()
-		answerN = it.getcube (2)
-                self.assertNotEqual(answerN,None,'No cities with two cubes of a given colour in can be found')
+		AnswerN = it.getcube (2)
+                self.assertNotEqual(AnswerN,None,'No cities with two cubes of a given colour in can be found')
+
+# Moves a given player from a given city to another given city
+	def test_inaturn_move (self):
+		it = inaturn ()
+                sg = startinggame ()
+                sg.BordTBL ('testboard.txt')
+		sg.startinglocals (4)
+		it.move ('player1', 'Atlanta', 'Chicago')
+		AnswerO = it.getplayer ('player1')
+                self.assertEqual(AnswerO,'Chicago','Player 1 has not been moved to Chicago')
+
+# Lets a player make a direct flight from one city to another.
+	def test_inaturn_direct (self):
+		it = inaturn ()
+                sg = startinggame ()
+                sg.BordTBL ('testboard.txt')
+		sg.startinglocals (4)
+		sg.player2TBL
+		cards =	it.gethand ('player2')
+		usecard = cards [0]
+		if usecard != 'event1' or 'event2' or 'event3' or 'event4' or  'event5' or 'event6':
+			it.direct (usecard)
+		else:
+		usecard = cards [1]
+			if usecard != 'event1' or 'event2' or 'event3' or 'event4' or  'event5' or 'event6':
+			it.direct (usecard)
+			else:
+				usecard = cards [1]
+				if usecard != 'event1' or 'event2' or 'event3' or 'event4' or  'event5' or 'event6':
+					it.direct (usecard)
+			
+		AnswerP = it.getplayer ('player1')
+                self.assertEqual(AnswerP,usecard,'Player 1 has not been moved to the correct location')
+
+#- direct flight discarding the card of the destination city
+#- charter flight discarding card from the departure city
+#- shuttle flight from one research station to another
+#- treat disease
+#- cure disease
+#- share knowledge
+#- build a research station 
 
 # Tests the "get discarded player deck cards"
