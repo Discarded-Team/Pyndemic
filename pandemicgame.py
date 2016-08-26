@@ -589,7 +589,8 @@ class startinggame:
 	            	tobedone = 'INSERT INTO shufpd (name,pos) SELECT * from epTBL;'
 	            	cursor.execute( tobedone )
 			conn.commit()
-			
+
+# Sets the infection rate to 2 and the outbreak count to 0 for a game with a given number of players
 	def gsTBL (self, players):
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
