@@ -899,3 +899,16 @@ class inaturn:
 	            	tobedone = """UPDATE BoardTBL set %s = 1 WHERE name is '%s';""" % (player, destination)
 	            	cursor.execute( tobedone )
 			conn.commit()
+
+# This returns the name of cities with a given number of cubes
+	def getxcube (self,cube,numb):
+		with sqlite3.connect('pandemic.db') as conn:
+		       	cursor = conn.cursor()
+	            	tobedone = """SELECT name FROM BoardTBL WHERE %s = %s;""" % (cube,numb)
+			print tobedone
+	            	cursor.execute( tobedone )
+	            	tobedone = """UPDATE BoardTBL set %s = 1 WHERE name is '%s';""" % (player, destination)
+	            	cursor.execute( tobedone )
+			conn.commit()
+
+

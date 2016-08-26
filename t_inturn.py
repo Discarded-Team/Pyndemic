@@ -64,7 +64,7 @@ class T( unittest.TestCase):
 	def test_inaturn_getidd (self):
 		it = inaturn ()
                 sg = startinggame ()
-                sg.BordTBL ('testboard.txt')
+                sg.BoardTBL ('testboard.txt')
 		sg.idTBL ( )
 		sg.iddTBL ()
 		sg.infectcities (3)
@@ -75,7 +75,7 @@ class T( unittest.TestCase):
 	def test_inaturn_gethand (self):
 		it = inaturn ()
                 sg = startinggame ()
-                sg.BordTBL ('testboard.txt')
+                sg.BoardTBL ('testboard.txt')
 		sg.pddTBL ()
                 sg.edTBL('testevent.txt' )
                 sg.shufpd(2)
@@ -87,7 +87,7 @@ class T( unittest.TestCase):
 	def test_inaturn_getcubes (self):
 		it = inaturn ()
                 sg = startinggame ()
-                sg.BordTBL ('testboard.txt')
+                sg.BoardTBL ('testboard.txt')
 		sg.idTBL ()
 		sg.iddTBL ()
 		it.infectcities (7)
@@ -122,15 +122,15 @@ class T( unittest.TestCase):
 		AnswerM = it.getor ( )
 		self.assertEqual(AnswerM,0, """Outbreak count cant be found or isn't 0""")
 
-# Returns all cities with X cubes in
+# Returns all cities with X cubes of a given colour
 	def test_inaturn_getxcube (self):
 		it = inaturn ()
                 sg = startinggame ()
-                sg.BordTBL ('testboard.txt')
+                sg.BoardTBL ('testboard.txt')
 		sg.idTBL ( )
 		sg.iddTBL ()
-		sg.infect ()
-		AnswerN = it.getcube (2)
+		sg.sginfect ()
+		AnswerN = it.getcube ('ucube',2)
                 self.assertNotEqual(AnswerN,None,'No cities with two cubes of a given colour in can be found')
 
 # Moves a given player from a given city to another given city
@@ -148,7 +148,7 @@ class T( unittest.TestCase):
 	def test_inaturn_direct (self):
 		it = inaturn ()
                 sg = startinggame ()
-                sg.BordTBL ('testboard.txt')
+                sg.BoardTBL ('testboard.txt')
 		sg.startinglocals (4)
 		sg.player2TBL
 		cards =	it.gethand ('player2')
