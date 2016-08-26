@@ -47,7 +47,7 @@ class T( unittest.TestCase):
                 self.assertEqual(answerX,'There are 0 blue cubes, 0 black cubes, 0 red cubes, 0 yellow cubes and  0 purple cubes in Atlanta.','Something wrong with the info!')
                 self.assertEqual(answerZ,'There is no city of that name!','This will not handle requests where city name is wrong')
 
-		
+# Tests the "get location of a given player def"		
 	def test_inaturn_getplayer (self):
 		it = inaturn ()
                 sg = startinggame ()
@@ -60,11 +60,77 @@ class T( unittest.TestCase):
                 self.assertEqual(answerC,'player4 is located in Atlanta','Something wrong with the info!')
                 self.assertEqual(answerA,'There is no player of that name!','This will not handle requests where player name is wrong')
 
-#- How many cubes in city X
-#- Location of player X
-#- Cards in idd
-#- Cards in pdd
-#- Cards in player X hand
-#- Cubes of colour X remaining
-#- Infection rate
-#- Number of outbreaks
+# Tests the "get discarded infection deck cards"
+	def test_inaturn_getidd (self):
+		it = inaturn ()
+                sg = startinggame ()
+                sg.BordTBL ('testboard.txt')
+		sg.idTBL ( )
+		sg.iddTBL ()
+		sg.infectcities (3)
+		answerD = it.getidd ()
+                self.assertNotEqual(answerD,None,'No cards found in the infection deck discard pile')
+
+# Gives the cards in a given players hand
+	def test_inaturn_gethand (self):
+		it = inaturn ()
+                sg = startinggame ()
+                sg.BordTBL ('testboard.txt')
+		sg.pddTBL ()
+                sg.edTBL('testevent.txt' )
+                sg.shufpd(2)
+		sg.player1TBL (2)
+		answerE = it.gethand (player1)
+                self.assertNotEqual(answerE,None,"""No cards found in player 1's hand""")
+
+# Gives the cubes of a given colour remaining
+	def test_inaturn_getcubes (self):
+		it = inaturn ()
+                sg = startinggame ()
+                sg.BordTBL ('testboard.txt')
+		sg.idTBL ()
+		sg.iddTBL ()
+		it.infectcities (7)
+		AnswerF = it.getcubes (rcubes)
+		AnswerG = it.getcubes (ycubes)
+		AnswerH = it.getcubes (pcubes)
+		AnswerI = it.getcubes (bcubes)
+		AnswerJ = it.getcubes (ucubes)
+		AnswerK =  AnswerF + AnswerG + AnswerH + AnswerI + AnswerJ
+                self.assertNotEqual(AnswerF,None,"""Answer given for Red cubes""")
+                self.assertNotEqual(AnswerG,None,"""Answer given for Yellow cubes""")
+                self.assertNotEqual(AnswerH,None,"""Answer given for Purple cubes""")
+                self.assertNotEqual(AnswerI,None,"""Answer given for Black cubes""")
+                self.assertNotEqual(AnswerJ,None,"""Answer given for Blue cubes""")
+                self.assertEqual(AnswerK,7,"""Should be 7 disease cubes, but can't find them.""")
+		
+
+# Gives the infection rate
+	def test_inaturn_getir (self):
+		it = inaturn ()
+                sg = startinggame ()
+		sg.gsTBL (3)
+		AnswerL = it.getir ( )
+		self.assertEqual(AnswerL,2, """Infection rate cant be found or isn't 2""")
+
+
+# Gives the number of outbreaks
+	def test_inaturn_getir (self):
+		it = inaturn ()
+                sg = startinggame ()
+		sg.gsTBL (3)
+		AnswerM = it.getor ( )
+		self.assertEqual(AnswerM,0, """Outbreak count cant be found or isn't 0""")
+
+# Returns all cities with X cubes in
+	def test_inaturn_getxcube (self):
+		it = inaturn ()
+                sg = startinggame ()
+                sg.BordTBL ('testboard.txt')
+		sg.idTBL ( )
+		sg.iddTBL ()
+		sg.infect ()
+		answerN = it.getcube (2)
+                self.assertNotEqual(answerN,None,'No cities with two cubes of a given colour in can be found')
+
+# Tests the "get discarded player deck cards"
