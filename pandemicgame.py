@@ -745,17 +745,57 @@ class inaturn:
 
 # This def returns the location of a given player
 	def getplayer (self, player):
-		with sqlite3.connect('pandemic.db') as conn:
-			cursor = conn.cursor()
-			tobedone = """SELECT name FROM BoardTBL WHERE '%s' = '%s';""" % (player, player)
-			cursor.execute( tobedone)
-			answerA = cursor.fetchone ( )
-			if answerA == None:
-				return 'There is no player of that name!'
-			else:
+		if player == 'player1':
+			with sqlite3.connect('pandemic.db') as conn:
+				cursor = conn.cursor()
+				tobedone = """SELECT name FROM BoardTBL WHERE player1 = 1;"""
+				cursor.execute( tobedone)
+				answerA = cursor.fetchone ( )
 				location = answerA [0]
 				locinfo = """%s is located in %s""" % (player, location) 
-				return locinfo
+			return locinfo
+
+		if player == 'player2':
+			with sqlite3.connect('pandemic.db') as conn:
+				cursor = conn.cursor()
+				tobedone = """SELECT name FROM BoardTBL WHERE player2 = 1;"""
+				cursor.execute( tobedone)
+				answerA = cursor.fetchone ( )
+				location = answerA [0]
+				locinfo = """%s is located in %s""" % (player, location) 
+			return locinfo
+
+		if player == 'player3':
+			with sqlite3.connect('pandemic.db') as conn:
+				cursor = conn.cursor()
+				tobedone = """SELECT name FROM BoardTBL WHERE player3 = 1;"""
+				cursor.execute( tobedone)
+				answerA = cursor.fetchone ( )
+				location = answerA [0]
+				locinfo = """%s is located in %s""" % (player, location) 
+			return locinfo
+
+		if player == 'player4':
+			with sqlite3.connect('pandemic.db') as conn:
+				cursor = conn.cursor()
+				tobedone = """SELECT name FROM BoardTBL WHERE player4 = 1;"""
+				cursor.execute( tobedone)
+				answerA = cursor.fetchone ( )
+				location = answerA [0]
+				locinfo = """%s is located in %s""" % (player, location) 
+			return locinfo
+
+		else:
+			return 'There is no player of that name!'
+				
+		with sqlite3.connect('pandemic.db') as conn:
+			cursor = conn.cursor()
+			tobedone = """SELECT name FROM BoardTBL WHERE player1 = 1;"""
+			cursor.execute( tobedone)
+			answerA = cursor.fetchone ( )
+			location = answerA [0]
+			locinfo = """%s is located in %s""" % (player, location) 
+			return locinfo
 
 
 

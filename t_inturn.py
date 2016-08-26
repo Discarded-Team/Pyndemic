@@ -1,3 +1,5 @@
+# vim: tabstop=4 softtabstop=4 shiftwidth=4 smarttab expandtab filetype=python:
+
 import unittest
 import sqlite3
 from pandemicgame import startinggame
@@ -5,6 +7,7 @@ from pandemicgame import inaturn
 
 class T( unittest.TestCase):
 # this def tests the infect cities def.
+
         def test_inaturn_infectcities (self):
                 it = inaturn ()
                 sg = startinggame ()
@@ -43,18 +46,20 @@ class T( unittest.TestCase):
 		answerX = it.getcubes ('Atlanta')
                 self.assertEqual(answerX,'There are 0 blue cubes, 0 black cubes, 0 red cubes, 0 yellow cubes and  0 purple cubes in Atlanta.','Something wrong with the info!')
                 self.assertEqual(answerZ,'There is no city of that name!','This will not handle requests where city name is wrong')
+
 		
 	def test_inaturn_getplayer (self):
 		it = inaturn ()
                 sg = startinggame ()
                 sg.BoardTBL ('testboard.txt')
-		sg.startinglocals (2)
+		sg.startinglocals (4)
 		answerA = it.getplayer ('notplayer')
 		answerB = it.getplayer ('player2')
-		print answerA
-		print answerB
+		answerC = it.getplayer ('player4')
                 self.assertEqual(answerB,'player2 is located in Atlanta','Something wrong with the info!')
+                self.assertEqual(answerC,'player4 is located in Atlanta','Something wrong with the info!')
                 self.assertEqual(answerA,'There is no player of that name!','This will not handle requests where player name is wrong')
+
 #- How many cubes in city X
 #- Location of player X
 #- Cards in idd
