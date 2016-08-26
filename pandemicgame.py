@@ -753,8 +753,7 @@ class inaturn:
 				cursor.execute( tobedone)
 				answerA = cursor.fetchone ( )
 				location = answerA [0]
-				locinfo = """%s is located in %s""" % (player, location) 
-			return locinfo
+			return location
 
 		if player == 'player2':
 			with sqlite3.connect('pandemic.db') as conn:
@@ -763,8 +762,7 @@ class inaturn:
 				cursor.execute( tobedone)
 				answerA = cursor.fetchone ( )
 				location = answerA [0]
-				locinfo = """%s is located in %s""" % (player, location) 
-			return locinfo
+			return location
 
 		if player == 'player3':
 			with sqlite3.connect('pandemic.db') as conn:
@@ -773,8 +771,7 @@ class inaturn:
 				cursor.execute( tobedone)
 				answerA = cursor.fetchone ( )
 				location = answerA [0]
-				locinfo = """%s is located in %s""" % (player, location) 
-			return locinfo
+			return location
 
 		if player == 'player4':
 			with sqlite3.connect('pandemic.db') as conn:
@@ -783,8 +780,7 @@ class inaturn:
 				cursor.execute( tobedone)
 				answerA = cursor.fetchone ( )
 				location = answerA [0]
-				locinfo = """%s is located in %s""" % (player, location) 
-			return locinfo
+			return location
 
 		else:
 			return 'There is no player of that name!'
