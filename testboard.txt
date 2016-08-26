@@ -15,4 +15,3 @@
 'Essen','u',2,'Delhi','HoChiMinhCityi',0,0,0,0,0,0,0,0,0,0,0,0,0,0
 'HongKong','y',2,'HoChiMinhCityi','Istanbul',0,0,0,0,0,0,0,0,0,0,0,0,0,0
 'Istanbul','y',2,'HongKong','Jakarta',0,0,0,0,0,0,0,0,0,0,0,0,0,0
-
