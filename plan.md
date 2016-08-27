@@ -83,6 +83,7 @@ Ditto on this.
 12 - getidd - returns the cards in the infection deck discard pile
 13 - getpdd - returns the cards in the player deck pile
 14 - discard - for a given player discards a given card from their hand.
+
 ***C - Class - playeraction***
 1 - mp - move a given player from a given location to another adjacent location, for an action.
 2 - df - move a given player to given location dicarding the card of the destination city from their hand.
@@ -92,8 +93,4 @@ Ditto on this.
 6 - cd - discard 5 given cards of the same colour to discover a cure for a disease.
 7 - sk - moves a given card from a given player to another given player when both are in the same city and the city named on the card.
 8 - br - a given player builds a research station in a given city discarding that city card if they are in the city on the card
-
-
-- build a research station 
-
 

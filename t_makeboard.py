@@ -122,7 +122,7 @@ class T( unittest.TestCase ):
 		sg.cubesTBL( )
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
-			tobedone = 'SELECT redr,yellowy,blueu,blackb,purplep FROM cubesTBL;'
+			tobedone = 'SELECT rcube,ycube,ucube,bcube,pcube FROM cubesTBL;'
 
 			cursor.execute( tobedone)
 			answerX = cursor.fetchone ( )
@@ -263,8 +263,9 @@ class T( unittest.TestCase ):
 # This def tests the infection of the first 9 cities works right.
 	def test_setup_sginfect (self):
 		sg = startinggame ()
+		it = inaturn ()
 		sg.BoardTBL ('testboard.txt')
-		sg.cubeTBL ()
+		sg.cubesTBL ()
 		sg.idTBL( )
 		sg.iddTBL ( )
 		sg.shufid ( )
@@ -293,7 +294,7 @@ class T( unittest.TestCase ):
 		self.assertNotEqual(answer3,None,'3 countries with 3 cubes not found')
                 self.assertNotEqual(answer1,None,'3 countries with 1 cubes not found')
                 self.assertNotEqual(answer2,None,'3 countries with 2 cubes not found')
-                self.assertEqual(answerK,102,'Cubes have not been removed for the correct pools in setup')
+                self.assertEqual(AnswerK,102,'Cubes have not been removed for the correct pools in setup')
 
 
 
@@ -348,6 +349,7 @@ class T( unittest.TestCase ):
 # This checks the starting the game def
 	def test_startnewgame (self):
 		sg = startinggame ()
+		it = inaturn ()
 		print "Testing 4 player game set-up" 
 		sg.startnewgame (4,'testboard.txt',4,'testevent.txt','testcharacter.txt')
 		with sqlite3.connect('pandemic.db') as conn:
@@ -395,7 +397,7 @@ class T( unittest.TestCase ):
 			AnswerAF = cursor.fetchone ( )
 			AnswerAH = AnswerAF [0]
 			cursor = conn.cursor()
-			tobedone = 'SELECT redr,yellowy,blueu,blackb,purplep FROM cubesTBL;'
+			tobedone = 'SELECT rcube,ycube,ucube,bcube,pcube FROM cubesTBL;'
 
 			cursor.execute( tobedone)
 			AnswerAA = cursor.fetchone ( )

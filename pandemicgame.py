@@ -688,7 +688,126 @@ class startinggame:
 			tobedone = """UPDATE BoardTBL SET pcube = 3 where pcube = 1 and name is '%s' """ % (answer6r)
 			cursor.execute( tobedone)
 			conn.commit()
+
+			count2cu = 0
+			count2cr = 0
+			count2cy = 0
+			count2cb = 0
+			count2cp = 0
+
+			thing = it.getxcube ('ucube', '2')
+			blank = thing [1]
+			if blank != []:
+				supercount = thing [0]
+				count2cu = supercount [0]
+
+			thing = it.getxcube ('rcube', '2')
+			blank = thing [1]
+			if blank != []:
+				supercount = thing [0]
+				count2cr = supercount [0]
+
+			thing = it.getxcube ('ycube', '2')
+			blank = thing [1]
+			if blank != []:
+				supercount = thing [0]
+				count2cy = supercount [0]
+
+			thing = it.getxcube ('bcube', '2')
+			blank = thing [1]
+			if blank != []:
+				supercount = thing [0]
+				count2cb = supercount [0]
+
+			ucount = 0
+			bcount = 0
+			ycount = 0
+			pcount = 0
+			rcount = 0
+			while ucount < count2cu:
+				it.usecube ('ucube')
+				ucount = ucount +1
+				print "remove a blue"
+			while rcount < count2cr:
+				it.usecube ('rcube')
+				rcount = rcount +1
+				print "remove a red"
+			while ycount < count2cy:
+				it.usecube ('ycube')
+				ycount = ycount +1
+				print "remove a yellow"
+			while bcount < count2cb:
+				it.usecube ('bcube')
+				bcount = bcount +1
+				print "remove a black"
+			while pcount < count2cp:
+				it.usecube ('pcube')
+				pcount = pcount +1
+				print "remove a purple"
 			
+
+			count3cu = 0
+			count3cr = 0
+			count3cy = 0
+			count3cb = 0
+			count3cp = 0
+
+			thing = it.getxcube ('ucube', '3')
+			blank = thing [1]
+			if blank != []:
+				supercount = thing [0]
+				count3cu = supercount [0]
+
+			thing = it.getxcube ('rcube', '3')
+			blank = thing [1]
+			if blank != []:
+				supercount = thing [0]
+				count3cr = supercount [0]
+
+			thing = it.getxcube ('ycube', '3')
+			blank = thing [1]
+			if blank != []:
+				supercount = thing [0]
+				count3cy = supercount [0]
+
+			thing = it.getxcube ('bcube', '3')
+			blank = thing [1]
+			if blank != []:
+				supercount = thing [0]
+				count3cb = supercount [0]
+
+			ucount = 0
+			bcount = 0
+			ycount = 0
+			pcount = 0
+			rcount = 0
+			while ucount < count3cu:
+				it.usecube ('ucube')
+				it.usecube ('ucube')
+				ucount = ucount +1
+				print "remove 2 blue"
+			while rcount < count3cr:
+				it.usecube ('rcube')
+				it.usecube ('rcube')
+				rcount = rcount +1
+				print "remove 2 red"
+			while ycount < count3cy:
+				it.usecube ('ycube')
+				it.usecube ('ycube')
+				ycount = ycount +1
+				print "remove 2 yellow"
+			while bcount < count3cb:
+				it.usecube ('bcube')
+				it.usecube ('bcube')
+				bcount = bcount +1
+				print "remove 2 black"
+			while pcount < count3cp:
+				it.usecube ('pcube')
+				it.usecube ('pcube')
+				pcount = pcount +1
+				print "remove 2 purple"
+
+
 # Sets up the board for: 
 # A given number of players
 # on a specified boardfile such as 'board.txt'
