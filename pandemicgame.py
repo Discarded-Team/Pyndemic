@@ -260,14 +260,14 @@ class startinggame:
 	            	cursor.execute( tobedone )
 			conn.commit()
 			tobedone = '''CREATE TABLE cubesTBL(
-			"redr",
-			"yellowy",
-			"blackb",
-			"blueu",
-			"purplep");'''
+			"rcube",
+			"ycube",
+			"bcube",
+			"ucube",
+			"pcube");'''
 			cursor.execute( tobedone )
 			conn.commit()
-		        tobedone = """INSERT INTO cubesTBL (redr,yellowy,blackb,blueu,purplep) VALUES (24,24,24,24,24);"""
+		        tobedone = """INSERT INTO cubesTBL (rcube,ycube,bcube,ucube,pcube) VALUES (24,24,24,24,24);"""
 			cursor.execute( tobedone )
 			conn.commit()
 
@@ -796,11 +796,11 @@ class inaturn:
 
 
 
-# This def returns the number of cubes in a given city
-	def getcubes (self, city):
+# This def returns the number of cubes of all colours in a given city
+	def getcityallcubes (self,city):
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
-			tobedone = """SELECT * FROM BoardTBL WHERE name = '%s';""" % (city)
+			tobedone = """SELECT * FROM BoardTBL WHERE name = '%s';""" % (cube,city)
 			cursor.execute( tobedone)
 			answerA = cursor.fetchone ( )
 			if answerA == None:
@@ -831,6 +831,7 @@ class inaturn:
 
 # This def infects cities at a given rate.
 	def infectcities (self, rate):
+		it = inaturn ()
 		ci = 0
 		while ci < rate:
 			with sqlite3.connect('pandemic.db') as conn:
@@ -855,30 +856,35 @@ class inaturn:
 					tobedone = """UPDATE BoardTBL SET ucube = %s WHERE name is '%s'; """ % (newcubes,answer3)	
 					cursor.execute (tobedone)
 					conn.commit ()
+					it.usecube ('ucube')
 						
 				elif answer4 == 'b':
 					newcubes = answer6 + 1
 					tobedone = """UPDATE BoardTBL SET bcube = %s WHERE name is '%s'; """ % (newcubes,answer3)	
 					cursor.execute (tobedone)
 					conn.commit ()
+					it.usecube ('bcube')
 						
 				elif answer4 == 'r':
 					newcubes = answer7 + 1
 					tobedone = """UPDATE BoardTBL SET rcube = %s WHERE name is '%s'; """ % (newcubes,answer3)	
 					cursor.execute (tobedone)
 					conn.commit ()
+					it.usecube ('rcube')
 						
 				elif answer4 == 'y':
 					newcubes = answer8 + 1
 					tobedone = """UPDATE BoardTBL SET ycube = %s WHERE name is '%s'; """ % (newcubes,answer3)	
 					cursor.execute (tobedone)
 					conn.commit ()
+					it.usecube ('ycube')
 						
 				elif answer4 == 'p':
 					newcubes = answer9 + 1
 					tobedone = """UPDATE BoardTBL SET pcube = %s WHERE name is '%s'; """ % (newcubes,answer3)	
 					cursor.execute (tobedone)
 					conn.commit ()
+					it.usecube ('pcube')
 						
 				else:
 					print "something has gone wrong"
@@ -905,14 +911,81 @@ class inaturn:
 		with sqlite3.connect('pandemic.db') as conn:
 		       	cursor = conn.cursor()
 	            	tobedone = """SELECT count (name) FROM BoardTBL WHERE %s = %s;""" % (cube,numb)
-			print tobedone
 	            	cursor.execute( tobedone )
 			numbans= cursor.fetchone( )
 	            	tobedone = """SELECT name FROM BoardTBL WHERE %s = %s;""" % (cube,numb)	
-			print tobedone
 	            	cursor.execute( tobedone )
 			naans= cursor.fetchall ( )
 			answer = numbans, naans
-			print answer
 			return answer
+
+# Thiis returns the outbreak count rate
+	def getoc (self):
+		with sqlite3.connect('pandemic.db') as conn:
+		       	cursor = conn.cursor()
+	            	tobedone = """SELECT oc FROM gsTBL;""" 
+	            	cursor.execute( tobedone )
+			found = cursor.fetchone( )
+			oc = found [0]
+			return oc
+
+# Thiis returns the infection rate
+	def getir (self):
+		with sqlite3.connect('pandemic.db') as conn:
+		       	cursor = conn.cursor()
+	            	tobedone = """SELECT ir FROM gsTBL;""" 
+	            	cursor.execute( tobedone )
+			found = cursor.fetchone( )
+			ir = found [0]
+			return ir
+
+	def gethand (self, player):
+		with sqlite3.connect('pandemic.db') as conn:
+		       	cursor = conn.cursor()
+	            	tobedone = """SELECT name FROM %sTBL;""" % (player)
+	            	cursor.execute( tobedone )
+			found = cursor.fetchall( )
+			return found
+
+ 
+# This def returns the number of cubes of all colours in a given city
+	def getcitycubes (self,cube,city):
+		with sqlite3.connect('pandemic.db') as conn:
+			cursor = conn.cursor()
+			tobedone = """SELECT * FROM BoardTBL WHERE name = '%s';""" % (cube,city)
+			cursor.execute( tobedone)
+			answerA = cursor.fetchone ( )
+			if answerA == None:
+				return 'There is no city of that name!'
+			else:			
+				tobedone = """SELECT %s FROM BoardTBL WHERE name is '%s';""" % (cube, city)
+				cursor.execute( tobedone)
+				answerA= cursor.fetchone( )
+				cubes = answerA [0]
+				return cubes
+
+# This def returns the total remaining cubes of a given colour
+	def getcubes (self,cube):
+		with sqlite3.connect('pandemic.db') as conn:
+			cursor = conn.cursor()
+			tobedone = """SELECT %s FROM cubesTBL;""" % (cube)
+			print tobedone
+			cursor.execute( tobedone)
+			cubes = cursor.fetchone ( )
+			cubeleft = cubes [0]
+			return cubeleft
+		
+# This def returns the total remaining cubes of a given colour
+	def usecube (self,cube):
+		with sqlite3.connect('pandemic.db') as conn:
+			cursor = conn.cursor()
+			tobedone = """SELECT %s FROM cubesTBL;""" % (cube)
+			cursor.execute( tobedone)
+			cubes = cursor.fetchone ( )
+			cubeleft = cubes [0]
+			conn.commit ()
+			newcube = cubeleft - 1
+			tobedone = """UPDATE cubesTBL SET %s = %s;""" % (cube, newcube)
+			cursor.execute( tobedone)
+			conn.commit ()
 
