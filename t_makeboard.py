@@ -289,7 +289,7 @@ class T( unittest.TestCase ):
 			AnswerI = it.getcubes ('bcube')
 			AnswerJ = it.getcubes ('ucube')
 			AnswerK =  AnswerF + AnswerG + AnswerH + AnswerI + AnswerJ
-			print Answer K
+			print AnswerK
 		self.assertNotEqual(answer3,None,'3 countries with 3 cubes not found')
                 self.assertNotEqual(answer1,None,'3 countries with 1 cubes not found')
                 self.assertNotEqual(answer2,None,'3 countries with 2 cubes not found')
@@ -456,7 +456,7 @@ class T( unittest.TestCase ):
 			Answer1I = it.getcubes ('bcube')
 			Answer1J = it.getcubes ('ucube')
 			Answer1K =  Answer1F + Answer1G + Answer1H + Answer1I + Answer1J
-			print Answer 1K
+			print Answer1K
 		self.assertEqual(AnswerC,'Atlanta','The table for countries has no name column.')
 		self.assertEqual(AnswerD,'u','The table for countries has no colour column.')
 		self.assertEqual(AnswerE,2,'The table for countries has no connect column.')

@@ -800,7 +800,7 @@ class inaturn:
 	def getcityallcubes (self,city):
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
-			tobedone = """SELECT * FROM BoardTBL WHERE name = '%s';""" % (cube,city)
+			tobedone = """SELECT * FROM BoardTBL WHERE name = '%s';""" % (city)
 			cursor.execute( tobedone)
 			answerA = cursor.fetchone ( )
 			if answerA == None:
@@ -919,7 +919,7 @@ class inaturn:
 			answer = numbans, naans
 			return answer
 
-# Thiis returns the outbreak count rate
+# Thiis returns the outbreak count
 	def getoc (self):
 		with sqlite3.connect('pandemic.db') as conn:
 		       	cursor = conn.cursor()
@@ -948,11 +948,11 @@ class inaturn:
 			return found
 
  
-# This def returns the number of cubes of all colours in a given city
+# This def returns the number of cubes of a given colour in a given city
 	def getcitycubes (self,cube,city):
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
-			tobedone = """SELECT * FROM BoardTBL WHERE name = '%s';""" % (cube,city)
+			tobedone = """SELECT * FROM BoardTBL WHERE name = '%s';""" % (city)
 			cursor.execute( tobedone)
 			answerA = cursor.fetchone ( )
 			if answerA == None:
@@ -975,7 +975,7 @@ class inaturn:
 			cubeleft = cubes [0]
 			return cubeleft
 		
-# This def returns the total remaining cubes of a given colour
+# This def reduces the total remaining cubes of a given colour by 1
 	def usecube (self,cube):
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
@@ -989,3 +989,17 @@ class inaturn:
 			cursor.execute( tobedone)
 			conn.commit ()
 
+# This def checks the infectiondeck discard pile
+	def getidd (self):
+		with sqlite3.connect('pandemic.db') as conn:
+			cursor = conn.cursor()
+			tobedone = """SELECT name FROM iddTBL;"""
+			cursor.execute( tobedone)
+			iddcont = cursor.fetchall ( )
+			conn.commit ()
+			return iddcont
+
+
+
+
+		

@@ -60,7 +60,7 @@ class T( unittest.TestCase):
                 self.assertEqual(answerC,'Atlanta','Something wrong with the info!')
                 self.assertEqual(answerA,'There is no player of that name!','This will not handle requests where player name is wrong')
 
-# Tests the "get discarded infection deck cards"
+# Tests the "get discarded player deck cards"
 	def test_inaturn_getidd (self):
 		it = inaturn ()
                 sg = startinggame ()
@@ -69,7 +69,7 @@ class T( unittest.TestCase):
 		sg.iddTBL ()
 		it.infectcities (3)
 		answerD = it.getidd ()
-                self.assertNotEqual(answerD,None,'No cards found in the infection deck discard pile')
+                self.assertNotEqual(answerD,None,'No cards found in the player deck discard pile')
 
 # Gives the cards in a given players hand
 	def test_inaturn_gethand (self):
@@ -162,28 +162,6 @@ class T( unittest.TestCase):
 		print AnswerO
                 self.assertEqual(AnswerO,'Chicago','Player 1 has not been moved to Chicago')
 
-# Lets a player make a direct flight from one city to another.
-	def test_inaturn_direct (self):
-		it = inaturn ()
-                sg = startinggame ()
-                sg.BoardTBL ('testboard.txt')
-		sg.startinglocals (4)
-		sg.player2TBL
-		cards =	it.gethand ('player2')
-		usecard = cards [0]
-		if usecard != 'event1' or 'event2' or 'event3' or 'event4' or  'event5' or 'event6':
-			it.direct (usecard)
-		else:
-			usecard = cards [1]
-			if usecard != 'event1' or 'event2' or 'event3' or 'event4' or  'event5' or 'event6':
-				it.direct (usecard)
-			else:
-				usecard = cards [1]
-				if usecard != 'event1' or 'event2' or 'event3' or 'event4' or  'event5' or 'event6':
-					it.direct (usecard)
-			
-		AnswerP = it.getplayer ('player1')
-                self.assertEqual(AnswerP,usecard,'Player 1 has not been moved to the correct location')
 
 # This def gives all cubes of each colour for a given city
 	def test_inaturn_getcityallcubes (self):
@@ -203,16 +181,15 @@ class T( unittest.TestCase):
 		AnswerQ = Answer [0]
 		print AnswerQ
                 self.assertEqual(AnswerQ,23,'The number of cubes has not been reduced by 1 to 23.')
-		
-		
-		
+			
 
-#- direct flight discarding the card of the destination city
-#- charter flight discarding card from the departure city
-#- shuttle flight from one research station to another
-#- treat disease
-#- cure disease
-#- share knowledge
-#- build a research station 
-
-# Tests the "get discarded player deck cards"
+# Tests the "get discarded infection deck cards"
+	def test_inaturn_getidd (self):
+		it = inaturn ()
+                sg = startinggame ()
+                sg.BoardTBL ('testboard.txt')
+		sg.idTBL ( )
+		sg.iddTBL ()
+		it.infectcities (3)
+		answerD = it.getidd ()
+                self.assertNotEqual(answerD,None,'No cards found in the infection deck discard pile')
