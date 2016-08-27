@@ -122,16 +122,29 @@ class T( unittest.TestCase):
 		AnswerM = it.getor ( )
 		self.assertEqual(AnswerM,0, """Outbreak count cant be found or isn't 0""")
 
-# Returns all cities with X cubes of a given colour
+# Returns the number and names of all cities with X cubes of a given colour
 	def test_inaturn_getxcube (self):
 		it = inaturn ()
                 sg = startinggame ()
                 sg.BoardTBL ('testboard.txt')
-		sg.idTBL ( )
-		sg.iddTBL ()
-		sg.sginfect ()
-		AnswerN = it.getcube ('ucube',2)
-                self.assertNotEqual(AnswerN,None,'No cities with two cubes of a given colour in can be found')
+                sg.idTBL( )
+                sg.iddTBL ( )
+                sg.shufid ( )
+                sg.sginfect ( )
+		AnswerN1 = it.getxcube ('ucube',2)
+		AnswerN2 = it.getxcube ('bcube',2)
+		AnswerN3 = it.getxcube ('ycube',2)
+		AnswerN4 = it.getxcube ('rcube',2)
+		AnswerN11 = AnswerN1 [0]
+		AnswerN21 = AnswerN2 [0]
+		AnswerN31 = AnswerN3 [0]
+		AnswerN41 = AnswerN4 [0]
+		AnswerN5 = AnswerN11 + AnswerN21 + AnswerN31 + AnswerN41
+                self.assertNotEqual(AnswerN1,None,'No cities with two cubes of a given colour in can be searched for')
+                self.assertNotEqual(AnswerN2,None,'No cities with two cubes of a given colour in can be searched for')
+                self.assertNotEqual(AnswerN3,None,'No cities with two cubes of a given colour in can be searched for')
+                self.assertNotEqual(AnswerN4,None,'No cities with two cubes of a given colour in can be searched for')
+                self.assertNotEqual(AnswerN5,3,'The correct number of cities with 2 cubes in cannot be found')
 
 # Moves a given player from a given city to another given city
 	def test_inaturn_move (self):

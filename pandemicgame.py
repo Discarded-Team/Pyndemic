@@ -904,11 +904,15 @@ class inaturn:
 	def getxcube (self,cube,numb):
 		with sqlite3.connect('pandemic.db') as conn:
 		       	cursor = conn.cursor()
-	            	tobedone = """SELECT name FROM BoardTBL WHERE %s = %s;""" % (cube,numb)
+	            	tobedone = """SELECT count (name) FROM BoardTBL WHERE %s = %s;""" % (cube,numb)
 			print tobedone
 	            	cursor.execute( tobedone )
-	            	tobedone = """UPDATE BoardTBL set %s = 1 WHERE name is '%s';""" % (player, destination)
+			numbans= cursor.fetchone( )
+	            	tobedone = """SELECT name FROM BoardTBL WHERE %s = %s;""" % (cube,numb)	
+			print tobedone
 	            	cursor.execute( tobedone )
-			conn.commit()
-
+			naans= cursor.fetchall ( )
+			answer = numbans, naans
+			print answer
+			return answer
 
