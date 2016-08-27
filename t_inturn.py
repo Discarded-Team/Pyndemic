@@ -44,7 +44,7 @@ class T( unittest.TestCase):
                 sg.BoardTBL ('testboard.txt')
 		answerZ = it.getcitycubes ('ucube','notacity')
 		answerX = it.getcitycubes ('ucube','Atlanta')
-                self.assertEqual(answerX,'There are 0 blue cubes, 0 black cubes, 0 red cubes, 0 yellow cubes and  0 purple cubes in Atlanta.','Something wrong with the info!')
+                self.assertEqual(answerX,0,'Something wrong with the info!')
                 self.assertEqual(answerZ,'There is no city of that name!','This will not handle requests where city name is wrong')
 
 # Tests the "get location of a given player def"		
@@ -61,14 +61,13 @@ class T( unittest.TestCase):
                 self.assertEqual(answerA,'There is no player of that name!','This will not handle requests where player name is wrong')
 
 # Tests the "get discarded player deck cards"
-	def test_inaturn_getidd (self):
+	def test_inaturn_getpdd (self):
 		it = inaturn ()
                 sg = startinggame ()
                 sg.BoardTBL ('testboard.txt')
-		sg.idTBL ( )
-		sg.iddTBL ()
-		it.infectcities (3)
-		answerD = it.getidd ()
+		sg.pdTBL ( )
+		sg.pddTBL ()
+		answerD = it.getpdd ()
                 self.assertNotEqual(answerD,None,'No cards found in the player deck discard pile')
 
 # Gives the cards in a given players hand
@@ -166,6 +165,13 @@ class T( unittest.TestCase):
 # This def gives all cubes of each colour for a given city
 	def test_inaturn_getcityallcubes (self):
 		print "Needs to be written"
+		it = inaturn ()
+                sg = startinggame ()
+                sg.BoardTBL ('testboard.txt')
+		answerZ = it.getcityallcubes ('notacity')
+		answerX = it.getcityallcubes ('Atlanta')
+                self.assertEqual(answerX,"""0,0,0,0,0"""'Something wrong with the info!')
+                self.assertEqual(answerZ,'There is no city of that name!','This will not handle requests where city name is wrong')
 
 # This def reduces the number of cubes of a given colour by 1
 	def test_inaturn_usecube (self):
@@ -193,3 +199,30 @@ class T( unittest.TestCase):
 		it.infectcities (3)
 		answerD = it.getidd ()
                 self.assertNotEqual(answerD,None,'No cards found in the infection deck discard pile')
+
+
+
+	def test_inaturn_discard (self):
+		it = inaturn ()
+                sg = startinggame ()
+                sg.BoardTBL ('testboard.txt')
+		sg.pdTBL ( )
+		sg.pddTBL ()
+		sg.player1TBL (4)
+		cards = it.gethand ('player1')
+		todiscard = cards [0]
+		it.discard (todiscard)
+                with sqlite3.connect('pandemic.db') as conn:
+                        cursor = conn.cursor()
+                        tobedone = """SELECT %s FROM pddTBL WHERE name is '%s'; """ % (todiscard, todiscard)
+                        cursor.execute( tobedone)
+			Answer = cursor.fetchone ()
+		AnswerZ = Answer [0]
+		cards = it.gethand ('player1')
+		inhand = cards [0]
+                self.assertEqual(answerZ,todiscard,'Discarded card not found in discard pile')
+                self.assertNotEqual(answerZ,inhand,'Discarded card found in players hand!')
+		
+			
+		
+		

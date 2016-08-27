@@ -69,8 +69,9 @@ Ditto on this.
 20- startnewgame - starts a new game for a given number of players, on a specific board, with a given number of epidemics using given event and character files.
 
 ***B - Class - inaturn***
-1 - getplayer - returns the location of a given player.
-2 - getcityallcubes - returns all the cubes of any colour found in a given city.3 - infectcities - infects cities at a given rate
+1 - getplayer - returns the location of a given player. 
+2 - getcityallcubes - returns all the cubes of any colour found in a given city.
+3 - infectcities - infects cities at a given rate
 4 - move - moves a given player from a given location to a given destination
 5 - getxcube - returns the name of all cities with a given colour and given number of cubes in
 6 - getoc - returns the current outbreak count 
@@ -81,6 +82,18 @@ Ditto on this.
 11 - usecube - reduces the remaining amount of a given colour of cube by 1.
 12 - getidd - returns the cards in the infection deck discard pile
 13 - getpdd - returns the cards in the player deck pile
-
+14 - discard - for a given player discards a given card from their hand.
 ***C - Class - playeraction***
+1 - mp - move a given player from a given location to another adjacent location, for an action.
+2 - df - move a given player to given location dicarding the card of the destination city from their hand.
+3 - cf - move a given player to a given location discarding the card of their current location from their hand.
+4 - sf - move a given player from a given location to a given destination where there is a research station present at each locaton.
+5 - td - remove 1 cube of a given colour from a given city, or all cubes of that colour if a cure has been discovered.
+6 - cd - discard 5 given cards of the same colour to discover a cure for a disease.
+7 - sk - moves a given card from a given player to another given player when both are in the same city and the city named on the card.
+8 - br - a given player builds a research station in a given city discarding that city card if they are in the city on the card
+
+
+- build a research station 
+
 
