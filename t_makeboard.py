@@ -264,6 +264,7 @@ class T( unittest.TestCase ):
 	def test_setup_sginfect (self):
 		sg = startinggame ()
 		sg.BoardTBL ('testboard.txt')
+		sg.cubeTBL ()
 		sg.idTBL( )
 		sg.iddTBL ( )
 		sg.shufid ( )
@@ -282,9 +283,17 @@ class T( unittest.TestCase ):
 			cursor.execute( tobedone)
 			answerZ = cursor.fetchall ( )
 			answer3 = answerZ [2]
+			AnswerF = it.getcubes ('rcube')
+			AnswerG = it.getcubes ('ycube')
+			AnswerH = it.getcubes ('pcube')
+			AnswerI = it.getcubes ('bcube')
+			AnswerJ = it.getcubes ('ucube')
+			AnswerK =  AnswerF + AnswerG + AnswerH + AnswerI + AnswerJ
+			print AnswerK
 		self.assertNotEqual(answer3,None,'3 countries with 3 cubes not found')
                 self.assertNotEqual(answer1,None,'3 countries with 1 cubes not found')
                 self.assertNotEqual(answer2,None,'3 countries with 2 cubes not found')
+                self.assertEqual(answerK,102,'Cubes have not been removed for the correct pools in setup')
 
 
 
@@ -335,6 +344,7 @@ class T( unittest.TestCase ):
 			answerX = cursor.fetchall ( )
 			answer1 = answerX [0]
                 self.assertNotEqual(answer1,None,'Player 3 has not identity')
+
 # This checks the starting the game def
 	def test_startnewgame (self):
 		sg = startinggame ()
@@ -440,6 +450,13 @@ class T( unittest.TestCase ):
 			AnswerH = AnswerB [5]
 			AnswerI = AnswerB [6]
 			AnswerJ = AnswerB [7]
+			Answer1F = it.getcubes ('rcube')
+			Answer1G = it.getcubes ('ycube')
+			Answer1H = it.getcubes ('pcube')
+			Answer1I = it.getcubes ('bcube')
+			Answer1J = it.getcubes ('ucube')
+			Answer1K =  Answer1F + Answer1G + Answer1H + Answer1I + Answer1J
+			print Answer1K
 		self.assertEqual(AnswerC,'Atlanta','The table for countries has no name column.')
 		self.assertEqual(AnswerD,'u','The table for countries has no colour column.')
 		self.assertEqual(AnswerE,2,'The table for countries has no connect column.')
@@ -448,7 +465,7 @@ class T( unittest.TestCase ):
 		self.assertEqual(AnswerH,0,'The table for countries has no rcube column.')
 		self.assertEqual(AnswerI,0,'The table for countries has no bcube column.')
 		self.assertNotEqual(AnswerJ,None,'The table for countries has no rstation column.')
-                self.assertEqual(AnswerA,(1, 1, 1, 0),'Something wrong with research station and player placement')
+                self.assertEqual(AnswerA,(1, 1, 1, 1),'Something wrong with research station and player placement')
 		self.assertEqual(AnswerL,'Atlanta','The table for the player deck has no name column.')
 		self.assertEqual(AnswerM,0,'The table for the player deck has no position in the deck column.')
 		self.assertEqual(AnswerN,None,'The table for discarded player cards has no name column.')
@@ -456,7 +473,7 @@ class T( unittest.TestCase ):
                 self.assertGreater(AnswerR,0,'The pos of the cards in the infection deck is not right')
                 self.assertLess(AnswerR,501,'The pos of the cards in the infection deck is not right')
 		self.assertLess(AnswerS,55,'There are too many cards in the infection deck')
-		self.assertEqual(AnswerT,None,'The table for the infection cards to be discarded into has no name column.')
+		self.assertNotEqual(AnswerT,None,'The table for the infection cards to be discarded into has no name column.')
 		self.assertNotEqual(AnswerV,None,'The table for the event cards has no name column.')
 		self.assertNotEqual(AnswerW,None,'The table for the event cards deck has no position in the deck column.')
 		self.assertEqual(AnswerAB,24,'The table for cubes has the wrong number of cubes in the red column.')
@@ -469,7 +486,7 @@ class T( unittest.TestCase ):
 		self.assertNotEqual(AnswerAG,AnswerAH,"""Player 1's hand has cards still in the player deck.""")
 		self.assertEqual(AnswerAJ,2,'The infection rate is not two. It should be at the start of the game.')
                 self.assertEqual(AnswerAK,0,'The number of outbreaks is not 0. It should be.')
-                self.assertEqual(AnswerAL,3,'The number of players is not 3. It should be.')
+                self.assertEqual(AnswerAL,4,'The number of players is not 4. It should be.')
 		self.assertNotEqual(AnswerAR,None,'3 countries with 3 cubes not found')
                 self.assertNotEqual(AnswerAN,None,'3 countries with 1 cubes not found')
                 self.assertNotEqual(AnswerAP,None,'3 countries with 2 cubes not found')
@@ -477,3 +494,4 @@ class T( unittest.TestCase ):
                 self.assertLess(rAnswerAU,501,'The pos of the second epidemic card is not right')
 		self.assertEqual(AnswerAW,'Dispatcher','The table for the characters cards has no name column.')
                 self.assertNotEqual(AnswerBB,None,'Player 3 has not identity')
+                self.assertEqual(answer1K,102,'Cubes have not been removed for the correct pools in setup')
