@@ -89,6 +89,7 @@ Not yet written
 15 - pdraw - draws a single card for a given player, checking if it is an epidemic
 16 - epidemic - carries out an epidemic on the board
 17 - co - checks for unresolved outbreaks
+18 - ocity - in a given city makes an outbreak happen
 
 ***C - Class - playeraction***
 1 - mp - move a given player from a given location to another adjacent location, for an action.
