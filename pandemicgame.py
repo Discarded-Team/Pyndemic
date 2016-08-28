@@ -267,7 +267,7 @@ class startinggame:
 			"pcube");'''
 			cursor.execute( tobedone )
 			conn.commit()
-		        tobedone = """INSERT INTO cubesTBL (rcube,ycube,bcube,ucube,pcube) VALUES (24,24,24,24,24);"""
+		        tobedone = """INSERT INTO cubesTBL (rcube,ycube,bcube,ucube,pcube) VALUES (24,24,24,24,12);"""
 			cursor.execute( tobedone )
 			conn.commit()
 
