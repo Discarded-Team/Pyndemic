@@ -600,10 +600,13 @@ class startinggame:
 			tobedone = '''CREATE TABLE gsTBL(
 			"ir",
 			"oc",
-			"players");'''
+			"players",
+			"ec",
+			"ap",
+			"action");'''
 			cursor.execute( tobedone )
 			conn.commit()
-			tobedone = """INSERT INTO gsTBL (ir,oc,players) VALUES (2,0,%s)""" % (players)
+			tobedone = """INSERT INTO gsTBL (ir,oc,players,ec,ap,action) VALUES (2,0,%s,0,'player1',4)""" % (players)
 			cursor.execute( tobedone)
 			conn.commit()
 
