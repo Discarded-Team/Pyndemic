@@ -135,7 +135,7 @@ class T( unittest.TestCase ):
 		self.assertEqual(answer1,24,'The table for cubes has the wrong number of cubes in the yellow column.')
 		self.assertEqual(answer2,24,'The table for cubes has the wrong number of cubes in the blue column.')
 		self.assertEqual(answer3,24,'The table for cubes has the wrong number of cubes in the black column.')
-		self.assertEqual(answer4,24,'The table for cubes has the wrong number of cubes in the purple column.')
+		self.assertEqual(answer4,12,'The table for cubes has the wrong number of cubes in the purple column.')
 
 
 # This checks the set up of the table for player2's hand
@@ -180,7 +180,7 @@ class T( unittest.TestCase ):
 			answerY = cursor.fetchone ( )
 			answer1 = answerY [0]
 		self.assertNotEqual(answer0,None,"""Nothing found in the hand""")
-		self.assertNotEqual(answer0,answer1,"""Player 4's hand has cards still in the player deck.""")
+		self.assertNotEqual(answer0,answer1,"""Player 3's hand has cards still in the player deck.""")
 
 # This checks the set up of the table for player4's hand
 	def test_setup_player4TBL (self):
@@ -294,7 +294,7 @@ class T( unittest.TestCase ):
 		self.assertNotEqual(answer3,None,'3 countries with 3 cubes not found')
                 self.assertNotEqual(answer1,None,'3 countries with 1 cubes not found')
                 self.assertNotEqual(answer2,None,'3 countries with 2 cubes not found')
-                self.assertEqual(AnswerK,102,'Cubes have not been removed for the correct pools in setup')
+                self.assertEqual(AnswerK,90,'Cubes have not been removed for the correct pools in setup')
 
 
 
@@ -397,17 +397,6 @@ class T( unittest.TestCase ):
 			AnswerAF = cursor.fetchone ( )
 			AnswerAH = AnswerAF [0]
 			cursor = conn.cursor()
-			tobedone = 'SELECT rcube,ycube,ucube,bcube,pcube FROM cubesTBL;'
-
-			cursor.execute( tobedone)
-			AnswerAA = cursor.fetchone ( )
-			AnswerAB = AnswerAA [0]
-			AnswerAC = AnswerAA [1]
-			AnswerAD = AnswerAA [2]
-			AnswerAE = AnswerAA [3]
-			AnswerAD = AnswerAA [4]
-
-			cursor = conn.cursor()
 			tobedone = 'SELECT name,pos FROM edTBL;'
 			cursor.execute( tobedone)
 			AnswerU = cursor.fetchone ( )
@@ -458,7 +447,6 @@ class T( unittest.TestCase ):
 			Answer1I = it.getcubes ('bcube')
 			Answer1J = it.getcubes ('ucube')
 			Answer1K =  Answer1F + Answer1G + Answer1H + Answer1I + Answer1J
-			print Answer1K
 		self.assertEqual(AnswerC,'Atlanta','The table for countries has no name column.')
 		self.assertEqual(AnswerD,'u','The table for countries has no colour column.')
 		self.assertEqual(AnswerE,2,'The table for countries has no connect column.')
@@ -478,12 +466,6 @@ class T( unittest.TestCase ):
 		self.assertNotEqual(AnswerT,None,'The table for the infection cards to be discarded into has no name column.')
 		self.assertNotEqual(AnswerV,None,'The table for the event cards has no name column.')
 		self.assertNotEqual(AnswerW,None,'The table for the event cards deck has no position in the deck column.')
-		self.assertEqual(AnswerAB,24,'The table for cubes has the wrong number of cubes in the red column.')
-		self.assertEqual(AnswerAC,24,'The table for cubes has the wrong number of cubes in the yellow column.')
-		self.assertEqual(AnswerAD,24,'The table for cubes has the wrong number of cubes in the blue column.')
-		self.assertEqual(AnswerAE,24,'The table for cubes has the wrong number of cubes in the black column.')
-		self.assertEqual(AnswerAD,24,'The table for cubes has the wrong number of cubes in the purple column.')
-
 		self.assertNotEqual(AnswerAG,None,"""Nothing found in the hand""")
 		self.assertNotEqual(AnswerAG,AnswerAH,"""Player 1's hand has cards still in the player deck.""")
 		self.assertEqual(AnswerAJ,2,'The infection rate is not two. It should be at the start of the game.')
@@ -496,4 +478,4 @@ class T( unittest.TestCase ):
                 self.assertLess(rAnswerAU,501,'The pos of the second epidemic card is not right')
 		self.assertEqual(AnswerAW,'Dispatcher','The table for the characters cards has no name column.')
                 self.assertNotEqual(AnswerBB,None,'Player 3 has not identity')
-                self.assertEqual(answer1K,102,'Cubes have not been removed for the correct pools in setup')
+                self.assertEqual(Answer1K,90,'Cubes have not been removed for the correct pools in setup')
