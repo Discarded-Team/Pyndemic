@@ -152,11 +152,7 @@ class startinggame:
 			tobedone = '''CREATE TABLE iddTBL(
 			"name");'''
 			cursor.execute( tobedone )
-			conn.commit(
-
-
-
-)
+			conn.commit()
 
 # This sets up the event deck and populates it
 	def edTBL (self,event):
@@ -267,7 +263,7 @@ class startinggame:
 			"pcube");'''
 			cursor.execute( tobedone )
 			conn.commit()
-		        tobedone = """INSERT INTO cubesTBL (rcube,ycube,bcube,ucube,pcube) VALUES (24,24,24,24,24);"""
+		        tobedone = """INSERT INTO cubesTBL (rcube,ycube,bcube,ucube,pcube) VALUES (24,24,24,24,12);"""
 			cursor.execute( tobedone )
 			conn.commit()
 
@@ -600,10 +596,13 @@ class startinggame:
 			tobedone = '''CREATE TABLE gsTBL(
 			"ir",
 			"oc",
-			"players");'''
+			"players",
+			"ec",
+			"ap",
+			"action");'''
 			cursor.execute( tobedone )
 			conn.commit()
-			tobedone = """INSERT INTO gsTBL (ir,oc,players) VALUES (2,0,%s)""" % (players)
+			tobedone = """INSERT INTO gsTBL (ir,oc,players,ec,ap,action) VALUES (2,0,%s,0,'player1',4)""" % (players)
 			cursor.execute( tobedone)
 			conn.commit()
 
@@ -727,23 +726,18 @@ class startinggame:
 			while ucount < count2cu:
 				it.usecube ('ucube')
 				ucount = ucount +1
-				print "remove a blue"
 			while rcount < count2cr:
 				it.usecube ('rcube')
 				rcount = rcount +1
-				print "remove a red"
 			while ycount < count2cy:
 				it.usecube ('ycube')
 				ycount = ycount +1
-				print "remove a yellow"
 			while bcount < count2cb:
 				it.usecube ('bcube')
 				bcount = bcount +1
-				print "remove a black"
 			while pcount < count2cp:
 				it.usecube ('pcube')
 				pcount = pcount +1
-				print "remove a purple"
 			
 
 			count3cu = 0
@@ -785,27 +779,22 @@ class startinggame:
 				it.usecube ('ucube')
 				it.usecube ('ucube')
 				ucount = ucount +1
-				print "remove 2 blue"
 			while rcount < count3cr:
 				it.usecube ('rcube')
 				it.usecube ('rcube')
 				rcount = rcount +1
-				print "remove 2 red"
 			while ycount < count3cy:
 				it.usecube ('ycube')
 				it.usecube ('ycube')
 				ycount = ycount +1
-				print "remove 2 yellow"
 			while bcount < count3cb:
 				it.usecube ('bcube')
 				it.usecube ('bcube')
 				bcount = bcount +1
-				print "remove 2 black"
 			while pcount < count3cp:
 				it.usecube ('pcube')
 				it.usecube ('pcube')
 				pcount = pcount +1
-				print "remove 2 purple"
 
 
 # Sets up the board for: 
@@ -860,6 +849,35 @@ class startinggame:
 		print "13. Shuffling epidemic cards into the infection deck"
 		sg.epTBL (epidemics)
 		print "14. LETS GO! Time to start the game!"
+
+# Stats a new game as above, but without the printing
+	def startnewgameq (self,players,board,epidemics,event,characters):
+		sg = startinggame ()
+		sg.BoardTBL (board)
+		sg.edTBL (event) 
+		sg.pdTBL ()
+		sg.pddTBL ()
+		sg.shufpd (players)
+		sg.cubesTBL ()
+		sg.player1TBL (players)
+		if players >= 2:
+			sg.player2TBL (players)
+		if players >= 3:
+			sg.player3TBL (players)
+		if players >= 4:
+			sg.player4TBL (players)
+		sg.startinglocals (players)
+		sg.pdTBL ()
+		sg.pddTBL ()
+		sg.cTBL (characters)
+		sg.caTBL ()
+		sg.gsTBL (players)
+		sg.startinglocals (players)
+		sg.idTBL ()
+		sg.iddTBL ()
+		sg.shufid ()
+		sg.sginfect ()
+		sg.epTBL (epidemics)
 
 class inaturn:
 
@@ -1088,7 +1106,6 @@ class inaturn:
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
 			tobedone = """SELECT %s FROM cubesTBL;""" % (cube)
-			print tobedone
 			cursor.execute( tobedone)
 			cubes = cursor.fetchone ( )
 			cubeleft = cubes [0]
@@ -1118,7 +1135,46 @@ class inaturn:
 			conn.commit ()
 			return iddcont
 
+# This def checks the player deck discard pile
+	def getpdd (self):
+		with sqlite3.connect('pandemic.db') as conn:
+			cursor = conn.cursor()
+			tobedone = """SELECT name FROM pddTBL;"""
+			cursor.execute( tobedone)
+			pddcont = cursor.fetchall ( )
+			conn.commit ()
+			return pddcont
 
+	def pdraw (self, player):
+		it = inaturn ()
+		with sqlite3.connect('pandemic.db') as conn:
+			cursor = conn.cursor()
+			tobedone = """SELECT name from shufpd ORDER BY pos DESC limit 1;"""
+       		     	cursor.execute( tobedone )
+			answerX = cursor.fetchall ( )
+			answer1 = answerX [4]
+			maybeep = answer1 [0]
+			if maybeep == "ep1" or "ep2" or "ep3" or "e4" or "ep5" or "ep6" or "ep7" or "ep8" or "ep9":
+				print "drawn an epidemic!"
+				it.epidemic ()
+			else:	
+				tobedone = 'INSERT INTO %sTBL (name) select name from shufpd ORDER BY pos DESC limit 1;' % (player)
+	       		     	cursor.execute( tobedone )
+		        	tobedone = 'SELECT pos FROM shufpd ORDER BY pos DESC limit 1;'
+       			     	cursor.execute( tobedone )
+				conn.commit()
+				answerX = cursor.fetchall ( )
+				answer1 = answerX [0]
+				funny1 = answer1 [0]
+	        		tobedone = """DELETE FROM shufpd WHERE pos >= %s;""" % (funny1)
+       		     		cursor.execute( tobedone )
+				conn.commit()
 
-
-		
+	def discard (self, player, card):
+		with sqlite3.connect('pandemic.db') as conn:
+			cursor = conn.cursor()
+	        	tobedone = """DELETE FROM %TBL WHERE name is %s;""" % (player, card)
+			cursor.execute( tobedone )
+	        	tobedone = """INSERT INTO pddTBL (name) VALUES ('%s');""" % (card)
+			cursor.execute( tobedone )
+			conn.commit()

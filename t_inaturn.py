@@ -98,13 +98,12 @@ class T( unittest.TestCase):
 		AnswerI = it.getcubes ('bcube')
 		AnswerJ = it.getcubes ('ucube')
 		AnswerK =  AnswerF + AnswerG + AnswerH + AnswerI + AnswerJ
-		print AnswerK
                 self.assertNotEqual(AnswerF,None,"""Answer given for Red cubes""")
                 self.assertNotEqual(AnswerG,None,"""Answer given for Yellow cubes""")
                 self.assertNotEqual(AnswerH,None,"""Answer given for Purple cubes""")
                 self.assertNotEqual(AnswerI,None,"""Answer given for Black cubes""")
                 self.assertNotEqual(AnswerJ,None,"""Answer given for Blue cubes""")
-                self.assertEqual(AnswerK,113,"""Should be 113 disease cubes left, but can't find them.""")
+                self.assertEqual(AnswerK,101,"""Should be 101 disease cubes left, but can't find them.""")
 		
 
 # Gives the infection rate
@@ -164,13 +163,12 @@ class T( unittest.TestCase):
 
 # This def gives all cubes of each colour for a given city
 	def test_inaturn_getcityallcubes (self):
-		print "Needs to be written"
 		it = inaturn ()
                 sg = startinggame ()
                 sg.BoardTBL ('testboard.txt')
 		answerZ = it.getcityallcubes ('notacity')
 		answerX = it.getcityallcubes ('Atlanta')
-                self.assertEqual(answerX,"""0,0,0,0,0"""'Something wrong with the info!')
+                self.assertEqual(answerX,"""There are 0 blue cubes, 0 black cubes, 0 red cubes, 0 yellow cubes and 0 purple cubes in Atlanta.""")
                 self.assertEqual(answerZ,'There is no city of that name!','This will not handle requests where city name is wrong')
 
 # This def reduces the number of cubes of a given colour by 1
@@ -225,4 +223,41 @@ class T( unittest.TestCase):
 		
 			
 		
+	
+	def test_inaturn_pdraw (self):	
+		it = inaturn ()
+                sg = startinggame ()
+                sg.BoardTBL ('testboard.txt')
+		sg.pdTBL ( )
+		sg.pddTBL ()
+		sg.player1TBL (4)
+		cards1 = it.gethand ('player1')
+		it.pdraw (player1)
+		cards2 = it.gethand ('player1')
+                self.assertNotEqual('player1','player1',"""Player 1's hand is still the same after drawing a card """)
+
+	def test_inaturn_epidemic (self):
+		it = inaturn ()
+		sg = startinggame ()
+		sg.startnewgameq (2,'testboard.txt',6,'testevent.txt','testcharacter.txt')
+		eps = 0
+		problem = 0
+		while eps == 0 or problem < 20:
+			with sqlite3.connect('pandemic.db') as conn:
+				cursor = conn.cursor()
+	                        tobedone = """SELECT ec FROM gsTBL; """
+       		                cursor.execute( tobedone)
+				Answer = cursor.fetchone ()
+				eps = int(Answer)
+				print eps
+				it.pdraw (player1)
+				problem = problem + 1
+		AnswerF = it.getcubes ('rcube')
+		AnswerG = it.getcubes ('ycube')
+		AnswerH = it.getcubes ('pcube')
+		AnswerI = it.getcubes ('bcube')
+		AnswerJ = it.getcubes ('ucube')
+		AnswerK =  AnswerF + AnswerG + AnswerH + AnswerI + AnswerJ
+                self.assertEqual(eps,1,"""An epidemic hasn't happened""")
+                self.assertEqual(AnswerK,87,"""Should be 87 disease cubes left, but can't find them.""")
 		
