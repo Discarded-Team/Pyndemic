@@ -241,6 +241,27 @@ class T( unittest.TestCase):
 	def test_inaturn_epidemic (self)
 		it = inaturn ()
 		sg = startinggame
-
+		sg.startnewgameq (2,'testboard.txt',6,'testevent.txt','testcharacter.txt')
+		eps = 0
+		problem = 0
+		while eps == 0 or problem < 20:
+			with sqlite3.connect('pandemic.db') as conn:
+                        cursor = conn.cursor()
+                        tobedone = """SELECT ec FROM gsTBL; """
+                        cursor.execute( tobedone)
+			Answer = cursor.fetchone ()
+			eps = int(Answer)
+			print eps
+			it.pdraw (player1)
+			problem = problem + 1
+		AnswerF = it.getcubes ('rcube')
+		AnswerG = it.getcubes ('ycube')
+		AnswerH = it.getcubes ('pcube')
+		AnswerI = it.getcubes ('bcube')
+		AnswerJ = it.getcubes ('ucube')
+		AnswerK =  AnswerF + AnswerG + AnswerH + AnswerI + AnswerJ
+                self.assertEqual(eps,1,"""An epidemic hasn't happened""")
+                self.assertEqual(AnswerK,87,"""Should be 87 disease cubes left, but can't find them.""")
+		
 
 
