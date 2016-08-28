@@ -250,15 +250,21 @@ class T( unittest.TestCase ):
 		sg.gsTBL(3)
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
-			tobedone = 'SELECT ir,oc,players FROM gsTBL;'
+			tobedone = 'SELECT ir,oc,players,ec,ap,action FROM gsTBL;'
 			cursor.execute( tobedone)
 			answerX = cursor.fetchone ( )
 			answer0 = answerX [0]
 			answer1 = answerX [1]
 			answer2 = answerX [2]
+			answer3 = answerX [3]
+			answer4 = answerX [4]
+			answer5 = answerX [5]
 		self.assertEqual(answer0,2,'The infection rate is not two. It should be at the start of the game.')
                 self.assertEqual(answer1,0,'The number of outbreaks is not 0. It should be.')
                 self.assertEqual(answer2,3,'The number of players is not 3. It should be.')
+                self.assertEqual(answer3,0,'The number of epidemics so far is not 0. It should be.')
+                self.assertEqual(answer4,'player1','The active player is not player1. It should be.')
+                self.assertEqual(answer5,4,'The number of actions in a players turn is not 4. It should be.')
 
 # This def tests the infection of the first 9 cities works right.
 	def test_setup_sginfect (self):
