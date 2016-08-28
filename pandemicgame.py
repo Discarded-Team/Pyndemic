@@ -1172,4 +1172,9 @@ class inaturn:
 
 	def discard (self, player, card):
 		with sqlite3.connect('pandemic.db') as conn:
-			print "This should probably do something"
+			cursor = conn.cursor()
+	        	tobedone = """DELETE FROM %TBL WHERE name is %s;""" % (player, card)
+			cursor.execute( tobedone )
+	        	tobedone = """INSERT INTO pddTBL (name) VALUES ('%s');""" % (card)
+			cursor.execute( tobedone )
+			conn.commit()
