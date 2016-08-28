@@ -194,6 +194,7 @@ class T( unittest.TestCase):
                 sg.BoardTBL ('testboard.txt')
 		sg.idTBL ( )
 		sg.iddTBL ()
+		sg.shufid ()
 		it.infectcities (3)
 		answerD = it.getidd ()
                 self.assertNotEqual(answerD,None,'No cards found in the infection deck discard pile')
@@ -206,10 +207,11 @@ class T( unittest.TestCase):
                 sg.BoardTBL ('testboard.txt')
 		sg.pdTBL ( )
 		sg.pddTBL ()
+		sg.shufid ()
 		sg.player1TBL (4)
 		cards = it.gethand ('player1')
 		todiscard = cards [0]
-		it.discard (todiscard)
+		it.discard ('player1',todiscard)
                 with sqlite3.connect('pandemic.db') as conn:
                         cursor = conn.cursor()
                         tobedone = """SELECT %s FROM pddTBL WHERE name is '%s'; """ % (todiscard, todiscard)
@@ -232,7 +234,7 @@ class T( unittest.TestCase):
 		sg.pddTBL ()
 		sg.player1TBL (4)
 		cards1 = it.gethand ('player1')
-		it.pdraw (player1)
+		it.pdraw ('player1')
 		cards2 = it.gethand ('player1')
                 self.assertNotEqual('player1','player1',"""Player 1's hand is still the same after drawing a card """)
 
@@ -248,9 +250,9 @@ class T( unittest.TestCase):
 	                        tobedone = """SELECT ec FROM gsTBL; """
        		                cursor.execute( tobedone)
 				Answer = cursor.fetchone ()
-				eps = int(Answer)
+				eps = Answer [0]
 				print eps
-				it.pdraw (player1)
+				it.pdraw ('player1')
 				problem = problem + 1
 		AnswerF = it.getcubes ('rcube')
 		AnswerG = it.getcubes ('ycube')

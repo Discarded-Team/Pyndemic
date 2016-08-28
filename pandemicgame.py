@@ -1152,7 +1152,7 @@ class inaturn:
 			tobedone = """SELECT name from shufpd ORDER BY pos DESC limit 1;"""
        		     	cursor.execute( tobedone )
 			answerX = cursor.fetchall ( )
-			answer1 = answerX [4]
+			answer1 = answerX [0]
 			maybeep = answer1 [0]
 			if maybeep == "ep1" or "ep2" or "ep3" or "e4" or "ep5" or "ep6" or "ep7" or "ep8" or "ep9":
 				print "drawn an epidemic!"
@@ -1173,7 +1173,7 @@ class inaturn:
 	def discard (self, player, card):
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
-	        	tobedone = """DELETE FROM %TBL WHERE name is %s;""" % (player, card)
+	        	tobedone = """DELETE FROM %sTBL WHERE name is %s;""" % (player, card)
 			cursor.execute( tobedone )
 	        	tobedone = """INSERT INTO pddTBL (name) VALUES ('%s');""" % (card)
 			cursor.execute( tobedone )
