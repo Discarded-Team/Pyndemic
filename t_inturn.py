@@ -225,4 +225,22 @@ class T( unittest.TestCase):
 		
 			
 		
-		
+	
+	def test_inaturn_pdraw (self):	
+		it = inaturn ()
+                sg = startinggame ()
+                sg.BoardTBL ('testboard.txt')
+		sg.pdTBL ( )
+		sg.pddTBL ()
+		sg.player1TBL (4)
+		cards1 = it.gethand (player1)
+		it.pdraw (player1)
+		cards2 = it.gethand (player1)
+                self.assertNotEqual('player1','player1',"""Player 1's hand is still the same after drawing a card """)
+
+	def test_inaturn_epidemic (self)
+		it = inaturn ()
+		sg = startinggame
+
+
+
