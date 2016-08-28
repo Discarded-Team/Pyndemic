@@ -84,6 +84,12 @@ Ditto on this.
 13 - getpdd - returns the cards in the player deck pile
 14 - discard - for a given player discards a given card from their hand.
 
+Not yet written
+
+15 - pdraw - draws a single card for a given player, checking if it is an epidemic
+16 - epidemic - carries out an epidemic on the board
+17 - co - checks for unresolved outbreaks
+
 ***C - Class - playeraction***
 1 - mp - move a given player from a given location to another adjacent location, for an action.
 2 - df - move a given player to given location dicarding the card of the destination city from their hand.
