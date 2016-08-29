@@ -1214,7 +1214,10 @@ class inaturn:
 			answerX = cursor.fetchone ( )
 			ec = answerX [0]
 			ec = ec + 1
-			if ec == 3 or 4:
+			if ec == 3:
+	        		tobedone = """UPDATE gsTBL SET ir = 3;"""
+				cursor.execute( tobedone )
+			if ec == 4:
 	        		tobedone = """UPDATE gsTBL SET ir = 3;"""
 				cursor.execute( tobedone )
 			if ec >= 5:
@@ -1222,6 +1225,7 @@ class inaturn:
 				cursor.execute( tobedone )
 	        	tobedone = """UPDATE gsTBL SET ec = %s;""" % (ec)
 			cursor.execute( tobedone )
+			conn.commit()
 			
 			# infecting bottom card of infection deck
 			tobedone = """SELECT name,pos from shufid ORDER BY pos DESC;"""
@@ -1229,70 +1233,21 @@ class inaturn:
 			answerX = cursor.fetchone ( )
 			answer1 = answerX [0] # this is the name of the card in the id
 			answer2 = answerX [1] # this is the pos of the card in the id
-		       	tobedone = """SELECT name,colour,ucube,bcube,rcube,ycube,pcube from BoardTBL where name is '%s';""" % (answer1)
-			cursor.execute( tobedone)
+		       	tobedone = """SELECT name,colour FROM BoardTBL where name is '%s';""" % (answer1)
+			cursor.execute( tobedone
+)
 			answerY = cursor.fetchone ( )
 			answer3 = answerY [0] #name of place
 			answer4 = answerY [1] #colour
-			answer5 = answerY [2] #blue cubes
-			answer6 = answerY [3] #black cubes
-			answer7 = answerY [4] #red cubes
-			answer8 = answerY [5] #yellow cubes
-			answer9 = answerY [6] #purple cubes
-			if answer4 == 'u':
-				newcubes = answer5 + 3
-				tobedone = """UPDATE BoardTBL SET ucube = %s WHERE name is '%s'; """ % (newcubes,answer3)	
-				cursor.execute (tobedone)
-				conn.commit ()
-				it.usecube ('ucube')
-				it.usecube ('ucube')
-				it.usecube ('ucube')
-			
-			elif answer4 == 'b':
-				newcubes = answer6 + 3
-				tobedone = """UPDATE BoardTBL SET bcube = %s WHERE name is '%s'; """ % (newcubes,answer3)	
-				cursor.execute (tobedone)
-				conn.commit ()
-				it.usecube ('bcube')
-				it.usecube ('bcube')
-				it.usecube ('bcube')
-						
-			elif answer4 == 'r':
-				newcubes = answer7 + 3
-				tobedone = """UPDATE BoardTBL SET rcube = %s WHERE name is '%s'; """ % (newcubes,answer3)	
-				cursor.execute (tobedone)
-				conn.commit ()
-				it.usecube ('rcube')
-				it.usecube ('rcube')
-				it.usecube ('rcube')
-					
-			elif answer4 == 'y':
-				newcubes = answer8 + 3
-				tobedone = """UPDATE BoardTBL SET ycube = %s WHERE name is '%s'; """ % (newcubes,answer3)	
-				cursor.execute (tobedone)
-				conn.commit ()
-				it.usecube ('ycube')
-				it.usecube ('ycube')
-				it.usecube ('ycube')
-						
-			elif answer4 == 'p':
-				newcubes = answer9 + 3
-				tobedone = """UPDATE BoardTBL SET pcube = %s WHERE name is '%s'; """ % (newcubes,answer3)	
-				cursor.execute (tobedone)
-				conn.commit ()
-				it.usecube ('pcube')
-				it.usecube ('pcube')
-				it.usecube ('pcube')
-						
-			else:
-				print "something has gone wrong"
-
-				ci = ci + 1
-		        	tobedone = """DELETE FROM shufid WHERE name is '%s';""" % (answer3)
-	       		     	cursor.execute( tobedone )
-				tobedone = """INSERT INTO iddTBL (name) VALUES ('%s')""" % (answer3)
-	       		     	cursor.execute( tobedone )
-				conn.commit()
+			print "%s is now infected!" % (answer3)
+			it.ic (answer4,answer3)
+			it.ic (answer4,answer3)
+			it.ic (answer4,answer3)
+		        tobedone = """DELETE FROM shufid WHERE name is '%s';""" % (answer3)
+	       		cursor.execute( tobedone )
+			tobedone = """INSERT INTO iddTBL (name) VALUES ('%s')""" % (answer3)
+	       		cursor.execute( tobedone )
+			conn.commit()
 				
 			conn.commit()
 			# shuffling the idd to the top of the infection deck	
@@ -1301,3 +1256,177 @@ class inaturn:
 	        	tobedone = """INSERT INTO shufid (name,pos) select name,ABS(RANDOM() % 500) from iddTBL;""" 
 	  		cursor.execute( tobedone )
 			conn.commit()
+
+	def co (self):
+		it = inaturn ()
+                listofcol = ['ucube','ycube','rcube','bcube','pcube']
+                listofnumb = [7,6,5,4]
+                listofnumb2 = [9,10,11,12]
+                for a in listofcol:
+                        for b in listofnumb:
+                                city = it.getxcube (a,b)
+				if city [0][0] >= 1:
+					d = 0
+					while city [0][0] > d:
+						outbreakc = city [1][d][0]
+						print "There has been an outbreak in %s!" % (outbreakc)
+						with sqlite3.connect('pandemic.db') as conn:
+							cursor = conn.cursor()
+							oldoc = it.getoc ()
+							newoc = oldoc +1
+						       	tobedone = """UPDATE gsTBL SET oc = %s;""" % (newoc)
+							cursor.execute( tobedone )
+							conn.commit ()
+						       	tobedone = """UPDATE BoardTBL SET %s = 9 WHERE name is '%s';""" % (a,outbreakc)
+							cursor.execute( tobedone )
+							conn.commit ()
+					        	tobedone = """SELECT connect FROM BoardTBL WHERE name is '%s';""" % (outbreakc)
+							cursor.execute( tobedone )
+							answerX = cursor.fetchone ( )
+							connect = int (answerX [0])
+							t = 0
+							timestodo = connect - 1
+							while t <= timestodo:
+								t = t + 1
+								use = str (t)
+								find = "co"+use
+					        		tobedone = """SELECT %s, colour FROM BoardTBL WHERE name is '%s';""" % (find,outbreakc)
+								cursor.execute( tobedone )
+								answerX = cursor.fetchone ( )
+								connect = answerX [0]
+								colour = answerX [1]
+								print "The infection has spread from %s to %s." % (outbreakc, connect)
+								it.ic (colour,connect)
+								
+							
+						d = d + 1
+                for a in listofcol:
+                        for b in listofnumb:
+                                city = it.getxcube (a,b)
+				if city [0][0] >= 1:
+					d = 0
+					while city [0][0] > d:
+						outbreakc = city [1][d][0]
+						print "There has been an outbreak in %s!" % (outbreakc)
+						with sqlite3.connect('pandemic.db') as conn:
+							cursor = conn.cursor()
+						       	tobedone = """UPDATE BoardTBL SET %s = 9 WHERE name is '%s';""" % (a,outbreakc)
+							cursor.execute( tobedone )
+							conn.commit ()
+					        	tobedone = """SELECT connect FROM BoardTBL WHERE name is '%s';""" % (outbreakc)
+							cursor.execute( tobedone )
+							answerX = cursor.fetchone ( )
+							connect = int (answerX [0])
+							t = 0
+							timestodo = connect - 1
+							while t <= timestodo:
+								t = t + 1
+								use = str (t)
+								find = "co"+use
+					        		tobedone = """SELECT %s, colour FROM BoardTBL WHERE name is '%s';""" % (find,outbreakc)
+								cursor.execute( tobedone )
+								answerX = cursor.fetchone ( )
+								connect = answerX [0]
+								colour = answerX [1]
+								print "The infection has spread from %s to %s." % (outbreakc, connect)
+								it.ic (colour,connect)
+								
+							
+						d = d + 1
+                for a in listofcol:
+                        for b in listofnumb:
+                                city = it.getxcube (a,b)
+				if city [0][0] >= 1:
+					d = 0
+					while city [0][0] > d:
+						outbreakc = city [1][d][0]
+						print "There has been an outbreak in %s!" % (outbreakc)
+						with sqlite3.connect('pandemic.db') as conn:
+							cursor = conn.cursor()
+						       	tobedone = """UPDATE BoardTBL SET %s = 9 WHERE name is '%s';""" % (a,outbreakc)
+							cursor.execute( tobedone )
+							conn.commit ()
+					        	tobedone = """SELECT connect FROM BoardTBL WHERE name is '%s';""" % (outbreakc)
+							cursor.execute( tobedone )
+							answerX = cursor.fetchone ( )
+							connect = int (answerX [0])
+							t = 0
+							timestodo = connect - 1
+							while t <= timestodo:
+								t = t + 1
+								use = str (t)
+								find = "co"+use
+					        		tobedone = """SELECT %s, colour FROM BoardTBL WHERE name is '%s';""" % (find,outbreakc)
+								cursor.execute( tobedone )
+								answerX = cursor.fetchone ( )
+								connect = answerX [0]
+								colour = answerX [1]
+								print "The infection has spread from %s to %s." % (outbreakc, connect)
+								it.ic (colour,connect)
+								
+							
+						d = d + 1
+                for a in listofcol:
+                        for b in listofnumb:
+                                city = it.getxcube (a,b)
+				if city [0][0] >= 1:
+					d = 0
+					while city [0][0] > d:
+						outbreakc = city [1][d][0]
+						print "There has been an outbreak in %s!" % (outbreakc)
+						with sqlite3.connect('pandemic.db') as conn:
+							cursor = conn.cursor()
+						       	tobedone = """UPDATE BoardTBL SET %s = 9 WHERE name is '%s';""" % (a,outbreakc)
+							cursor.execute( tobedone )
+							conn.commit ()
+					        	tobedone = """SELECT connect FROM BoardTBL WHERE name is '%s';""" % (outbreakc)
+							cursor.execute( tobedone )
+							answerX = cursor.fetchone ( )
+							connect = int (answerX [0])
+							t = 0
+							timestodo = connect - 1
+							while t <= timestodo:
+								t = t + 1
+								use = str (t)
+								find = "co"+use
+					        		tobedone = """SELECT %s, colour FROM BoardTBL WHERE name is '%s';""" % (find,outbreakc)
+								cursor.execute( tobedone )
+								answerX = cursor.fetchone ( )
+								connect = answerX [0]
+								colour = answerX [1]
+								print "The infection has spread from %s to %s." % (outbreakc, connect)
+								it.ic (colour,connect)
+								
+							
+						d = d + 1
+                for a in listofcol:
+                        for b in listofnumb2:
+                                city = it.getxcube (a,b)
+				if city [0][0] >= 1:
+					d = 0
+					while city [0][0] > d:
+						outbreakc = city [1][d][0]
+						with sqlite3.connect('pandemic.db') as conn:
+							cursor = conn.cursor()
+							outbreakc = city [1][d][0]
+						       	tobedone = """UPDATE BoardTBL SET %s = 3 WHERE name is '%s';""" % (a,outbreakc)
+							cursor.execute( tobedone )
+							conn.commit ()
+						d = d + 1
+					 
+		
+
+	def ic (self, colour, city):
+		it = inaturn ()
+		with sqlite3.connect('pandemic.db') as conn:
+			cursor = conn.cursor()
+			cube = colour+'cube'
+			tobedone = """SELECT %s from BoardTBL where name is '%s';""" % (cube,city)
+			cursor.execute( tobedone)
+			found = cursor.fetchone ( )
+			newcubes = found [0] + 1
+			tobedone = """UPDATE BoardTBL SET %s = %s WHERE name is '%s'; """ % (cube,newcubes,city)	
+			cursor.execute (tobedone)
+			conn.commit ()
+			if newcubes <= 3:
+				it.usecube (cube)

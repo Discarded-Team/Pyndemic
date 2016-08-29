@@ -1,3 +1,4 @@
+name,colour,connect,co1,co2,co3,co4,co5,co6,rcube,ycube,bcube,ucube,pcube,rstation,player1,player2,player3,player4
 'Atlanta','u',2,'Chicago','Newyork',0,0,0,0,0,0,0,0,0,0,0,0,0,0
 'Chicago','u',3,'Atlanta','Newyork','Denver',0,0,0,0,0,0,0,0,0,0,0,0,0
 'Denver','y',2,'Chicago','Newyork',0,0,0,0,0,0,0,0,0,0,0,0,0,0
@@ -17,4 +18,4 @@
 'Istanbul','y',2,'HongKong','Jakarta',0,0,0,0,0,0,0,0,0,0,0,0,0,0
 'Washington','y',2,'HongKong','Jakarta',0,0,0,0,0,0,0,0,0,0,0,0,0,0
 'Jakarta','y',2,'HongKong','Jakarta',0,0,0,0,0,0,0,0,0,0,0,0,0,0
-'HoChiMinhCity','y',2,'HongKong','Jakarta',0,0,0,0,0,0,0,0,0,0,0,0,0,0
+'HoChiMinhcity','y',2,'HongKong','Jakarta',0,0,0,0,0,0,0,0,0,0,0,0,0,0

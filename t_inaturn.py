@@ -270,4 +270,32 @@ class T( unittest.TestCase):
                 self.assertEqual(eps,1,"""An epidemic hasn't happened""")
                 self.assertEqual(AnswerK,83,"""Should be 83 disease cubes left, but can't find them.""")
                 self.assertEqual(AnswerE5,4,"""4 cities cannot be found with 3 cubes on, which isn't right.""")
-		
+
+        def test_inaturn_ic (self):
+                it = inaturn ()
+                sg = startinggame ()
+                sg.BoardTBL ('testboard.txt')
+                sg.idTBL ()
+                sg.iddTBL ()
+                sg.shufid ( )
+                it.ic ('u','Bogota')
+                it.ic ('y','Atlanta')
+                it.ic ('y','Atlanta')
+                Answer1 = it.getcitycubes ('ucube','Bogota')
+                Answer2 = it.getcitycubes ('ycube','Atlanta')
+                self.assertEqual(Answer1,1,"""Bogota should have a single blue cube in now. It does not""")
+                self.assertEqual(Answer2,2,"""Atlanta should have two yellow cubes in now. It does not""")
+	
+
+	def test_inaturn_co (self):
+                it = inaturn ()
+                sg = startinggame ()
+                sg.startnewgameq (3,'testboard.txt',1,'testevent.txt','testcharacter.txt')
+                it.epidemic ()
+                it.infectcities (10)
+                it.co ()
+                outbreaks = it.getoc ()
+                self.assertNotEqual(outbreaks,0,"""At least 1 outbreak should have happend. Counter still at zero!""")
+# it.getxcube ('ucube',4)
+ 
+	
