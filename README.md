@@ -34,7 +34,7 @@ Some basic front end website languages (HTML, JavaScript and the like)
 15- player3TBL - draws a hand for player three for a given number of players.
 16- player4TBL - draws a hand for player four for a given number of players.
 17- epTBL - shuffles a given number of Epidemic cards into the player deck.
-18- gsTBL - creates a game state table with the number of players, infection rate and outbreak count.
+18- gsTBL - creates a game state table with the infection rate, outbreak count, number of players, number of epidemics, active player and actions remaining.
 19- sginfect - infects 3 cities with 3 cubes, 3 with 2 and 3 with 1.
 20- startnewgame - starts a new game for a given number of players, on a specific board, with a given number of epidemics using given event and character files.
 

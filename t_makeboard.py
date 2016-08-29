@@ -296,7 +296,6 @@ class T( unittest.TestCase ):
 			AnswerI = it.getcubes ('bcube')
 			AnswerJ = it.getcubes ('ucube')
 			AnswerK =  AnswerF + AnswerG + AnswerH + AnswerI + AnswerJ
-			print AnswerK
 		self.assertNotEqual(answer3,None,'3 countries with 3 cubes not found')
                 self.assertNotEqual(answer1,None,'3 countries with 1 cubes not found')
                 self.assertNotEqual(answer2,None,'3 countries with 2 cubes not found')
