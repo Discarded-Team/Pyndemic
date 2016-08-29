@@ -1,4 +1,3 @@
-name,colour,connect,co1,co2,co3,co4,co5,co6,rcube,ycube,bcube,ucube,pcube,rstation,player1,player2,player3,player4
 'Atlanta','u',4,'Newyork','Denver','Chicago','Miami',0,0,0,0,0,0,0,0,0,0,0,0
 'Chicago','u',4,'Atlanta','Newyork','Denver','Miami',0,0,0,0,0,0,0,0,0,0,0,0
 'Denver','u',4,'Chicago','Atlanta','Newyork','Miami',0,0,0,0,0,0,0,0,0,0,0,0

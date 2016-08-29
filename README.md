@@ -56,13 +56,9 @@ Some basic front end website languages (HTML, JavaScript and the like)
 15 - pdraw - draws a single card for a given player, checking if it is an epidemic
 16 - epidemic - carries out an epidemic on the board
 17 - co - checks for unresolved outbreaks
-20 - ic - infects a given city with a given colour
-
-21 - action - reduces the current active players action by 1, and if zero moves to the next players turn
-
-Not yet written
-
-19 - ccard - checks a player has a card matching the city they are in
+18 - ic - infects a given city with a given colour
+19 - action - reduces the current active players action by 1, and if zero moves to the next players turn
+20 - rc - removes a cube of a given colour from a given location
 
 
 ***C - Class - playeraction***
@@ -74,4 +70,5 @@ Not yet written
 6 - cd - discard 5 given cards of the same colour to discover a cure for a disease.
 7 - sk - moves a given card from a given player to another given player when both are in the same city and the city named on the card.
 8 - br - a given player builds a research station in a given city discarding that city card if they are in the city on the card
+
 

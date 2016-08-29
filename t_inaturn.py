@@ -314,3 +314,7 @@ class T( unittest.TestCase):
 		location = it.getplayer ('player1')
                 self.assertEqual(location,'Atlanta',"""Player has not ended up back in Atlanta""")
 # it.getxcube ('ucube',4)
+
+	def test_inaturn_rc (self):
+		print "Needs writing"
+

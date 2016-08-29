@@ -805,6 +805,7 @@ class startinggame:
 # specified pool of character cards
 	def startnewgame (self,players,board,epidemics,event,characters):
 		sg = startinggame ()
+		g = game ()
 		print "1. Laying out the board with everything."
 		sg.BoardTBL (board)
 		print "2. Shuffling the event cards together, so a random selection can be chosen to shuffle into the player deck."
@@ -849,6 +850,8 @@ class startinggame:
 		print "13. Shuffling epidemic cards into the infection deck"
 		sg.epTBL (epidemics)
 		print "14. LETS GO! Time to start the game!"
+		g.start ()
+
 
 # Stats a new game as above, but without the printing
 	def startnewgameq (self,players,board,epidemics,event,characters):
@@ -1506,6 +1509,29 @@ class inaturn:
 				cursor.execute (tobedone)
 				conn.commit ()
 				
+
+	def rc (self,colour,city):
+		with sqlite3.connect('pandemic.db') as conn:
+		       	cursor = conn.cursor()
+	            	tobedone = """SELECT %s FROM BoardTBL WHERE name is '%s';""" %s (colour,city)
+	            	cursor.execute( tobedone )
+			found  = cursor.fetchone ( )
+			cubes = found [0]
+			if cubes == 0:
+				print "No cubes of that colour found!"
+			else:
+				cubes = cubes - 1
+				tobedone = """UPDATE BoardTBL SET %s = %s WHERE name is '%s';""" %s (colour,cubes,city)
+		            	cursor.execute( tobedone )
+				tobedone = """SELECT %s FROM cubesTBL;""" % (colour)
+	            		cursor.execute( tobedone )
+				found  = cursor.fetchone ( )
+				cubepool = found [0]
+				cubepool = cubepool + 1
+				tobedone = """UPDATE cubesTBL SET %s = %s;""" %s (colour,cubepool)
+		            	cursor.execute( tobedone )
+				conn.commit ()
+		
 				
 					
 						
@@ -1526,3 +1552,136 @@ class playeraction:
 		it.move (player,location,destination)
 		print "%s has moved from %s to %s" % (player, location, destination)
 		it.action ()
+
+	def charter (self,player,card,destination):
+		it = inaturn ()
+		location = it.getplayer (player)
+		if location != card:
+			print "You need to play the card that matches your location."
+		if location == card:
+			it.discard (player,card)
+			it.move (player,location,destination)
+			print "%s has taken a charter flight from %s to %s" % (player, card, destination)
+			it.action ()
+			
+		else:
+			print "ERROR!"
+	
+
+	def shuttle (self,player,destination):
+		it = inaturn ()
+		location = it.getplayer (player)
+		with sqlite3.connect('pandemic.db') as conn:
+		       	cursor = conn.cursor()
+	            	tobedone = """SELECT rstaion FROM BoardTBL WHERE name is '%s';""" %s (location)
+	            	cursor.execute( tobedone )
+			found  = cursor.fetchone ( )
+			norsation1 = found [0]
+	            	tobedone = """SELECT rstaion FROM BoardTBL WHERE name is '%s';""" %s (destination)
+	            	cursor.execute( tobedone )
+			found  = cursor.fetchone ( )
+			norsation2 = found [0]
+		if norstation1 != 1:
+			print "No research station in %s, can't take a shuttle flight from here" % (location)
+		if norstation2 != 1:
+			print "No research station in %s, can't take a shuttle flight from here" % (destination)
+		else:
+			it.move (player,location,destination)
+			it.action ()
+
+
+	def treat (self,player,cube):
+		it = inaturn ()
+		location = it.getplayer (player)
+		it.rc (cube,location)
+		it.action ()
+		
+class game:
+
+        def start (self):
+		g = game ()
+                print """What would you like to do? 
+1- Find out about the board state.
+2- Take an action.
+3- Quit."""
+                thing = raw_input ('>')
+                if thing == '1':
+                        g.info ()
+		if thing == '2':
+			g.action ()
+		if thing == '3':
+			print "Are you sure? If so press Q."
+			thing = raw_input ('>')
+			if thing == 'q':
+				print "goodbye!"
+			if thing == 'Q':
+				print "goodbye!"
+			else:
+				g.start ()
+		else:
+			print "Type either 1 or 2."
+			g.start ()
+
+
+
+        def info (self):
+		g = game ()
+                print """What do you want to know?
+1. About a city?
+2. How many cities with 3 cubes of a given colour in?
+3. How many cities with 2 cubes of a given colour in?
+4. How many cities with 1 cube of a given colour in?
+5. Where am I?
+6. What is in my hand?"""
+                thing = raw_input ('>')
+                if thing == '1':
+			g.cityinfo ()
+		if thing == '2':	
+			g.cube3info ()
+		if thing == '3':	
+			g.cube2info ()
+		if thing == '4':	
+			g.cube1info ()
+		if thing == '5':	
+			g.playerlocinfo ()
+		if thing == '6':	
+			g.handinfo ()
+		else:
+			print "Type either 1,2,3,4,5 or 6"
+			g.action
+
+	def cityinfo (self):
+		it = inaturn ()
+		g = game ()
+		print "what city?"
+		answer = raw_input ('>')
+		findout = it.getcityallcubes (answer)
+		if findout == 'There is no city of that name!':
+			print findout
+			with sqlite3.connect('pandemic.db') as conn:
+		       		cursor = conn.cursor()
+				tobedone = """SELECT name FROM BoardTBL;"""
+				cursor.execute (tobedone)
+				answerX = cursor.fetchall ()
+				print "The cities are listed below."
+				for a in answerX:
+					print a [0]
+				g.cityinfo ()
+		else:
+			print findout
+			g.start
+
+
+	def action (self):
+		g = game ()
+                print """What would you like to do? 
+                1- Find out about the board state.
+                2- Take an action."""
+                thing = raw_input ('>')
+		print thing
+                if thing == '1':
+                        g.info ()
+		else:
+			print "thing isn't 1"
+			game.action
+		
