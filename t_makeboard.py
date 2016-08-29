@@ -356,7 +356,7 @@ class T( unittest.TestCase ):
 		sg = startinggame ()
 		it = inaturn ()
 		print "Testing 4 player game set-up" 
-		sg.startnewgame (4,'testboard.txt',4,'testevent.txt','testcharacter.txt')
+		sg.startnewgameq (4,'testboard.txt',4,'testevent.txt','testcharacter.txt')
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
 			tobedone = """SELECT name FROM cTBL WHERE player = 'player3';"""

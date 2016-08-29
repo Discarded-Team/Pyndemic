@@ -59,14 +59,14 @@ Some basic front end website languages (HTML, JavaScript and the like)
 18 - ic - infects a given city with a given colour
 19 - action - reduces the current active players action by 1, and if zero moves to the next players turn
 20 - rc - removes a cube of a given colour from a given location
-
+21 - getap - returns the current active player
 
 ***C - Class - playeraction***
-1 - mp - move a given player from a given location to another adjacent location, for an action.
-2 - df - move a given player to given location dicarding the card of the destination city from their hand.
-3 - cf - move a given player to a given location discarding the card of their current location from their hand.
-4 - sf - move a given player from a given location to a given destination where there is a research station present at each locaton.
-5 - td - remove 1 cube of a given colour from a given city, or all cubes of that colour if a cure has been discovered.
+1 - trainboat - move a given player from a given location to another adjacent location, for an action.
+2 - direct - move a given player to given location dicarding the card of the destination city from their hand.
+3 - charter - move a given player to a given location discarding the card of their current location from their hand.
+4 - shuttle - move a given player from a given location to a given destination where there is a research station present at each locaton.
+5 - treat - remove 1 cube of a given colour from a given city, or all cubes of that colour if a cure has been discovered.
 6 - cd - discard 5 given cards of the same colour to discover a cure for a disease.
 7 - sk - moves a given card from a given player to another given player when both are in the same city and the city named on the card.
 8 - br - a given player builds a research station in a given city discarding that city card if they are in the city on the card

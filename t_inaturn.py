@@ -318,3 +318,7 @@ class T( unittest.TestCase):
 	def test_inaturn_rc (self):
 		print "Needs writing"
 
+
+	def test_inaturn_getap (self):
+		print "Needs to be written"
+

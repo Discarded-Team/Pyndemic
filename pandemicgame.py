@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # vim: tabstop=4 softtabstop=4 shiftwidth=4 smarttab expandtab:
-
+import sys
 import sqlite3
 import random
 
@@ -823,10 +823,10 @@ class startinggame:
 		if players >= 2:
 			print "7a. Also drawing a hand for player Two."
 			sg.player2TBL (players)
-		if players >= 3:
+		elif players >= 3:
 			print "7b. Then drawing a hand for player Three."
 			sg.player3TBL (players)
-		if players >= 4:
+		elif players >= 4:
 			print "7c. Finally drawing a hand for player Four."
 			sg.player4TBL (players)
 		else:
@@ -1436,6 +1436,7 @@ class inaturn:
 
 
 	def action (self):
+		g = game ()
 		it = inaturn ()
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
@@ -1457,6 +1458,13 @@ class inaturn:
 				ir = it.getir ()
 				print "Infecting %s cities." % (ir)
 				it.infectcities	(ir)
+				it.co ()
+				oc = it.getoc ()
+				if oc >= 8:
+					print "You've lost the game"
+					g.gameover ()
+				else:
+					print "%s outbreaks so far, 8 or more and you loose the game" % (oc)
 				tobedone = """SELECT players FROM gsTBL;"""
 				cursor.execute (tobedone)
 				found  = cursor.fetchone ( )
@@ -1533,6 +1541,15 @@ class inaturn:
 				conn.commit ()
 		
 				
+	def getap (self):
+		it = inaturn ()
+		with sqlite3.connect('pandemic.db') as conn:
+		   	cursor = conn.cursor()
+			tobedone = """SELECT ap FROM gsTBL;"""
+			cursor.execute (tobedone)
+			answerX = cursor.fetchone ()
+			ap = answerX [0]
+			return ap 
 					
 						
 		
@@ -1903,10 +1920,110 @@ class game:
 9- Build a research centre play the city card that matches the city you are in to build a research centre."""
                 thing = raw_input ('>')
                 if thing == '1':
-                        g.info ()
+                        g.mp ()
+                elif thing == '2':
+                        g.df ()
+                elif thing == '3':
+                        g.cf ()
+                elif thing == '4':
+                        g.sf ()
+                elif thing == '5':
+                        g.td ()
+                elif thing == '6':
+                        g.cd ()
+                elif thing == '7':
+                        g.skg ()
+                elif thing == '8':
+                        g.skt ()
+                elif thing == '9':
+                        g.br ()
 		else:
-			print "thing isn't 1"
+			print "Please type a number from 1-9 for an action."
 			game.action ()
 
 
+	def mp (self):
+		g=game ()
+		it = inaturn ()
+		pa = playeraction ()
+		ap = it.getap ()
+		location = it.getplayer (ap)
+		print "Where would you like to go?"
+		with sqlite3.connect('pandemic.db') as conn:
+			cursor = conn.cursor()
+	        	tobedone = """SELECT connect FROM BoardTBL WHERE name is '%s';""" % (location)
+			cursor.execute( tobedone )
+			answerX = cursor.fetchone ( )
+			connect = int (answerX [0])
+			t = 0
+			timestodo = connect - 1
+			while t <= timestodo:
+				t = t + 1
+				use = str (t)
+				find = "co"+use
+	        		tobedone = """SELECT %s FROM BoardTBL WHERE name is '%s';""" % (find,location)
+				cursor.execute( tobedone )
+				answerX = cursor.fetchone ( )
+				connect = answerX [0]
+				part1 = str (t)
+				part2 = str (connect)
+				print part1 + part2
+		choice = raw_input ('>')
+		if choice == '1':	
+			cursor = conn.cursor()
+	        	tobedone = """SELECT co1 FROM BoardTBL WHERE name is '%s';""" % (location)
+			cursor.execute( tobedone )
+			answerX = cursor.fetchone ( )
+			destination = answerX [0]
+		elif choice == '2':	
+			cursor = conn.cursor()
+	        	tobedone = """SELECT co2 FROM BoardTBL WHERE name is '%s';""" % (location)
+			cursor.execute( tobedone )
+			answerX = cursor.fetchone ( )
+			destination = answerX [0]
+		elif choice == '3':	
+			cursor = conn.cursor()
+	        	tobedone = """SELECT co3 FROM BoardTBL WHERE name is '%s';""" % (location)
+			cursor.execute( tobedone )
+			answerX = cursor.fetchone ( )
+			destination = answerX [0]
+		elif choice == '4':	
+			cursor = conn.cursor()
+	        	tobedone = """SELECT co4 FROM BoardTBL WHERE name is '%s';""" % (location)
+			cursor.execute( tobedone )
+			answerX = cursor.fetchone ( )
+			destination = answerX [0]
+		elif choice == '5':	
+			cursor = conn.cursor()
+	        	tobedone = """SELECT co5 FROM BoardTBL WHERE name is '%s';""" % (location)
+			cursor.execute( tobedone )
+			answerX = cursor.fetchone ( )
+			destination = answerX [0]
+		elif choice == '6':	
+			cursor = conn.cursor()
+	        	tobedone = """SELECT co6 FROM BoardTBL WHERE name is '%s';""" % (location)
+			cursor.execute( tobedone )
+			answerX = cursor.fetchone ( )
+			destination = answerX [0]
+		else:
+			print "You must choose an option from the given selection"
+			g.mp ()	
+		pa.trainboat (ap,location,destination)
+		g.start ()
+		
+		
 
+
+#	def df (self):
+#	def cf (self):
+#	def sf (self):
+#	def td (self):
+#	def cd (self):
+#	def skg (self):
+#	def skt (self):
+#	def br (self):
+
+	def gameover (self):
+		print "The game is over"
+		sys.exit()
+		
