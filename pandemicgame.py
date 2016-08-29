@@ -1607,19 +1607,19 @@ class game:
                 thing = raw_input ('>')
                 if thing == '1':
                         g.info ()
-		if thing == '2':
+		elif thing == '2':
 			g.action ()
-		if thing == '3':
+		elif thing == '3':
 			print "Are you sure? If so press Q."
 			thing = raw_input ('>')
 			if thing == 'q':
 				print "goodbye!"
-			if thing == 'Q':
+			elif thing == 'Q':
 				print "goodbye!"
 			else:
 				g.start ()
 		else:
-			print "Type either 1 or 2."
+			print "Type either 1, 2 or 3."
 			g.start ()
 
 
@@ -1628,23 +1628,23 @@ class game:
 		g = game ()
                 print """What do you want to know?
 1. About a city?
-2. How many cities with 3 cubes of a given colour in?
-3. How many cities with 2 cubes of a given colour in?
-4. How many cities with 1 cube of a given colour in?
+2. How many cities with 3 cubes of a given or any colour in?
+3. How many cities with 2 cubes of a given or any colour in?
+4. How many cities with 1 cube of a given or any colour in?
 5. Where am I?
 6. What is in my hand?"""
                 thing = raw_input ('>')
                 if thing == '1':
 			g.cityinfo ()
-		if thing == '2':	
+		elif thing == '2':	
 			g.cube3info ()
-		if thing == '3':	
+		elif thing == '3':	
 			g.cube2info ()
-		if thing == '4':	
+		elif thing == '4':	
 			g.cube1info ()
-		if thing == '5':	
+		elif thing == '5':	
 			g.playerlocinfo ()
-		if thing == '6':	
+		elif thing == '6':	
 			g.handinfo ()
 		else:
 			print "Type either 1,2,3,4,5 or 6"
@@ -1653,7 +1653,7 @@ class game:
 	def cityinfo (self):
 		it = inaturn ()
 		g = game ()
-		print "what city?"
+		print "What city?"
 		answer = raw_input ('>')
 		findout = it.getcityallcubes (answer)
 		if findout == 'There is no city of that name!':
@@ -1669,19 +1669,244 @@ class game:
 				g.cityinfo ()
 		else:
 			print findout
-			g.start
+			g.start ()
+			
+
+	def cube3info (self):
+		it = inaturn ()
+		g = game ()
+		print """What colour?
+1. Blue
+2. Yellow
+3. Red
+4. Black
+5. All"""
+		answer = raw_input ('>')
+		if answer == '1':
+			findout = it.getxcube ('ucube',3)
+			print "There are %s cities with 3 blue cubes, in:" % (findout [0][0])
+			listc = findout [1]
+			for a in listc:
+				print a [0]
+			g.start () 
+		elif answer == '2':
+			findout = it.getxcube ('ycube',3)
+			print "There are %s cities with 3 yellow cubes, in:" % (findout [0][0])
+			listc = findout [1]
+			for a in listc:
+				print a [0]
+			g.start () 
+		elif answer == '3':
+			findout = it.getxcube ('rcube',3)
+			print "There are %s cities with 3 red cubes, in:" % (findout [0][0])
+			listc = findout [1]
+			for a in listc:
+				print a [0]
+			g.start () 
+		elif answer == '4':
+			findout = it.getxcube ('bcube',3)
+			print "There are %s cities with 3 black cubes, in:" % (findout [0][0])
+			listc = findout [1]
+			for a in listc:
+				print a [0]
+			g.start () 
+		elif answer == '5':
+			findout1 = it.getxcube ('bcube',3)
+			findout2 = it.getxcube ('ucube',3)
+			findout3 = it.getxcube ('ycube',3)
+			findout4 = it.getxcube ('rcube',3)
+			totalfound =findout1 [0][0] + findout2 [0][0] + findout3 [0][0] + findout4 [0][0] 
+			print "There are %s cities with 3 cubes, in:" % (totalfound)
+			listc = findout1 [1]
+			for a in listc:
+				print a [0]
+			listc = findout2 [1]
+			for a in listc:
+				print a [0]
+			listc = findout3 [1]
+			for a in listc:
+				print a [0]
+			listc = findout4 [1]
+			for a in listc:
+				print a [0]
+			g.start () 
+		else:
+			print "Please answer 1,2,3 or 4."
+			g.cube3info ()
+
+	def cube2info (self):
+		it = inaturn ()
+		g = game ()
+		print """What colour?
+1. Blue
+2. Yellow
+3. Red
+4. Black
+5. All"""
+		answer = raw_input ('>')
+		if answer == '1':
+			findout = it.getxcube ('ucube',2)
+			print "There are %s cities with 2 blue cubes, in:" % (findout [0][0])
+			listc = findout [1]
+			for a in listc:
+				print a [0]
+			g.start () 
+		elif answer == '2':
+			findout = it.getxcube ('ycube',2)
+			print "There are %s cities with 2 yellow cubes, in:" % (findout [0][0])
+			listc = findout [1]
+			for a in listc:
+				print a [0]
+			g.start () 
+		elif answer == '3':
+			findout = it.getxcube ('rcube',2)
+			print "There are %s cities with 2 red cubes, in:" % (findout [0][0])
+			listc = findout [1]
+			for a in listc:
+				print a [0]
+			g.start () 
+		elif answer == '4':
+			findout = it.getxcube ('bcube',2)
+			print "There are %s cities with 2 black cubes, in:" % (findout [0][0])
+			listc = findout [1]
+			for a in listc:
+				print a [0]
+			g.start () 
+		elif answer == '5':
+			findout1 = it.getxcube ('bcube',2)
+			findout2 = it.getxcube ('ucube',2)
+			findout3 = it.getxcube ('ycube',2)
+			findout4 = it.getxcube ('rcube',2)
+			totalfound =findout1 [0][0] + findout2 [0][0] + findout3 [0][0] + findout4 [0][0] 
+			print "There are %s cities with 2 cubes, in:" % (totalfound)
+			listc = findout1 [1]
+			for a in listc:
+				print a [0]
+			listc = findout2 [1]
+			for a in listc:
+				print a [0]
+			listc = findout3 [1]
+			for a in listc:
+				print a [0]
+			listc = findout4 [1]
+			for a in listc:
+				print a [0]
+			g.start () 
+		else:
+			print "Please answer 1,2,3 or 4."
+			g.cube2info ()
 
 
+	def cube1info (self):
+		it = inaturn ()
+		g = game ()
+		print """What colour?
+1. Blue
+2. Yellow
+3. Red
+4. Black
+5. All"""
+		answer = raw_input ('>')
+		if answer == '1':
+			findout = it.getxcube ('ucube',1)
+			print "There are %s cities with 1 blue cubes, in:" % (findout [0][0])
+			listc = findout [1]
+			for a in listc:
+				print a [0]
+			g.start () 
+		elif answer == '2':
+			findout = it.getxcube ('ycube',1)
+			print "There are %s cities with 1 yellow cubes, in:" % (findout [0][0])
+			listc = findout [1]
+			for a in listc:
+				print a [0]
+			g.start () 
+		elif answer == '3':
+			findout = it.getxcube ('rcube',1)
+			print "There are %s cities with 1 red cubes, in:" % (findout [0][0])
+			listc = findout [1]
+			for a in listc:
+				print a [0]
+			g.start () 
+		elif answer == '4':
+			findout = it.getxcube ('bcube',1)
+			print "There are %s cities with 1 black cubes, in:" % (findout [0][0])
+			listc = findout [1]
+			for a in listc:
+				print a [0]
+			g.start () 
+		elif answer == '5':
+			findout1 = it.getxcube ('bcube',1)
+			findout2 = it.getxcube ('ucube',1)
+			findout3 = it.getxcube ('ycube',1)
+			findout4 = it.getxcube ('rcube',1)
+			totalfound =findout1 [0][0] + findout2 [0][0] + findout3 [0][0] + findout4 [0][0] 
+			print "There are %s cities with 1 cubes, in:" % (totalfound)
+			listc = findout1 [1]
+			for a in listc:
+				print a [0]
+			listc = findout2 [1]
+			for a in listc:
+				print a [0]
+			listc = findout3 [1]
+			for a in listc:
+				print a [0]
+			listc = findout4 [1]
+			for a in listc:
+				print a [0]
+			g.start () 
+		else:
+			print "Please answer 1,2,3 or 4."
+			g.cube1info ()
+
+	def playerlocinfo (self):
+		g = game ()
+		it = inaturn ()
+		with sqlite3.connect('pandemic.db') as conn:
+		   	cursor = conn.cursor()
+			tobedone = """SELECT ap FROM gsTBL;"""
+			cursor.execute (tobedone)
+			answerX = cursor.fetchone ()
+			location = it.getplayer (answerX [0])
+			print "You, %s are located in %s" % (answerX[0],location)
+			g.start ()
+
+	def handinfo (self):
+		g = game ()
+		it = inaturn ()
+		with sqlite3.connect('pandemic.db') as conn:
+		   	cursor = conn.cursor()
+			tobedone = """SELECT ap FROM gsTBL;"""
+			cursor.execute (tobedone)
+			answerX = cursor.fetchone ()
+			hand = it.gethand (answerX [0])
+			count = 0
+			for a in hand:
+				count = count + 1
+			print "You, %s have the %s below cards in your hand:" % (answerX[0], count)
+			for a in hand:
+				print a [0]
+			g.start ()
+		
 	def action (self):
 		g = game ()
-                print """What would you like to do? 
-                1- Find out about the board state.
-                2- Take an action."""
+		it = inaturn ()
+                print """What action would you like to take?
+1- Take a train or ferry to another city (doesn't work correctly, you can move anywhere).
+2- Play a card to take a direct flight to that city.
+3- Play the card of the city you are in to take a charter flight to any location.
+4- Take a shuttle flight from one research station to another.
+5- Treat illness in your current city.
+6- Play 5 city cards of the same colour to cure an disease. You must be in a research station.
+7- Give another player a card from your hand that matches the city you are in if you are both in the same city.
+8- Take a card from another player that matches the city you are in if you are both in the same city.
+9- Build a research centre play the city card that matches the city you are in to build a research centre."""
                 thing = raw_input ('>')
-		print thing
                 if thing == '1':
                         g.info ()
 		else:
 			print "thing isn't 1"
-			game.action
-		
+			game.action ()
+
+
+
