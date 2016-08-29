@@ -55,13 +55,15 @@ Some basic front end website languages (HTML, JavaScript and the like)
 14 - discard - for a given player discards a given card from their hand.
 15 - pdraw - draws a single card for a given player, checking if it is an epidemic
 16 - epidemic - carries out an epidemic on the board
-
-Not written yet
-
 17 - co - checks for unresolved outbreaks
-18 - ocity - in a given city makes an outbreak happen
-19 - ccard - checks a player has a card matching the city they are in
 20 - ic - infects a given city with a given colour
+
+21 - action - reduces the current active players action by 1, and if zero moves to the next players turn
+
+Not yet written
+
+19 - ccard - checks a player has a card matching the city they are in
+
 
 ***C - Class - playeraction***
 1 - mp - move a given player from a given location to another adjacent location, for an action.

@@ -1430,3 +1430,99 @@ class inaturn:
 			conn.commit ()
 			if newcubes <= 3:
 				it.usecube (cube)
+
+
+	def action (self):
+		it = inaturn ()
+		with sqlite3.connect('pandemic.db') as conn:
+			cursor = conn.cursor()
+			tobedone = """SELECT action from gsTBL;""" 
+			cursor.execute( tobedone)
+			found = cursor.fetchone ( )
+			newaction = found [0] - 1
+			tobedone = """UPDATE gsTBL SET action = %s; """ % (newaction)	
+			cursor.execute (tobedone)
+			conn.commit ()
+			if newaction == 0:
+				tobedone = """SELECT ap FROM gsTBL;"""
+				cursor.execute (tobedone)
+				found  = cursor.fetchone ( )
+				player = found [0]
+				print "End of %s's turn. Drawing cards." % (player)
+				it.pdraw (player)
+				it.pdraw (player)
+				ir = it.getir ()
+				print "Infecting %s cities." % (ir)
+				it.infectcities	(ir)
+				tobedone = """SELECT players FROM gsTBL;"""
+				cursor.execute (tobedone)
+				found  = cursor.fetchone ( )
+				noplayer = found [0]
+				if noplayer == 1:
+					print "One player game, returning priority to player 1"
+				if noplayer == 2:
+					print "Moving priority to next player"
+					if player == 'player1':
+						tobedone = """UPDATE gsTBL SET ap = 'player2'; """
+						cursor.execute (tobedone)
+						conn.commit ()
+					if player == 'player2':
+						tobedone = """UPDATE gsTBL SET ap = 'player1'; """
+						cursor.execute (tobedone)
+						conn.commit ()
+				if noplayer == 3:
+					print "Moving priority to next player"
+					if player == 'player1':
+						tobedone = """UPDATE gsTBL SET ap = 'player2'; """
+						cursor.execute (tobedone)
+						conn.commit ()
+					if player == 'player2':
+						tobedone = """UPDATE gsTBL SET ap = 'player3'; """
+						cursor.execute (tobedone)
+						conn.commit ()
+					if player == 'player3':
+						tobedone = """UPDATE gsTBL SET ap = 'player1'; """
+						cursor.execute (tobedone)
+						conn.commit ()
+				if noplayer == 4:
+					print "Moving priority to next player"
+					if player == 'player1':
+						tobedone = """UPDATE gsTBL SET ap = 'player2'; """
+						cursor.execute (tobedone)
+						conn.commit ()
+					if player == 'player2':
+						tobedone = """UPDATE gsTBL SET ap = 'player3'; """
+						cursor.execute (tobedone)
+						conn.commit ()
+					if player == 'player3':
+						tobedone = """UPDATE gsTBL SET ap = 'player4'; """
+						cursor.execute (tobedone)
+						conn.commit ()
+					if player == 'player4':
+						tobedone = """UPDATE gsTBL SET ap = 'player1'; """
+						cursor.execute (tobedone)
+						conn.commit ()
+				tobedone = """UPDATE gsTBL set action = 4;"""
+				cursor.execute (tobedone)
+				conn.commit ()
+				
+				
+					
+						
+		
+
+class playeraction:
+        def direct (self,player,card):
+		it = inaturn ()
+		it.discard (player,card)
+		location = it.getplayer (player)
+		it.move (player,location,card)
+		print "%s has taken a direct flight to %s" % (player, card)
+		it.action ()
+	
+	def trainboat (self,player,location,destination):
+		it = inaturn ()
+		location = it.getplayer (player)	
+		it.move (player,location,destination)
+		print "%s has moved from %s to %s" % (player, location, destination)
+		it.action ()

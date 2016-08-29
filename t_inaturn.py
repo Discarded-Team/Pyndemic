@@ -3,6 +3,7 @@
 import unittest
 import sqlite3
 from pandemicgame import startinggame
+from pandemicgame import playeraction
 from pandemicgame import inaturn
 
 class T( unittest.TestCase):
@@ -288,6 +289,7 @@ class T( unittest.TestCase):
 	
 
 	def test_inaturn_co (self):
+		print "Needs more tests"
                 it = inaturn ()
                 sg = startinggame ()
                 sg.startnewgameq (3,'testboard.txt',1,'testevent.txt','testcharacter.txt')
@@ -298,4 +300,17 @@ class T( unittest.TestCase):
                 self.assertNotEqual(outbreaks,0,"""At least 1 outbreak should have happend. Counter still at zero!""")
 # it.getxcube ('ucube',4)
  
-	
+	def test_inaturn_action (self):
+		print "Needs more tests"
+                it = inaturn ()
+		pa = playeraction ()
+                sg = startinggame ()
+                sg.startnewgameq (3,'testboard.txt',1,'testevent.txt','testcharacter.txt')
+                pa.trainboat ('player1','Atlanta','HongKong')
+		
+                pa.trainboat ('player1','HongKong','Atlanta')
+                pa.trainboat ('player1','Atlanta','HongKong')
+                pa.trainboat ('player1','HongKong','Atlanta')
+		location = it.getplayer ('player1')
+                self.assertEqual(location,'Atlanta',"""Player has not ended up back in Atlanta""")
+# it.getxcube ('ucube',4)
