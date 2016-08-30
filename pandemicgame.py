@@ -101,7 +101,7 @@ class startinggame:
 			conn.commit()
 			tobedone = '''CREATE TABLE pdTBL(
 			"name",
-			"pos");'''
+			"pos" INTEGER);'''
 			cursor.execute( tobedone )
 			conn.commit()
 		        tobedone = """INSERT INTO pdTBL (name) select name from BoardTBL;""" 
@@ -132,7 +132,7 @@ class startinggame:
 			conn.commit()
 			tobedone = '''CREATE TABLE idTBL(
 			"name",
-			"pos");'''
+			"pos" INTEGER);'''
 			cursor.execute( tobedone )
 			conn.commit()
 		        tobedone = """INSERT INTO idTBL (name) select name from BoardTBL;""" 
@@ -163,7 +163,7 @@ class startinggame:
 			conn.commit()
 			tobedone = '''CREATE TABLE edTBL(
 			"name",
-			"pos");'''
+			"pos" INTEGER);'''
 			cursor.execute( tobedone )
 			conn.commit()
 			eventfile = open(event,'r') 
@@ -185,7 +185,7 @@ class startinggame:
 			conn.commit()
 			tobedone = '''CREATE TABLE cTBL(
 			"name",
-			"pos",
+			"pos" INTEGER,
 			"player");'''
 			cursor.execute( tobedone )
 			conn.commit()
@@ -278,7 +278,7 @@ class startinggame:
 			conn.commit()
 			tobedone = '''CREATE TABLE shufpd(
 			"name",
-			"pos");'''
+			"pos" INTEGER INTEGER);'''
 			cursor.execute( tobedone )
 			conn.commit()
 		        tobedone = """INSERT INTO shufpd (name,pos) select name,pos from edTBL limit %s;""" % (nevents) 
@@ -297,7 +297,7 @@ class startinggame:
 			conn.commit()
 			tobedone = '''CREATE TABLE shufid(
 			"name",
-			"pos");'''
+			"pos" INTEGER);'''
 			cursor.execute( tobedone )
 			conn.commit()
 	        	tobedone = """INSERT INTO shufid (name,pos) select name,ABS(RANDOM() % 500) from idTBL;""" 
@@ -557,7 +557,7 @@ class startinggame:
 			conn.commit()
 			tobedone = '''CREATE TABLE epTBL(
 			"name",
-			"pos");'''
+			"pos" INTEGER);'''
 			cursor.execute( tobedone )
 			conn.commit()
 		        tobedone = """SELECT COUNT (name) FROM shufpd;""" 
@@ -996,35 +996,40 @@ class inaturn:
 					tobedone = """UPDATE BoardTBL SET ucube = %s WHERE name is '%s'; """ % (newcubes,answer3)	
 					cursor.execute (tobedone)
 					conn.commit ()
-					it.usecube ('ucube')
+					if newcubes < 4:
+						it.usecube ('ucube')
 						
 				elif answer4 == 'b':
 					newcubes = answer6 + 1
 					tobedone = """UPDATE BoardTBL SET bcube = %s WHERE name is '%s'; """ % (newcubes,answer3)	
 					cursor.execute (tobedone)
 					conn.commit ()
-					it.usecube ('bcube')
+					if newcubes < 4:
+						it.usecube ('bcube')
 						
 				elif answer4 == 'r':
 					newcubes = answer7 + 1
 					tobedone = """UPDATE BoardTBL SET rcube = %s WHERE name is '%s'; """ % (newcubes,answer3)	
 					cursor.execute (tobedone)
 					conn.commit ()
-					it.usecube ('rcube')
+					if newcubes < 4:
+						it.usecube ('rcube')
 						
 				elif answer4 == 'y':
 					newcubes = answer8 + 1
 					tobedone = """UPDATE BoardTBL SET ycube = %s WHERE name is '%s'; """ % (newcubes,answer3)	
 					cursor.execute (tobedone)
 					conn.commit ()
-					it.usecube ('ycube')
+					if newcubes < 4:
+						it.usecube ('ycube')
 						
 				elif answer4 == 'p':
 					newcubes = answer9 + 1
 					tobedone = """UPDATE BoardTBL SET pcube = %s WHERE name is '%s'; """ % (newcubes,answer3)	
 					cursor.execute (tobedone)
 					conn.commit ()
-					it.usecube ('pcube')
+					if newcubes < 4:
+						it.usecube ('pcube')
 						
 				else:
 					print "something has gone wrong"
@@ -1458,6 +1463,7 @@ class inaturn:
 				ir = it.getir ()
 				print "Infecting %s cities." % (ir)
 				it.infectcities	(ir)
+				print "checking for outbreaks!"
 				it.co ()
 				oc = it.getoc ()
 				if oc >= 8:
