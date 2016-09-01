@@ -1971,7 +1971,7 @@ class game:
 				cursor.execute( tobedone )
 				answerX = cursor.fetchone ( )
 				connect = answerX [0]
-				part1 = str (t)
+				part1 = str (t) + '. '
 				part2 = str (connect)
 				print part1 + part2
 		choice = raw_input ('>')
@@ -2017,12 +2017,221 @@ class game:
 		pa.trainboat (ap,location,destination)
 		g.start ()
 		
-		
+	def df (self):
+		g=game ()
+		it = inaturn ()
+		pa = playeraction ()
+		ap = it.getap ()
+		location = it.getplayer (ap)
+		print "Where do you want to take a direct flight to?"
+		hand = it.gethand (ap)
+		t = 0
+		for a in hand:
+			t = t + 1
+			card = str (a [0])
+			op = str (t) + '. '
+			print op + card
+		choice = raw_input ('>')
+		if choice == '1':
+			pa.direct (ap,hand[0][0])
+			g.start ()
+		elif choice == '2':
+			pa.direct (ap,hand[1][0])
+			g.start ()
+		elif choice == '3':
+			pa.direct (ap,hand[2][0])
+			g.start ()
+		elif choice == '4':
+			pa.direct (ap,hand[3][0])
+			g.start ()
+		elif choice == '5':
+			pa.direct (ap,hand[4][0])
+			g.start ()
+		elif choice == '6':
+			pa.direct (ap,hand[5][0])
+			g.start ()
+		elif choice == '7':
+			pa.direct (ap,hand[6][0])
+			g.start ()
+		elif choice == '8':
+			pa.direct (ap,hand[7][0])
+			g.start ()
+		elif choice == '9':
+			pa.direct (ap,hand[4][0])
+			g.start ()
+		else:
+			print "You must make a choice from the given options by entering a number."
+			g.df ()
 
+	def cf (self):
+		g=game ()
+		it = inaturn ()
+		pa = playeraction ()
+		ap = it.getap ()
+		location = it.getplayer (ap)
+		hand = it.gethand (ap)
+		print "Which card will you play for the charter flight?This must match your current location or it won't work!"
+		i = 0
+		for a in hand:
+			i = i +1
+			opt = str (i) + '. '
+			card = str (a [0])
+			print opt + card
+		answer = raw_input ('>')
+		if answer == '1':
+			card = hand [0][0]
+		elif answer == '2':
+			card = hand [1][0]
+		elif answer == '3':
+			card = hand [2][0]
+		elif answer == '4':
+			card = hand [3][0]
+		elif answer == '5':
+			card = hand [4][0]
+		elif answer == '6':
+			card = hand [5][0]
+		elif answer == '7':
+			card = hand [6][0]
+		elif answer == '8':
+			card = hand [7][0]
+		elif answer == '9':
+			card = hand [8][0]
 
-#	def df (self):
-#	def cf (self):
-#	def sf (self):
+		print "Using %s" % card
+
+		print "Where do you want to take a charter flight to?"
+		with sqlite3.connect('pandemic.db') as conn:
+			cursor = conn.cursor()
+			tobedone = """SELECT name FROM BoardTBL;"""
+			cursor.execute (tobedone)
+			answerX = cursor.fetchall ()
+			i = 0
+			print "The possible destination cities are listed below. Choose a number from below"
+			for a in answerX:
+				i = i +1
+				opt = str (i) + '. '
+				country = str (a [0])
+				print opt + country
+		answer = raw_input ('>')
+		if answer == '1':
+			pa.charter (ap,card,answerX[0][0])
+		elif answer == '2':
+			pa.charter (ap,card,answerX[1][0])
+		elif answer == '3':
+			pa.charter (ap,card,answerX[2][0])
+		elif answer == '4':
+			pa.charter (ap,card,answerX[3][0])
+		elif answer == '5':
+			pa.charter (ap,card,answerX[4][0])
+		elif answer == '6':
+			pa.charter (ap,card,answerX[5][0])
+		elif answer == '7':
+			pa.charter (ap,card,answerX[6][0])
+		elif answer == '8':
+			pa.charter (ap,card,answerX[7][0])
+		elif answer == '9':
+			pa.charter (ap,card,answerX[8][0])
+		elif answer == '10':
+			pa.charter (ap,card,answerX[9][0])
+		elif answer == '11':
+			pa.charter (ap,card,answerX[10][0])
+		elif answer == '12':
+			pa.charter (ap,card,answerX[11][0])
+		elif answer == '13':
+			pa.charter (ap,card,answerX[12][0])
+		elif answer == '14':
+			pa.charter (ap,card,answerX[13][0])
+		elif answer == '15':
+			pa.charter (ap,card,answerX[14][0])
+		elif answer == '16':
+			pa.charter (ap,card,answerX[15][0])
+		elif answer == '17':
+			pa.charter (ap,card,answerX[16][0])
+		elif answer == '18':
+			pa.charter (ap,card,answerX[17][0])
+		elif answer == '19':
+			pa.charter (ap,card,answerX[18][0])
+		elif answer == '20':
+			pa.charter (ap,card,answerX[19][0])
+		elif answer == '21':
+			pa.charter (ap,card,answerX[20][0])
+		elif answer == '22':
+			pa.charter (ap,card,answerX[21][0])
+		elif answer == '23':
+			pa.charter (ap,card,answerX[22][0])
+		elif answer == '24':
+			pa.charter (ap,card,answerX[23][0])
+		elif answer == '25':
+			pa.charter (ap,card,answerX[24][0])
+		elif answer == '26':
+			pa.charter (ap,card,answerX[25][0])
+		elif answer == '27':
+			pa.charter (ap,card,answerX[26][0])
+		elif answer == '28':
+			pa.charter (ap,card,answerX[27][0])
+		elif answer == '29':
+			pa.charter (ap,card,answerX[28][0])
+		elif answer == '30':
+			pa.charter (ap,card,answerX[29][0])
+		elif answer == '31':
+			pa.charter (ap,card,answerX[30][0])
+		elif answer == '32':
+			pa.charter (ap,card,answerX[31][0])
+		elif answer == '33':
+			pa.charter (ap,card,answerX[32][0])
+		elif answer == '34':
+			pa.charter (ap,card,answerX[33][0])
+		elif answer == '35':
+			pa.charter (ap,card,answerX[34][0])
+		elif answer == '36':
+			pa.charter (ap,card,answerX[35][0])
+		elif answer == '37':
+			pa.charter (ap,card,answerX[36][0])
+		elif answer == '38':
+			pa.charter (ap,card,answerX[37][0])
+		elif answer == '39':
+			pa.charter (ap,card,answerX[38][0])
+		elif answer == '40':
+			pa.charter (ap,card,answerX[39][0])
+		elif answer == '41':
+			pa.charter (ap,card,answerX[40][0])
+		elif answer == '42':
+			pa.charter (ap,card,answerX[41][0])
+		elif answer == '43':
+			pa.charter (ap,card,answerX[42][0])
+		elif answer == '44':
+			pa.charter (ap,card,answerX[43][0])
+		elif answer == '45':
+			pa.charter (ap,card,answerX[44][0])
+		elif answer == '46':
+			pa.charter (ap,card,answerX[45][0])
+		elif answer == '47':
+			pa.charter (ap,card,answerX[46][0])
+		elif answer == '48':
+			pa.charter (ap,card,answerX[47][0])
+		elif answer == '49':
+			pa.charter (ap,card,answerX[48][0])
+		elif answer == '50':
+			pa.charter (ap,card,answerX[49][0])
+		elif answer == '51':
+			pa.charter (ap,card,answerX[50][0])
+		else:
+			print "You must choose a valid option"
+			g.start ()
+		g.start ()
+
+	def sf ():
+		g=game ()
+		it = inaturn ()
+		pa = playeraction ()
+		ap = it.getap ()
+		location = it.getplayer (ap)
+		with sqlite3.connect('pandemic.db') as conn:
+			cursor = conn.cursor()
+			tobedone = """SELECT name FROM BoardTBL;"""
+			cursor.execute (tobedone)
+			
+
 #	def td (self):
 #	def cd (self):
 #	def skg (self):
