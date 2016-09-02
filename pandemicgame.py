@@ -1527,7 +1527,7 @@ class inaturn:
 	def rc (self,colour,city):
 		with sqlite3.connect('pandemic.db') as conn:
 		       	cursor = conn.cursor()
-	            	tobedone = """SELECT %s FROM BoardTBL WHERE name is '%s';""" %s (colour,city)
+	            	tobedone = """SELECT %s FROM BoardTBL WHERE name is '%s';""" % (colour,city)
 	            	cursor.execute( tobedone )
 			found  = cursor.fetchone ( )
 			cubes = found [0]
@@ -1535,14 +1535,14 @@ class inaturn:
 				print "No cubes of that colour found!"
 			else:
 				cubes = cubes - 1
-				tobedone = """UPDATE BoardTBL SET %s = %s WHERE name is '%s';""" %s (colour,cubes,city)
+				tobedone = """UPDATE BoardTBL SET %s = %s WHERE name is '%s';""" % (colour,cubes,city)
 		            	cursor.execute( tobedone )
 				tobedone = """SELECT %s FROM cubesTBL;""" % (colour)
 	            		cursor.execute( tobedone )
 				found  = cursor.fetchone ( )
 				cubepool = found [0]
 				cubepool = cubepool + 1
-				tobedone = """UPDATE cubesTBL SET %s = %s;""" %s (colour,cubepool)
+				tobedone = """UPDATE cubesTBL SET %s = %s;""" % (colour,cubepool)
 		            	cursor.execute( tobedone )
 				conn.commit ()
 		
@@ -1596,14 +1596,14 @@ class playeraction:
 		location = it.getplayer (player)
 		with sqlite3.connect('pandemic.db') as conn:
 		       	cursor = conn.cursor()
-	            	tobedone = """SELECT rstaion FROM BoardTBL WHERE name is '%s';""" %s (location)
+	            	tobedone = "SELECT rstation FROM BoardTBL WHERE name is '%s';" % (location)
 	            	cursor.execute( tobedone )
 			found  = cursor.fetchone ( )
-			norsation1 = found [0]
-	            	tobedone = """SELECT rstaion FROM BoardTBL WHERE name is '%s';""" %s (destination)
+			norstation1 = found [0]
+	            	tobedone = """SELECT rstation FROM BoardTBL WHERE name is '%s';""" % (destination)
 	            	cursor.execute( tobedone )
 			found  = cursor.fetchone ( )
-			norsation2 = found [0]
+			norstation2 = found [0]
 		if norstation1 != 1:
 			print "No research station in %s, can't take a shuttle flight from here" % (location)
 		if norstation2 != 1:
@@ -2220,7 +2220,7 @@ class game:
 			g.start ()
 		g.start ()
 
-	def sf ():
+	def sf (sel):
 		g=game ()
 		it = inaturn ()
 		pa = playeraction ()
@@ -2228,11 +2228,95 @@ class game:
 		location = it.getplayer (ap)
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
-			tobedone = """SELECT name FROM BoardTBL;"""
+			tobedone = """SELECT name FROM BoardTBL where rstation = 1;"""
 			cursor.execute (tobedone)
-			
+			answerX = cursor.fetchall ()
+			rstationloc = 0
+			for a in answerX:
+				if a[0] == location:
+					rstationloc = 1
+			if rstationloc == 0:
+				print "Your location %s, has no research station to take a shuttle flight from" % (location)
+				g.start ()
+			if rstationloc == 1:
+				print "Where would you like to take a shuttle flight to?"
+				i = 0
+				for a in answerX:
+					i = i + 1
+					opt = str (i) + '. '
+					print opt + a[0]
+		answer = raw_input ('>')
+		if answer == '1':
+			pa.shuttle (ap,answerX[0][0])
+		elif answer == '2':
+			pa.shuttle (ap,answerX[1][0])
+		elif answer == '3':
+			pa.shuttle (ap,answerX[2][0])
+		elif answer == '4':
+			pa.shuttle (ap,answerX[3][0])
+		elif answer == '5':
+			pa.shuttle (ap,answerX[4][0])
+		elif answer == '6':
+			pa.shuttle (ap,answerX[5][0])
+		elif answer == '7':
+			pa.shuttle (ap,answerX[6][0])
+		elif answer == '8':
+			pa.shuttle (ap,answerX[7][0])
+		elif answer == '9':
+			pa.shuttle (ap,answerX[8][0])
+		elif answer == '10':
+			pa.shuttle (ap,answerX[9][0])
+		elif answer == '11':
+			pa.shuttle (ap,answerX[10][0])
+		elif answer == '12':
+			pa.shuttle (ap,answerX[11][0])
+		else:
+			print "You must choose a valid option"
+			g.start ()
+		g.start ()
+				
+	def td (self):
+		g=game ()
+		it = inaturn ()
+		pa = playeraction ()
+		ap = it.getap ()
+		location = it.getplayer (ap)
+		print """What colour cube would you like to remove?
+1. Red
+2. Blue
+3. Yellow
+4. Black"""
+		answer = raw_input ('>')
+		if answer == '1':
+			col = 'rcube'
+			cubes = it.getcitycubes ('rcube',location)
 
-#	def td (self):
+		elif answer == '2':
+			col = 'ucube'
+			cubes = it.getcitycubes ('ucube',location)
+
+		elif answer == '3':
+			col = 'ycube'
+			cubes = it.getcitycubes ('ycube',location)
+
+		elif answer == '4':
+			col = 'bcube'
+			cubes = it.getcitycubes ('bcube',location)
+		else:
+			print "You must choose 1,2,3 or 4."
+			g.start ()
+
+		if cubes > 0:
+			pa.treat (ap,col)
+			print "Removing a cube of the chosen colour from %s" % (location) 
+		else:
+			print "There are no cubes of that colour in %s." % (location)
+		g.start ()
+					
+
+
+#	def treat (self,player,cube):
+
 #	def cd (self):
 #	def skg (self):
 #	def skt (self):
