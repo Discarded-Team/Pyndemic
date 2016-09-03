@@ -1,7 +1,7 @@
 
 **What is this?**
 
-This is a simple project I've started to help me learn how to use vim, python and github. When it's finished it should let somebody play the Pandemic board game as one or more of the charaters.
+This is a simple project I've started to help me learn how to use vim, python and github. When it's finished it should let somebody play the Pandemic board game as one or more of the players.
 
 I'm about to start an OU degree in computing and IT and hoping for a career in IT eventually. The role I've got my eye on is one of full stack developer https://www.sitepoint.com/full-stack-developer/, although I understand this might already be old hat https://techcrunch.com/2014/11/08/the-rise-and-fall-of-the-full-stack-developer/. So I'm going to try to learn as much code as I can and focus on completing practical fun projects with other people alongside my course. 
 
@@ -17,10 +17,10 @@ Some basic front end website languages (HTML, JavaScript and the like)
 
 **Classes and Defs in PandemicGame.py**
 ***A- Class - startinggame***
-1- startinglocals - Puts a research station in Atlanta, along with a given number of players.
-2- BoardTBL - Sets up the gameboard from a given .txt file.
-3- pdTBL - creates and populates the player deck
-4- pddTBL - creates the player deck discard pile
+1- startinglocals - Updates the BoardTBL table with basic game info. A research station is set in Atlanta, and a given number of players are also set there.
+2- BoardTBL - Sets up the gameboard from a given .txt file. This has columns which give the name, colour, connections and cubes in a city. It also has columns which are set to 1 from 0 when a player or research station is present.
+3- pdTBL - creates and populates the player deck table pdTBL. This has 3 columns for the name, colour and position of the card in the deck.
+4- pddTBL - creates the player deck discard pile, which simply contains the name of the card in the discard pile.
 5- idTBL - creates the infection deck
 6- iddTBL - creates the infection deck discard pile
 7- edTBL - shuffles the event cards together in a pile from a given .txt file.
