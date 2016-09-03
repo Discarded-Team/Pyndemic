@@ -1964,7 +1964,8 @@ class game:
 6- Play 5 city cards of the same colour to cure an disease. You must be in a research station.
 7- Give another player a card from your hand that matches the city you are in if you are both in the same city.
 8- Take a card from another player that matches the city you are in if you are both in the same city.
-9- Build a research centre play the city card that matches the city you are in to build a research centre."""
+9- Build a research centre play the city card that matches the city you are in to build a research centre.
+10- Wait."""
                 thing = raw_input ('>')
                 if thing == '1':
                         g.mp ()
@@ -1984,9 +1985,11 @@ class game:
                         g.skt ()
                 elif thing == '9':
                         g.br ()
+                elif thing == '10':
+                        g.wait ()
 		else:
 			print "Please type a number from 1-9 for an action."
-			game.action ()
+			g.action ()
 
 
 	def mp (self):
@@ -2390,11 +2393,144 @@ class game:
 		if cured == 0:
 			print "Not enough cards of the same colour, you need 5."
 		g.start ()
+
+	def skg (self):
+		g=game ()
+		it = inaturn ()
+		pa = playeraction ()
+		player = it.getap ()
+		location = it.getplayer (player)
+		with sqlite3.connect('pandemic.db') as conn:
+			cursor = conn.cursor()
+			tobedone = """SELECT players FROM gsTBL;"""
+			cursor.execute (tobedone)
+			answerX = cursor.fetchone ()
+			noplayers = answerX [0]
+		print """Which player would you like to give a card?
+1. Player1
+2. Player2
+3. Player3
+4. Player4"""
+		answer = raw_input ('>')
+		if answer == '1':
+			otherplayer = 'player1'	
+		elif answer == '2':
+			otherplayer = 'player2'
+			if noplayers < 2:
+				print "There is no player 2!"
+				g.start ()		
+		elif answer == '3':
+			otherplayer = 'player3'		
+			if noplayers < 3:
+				print "There is no player 3!"
+				g.start ()		
+		elif answer == '4':
+			otherplayer = 'player4'		
+			if noplayers < 4:
+				print "There is no player 4!"
+				g.start ()		
+		else:
+			print "You must make a valid selection!"
+			g.start ()
+		if otherplayer == player:
+			print "You can't share cards with yourself!"
+			g.start ()
+		otherplayerloc = it.getplayer (otherplayer)
+		if otherplayerloc == location:
+			with sqlite3.connect('pandemic.db') as conn:
+				cursor = conn.cursor()
+				tobedone = """SELECT name FROM %sTBL where name is '%s';""" % (player,location)
+				cursor.execute (tobedone)
+				answerX = cursor.fetchone ()
+				if answerX == None:
+					print "You don't have the %s card to give" % (location)
+					g.start ()
+				else:
+	   			     	tobedone = """INSERT INTO %sTBL (name,colour) SELECT name,colour FROM %sTBL WHERE name is '%s';""" % (otherplayer,player,location)
+					cursor.execute( tobedone )
+	        			tobedone = """DELETE FROM %sTBL WHERE name is '%s';""" % (player, location)
+					cursor.execute( tobedone )
+					conn.commit()
+					print "Sharing %s with %s." % (location, otherplayer)
+					it.action ()
+					g.start ()
+		else:
+			print "You two are not in the same city!"
+			g.start ()
 		
-		
-#	def skg (self):
-#	def skt (self):
+
+	def skt (self):
+		g=game ()
+		it = inaturn ()
+		pa = playeraction ()
+		player = it.getap ()
+		location = it.getplayer (player)
+		with sqlite3.connect('pandemic.db') as conn:
+			cursor = conn.cursor()
+			tobedone = """SELECT players FROM gsTBL;"""
+			cursor.execute (tobedone)
+			answerX = cursor.fetchone ()
+			noplayers = answerX [0]
+		print """Which player would you like to take a card from?
+1. Player1
+2. Player2
+3. Player3
+4. Player4"""
+		answer = raw_input ('>')
+		if answer == '1':
+			otherplayer = 'player1'	
+		elif answer == '2':
+			otherplayer = 'player2'
+			if noplayers < 2:
+				print "There is no player 2!"
+				g.start ()		
+		elif answer == '3':
+			otherplayer = 'player3'		
+			if noplayers < 3:
+				print "There is no player 3!"
+				g.start ()		
+		elif answer == '4':
+			otherplayer = 'player4'		
+			if noplayers < 4:
+				print "There is no player 4!"
+				g.start ()		
+		else:
+			print "You must make a valid selection!"
+			g.start ()
+		if otherplayer == player:
+			print "You can't share cards with yourself!"
+			g.start ()
+		otherplayerloc = it.getplayer (otherplayer)
+		if otherplayerloc == location:
+			with sqlite3.connect('pandemic.db') as conn:
+				cursor = conn.cursor()
+				tobedone = """SELECT name FROM %sTBL where name is '%s';""" % (otherplayer,location)
+				cursor.execute (tobedone)
+				answerX = cursor.fetchone ()
+				if answerX == None:
+					print "They don't have the %s card to take" % (location)
+					g.start ()
+				else:
+	   			     	tobedone = """INSERT INTO %sTBL (name,colour) SELECT name,colour FROM %sTBL WHERE name is '%s';""" % (player,otherplayer,location)
+					cursor.execute( tobedone )
+	        			tobedone = """DELETE FROM %sTBL WHERE name is '%s';""" % (otherplayer, location)
+					cursor.execute( tobedone )
+					conn.commit()
+					print "Taking %s with %s." % (location, otherplayer)
+					it.action ()
+					g.start ()
+		else:
+			print "You two are not in the same city!"
+			g.start ()
 #	def br (self):
+
+	def wait (self):
+		g=game ()
+		it = inaturn ()
+		pa = playeraction ()
+		print "Doing nothing"
+		it.action ()
+		g.start ()	
 
 	def gameover (self):
 		print "The game is over"
