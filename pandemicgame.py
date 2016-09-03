@@ -1628,6 +1628,7 @@ class playeraction:
 		it.action ()
 
 	def cure (self,player,colour):
+		g=game ()
 		it = inaturn ()
 		td = 0
 		while td < 5:
@@ -1643,6 +1644,20 @@ class playeraction:
 		print "Just cured a disease!"
 	        cursor.execute( tobedone )
 		conn.commit ()
+		tobedone = "SELECT ucure, bcure, rcure, ycure FROM gsTBL;"
+	        cursor.execute( tobedone )
+		found  = cursor.fetchall ( )
+		ucure = found [0][0]
+		bcure = found [0][1]
+		rcure = found [0][2]
+		ycure = found [0][3]
+		nocures = ucure + bcure + rcure + ycure
+		if nocures == 4:
+			print "You've won the game!"
+			g.gameover ()
+		else:
+			neededcures = 4 - nocures
+			print "You need to discover %s more cures to win the game." % (neededcures)
 		it.action ()
 				
 class game:
@@ -2374,8 +2389,6 @@ class game:
 		
 		if cured == 0:
 			print "Not enough cards of the same colour, you need 5."
-		else:
-			print "You cured a disease!"
 		g.start ()
 		
 		
