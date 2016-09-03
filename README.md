@@ -67,7 +67,7 @@ Some basic front end website languages (HTML, JavaScript and the like)
 3 - charter - move a given player to a given location discarding the card of their current location from their hand.
 4 - shuttle - move a given player from a given location to a given destination where there is a research station present at each locaton.
 5 - treat - remove 1 cube of a given colour from a given city, or all cubes of that colour if a cure has been discovered.
-6 - cd - discard 5 given cards of the same colour to discover a cure for a disease.
+6 - cure - discard 5 given cards of the same colour to discover a cure for a disease.
 7 - sk - moves a given card from a given player to another given player when both are in the same city and the city named on the card.
 8 - br - a given player builds a research station in a given city discarding that city card if they are in the city on the card
 

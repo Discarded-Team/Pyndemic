@@ -602,10 +602,15 @@ class startinggame:
 			"players",
 			"ec",
 			"ap",
-			"action");'''
+			"action",
+			"ucure",
+			"bcure",
+			"ycure",
+			"rcure",
+			"pcure");'''
 			cursor.execute( tobedone )
 			conn.commit()
-			tobedone = """INSERT INTO gsTBL (ir,oc,players,ec,ap,action) VALUES (2,0,%s,0,'player1',4)""" % (players)
+			tobedone = """INSERT INTO gsTBL (ir,oc,players,ec,ap,action,ucure,bcure,ycure,rcure,pcure) VALUES (2,0,%s,0,'player1',4,0,0,0,0,0)""" % (players)
 			cursor.execute( tobedone)
 			conn.commit()
 
@@ -1194,7 +1199,7 @@ class inaturn:
 				print "drawn an epidemic!"
 				it.epidemic ()
 			else:
-				tobedone = 'INSERT INTO %sTBL (name) select name from shufpd ORDER BY pos ASC limit 1;' % (player)
+				tobedone = 'INSERT INTO %sTBL (name,colour) select name,colour from shufpd ORDER BY pos ASC limit 1;' % (player)
 	       		     	cursor.execute( tobedone )
 		        	tobedone = 'SELECT pos FROM shufpd ORDER BY pos ASC limit 1;'
        			     	cursor.execute( tobedone )
@@ -1621,7 +1626,25 @@ class playeraction:
 		location = it.getplayer (player)
 		it.rc (cube,location)
 		it.action ()
-		
+
+	def cure (self,player,colour):
+		it = inaturn ()
+		td = 0
+		while td < 5:
+			with sqlite3.connect('pandemic.db') as conn:
+			       	cursor = conn.cursor()
+		            	tobedone = "SELECT name FROM %sTBL WHERE colour is '%s' limit 1;" % (player,colour)
+	        	    	cursor.execute( tobedone )
+				found  = cursor.fetchone ( )
+				it.discard (player,found [0])
+				td = td + 1
+				print "Used %s" % (found [0])
+		tobedone = "UPDATE gsTBL set %scure = 1;" % (colour)
+		print "Just cured a disease!"
+	        cursor.execute( tobedone )
+		conn.commit ()
+		it.action ()
+				
 class game:
 
         def start (self):
@@ -2317,9 +2340,45 @@ class game:
 		g.start ()
 					
 
-
-
-#	def cd (self):
+	def cd (self):
+		g=game ()
+		it = inaturn ()
+		pa = playeraction ()
+		ap = it.getap ()
+		location = it.getplayer (ap)
+		cured = 0
+		colours = ['u','b','r','y']
+		with sqlite3.connect('pandemic.db') as conn:
+			cursor = conn.cursor()
+			tobedone ="""SELECT rstation FROM BoardTBL where name is '%s';""" % (location)
+			cursor.execute (tobedone)
+			answerX = cursor.fetchone ()
+			print answerX [0]
+			if answerX [0] == 1:
+				print "Using research station in %s." % (location)
+			elif answerX [0] == 0:
+				print "No research station in %s." % (location)
+				g.start ()
+			else:
+				print "Opps something went very wrong!"
+		for a in colours:
+			with sqlite3.connect('pandemic.db') as conn:
+				cursor = conn.cursor()
+				tobedone = """SELECT COUNT (name) FROM %sTBL where colour is '%s';""" % (ap,a)
+				cursor.execute (tobedone)
+				answerX = cursor.fetchone ()
+				if answerX [0] >= 5:
+					print "Curing disease!"
+					cured = 1
+					pa.cure (ap,a)
+		
+		if cured == 0:
+			print "Not enough cards of the same colour, you need 5."
+		else:
+			print "You cured a disease!"
+		g.start ()
+		
+		
 #	def skg (self):
 #	def skt (self):
 #	def br (self):
