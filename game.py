@@ -8,5 +8,5 @@ it = inaturn ()
 sg = startinggame ()
 pa = playeraction ()
 
-sg.startnewgame (2,'newboard.txt',1,'testevent.txt','testcharacter.txt')
+sg.startnewgame (2,'fullboard.txt',2,'testevent.txt','testcharacter.txt')
 
