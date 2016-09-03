@@ -2522,7 +2522,29 @@ class game:
 		else:
 			print "You two are not in the same city!"
 			g.start ()
-#	def br (self):
+
+	def br (self):
+		g=game ()
+		it = inaturn ()
+		pa = playeraction ()
+		player = it.getap ()
+		location = it.getplayer (player)
+		with sqlite3.connect('pandemic.db') as conn:
+			cursor = conn.cursor()
+			tobedone = """SELECT name FROM %sTBL where name is '%s';""" % (player,location)
+			cursor.execute (tobedone)
+			answerX = cursor.fetchone ()
+			if answerX == None:
+				print "You don't have the %s card to build a research station here" % (location)
+				g.start ()
+			else:
+	   			tobedone = """UPDATE BoardTBL SET rstation = 1 where name is '%s';""" % (location)
+				print "Building a research station in %s." % (location)
+				cursor.execute( tobedone )
+				conn.commit()
+				it.action ()
+				g.start ()
+				
 
 	def wait (self):
 		g=game ()
