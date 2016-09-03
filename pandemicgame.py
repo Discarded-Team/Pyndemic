@@ -101,10 +101,11 @@ class startinggame:
 			conn.commit()
 			tobedone = '''CREATE TABLE pdTBL(
 			"name",
+			"colour",
 			"pos" INTEGER);'''
 			cursor.execute( tobedone )
 			conn.commit()
-		        tobedone = """INSERT INTO pdTBL (name) select name from BoardTBL;""" 
+		        tobedone = """INSERT INTO pdTBL (name,colour) select name,colour from BoardTBL;""" 
 	 		cursor.execute( tobedone )
 			conn.commit()
 	       		tobedone = """UPDATE pdTBL SET pos = 0;""" 
@@ -119,7 +120,8 @@ class startinggame:
 	            	cursor.execute( tobedone )
 			conn.commit()
 			tobedone = '''CREATE TABLE pddTBL(
-			"name");'''
+			"name",
+			"colour");'''
 			cursor.execute( tobedone )
 			conn.commit()
 
@@ -278,13 +280,14 @@ class startinggame:
 			conn.commit()
 			tobedone = '''CREATE TABLE shufpd(
 			"name",
+			"colour",
 			"pos" INTEGER INTEGER);'''
 			cursor.execute( tobedone )
 			conn.commit()
 		        tobedone = """INSERT INTO shufpd (name,pos) select name,pos from edTBL limit %s;""" % (nevents) 
 	  		cursor.execute( tobedone )
 			conn.commit()
-	        	tobedone = """INSERT INTO shufpd (name,pos) select name,ABS(RANDOM() % 500) from pdTBL;""" 
+	        	tobedone = """INSERT INTO shufpd (name,colour,pos) select name,colour,ABS(RANDOM() % 500) from pdTBL;""" 
 	  		cursor.execute( tobedone )
 			conn.commit()
 
@@ -315,10 +318,10 @@ class startinggame:
 	       		     	cursor.execute( tobedone )
 				conn.commit()
 				tobedone = '''CREATE TABLE player1TBL(
-				"name");'''
+				"name","colour");'''
 				cursor.execute( tobedone )
 				conn.commit()
-		        	tobedone = 'INSERT INTO player1TBL (name) select name from shufpd ORDER BY pos DESC limit 6;'
+		        	tobedone = 'INSERT INTO player1TBL (name,colour) select name,colour from shufpd ORDER BY pos DESC limit 6;'
 	       		     	cursor.execute( tobedone )
 		        	tobedone = 'SELECT pos FROM shufpd ORDER BY pos DESC limit 6;'
 	       		     	cursor.execute( tobedone )
@@ -337,10 +340,10 @@ class startinggame:
 	       		     	cursor.execute( tobedone )
 				conn.commit()
 				tobedone = '''CREATE TABLE player1TBL(
-				"name");'''
+				"name","colour");'''
 				cursor.execute( tobedone )
 				conn.commit()
-		        	tobedone = 'INSERT INTO player1TBL (name) select name from shufpd ORDER BY pos DESC limit 4;'
+		        	tobedone = 'INSERT INTO player1TBL (name,colour) select name,colour from shufpd ORDER BY pos DESC limit 4;'
 	       		     	cursor.execute( tobedone )
 		        	tobedone = 'SELECT pos FROM shufpd ORDER BY pos DESC limit 4;'
 	       		     	cursor.execute( tobedone )
@@ -359,10 +362,10 @@ class startinggame:
 	       		     	cursor.execute( tobedone )
 				conn.commit()
 				tobedone = '''CREATE TABLE player1TBL(
-				"name");'''
+				"name","colour");'''
 				cursor.execute( tobedone )
 				conn.commit()
-		        	tobedone = 'INSERT INTO player1TBL (name) select name from shufpd ORDER BY pos DESC limit 3;'
+		        	tobedone = 'INSERT INTO player1TBL (name,colour) select name,colour from shufpd ORDER BY pos DESC limit 3;'
 	       		     	cursor.execute( tobedone )
 		        	tobedone = 'SELECT pos FROM shufpd ORDER BY pos DESC limit 3;'
 	       		     	cursor.execute( tobedone )
@@ -381,10 +384,10 @@ class startinggame:
 	       		     	cursor.execute( tobedone )
 				conn.commit()
 				tobedone = '''CREATE TABLE player1TBL(
-				"name");'''
+				"name","colour");'''
 				cursor.execute( tobedone )
 				conn.commit()
-		        	tobedone = 'INSERT INTO player1TBL (name) select name from shufpd ORDER BY pos DESC limit 2;'
+		        	tobedone = 'INSERT INTO player1TBL (name,colour) select name,colour from shufpd ORDER BY pos DESC limit 2;'
 	       		     	cursor.execute( tobedone )
 		        	tobedone = 'SELECT pos FROM shufpd ORDER BY pos DESC limit 2;'
 	       		     	cursor.execute( tobedone )
@@ -407,10 +410,10 @@ class startinggame:
        		     	cursor.execute( tobedone )
 			conn.commit()
 			tobedone = '''CREATE TABLE player4TBL(
-			"name");'''
+			"name","colour");'''
 			cursor.execute( tobedone )
 			conn.commit()
-	        	tobedone = 'INSERT INTO player4TBL (name) select name from shufpd ORDER BY pos DESC limit 2;'
+	        	tobedone = 'INSERT INTO player4TBL (name,colour) select name,colour from shufpd ORDER BY pos DESC limit 2;'
        		     	cursor.execute( tobedone )
 	        	tobedone = 'SELECT pos FROM shufpd ORDER BY pos DESC limit 2;'
        		     	cursor.execute( tobedone )
@@ -433,10 +436,10 @@ class startinggame:
 	       		     	cursor.execute( tobedone )
 				conn.commit()
 				tobedone = '''CREATE TABLE player2TBL(
-				"name");'''
+				"name","colour");'''
 				cursor.execute( tobedone )
 				conn.commit()
-		        	tobedone = 'INSERT INTO player2TBL (name) select name from shufpd ORDER BY pos DESC limit 4;'
+		        	tobedone = 'INSERT INTO player2TBL (name,colour) select name,colour from shufpd ORDER BY pos DESC limit 4;'
 	       		     	cursor.execute( tobedone )
 		        	tobedone = 'SELECT pos FROM shufpd ORDER BY pos DESC limit 4;'
 	       		     	cursor.execute( tobedone )
@@ -456,10 +459,10 @@ class startinggame:
 	       		     	cursor.execute( tobedone )
 				conn.commit()
 				tobedone = '''CREATE TABLE player2TBL(
-				"name");'''
+				"name","colour");'''
 				cursor.execute( tobedone )
 				conn.commit()
-		        	tobedone = 'INSERT INTO player2TBL (name) select name from shufpd ORDER BY pos DESC limit 3;'
+		        	tobedone = 'INSERT INTO player2TBL (name,colour) select name,colour from shufpd ORDER BY pos DESC limit 3;'
 	       		     	cursor.execute( tobedone )
 		        	tobedone = 'SELECT pos FROM shufpd ORDER BY pos DESC limit 3;'
 	       		     	cursor.execute( tobedone )
@@ -478,10 +481,10 @@ class startinggame:
 	       		     	cursor.execute( tobedone )
 				conn.commit()
 				tobedone = '''CREATE TABLE player2TBL(
-				"name");'''
+				"name","colour");'''
 				cursor.execute( tobedone )
 				conn.commit()
-		        	tobedone = 'INSERT INTO player2TBL (name) select name from shufpd ORDER BY pos DESC limit 2;'
+		        	tobedone = 'INSERT INTO player2TBL (name,colour) select name,colour from shufpd ORDER BY pos DESC limit 2;'
 	       		     	cursor.execute( tobedone )
 		        	tobedone = 'SELECT pos FROM shufpd ORDER BY pos DESC limit 2;'
 	       		     	cursor.execute( tobedone )
@@ -505,10 +508,10 @@ class startinggame:
 	       		     	cursor.execute( tobedone )
 				conn.commit()
 				tobedone = '''CREATE TABLE player3TBL(
-				"name");'''
+				"name","colour");'''
 				cursor.execute( tobedone )
 				conn.commit()
-		        	tobedone = 'INSERT INTO player3TBL (name) select name from shufpd ORDER BY pos DESC limit 3;'
+		        	tobedone = 'INSERT INTO player3TBL (name,colour) select name,colour from shufpd ORDER BY pos DESC limit 3;'
 	       		     	cursor.execute( tobedone )
 		        	tobedone = 'SELECT pos FROM shufpd ORDER BY pos DESC limit 3;'
 	       		     	cursor.execute( tobedone )
@@ -527,10 +530,10 @@ class startinggame:
 	       		     	cursor.execute( tobedone )
 				conn.commit()
 				tobedone = '''CREATE TABLE player3TBL(
-				"name");'''
+				"name","colour");'''
 				cursor.execute( tobedone )
 				conn.commit()
-		        	tobedone = 'INSERT INTO player3TBL (name) select name from shufpd ORDER BY pos DESC limit 2;'
+		        	tobedone = 'INSERT INTO player3TBL (name,colour) select name,colour from shufpd ORDER BY pos DESC limit 2;'
 	       		     	cursor.execute( tobedone )
 		        	tobedone = 'SELECT pos FROM shufpd ORDER BY pos DESC limit 2;'
 	       		     	cursor.execute( tobedone )
@@ -2315,7 +2318,6 @@ class game:
 					
 
 
-#	def treat (self,player,cube):
 
 #	def cd (self):
 #	def skg (self):
