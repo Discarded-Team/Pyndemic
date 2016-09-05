@@ -652,7 +652,7 @@ class startinggame:
 			print "Cards in deck %s" % (thingy)
 			npile = (thingy / nep)
 			print "number of cards in a pile exact %s" % (npile) 
-			numberofcardsinapile = int(npile)-1
+			numberofcardsinapile = int(npile)
 			print "number of cards in a pile used %s" % (numberofcardsinapile)
 			while epidemicsaddedtopack < nep+1:
 		      	 	tobedone = """SELECT pos FROM shufpd ORDER BY pos ASC;""" 
@@ -672,7 +672,7 @@ class startinggame:
 				cursor.execute( tobedone )
 				conn.commit()
 				epidemicsaddedtopack = epidemicsaddedtopack + 1
-				maxposold = maxposnew + maxposold
+				maxposold = maxposnew
 				print "moxposold is now %s" % (maxposold)
 	            	cursor = conn.cursor()
 	            	tobedone = 'INSERT INTO shufpd (name,pos) SELECT * from epTBL;'
