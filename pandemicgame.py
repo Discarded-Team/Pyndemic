@@ -649,31 +649,22 @@ class startinggame:
 			conn.commit()
 			answerX = cursor.fetchone ( )
 			thingy = answerX [0]
-			print "Cards in deck %s" % (thingy)
 			npile = (thingy / nep)
-			print "number of cards in a pile exact %s" % (npile) 
 			numberofcardsinapile = int(npile)
-			print "number of cards in a pile used %s" % (numberofcardsinapile)
 			while epidemicsaddedtopack < nep+1:
 		      	 	tobedone = """SELECT pos FROM shufpd ORDER BY pos ASC;""" 
 	  			cursor.execute( tobedone )
 				conn.commit()
 				whichcard = numberofcardsinapile * epidemicsaddedtopack
-				print "Card used for new maxpos %s" % (whichcard)
 				answerZ = cursor.fetchall ()
 				posnew = answerZ [whichcard]
-				print "New posnew value %s" % (posnew)
 				maxposnew = posnew [0]
-				print "making maxpos new posnew"
-				print "maxposold is %s and maxposnew is %s" % (maxposold, maxposnew)
 				maxposuse = random.randint(maxposold, maxposnew)
-				print "maxposuse is %s" % (maxposuse)
 		        	tobedone = '''INSERT INTO epTBL (name,pos) VALUES ('Ep%s','%s');''' % (epidemicsaddedtopack, maxposuse)
 				cursor.execute( tobedone )
 				conn.commit()
 				epidemicsaddedtopack = epidemicsaddedtopack + 1
 				maxposold = maxposnew
-				print "moxposold is now %s" % (maxposold)
 	            	cursor = conn.cursor()
 	            	tobedone = 'INSERT INTO shufpd (name,pos) SELECT * from epTBL;'
 	            	cursor.execute( tobedone )
