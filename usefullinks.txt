@@ -1,4 +1,0 @@
-Useful Links
-
-Vim Cheat Sheet
-https://www.fprintf.net/vimCheatSheet.html
