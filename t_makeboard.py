@@ -296,7 +296,6 @@ class T( unittest.TestCase ):
 			AnswerI = it.getcubes ('bcube')
 			AnswerJ = it.getcubes ('ucube')
 			AnswerK =  AnswerF + AnswerG + AnswerH + AnswerI + AnswerJ
-			print AnswerK
 		self.assertNotEqual(answer3,None,'3 countries with 3 cubes not found')
                 self.assertNotEqual(answer1,None,'3 countries with 1 cubes not found')
                 self.assertNotEqual(answer2,None,'3 countries with 2 cubes not found')
@@ -357,7 +356,7 @@ class T( unittest.TestCase ):
 		sg = startinggame ()
 		it = inaturn ()
 		print "Testing 4 player game set-up" 
-		sg.startnewgame (4,'testboard.txt',4,'testevent.txt','testcharacter.txt')
+		sg.startnewgameq (4,'testboard.txt',4,'testevent.txt','testcharacter.txt')
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
 			tobedone = """SELECT name FROM cTBL WHERE player = 'player3';"""

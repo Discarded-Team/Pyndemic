@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # vim: tabstop=4 softtabstop=4 shiftwidth=4 smarttab expandtab:
-
+import sys
 import sqlite3
 import random
 
@@ -101,10 +101,11 @@ class startinggame:
 			conn.commit()
 			tobedone = '''CREATE TABLE pdTBL(
 			"name",
-			"pos");'''
+			"colour",
+			"pos" INTEGER);'''
 			cursor.execute( tobedone )
 			conn.commit()
-		        tobedone = """INSERT INTO pdTBL (name) select name from BoardTBL;""" 
+		        tobedone = """INSERT INTO pdTBL (name,colour) select name,colour from BoardTBL;""" 
 	 		cursor.execute( tobedone )
 			conn.commit()
 	       		tobedone = """UPDATE pdTBL SET pos = 0;""" 
@@ -119,7 +120,8 @@ class startinggame:
 	            	cursor.execute( tobedone )
 			conn.commit()
 			tobedone = '''CREATE TABLE pddTBL(
-			"name");'''
+			"name",
+			"colour");'''
 			cursor.execute( tobedone )
 			conn.commit()
 
@@ -132,7 +134,7 @@ class startinggame:
 			conn.commit()
 			tobedone = '''CREATE TABLE idTBL(
 			"name",
-			"pos");'''
+			"pos" INTEGER);'''
 			cursor.execute( tobedone )
 			conn.commit()
 		        tobedone = """INSERT INTO idTBL (name) select name from BoardTBL;""" 
@@ -163,7 +165,7 @@ class startinggame:
 			conn.commit()
 			tobedone = '''CREATE TABLE edTBL(
 			"name",
-			"pos");'''
+			"pos" INTEGER);'''
 			cursor.execute( tobedone )
 			conn.commit()
 			eventfile = open(event,'r') 
@@ -185,7 +187,7 @@ class startinggame:
 			conn.commit()
 			tobedone = '''CREATE TABLE cTBL(
 			"name",
-			"pos",
+			"pos" INTEGER,
 			"player");'''
 			cursor.execute( tobedone )
 			conn.commit()
@@ -278,13 +280,14 @@ class startinggame:
 			conn.commit()
 			tobedone = '''CREATE TABLE shufpd(
 			"name",
-			"pos");'''
+			"colour",
+			"pos" INTEGER INTEGER);'''
 			cursor.execute( tobedone )
 			conn.commit()
 		        tobedone = """INSERT INTO shufpd (name,pos) select name,pos from edTBL limit %s;""" % (nevents) 
 	  		cursor.execute( tobedone )
 			conn.commit()
-	        	tobedone = """INSERT INTO shufpd (name,pos) select name,ABS(RANDOM() % 500) from pdTBL;""" 
+	        	tobedone = """INSERT INTO shufpd (name,colour,pos) select name,colour,ABS(RANDOM() % 500) from pdTBL;""" 
 	  		cursor.execute( tobedone )
 			conn.commit()
 
@@ -297,7 +300,7 @@ class startinggame:
 			conn.commit()
 			tobedone = '''CREATE TABLE shufid(
 			"name",
-			"pos");'''
+			"pos" INTEGER);'''
 			cursor.execute( tobedone )
 			conn.commit()
 	        	tobedone = """INSERT INTO shufid (name,pos) select name,ABS(RANDOM() % 500) from idTBL;""" 
@@ -315,10 +318,10 @@ class startinggame:
 	       		     	cursor.execute( tobedone )
 				conn.commit()
 				tobedone = '''CREATE TABLE player1TBL(
-				"name");'''
+				"name","colour");'''
 				cursor.execute( tobedone )
 				conn.commit()
-		        	tobedone = 'INSERT INTO player1TBL (name) select name from shufpd ORDER BY pos DESC limit 6;'
+		        	tobedone = 'INSERT INTO player1TBL (name,colour) select name,colour from shufpd ORDER BY pos DESC limit 6;'
 	       		     	cursor.execute( tobedone )
 		        	tobedone = 'SELECT pos FROM shufpd ORDER BY pos DESC limit 6;'
 	       		     	cursor.execute( tobedone )
@@ -337,10 +340,10 @@ class startinggame:
 	       		     	cursor.execute( tobedone )
 				conn.commit()
 				tobedone = '''CREATE TABLE player1TBL(
-				"name");'''
+				"name","colour");'''
 				cursor.execute( tobedone )
 				conn.commit()
-		        	tobedone = 'INSERT INTO player1TBL (name) select name from shufpd ORDER BY pos DESC limit 4;'
+		        	tobedone = 'INSERT INTO player1TBL (name,colour) select name,colour from shufpd ORDER BY pos DESC limit 4;'
 	       		     	cursor.execute( tobedone )
 		        	tobedone = 'SELECT pos FROM shufpd ORDER BY pos DESC limit 4;'
 	       		     	cursor.execute( tobedone )
@@ -359,10 +362,10 @@ class startinggame:
 	       		     	cursor.execute( tobedone )
 				conn.commit()
 				tobedone = '''CREATE TABLE player1TBL(
-				"name");'''
+				"name","colour");'''
 				cursor.execute( tobedone )
 				conn.commit()
-		        	tobedone = 'INSERT INTO player1TBL (name) select name from shufpd ORDER BY pos DESC limit 3;'
+		        	tobedone = 'INSERT INTO player1TBL (name,colour) select name,colour from shufpd ORDER BY pos DESC limit 3;'
 	       		     	cursor.execute( tobedone )
 		        	tobedone = 'SELECT pos FROM shufpd ORDER BY pos DESC limit 3;'
 	       		     	cursor.execute( tobedone )
@@ -381,10 +384,10 @@ class startinggame:
 	       		     	cursor.execute( tobedone )
 				conn.commit()
 				tobedone = '''CREATE TABLE player1TBL(
-				"name");'''
+				"name","colour");'''
 				cursor.execute( tobedone )
 				conn.commit()
-		        	tobedone = 'INSERT INTO player1TBL (name) select name from shufpd ORDER BY pos DESC limit 2;'
+		        	tobedone = 'INSERT INTO player1TBL (name,colour) select name,colour from shufpd ORDER BY pos DESC limit 2;'
 	       		     	cursor.execute( tobedone )
 		        	tobedone = 'SELECT pos FROM shufpd ORDER BY pos DESC limit 2;'
 	       		     	cursor.execute( tobedone )
@@ -407,10 +410,10 @@ class startinggame:
        		     	cursor.execute( tobedone )
 			conn.commit()
 			tobedone = '''CREATE TABLE player4TBL(
-			"name");'''
+			"name","colour");'''
 			cursor.execute( tobedone )
 			conn.commit()
-	        	tobedone = 'INSERT INTO player4TBL (name) select name from shufpd ORDER BY pos DESC limit 2;'
+	        	tobedone = 'INSERT INTO player4TBL (name,colour) select name,colour from shufpd ORDER BY pos DESC limit 2;'
        		     	cursor.execute( tobedone )
 	        	tobedone = 'SELECT pos FROM shufpd ORDER BY pos DESC limit 2;'
        		     	cursor.execute( tobedone )
@@ -433,10 +436,10 @@ class startinggame:
 	       		     	cursor.execute( tobedone )
 				conn.commit()
 				tobedone = '''CREATE TABLE player2TBL(
-				"name");'''
+				"name","colour");'''
 				cursor.execute( tobedone )
 				conn.commit()
-		        	tobedone = 'INSERT INTO player2TBL (name) select name from shufpd ORDER BY pos DESC limit 4;'
+		        	tobedone = 'INSERT INTO player2TBL (name,colour) select name,colour from shufpd ORDER BY pos DESC limit 4;'
 	       		     	cursor.execute( tobedone )
 		        	tobedone = 'SELECT pos FROM shufpd ORDER BY pos DESC limit 4;'
 	       		     	cursor.execute( tobedone )
@@ -456,10 +459,10 @@ class startinggame:
 	       		     	cursor.execute( tobedone )
 				conn.commit()
 				tobedone = '''CREATE TABLE player2TBL(
-				"name");'''
+				"name","colour");'''
 				cursor.execute( tobedone )
 				conn.commit()
-		        	tobedone = 'INSERT INTO player2TBL (name) select name from shufpd ORDER BY pos DESC limit 3;'
+		        	tobedone = 'INSERT INTO player2TBL (name,colour) select name,colour from shufpd ORDER BY pos DESC limit 3;'
 	       		     	cursor.execute( tobedone )
 		        	tobedone = 'SELECT pos FROM shufpd ORDER BY pos DESC limit 3;'
 	       		     	cursor.execute( tobedone )
@@ -478,10 +481,10 @@ class startinggame:
 	       		     	cursor.execute( tobedone )
 				conn.commit()
 				tobedone = '''CREATE TABLE player2TBL(
-				"name");'''
+				"name","colour");'''
 				cursor.execute( tobedone )
 				conn.commit()
-		        	tobedone = 'INSERT INTO player2TBL (name) select name from shufpd ORDER BY pos DESC limit 2;'
+		        	tobedone = 'INSERT INTO player2TBL (name,colour) select name,colour from shufpd ORDER BY pos DESC limit 2;'
 	       		     	cursor.execute( tobedone )
 		        	tobedone = 'SELECT pos FROM shufpd ORDER BY pos DESC limit 2;'
 	       		     	cursor.execute( tobedone )
@@ -505,10 +508,10 @@ class startinggame:
 	       		     	cursor.execute( tobedone )
 				conn.commit()
 				tobedone = '''CREATE TABLE player3TBL(
-				"name");'''
+				"name","colour");'''
 				cursor.execute( tobedone )
 				conn.commit()
-		        	tobedone = 'INSERT INTO player3TBL (name) select name from shufpd ORDER BY pos DESC limit 3;'
+		        	tobedone = 'INSERT INTO player3TBL (name,colour) select name,colour from shufpd ORDER BY pos DESC limit 3;'
 	       		     	cursor.execute( tobedone )
 		        	tobedone = 'SELECT pos FROM shufpd ORDER BY pos DESC limit 3;'
 	       		     	cursor.execute( tobedone )
@@ -527,10 +530,10 @@ class startinggame:
 	       		     	cursor.execute( tobedone )
 				conn.commit()
 				tobedone = '''CREATE TABLE player3TBL(
-				"name");'''
+				"name","colour");'''
 				cursor.execute( tobedone )
 				conn.commit()
-		        	tobedone = 'INSERT INTO player3TBL (name) select name from shufpd ORDER BY pos DESC limit 2;'
+		        	tobedone = 'INSERT INTO player3TBL (name,colour) select name,colour from shufpd ORDER BY pos DESC limit 2;'
 	       		     	cursor.execute( tobedone )
 		        	tobedone = 'SELECT pos FROM shufpd ORDER BY pos DESC limit 2;'
 	       		     	cursor.execute( tobedone )
@@ -557,7 +560,7 @@ class startinggame:
 			conn.commit()
 			tobedone = '''CREATE TABLE epTBL(
 			"name",
-			"pos");'''
+			"pos" INTEGER);'''
 			cursor.execute( tobedone )
 			conn.commit()
 		        tobedone = """SELECT COUNT (name) FROM shufpd;""" 
@@ -599,10 +602,15 @@ class startinggame:
 			"players",
 			"ec",
 			"ap",
-			"action");'''
+			"action",
+			"ucure",
+			"bcure",
+			"ycure",
+			"rcure",
+			"pcure");'''
 			cursor.execute( tobedone )
 			conn.commit()
-			tobedone = """INSERT INTO gsTBL (ir,oc,players,ec,ap,action) VALUES (2,0,%s,0,'player1',4)""" % (players)
+			tobedone = """INSERT INTO gsTBL (ir,oc,players,ec,ap,action,ucure,bcure,ycure,rcure,pcure) VALUES (2,0,%s,0,'player1',4,0,0,0,0,0)""" % (players)
 			cursor.execute( tobedone)
 			conn.commit()
 
@@ -805,6 +813,7 @@ class startinggame:
 # specified pool of character cards
 	def startnewgame (self,players,board,epidemics,event,characters):
 		sg = startinggame ()
+		g = game ()
 		print "1. Laying out the board with everything."
 		sg.BoardTBL (board)
 		print "2. Shuffling the event cards together, so a random selection can be chosen to shuffle into the player deck."
@@ -822,10 +831,10 @@ class startinggame:
 		if players >= 2:
 			print "7a. Also drawing a hand for player Two."
 			sg.player2TBL (players)
-		if players >= 3:
+		elif players >= 3:
 			print "7b. Then drawing a hand for player Three."
 			sg.player3TBL (players)
-		if players >= 4:
+		elif players >= 4:
 			print "7c. Finally drawing a hand for player Four."
 			sg.player4TBL (players)
 		else:
@@ -849,6 +858,8 @@ class startinggame:
 		print "13. Shuffling epidemic cards into the infection deck"
 		sg.epTBL (epidemics)
 		print "14. LETS GO! Time to start the game!"
+		g.start ()
+
 
 # Stats a new game as above, but without the printing
 	def startnewgameq (self,players,board,epidemics,event,characters):
@@ -993,35 +1004,40 @@ class inaturn:
 					tobedone = """UPDATE BoardTBL SET ucube = %s WHERE name is '%s'; """ % (newcubes,answer3)	
 					cursor.execute (tobedone)
 					conn.commit ()
-					it.usecube ('ucube')
+					if newcubes < 4:
+						it.usecube ('ucube')
 						
 				elif answer4 == 'b':
 					newcubes = answer6 + 1
 					tobedone = """UPDATE BoardTBL SET bcube = %s WHERE name is '%s'; """ % (newcubes,answer3)	
 					cursor.execute (tobedone)
 					conn.commit ()
-					it.usecube ('bcube')
+					if newcubes < 4:
+						it.usecube ('bcube')
 						
 				elif answer4 == 'r':
 					newcubes = answer7 + 1
 					tobedone = """UPDATE BoardTBL SET rcube = %s WHERE name is '%s'; """ % (newcubes,answer3)	
 					cursor.execute (tobedone)
 					conn.commit ()
-					it.usecube ('rcube')
+					if newcubes < 4:
+						it.usecube ('rcube')
 						
 				elif answer4 == 'y':
 					newcubes = answer8 + 1
 					tobedone = """UPDATE BoardTBL SET ycube = %s WHERE name is '%s'; """ % (newcubes,answer3)	
 					cursor.execute (tobedone)
 					conn.commit ()
-					it.usecube ('ycube')
+					if newcubes < 4:
+						it.usecube ('ycube')
 						
 				elif answer4 == 'p':
 					newcubes = answer9 + 1
 					tobedone = """UPDATE BoardTBL SET pcube = %s WHERE name is '%s'; """ % (newcubes,answer3)	
 					cursor.execute (tobedone)
 					conn.commit ()
-					it.usecube ('pcube')
+					if newcubes < 4:
+						it.usecube ('pcube')
 						
 				else:
 					print "something has gone wrong"
@@ -1149,32 +1165,1396 @@ class inaturn:
 		it = inaturn ()
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
-			tobedone = """SELECT name from shufpd ORDER BY pos DESC limit 1;"""
+			tobedone = """SELECT name from shufpd ORDER BY pos ASC limit 1;"""
        		     	cursor.execute( tobedone )
 			answerX = cursor.fetchall ( )
-			answer1 = answerX [4]
+			answer1 = answerX [0]
 			maybeep = answer1 [0]
-			if maybeep == "ep1" or "ep2" or "ep3" or "e4" or "ep5" or "ep6" or "ep7" or "ep8" or "ep9":
+
+			if maybeep == 'Ep1':
 				print "drawn an epidemic!"
 				it.epidemic ()
-			else:	
-				tobedone = 'INSERT INTO %sTBL (name) select name from shufpd ORDER BY pos DESC limit 1;' % (player)
+			elif maybeep == 'Ep2':
+				print "drawn an epidemic!"
+				it.epidemic ()
+			elif maybeep == 'Ep3':
+				print "drawn an epidemic!"
+				it.epidemic ()
+			elif maybeep == 'Ep4':
+				print "drawn an epidemic!"
+				it.epidemic ()
+			elif maybeep == 'Ep5':
+				print "drawn an epidemic!"
+				it.epidemic ()
+			elif maybeep == 'Ep6':
+				print "drawn an epidemic!"
+				it.epidemic ()
+			elif maybeep == 'Ep7':
+				print "drawn an epidemic!"
+				it.epidemic ()
+			elif maybeep == 'Ep8':
+				print "drawn an epidemic!"
+				it.epidemic ()
+			elif maybeep == 'Ep9':
+				print "drawn an epidemic!"
+				it.epidemic ()
+			else:
+				tobedone = 'INSERT INTO %sTBL (name,colour) select name,colour from shufpd ORDER BY pos ASC limit 1;' % (player)
 	       		     	cursor.execute( tobedone )
-		        	tobedone = 'SELECT pos FROM shufpd ORDER BY pos DESC limit 1;'
+		        	tobedone = 'SELECT pos FROM shufpd ORDER BY pos ASC limit 1;'
        			     	cursor.execute( tobedone )
 				conn.commit()
 				answerX = cursor.fetchall ( )
 				answer1 = answerX [0]
 				funny1 = answer1 [0]
-	        		tobedone = """DELETE FROM shufpd WHERE pos >= %s;""" % (funny1)
+	        		tobedone = """DELETE FROM shufpd WHERE pos <= %s;""" % (funny1)
        		     		cursor.execute( tobedone )
 				conn.commit()
 
 	def discard (self, player, card):
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
-	        	tobedone = """DELETE FROM %TBL WHERE name is %s;""" % (player, card)
+	        	tobedone = """DELETE FROM %sTBL WHERE name is '%s';""" % (player, card)
 			cursor.execute( tobedone )
 	        	tobedone = """INSERT INTO pddTBL (name) VALUES ('%s');""" % (card)
 			cursor.execute( tobedone )
 			conn.commit()
+
+	def epidemic ( self):
+		with sqlite3.connect('pandemic.db') as conn:
+			it = inaturn ()
+			cursor = conn.cursor()
+			# increasing the infection rate
+	        	tobedone = """SELECT ec FROM gsTBL;"""
+			cursor.execute( tobedone )
+			answerX = cursor.fetchone ( )
+			ec = answerX [0]
+			ec = ec + 1
+			if ec == 3:
+	        		tobedone = """UPDATE gsTBL SET ir = 3;"""
+				cursor.execute( tobedone )
+			if ec == 4:
+	        		tobedone = """UPDATE gsTBL SET ir = 3;"""
+				cursor.execute( tobedone )
+			if ec >= 5:
+	        		tobedone = """UPDATE gsTBL SET ir = 4;"""
+				cursor.execute( tobedone )
+	        	tobedone = """UPDATE gsTBL SET ec = %s;""" % (ec)
+			cursor.execute( tobedone )
+			conn.commit()
+			
+			# infecting bottom card of infection deck
+			tobedone = """SELECT name,pos from shufid ORDER BY pos DESC;"""
+			cursor.execute( tobedone)
+			answerX = cursor.fetchone ( )
+			answer1 = answerX [0] # this is the name of the card in the id
+			answer2 = answerX [1] # this is the pos of the card in the id
+		       	tobedone = """SELECT name,colour FROM BoardTBL where name is '%s';""" % (answer1)
+			cursor.execute( tobedone
+)
+			answerY = cursor.fetchone ( )
+			answer3 = answerY [0] #name of place
+			answer4 = answerY [1] #colour
+			print "%s is now infected!" % (answer3)
+			it.ic (answer4,answer3)
+			it.ic (answer4,answer3)
+			it.ic (answer4,answer3)
+		        tobedone = """DELETE FROM shufid WHERE name is '%s';""" % (answer3)
+	       		cursor.execute( tobedone )
+			tobedone = """INSERT INTO iddTBL (name) VALUES ('%s')""" % (answer3)
+	       		cursor.execute( tobedone )
+			conn.commit()
+				
+			conn.commit()
+			# shuffling the idd to the top of the infection deck	
+	        	tobedone = """UPDATE shufid SET pos = ABS(RANDOM() % 500)+500;""" 
+	  		cursor.execute( tobedone )
+	        	tobedone = """INSERT INTO shufid (name,pos) select name,ABS(RANDOM() % 500) from iddTBL;""" 
+	  		cursor.execute( tobedone )
+			conn.commit()
+
+	def co (self):
+		it = inaturn ()
+                listofcol = ['ucube','ycube','rcube','bcube','pcube']
+                listofnumb = [7,6,5,4]
+                listofnumb2 = [9,10,11,12]
+                for a in listofcol:
+                        for b in listofnumb:
+                                city = it.getxcube (a,b)
+				if city [0][0] >= 1:
+					d = 0
+					while city [0][0] > d:
+						outbreakc = city [1][d][0]
+						print "There has been an outbreak in %s!" % (outbreakc)
+						with sqlite3.connect('pandemic.db') as conn:
+							cursor = conn.cursor()
+							oldoc = it.getoc ()
+							newoc = oldoc +1
+						       	tobedone = """UPDATE gsTBL SET oc = %s;""" % (newoc)
+							cursor.execute( tobedone )
+							conn.commit ()
+						       	tobedone = """UPDATE BoardTBL SET %s = 9 WHERE name is '%s';""" % (a,outbreakc)
+							cursor.execute( tobedone )
+							conn.commit ()
+					        	tobedone = """SELECT connect FROM BoardTBL WHERE name is '%s';""" % (outbreakc)
+							cursor.execute( tobedone )
+							answerX = cursor.fetchone ( )
+							connect = int (answerX [0])
+							t = 0
+							timestodo = connect - 1
+							while t <= timestodo:
+								t = t + 1
+								use = str (t)
+								find = "co"+use
+					        		tobedone = """SELECT %s, colour FROM BoardTBL WHERE name is '%s';""" % (find,outbreakc)
+								cursor.execute( tobedone )
+								answerX = cursor.fetchone ( )
+								connect = answerX [0]
+								colour = answerX [1]
+								print "The infection has spread from %s to %s." % (outbreakc, connect)
+								it.ic (colour,connect)
+								
+							
+						d = d + 1
+                for a in listofcol:
+                        for b in listofnumb:
+                                city = it.getxcube (a,b)
+				if city [0][0] >= 1:
+					d = 0
+					while city [0][0] > d:
+						outbreakc = city [1][d][0]
+						print "There has been an outbreak in %s!" % (outbreakc)
+						with sqlite3.connect('pandemic.db') as conn:
+							cursor = conn.cursor()
+						       	tobedone = """UPDATE BoardTBL SET %s = 9 WHERE name is '%s';""" % (a,outbreakc)
+							cursor.execute( tobedone )
+							conn.commit ()
+					        	tobedone = """SELECT connect FROM BoardTBL WHERE name is '%s';""" % (outbreakc)
+							cursor.execute( tobedone )
+							answerX = cursor.fetchone ( )
+							connect = int (answerX [0])
+							t = 0
+							timestodo = connect - 1
+							while t <= timestodo:
+								t = t + 1
+								use = str (t)
+								find = "co"+use
+					        		tobedone = """SELECT %s, colour FROM BoardTBL WHERE name is '%s';""" % (find,outbreakc)
+								cursor.execute( tobedone )
+								answerX = cursor.fetchone ( )
+								connect = answerX [0]
+								colour = answerX [1]
+								print "The infection has spread from %s to %s." % (outbreakc, connect)
+								it.ic (colour,connect)
+								
+							
+						d = d + 1
+                for a in listofcol:
+                        for b in listofnumb:
+                                city = it.getxcube (a,b)
+				if city [0][0] >= 1:
+					d = 0
+					while city [0][0] > d:
+						outbreakc = city [1][d][0]
+						print "There has been an outbreak in %s!" % (outbreakc)
+						with sqlite3.connect('pandemic.db') as conn:
+							cursor = conn.cursor()
+						       	tobedone = """UPDATE BoardTBL SET %s = 9 WHERE name is '%s';""" % (a,outbreakc)
+							cursor.execute( tobedone )
+							conn.commit ()
+					        	tobedone = """SELECT connect FROM BoardTBL WHERE name is '%s';""" % (outbreakc)
+							cursor.execute( tobedone )
+							answerX = cursor.fetchone ( )
+							connect = int (answerX [0])
+							t = 0
+							timestodo = connect - 1
+							while t <= timestodo:
+								t = t + 1
+								use = str (t)
+								find = "co"+use
+					        		tobedone = """SELECT %s, colour FROM BoardTBL WHERE name is '%s';""" % (find,outbreakc)
+								cursor.execute( tobedone )
+								answerX = cursor.fetchone ( )
+								connect = answerX [0]
+								colour = answerX [1]
+								print "The infection has spread from %s to %s." % (outbreakc, connect)
+								it.ic (colour,connect)
+								
+							
+						d = d + 1
+                for a in listofcol:
+                        for b in listofnumb:
+                                city = it.getxcube (a,b)
+				if city [0][0] >= 1:
+					d = 0
+					while city [0][0] > d:
+						outbreakc = city [1][d][0]
+						print "There has been an outbreak in %s!" % (outbreakc)
+						with sqlite3.connect('pandemic.db') as conn:
+							cursor = conn.cursor()
+						       	tobedone = """UPDATE BoardTBL SET %s = 9 WHERE name is '%s';""" % (a,outbreakc)
+							cursor.execute( tobedone )
+							conn.commit ()
+					        	tobedone = """SELECT connect FROM BoardTBL WHERE name is '%s';""" % (outbreakc)
+							cursor.execute( tobedone )
+							answerX = cursor.fetchone ( )
+							connect = int (answerX [0])
+							t = 0
+							timestodo = connect - 1
+							while t <= timestodo:
+								t = t + 1
+								use = str (t)
+								find = "co"+use
+					        		tobedone = """SELECT %s, colour FROM BoardTBL WHERE name is '%s';""" % (find,outbreakc)
+								cursor.execute( tobedone )
+								answerX = cursor.fetchone ( )
+								connect = answerX [0]
+								colour = answerX [1]
+								print "The infection has spread from %s to %s." % (outbreakc, connect)
+								it.ic (colour,connect)
+								
+							
+						d = d + 1
+                for a in listofcol:
+                        for b in listofnumb2:
+                                city = it.getxcube (a,b)
+				if city [0][0] >= 1:
+					d = 0
+					while city [0][0] > d:
+						outbreakc = city [1][d][0]
+						with sqlite3.connect('pandemic.db') as conn:
+							cursor = conn.cursor()
+							outbreakc = city [1][d][0]
+						       	tobedone = """UPDATE BoardTBL SET %s = 3 WHERE name is '%s';""" % (a,outbreakc)
+							cursor.execute( tobedone )
+							conn.commit ()
+						d = d + 1
+					 
+		
+
+	def ic (self, colour, city):
+		it = inaturn ()
+		with sqlite3.connect('pandemic.db') as conn:
+			cursor = conn.cursor()
+			cube = colour+'cube'
+			tobedone = """SELECT %s from BoardTBL where name is '%s';""" % (cube,city)
+			cursor.execute( tobedone)
+			found = cursor.fetchone ( )
+			newcubes = found [0] + 1
+			tobedone = """UPDATE BoardTBL SET %s = %s WHERE name is '%s'; """ % (cube,newcubes,city)	
+			cursor.execute (tobedone)
+			conn.commit ()
+			if newcubes <= 3:
+				it.usecube (cube)
+
+
+	def action (self):
+		g = game ()
+		it = inaturn ()
+		with sqlite3.connect('pandemic.db') as conn:
+			cursor = conn.cursor()
+			tobedone = """SELECT action from gsTBL;""" 
+			cursor.execute( tobedone)
+			found = cursor.fetchone ( )
+			newaction = found [0] - 1
+			tobedone = """UPDATE gsTBL SET action = %s; """ % (newaction)	
+			cursor.execute (tobedone)
+			conn.commit ()
+			if newaction == 0:
+				tobedone = """SELECT ap FROM gsTBL;"""
+				cursor.execute (tobedone)
+				found  = cursor.fetchone ( )
+				player = found [0]
+				print "End of %s's turn. Drawing cards." % (player)
+				it.pdraw (player)
+				it.pdraw (player)
+				ir = it.getir ()
+				print "Infecting %s cities." % (ir)
+				it.infectcities	(ir)
+				print "checking for outbreaks!"
+				it.co ()
+				oc = it.getoc ()
+				if oc >= 8:
+					print "You've lost the game"
+					g.gameover ()
+				else:
+					print "%s outbreaks so far, 8 or more and you loose the game" % (oc)
+				tobedone = """SELECT players FROM gsTBL;"""
+				cursor.execute (tobedone)
+				found  = cursor.fetchone ( )
+				noplayer = found [0]
+				if noplayer == 1:
+					print "One player game, returning priority to player 1"
+				if noplayer == 2:
+					print "Moving priority to next player"
+					if player == 'player1':
+						tobedone = """UPDATE gsTBL SET ap = 'player2'; """
+						cursor.execute (tobedone)
+						conn.commit ()
+					if player == 'player2':
+						tobedone = """UPDATE gsTBL SET ap = 'player1'; """
+						cursor.execute (tobedone)
+						conn.commit ()
+				if noplayer == 3:
+					print "Moving priority to next player"
+					if player == 'player1':
+						tobedone = """UPDATE gsTBL SET ap = 'player2'; """
+						cursor.execute (tobedone)
+						conn.commit ()
+					if player == 'player2':
+						tobedone = """UPDATE gsTBL SET ap = 'player3'; """
+						cursor.execute (tobedone)
+						conn.commit ()
+					if player == 'player3':
+						tobedone = """UPDATE gsTBL SET ap = 'player1'; """
+						cursor.execute (tobedone)
+						conn.commit ()
+				if noplayer == 4:
+					print "Moving priority to next player"
+					if player == 'player1':
+						tobedone = """UPDATE gsTBL SET ap = 'player2'; """
+						cursor.execute (tobedone)
+						conn.commit ()
+					if player == 'player2':
+						tobedone = """UPDATE gsTBL SET ap = 'player3'; """
+						cursor.execute (tobedone)
+						conn.commit ()
+					if player == 'player3':
+						tobedone = """UPDATE gsTBL SET ap = 'player4'; """
+						cursor.execute (tobedone)
+						conn.commit ()
+					if player == 'player4':
+						tobedone = """UPDATE gsTBL SET ap = 'player1'; """
+						cursor.execute (tobedone)
+						conn.commit ()
+				tobedone = """UPDATE gsTBL set action = 4;"""
+				cursor.execute (tobedone)
+				conn.commit ()
+				
+
+	def rc (self,colour,city):
+		with sqlite3.connect('pandemic.db') as conn:
+		       	cursor = conn.cursor()
+	            	tobedone = """SELECT %s FROM BoardTBL WHERE name is '%s';""" % (colour,city)
+	            	cursor.execute( tobedone )
+			found  = cursor.fetchone ( )
+			cubes = found [0]
+			if cubes == 0:
+				print "No cubes of that colour found!"
+			else:
+				cubes = cubes - 1
+				tobedone = """UPDATE BoardTBL SET %s = %s WHERE name is '%s';""" % (colour,cubes,city)
+		            	cursor.execute( tobedone )
+				tobedone = """SELECT %s FROM cubesTBL;""" % (colour)
+	            		cursor.execute( tobedone )
+				found  = cursor.fetchone ( )
+				cubepool = found [0]
+				cubepool = cubepool + 1
+				tobedone = """UPDATE cubesTBL SET %s = %s;""" % (colour,cubepool)
+		            	cursor.execute( tobedone )
+				conn.commit ()
+		
+				
+	def getap (self):
+		it = inaturn ()
+		with sqlite3.connect('pandemic.db') as conn:
+		   	cursor = conn.cursor()
+			tobedone = """SELECT ap FROM gsTBL;"""
+			cursor.execute (tobedone)
+			answerX = cursor.fetchone ()
+			ap = answerX [0]
+			return ap 
+					
+						
+		
+
+class playeraction:
+        def direct (self,player,card):
+		it = inaturn ()
+		it.discard (player,card)
+		location = it.getplayer (player)
+		it.move (player,location,card)
+		print "%s has taken a direct flight to %s" % (player, card)
+		it.action ()
+	
+	def trainboat (self,player,location,destination):
+		it = inaturn ()
+		location = it.getplayer (player)	
+		it.move (player,location,destination)
+		print "%s has moved from %s to %s" % (player, location, destination)
+		it.action ()
+
+	def charter (self,player,card,destination):
+		it = inaturn ()
+		location = it.getplayer (player)
+		if location != card:
+			print "You need to play the card that matches your location."
+		if location == card:
+			it.discard (player,card)
+			it.move (player,location,destination)
+			print "%s has taken a charter flight from %s to %s" % (player, card, destination)
+			it.action ()
+			
+		else:
+			print "ERROR!"
+	
+
+	def shuttle (self,player,destination):
+		it = inaturn ()
+		location = it.getplayer (player)
+		with sqlite3.connect('pandemic.db') as conn:
+		       	cursor = conn.cursor()
+	            	tobedone = "SELECT rstation FROM BoardTBL WHERE name is '%s';" % (location)
+	            	cursor.execute( tobedone )
+			found  = cursor.fetchone ( )
+			norstation1 = found [0]
+	            	tobedone = """SELECT rstation FROM BoardTBL WHERE name is '%s';""" % (destination)
+	            	cursor.execute( tobedone )
+			found  = cursor.fetchone ( )
+			norstation2 = found [0]
+		if norstation1 != 1:
+			print "No research station in %s, can't take a shuttle flight from here" % (location)
+		if norstation2 != 1:
+			print "No research station in %s, can't take a shuttle flight from here" % (destination)
+		else:
+			it.move (player,location,destination)
+			it.action ()
+
+
+	def treat (self,player,cube):
+		it = inaturn ()
+		location = it.getplayer (player)
+		it.rc (cube,location)
+		it.action ()
+
+	def cure (self,player,colour):
+		g=game ()
+		it = inaturn ()
+		td = 0
+		while td < 5:
+			with sqlite3.connect('pandemic.db') as conn:
+			       	cursor = conn.cursor()
+		            	tobedone = "SELECT name FROM %sTBL WHERE colour is '%s' limit 1;" % (player,colour)
+	        	    	cursor.execute( tobedone )
+				found  = cursor.fetchone ( )
+				it.discard (player,found [0])
+				td = td + 1
+				print "Used %s" % (found [0])
+		tobedone = "UPDATE gsTBL set %scure = 1;" % (colour)
+		print "Just cured a disease!"
+	        cursor.execute( tobedone )
+		conn.commit ()
+		tobedone = "SELECT ucure, bcure, rcure, ycure FROM gsTBL;"
+	        cursor.execute( tobedone )
+		found  = cursor.fetchall ( )
+		ucure = found [0][0]
+		bcure = found [0][1]
+		rcure = found [0][2]
+		ycure = found [0][3]
+		nocures = ucure + bcure + rcure + ycure
+		if nocures == 4:
+			print "You've won the game!"
+			g.gameover ()
+		else:
+			neededcures = 4 - nocures
+			print "You need to discover %s more cures to win the game." % (neededcures)
+		it.action ()
+				
+class game:
+
+        def start (self):
+		g = game ()
+                print """What would you like to do? 
+1- Find out about the board state.
+2- Take an action.
+3- Quit."""
+                thing = raw_input ('>')
+                if thing == '1':
+                        g.info ()
+		elif thing == '2':
+			g.action ()
+		elif thing == '3':
+			print "Are you sure? If so press Q."
+			thing = raw_input ('>')
+			if thing == 'q':
+				print "goodbye!"
+			elif thing == 'Q':
+				print "goodbye!"
+			else:
+				g.start ()
+		else:
+			print "Type either 1, 2 or 3."
+			g.start ()
+
+
+
+        def info (self):
+		g = game ()
+                print """What do you want to know?
+1. About a city?
+2. How many cities with 3 cubes of a given or any colour in?
+3. How many cities with 2 cubes of a given or any colour in?
+4. How many cities with 1 cube of a given or any colour in?
+5. Where am I?
+6. What is in my hand?"""
+                thing = raw_input ('>')
+                if thing == '1':
+			g.cityinfo ()
+		elif thing == '2':	
+			g.cube3info ()
+		elif thing == '3':	
+			g.cube2info ()
+		elif thing == '4':	
+			g.cube1info ()
+		elif thing == '5':	
+			g.playerlocinfo ()
+		elif thing == '6':	
+			g.handinfo ()
+		else:
+			print "Type either 1,2,3,4,5 or 6"
+			g.action
+
+	def cityinfo (self):
+		it = inaturn ()
+		g = game ()
+		print "What city?"
+		answer = raw_input ('>')
+		findout = it.getcityallcubes (answer)
+		if findout == 'There is no city of that name!':
+			print findout
+			with sqlite3.connect('pandemic.db') as conn:
+		       		cursor = conn.cursor()
+				tobedone = """SELECT name FROM BoardTBL;"""
+				cursor.execute (tobedone)
+				answerX = cursor.fetchall ()
+				print "The cities are listed below."
+				for a in answerX:
+					print a [0]
+				g.cityinfo ()
+		else:
+			print findout
+			g.start ()
+			
+
+	def cube3info (self):
+		it = inaturn ()
+		g = game ()
+		print """What colour?
+1. Blue
+2. Yellow
+3. Red
+4. Black
+5. All"""
+		answer = raw_input ('>')
+		if answer == '1':
+			findout = it.getxcube ('ucube',3)
+			print "There are %s cities with 3 blue cubes, in:" % (findout [0][0])
+			listc = findout [1]
+			for a in listc:
+				print a [0]
+			g.start () 
+		elif answer == '2':
+			findout = it.getxcube ('ycube',3)
+			print "There are %s cities with 3 yellow cubes, in:" % (findout [0][0])
+			listc = findout [1]
+			for a in listc:
+				print a [0]
+			g.start () 
+		elif answer == '3':
+			findout = it.getxcube ('rcube',3)
+			print "There are %s cities with 3 red cubes, in:" % (findout [0][0])
+			listc = findout [1]
+			for a in listc:
+				print a [0]
+			g.start () 
+		elif answer == '4':
+			findout = it.getxcube ('bcube',3)
+			print "There are %s cities with 3 black cubes, in:" % (findout [0][0])
+			listc = findout [1]
+			for a in listc:
+				print a [0]
+			g.start () 
+		elif answer == '5':
+			findout1 = it.getxcube ('bcube',3)
+			findout2 = it.getxcube ('ucube',3)
+			findout3 = it.getxcube ('ycube',3)
+			findout4 = it.getxcube ('rcube',3)
+			totalfound =findout1 [0][0] + findout2 [0][0] + findout3 [0][0] + findout4 [0][0] 
+			print "There are %s cities with 3 cubes, in:" % (totalfound)
+			listc = findout1 [1]
+			for a in listc:
+				print a [0]
+			listc = findout2 [1]
+			for a in listc:
+				print a [0]
+			listc = findout3 [1]
+			for a in listc:
+				print a [0]
+			listc = findout4 [1]
+			for a in listc:
+				print a [0]
+			g.start () 
+		else:
+			print "Please answer 1,2,3 or 4."
+			g.cube3info ()
+
+	def cube2info (self):
+		it = inaturn ()
+		g = game ()
+		print """What colour?
+1. Blue
+2. Yellow
+3. Red
+4. Black
+5. All"""
+		answer = raw_input ('>')
+		if answer == '1':
+			findout = it.getxcube ('ucube',2)
+			print "There are %s cities with 2 blue cubes, in:" % (findout [0][0])
+			listc = findout [1]
+			for a in listc:
+				print a [0]
+			g.start () 
+		elif answer == '2':
+			findout = it.getxcube ('ycube',2)
+			print "There are %s cities with 2 yellow cubes, in:" % (findout [0][0])
+			listc = findout [1]
+			for a in listc:
+				print a [0]
+			g.start () 
+		elif answer == '3':
+			findout = it.getxcube ('rcube',2)
+			print "There are %s cities with 2 red cubes, in:" % (findout [0][0])
+			listc = findout [1]
+			for a in listc:
+				print a [0]
+			g.start () 
+		elif answer == '4':
+			findout = it.getxcube ('bcube',2)
+			print "There are %s cities with 2 black cubes, in:" % (findout [0][0])
+			listc = findout [1]
+			for a in listc:
+				print a [0]
+			g.start () 
+		elif answer == '5':
+			findout1 = it.getxcube ('bcube',2)
+			findout2 = it.getxcube ('ucube',2)
+			findout3 = it.getxcube ('ycube',2)
+			findout4 = it.getxcube ('rcube',2)
+			totalfound =findout1 [0][0] + findout2 [0][0] + findout3 [0][0] + findout4 [0][0] 
+			print "There are %s cities with 2 cubes, in:" % (totalfound)
+			listc = findout1 [1]
+			for a in listc:
+				print a [0]
+			listc = findout2 [1]
+			for a in listc:
+				print a [0]
+			listc = findout3 [1]
+			for a in listc:
+				print a [0]
+			listc = findout4 [1]
+			for a in listc:
+				print a [0]
+			g.start () 
+		else:
+			print "Please answer 1,2,3 or 4."
+			g.cube2info ()
+
+
+	def cube1info (self):
+		it = inaturn ()
+		g = game ()
+		print """What colour?
+1. Blue
+2. Yellow
+3. Red
+4. Black
+5. All"""
+		answer = raw_input ('>')
+		if answer == '1':
+			findout = it.getxcube ('ucube',1)
+			print "There are %s cities with 1 blue cubes, in:" % (findout [0][0])
+			listc = findout [1]
+			for a in listc:
+				print a [0]
+			g.start () 
+		elif answer == '2':
+			findout = it.getxcube ('ycube',1)
+			print "There are %s cities with 1 yellow cubes, in:" % (findout [0][0])
+			listc = findout [1]
+			for a in listc:
+				print a [0]
+			g.start () 
+		elif answer == '3':
+			findout = it.getxcube ('rcube',1)
+			print "There are %s cities with 1 red cubes, in:" % (findout [0][0])
+			listc = findout [1]
+			for a in listc:
+				print a [0]
+			g.start () 
+		elif answer == '4':
+			findout = it.getxcube ('bcube',1)
+			print "There are %s cities with 1 black cubes, in:" % (findout [0][0])
+			listc = findout [1]
+			for a in listc:
+				print a [0]
+			g.start () 
+		elif answer == '5':
+			findout1 = it.getxcube ('bcube',1)
+			findout2 = it.getxcube ('ucube',1)
+			findout3 = it.getxcube ('ycube',1)
+			findout4 = it.getxcube ('rcube',1)
+			totalfound =findout1 [0][0] + findout2 [0][0] + findout3 [0][0] + findout4 [0][0] 
+			print "There are %s cities with 1 cubes, in:" % (totalfound)
+			listc = findout1 [1]
+			for a in listc:
+				print a [0]
+			listc = findout2 [1]
+			for a in listc:
+				print a [0]
+			listc = findout3 [1]
+			for a in listc:
+				print a [0]
+			listc = findout4 [1]
+			for a in listc:
+				print a [0]
+			g.start () 
+		else:
+			print "Please answer 1,2,3 or 4."
+			g.cube1info ()
+
+	def playerlocinfo (self):
+		g = game ()
+		it = inaturn ()
+		with sqlite3.connect('pandemic.db') as conn:
+		   	cursor = conn.cursor()
+			tobedone = """SELECT ap FROM gsTBL;"""
+			cursor.execute (tobedone)
+			answerX = cursor.fetchone ()
+			location = it.getplayer (answerX [0])
+			print "You, %s are located in %s" % (answerX[0],location)
+			g.start ()
+
+	def handinfo (self):
+		g = game ()
+		it = inaturn ()
+		with sqlite3.connect('pandemic.db') as conn:
+		   	cursor = conn.cursor()
+			tobedone = """SELECT ap FROM gsTBL;"""
+			cursor.execute (tobedone)
+			answerX = cursor.fetchone ()
+			hand = it.gethand (answerX [0])
+			count = 0
+			for a in hand:
+				count = count + 1
+			print "You, %s have the %s below cards in your hand:" % (answerX[0], count)
+			for a in hand:
+				print a [0]
+			g.start ()
+		
+	def action (self):
+		g = game ()
+		it = inaturn ()
+                print """What action would you like to take?
+1- Take a train or ferry to another city (doesn't work correctly, you can move anywhere).
+2- Play a card to take a direct flight to that city.
+3- Play the card of the city you are in to take a charter flight to any location.
+4- Take a shuttle flight from one research station to another.
+5- Treat illness in your current city.
+6- Play 5 city cards of the same colour to cure an disease. You must be in a research station.
+7- Give another player a card from your hand that matches the city you are in if you are both in the same city.
+8- Take a card from another player that matches the city you are in if you are both in the same city.
+9- Build a research centre play the city card that matches the city you are in to build a research centre.
+10- Wait."""
+                thing = raw_input ('>')
+                if thing == '1':
+                        g.mp ()
+                elif thing == '2':
+                        g.df ()
+                elif thing == '3':
+                        g.cf ()
+                elif thing == '4':
+                        g.sf ()
+                elif thing == '5':
+                        g.td ()
+                elif thing == '6':
+                        g.cd ()
+                elif thing == '7':
+                        g.skg ()
+                elif thing == '8':
+                        g.skt ()
+                elif thing == '9':
+                        g.br ()
+                elif thing == '10':
+                        g.wait ()
+		else:
+			print "Please type a number from 1-9 for an action."
+			g.action ()
+
+
+	def mp (self):
+		g=game ()
+		it = inaturn ()
+		pa = playeraction ()
+		ap = it.getap ()
+		location = it.getplayer (ap)
+		print "Where would you like to go?"
+		with sqlite3.connect('pandemic.db') as conn:
+			cursor = conn.cursor()
+	        	tobedone = """SELECT connect FROM BoardTBL WHERE name is '%s';""" % (location)
+			cursor.execute( tobedone )
+			answerX = cursor.fetchone ( )
+			connect = int (answerX [0])
+			t = 0
+			timestodo = connect - 1
+			while t <= timestodo:
+				t = t + 1
+				use = str (t)
+				find = "co"+use
+	        		tobedone = """SELECT %s FROM BoardTBL WHERE name is '%s';""" % (find,location)
+				cursor.execute( tobedone )
+				answerX = cursor.fetchone ( )
+				connect = answerX [0]
+				part1 = str (t) + '. '
+				part2 = str (connect)
+				print part1 + part2
+		choice = raw_input ('>')
+		if choice == '1':	
+			cursor = conn.cursor()
+	        	tobedone = """SELECT co1 FROM BoardTBL WHERE name is '%s';""" % (location)
+			cursor.execute( tobedone )
+			answerX = cursor.fetchone ( )
+			destination = answerX [0]
+		elif choice == '2':	
+			cursor = conn.cursor()
+	        	tobedone = """SELECT co2 FROM BoardTBL WHERE name is '%s';""" % (location)
+			cursor.execute( tobedone )
+			answerX = cursor.fetchone ( )
+			destination = answerX [0]
+		elif choice == '3':	
+			cursor = conn.cursor()
+	        	tobedone = """SELECT co3 FROM BoardTBL WHERE name is '%s';""" % (location)
+			cursor.execute( tobedone )
+			answerX = cursor.fetchone ( )
+			destination = answerX [0]
+		elif choice == '4':	
+			cursor = conn.cursor()
+	        	tobedone = """SELECT co4 FROM BoardTBL WHERE name is '%s';""" % (location)
+			cursor.execute( tobedone )
+			answerX = cursor.fetchone ( )
+			destination = answerX [0]
+		elif choice == '5':	
+			cursor = conn.cursor()
+	        	tobedone = """SELECT co5 FROM BoardTBL WHERE name is '%s';""" % (location)
+			cursor.execute( tobedone )
+			answerX = cursor.fetchone ( )
+			destination = answerX [0]
+		elif choice == '6':	
+			cursor = conn.cursor()
+	        	tobedone = """SELECT co6 FROM BoardTBL WHERE name is '%s';""" % (location)
+			cursor.execute( tobedone )
+			answerX = cursor.fetchone ( )
+			destination = answerX [0]
+		else:
+			print "You must choose an option from the given selection"
+			g.mp ()	
+		pa.trainboat (ap,location,destination)
+		g.start ()
+		
+	def df (self):
+		g=game ()
+		it = inaturn ()
+		pa = playeraction ()
+		ap = it.getap ()
+		location = it.getplayer (ap)
+		print "Where do you want to take a direct flight to?"
+		hand = it.gethand (ap)
+		t = 0
+		for a in hand:
+			t = t + 1
+			card = str (a [0])
+			op = str (t) + '. '
+			print op + card
+		choice = raw_input ('>')
+		if choice == '1':
+			pa.direct (ap,hand[0][0])
+			g.start ()
+		elif choice == '2':
+			pa.direct (ap,hand[1][0])
+			g.start ()
+		elif choice == '3':
+			pa.direct (ap,hand[2][0])
+			g.start ()
+		elif choice == '4':
+			pa.direct (ap,hand[3][0])
+			g.start ()
+		elif choice == '5':
+			pa.direct (ap,hand[4][0])
+			g.start ()
+		elif choice == '6':
+			pa.direct (ap,hand[5][0])
+			g.start ()
+		elif choice == '7':
+			pa.direct (ap,hand[6][0])
+			g.start ()
+		elif choice == '8':
+			pa.direct (ap,hand[7][0])
+			g.start ()
+		elif choice == '9':
+			pa.direct (ap,hand[4][0])
+			g.start ()
+		else:
+			print "You must make a choice from the given options by entering a number."
+			g.df ()
+
+	def cf (self):
+		g=game ()
+		it = inaturn ()
+		pa = playeraction ()
+		ap = it.getap ()
+		location = it.getplayer (ap)
+		hand = it.gethand (ap)
+		print "Which card will you play for the charter flight?This must match your current location or it won't work!"
+		i = 0
+		for a in hand:
+			i = i +1
+			opt = str (i) + '. '
+			card = str (a [0])
+			print opt + card
+		answer = raw_input ('>')
+		if answer == '1':
+			card = hand [0][0]
+		elif answer == '2':
+			card = hand [1][0]
+		elif answer == '3':
+			card = hand [2][0]
+		elif answer == '4':
+			card = hand [3][0]
+		elif answer == '5':
+			card = hand [4][0]
+		elif answer == '6':
+			card = hand [5][0]
+		elif answer == '7':
+			card = hand [6][0]
+		elif answer == '8':
+			card = hand [7][0]
+		elif answer == '9':
+			card = hand [8][0]
+
+		print "Using %s" % card
+
+		print "Where do you want to take a charter flight to?"
+		with sqlite3.connect('pandemic.db') as conn:
+			cursor = conn.cursor()
+			tobedone = """SELECT name FROM BoardTBL;"""
+			cursor.execute (tobedone)
+			answerX = cursor.fetchall ()
+			i = 0
+			print "The possible destination cities are listed below. Choose a number from below"
+			for a in answerX:
+				i = i +1
+				opt = str (i) + '. '
+				country = str (a [0])
+				print opt + country
+		answer = raw_input ('>')
+		if answer == '1':
+			pa.charter (ap,card,answerX[0][0])
+		elif answer == '2':
+			pa.charter (ap,card,answerX[1][0])
+		elif answer == '3':
+			pa.charter (ap,card,answerX[2][0])
+		elif answer == '4':
+			pa.charter (ap,card,answerX[3][0])
+		elif answer == '5':
+			pa.charter (ap,card,answerX[4][0])
+		elif answer == '6':
+			pa.charter (ap,card,answerX[5][0])
+		elif answer == '7':
+			pa.charter (ap,card,answerX[6][0])
+		elif answer == '8':
+			pa.charter (ap,card,answerX[7][0])
+		elif answer == '9':
+			pa.charter (ap,card,answerX[8][0])
+		elif answer == '10':
+			pa.charter (ap,card,answerX[9][0])
+		elif answer == '11':
+			pa.charter (ap,card,answerX[10][0])
+		elif answer == '12':
+			pa.charter (ap,card,answerX[11][0])
+		elif answer == '13':
+			pa.charter (ap,card,answerX[12][0])
+		elif answer == '14':
+			pa.charter (ap,card,answerX[13][0])
+		elif answer == '15':
+			pa.charter (ap,card,answerX[14][0])
+		elif answer == '16':
+			pa.charter (ap,card,answerX[15][0])
+		elif answer == '17':
+			pa.charter (ap,card,answerX[16][0])
+		elif answer == '18':
+			pa.charter (ap,card,answerX[17][0])
+		elif answer == '19':
+			pa.charter (ap,card,answerX[18][0])
+		elif answer == '20':
+			pa.charter (ap,card,answerX[19][0])
+		elif answer == '21':
+			pa.charter (ap,card,answerX[20][0])
+		elif answer == '22':
+			pa.charter (ap,card,answerX[21][0])
+		elif answer == '23':
+			pa.charter (ap,card,answerX[22][0])
+		elif answer == '24':
+			pa.charter (ap,card,answerX[23][0])
+		elif answer == '25':
+			pa.charter (ap,card,answerX[24][0])
+		elif answer == '26':
+			pa.charter (ap,card,answerX[25][0])
+		elif answer == '27':
+			pa.charter (ap,card,answerX[26][0])
+		elif answer == '28':
+			pa.charter (ap,card,answerX[27][0])
+		elif answer == '29':
+			pa.charter (ap,card,answerX[28][0])
+		elif answer == '30':
+			pa.charter (ap,card,answerX[29][0])
+		elif answer == '31':
+			pa.charter (ap,card,answerX[30][0])
+		elif answer == '32':
+			pa.charter (ap,card,answerX[31][0])
+		elif answer == '33':
+			pa.charter (ap,card,answerX[32][0])
+		elif answer == '34':
+			pa.charter (ap,card,answerX[33][0])
+		elif answer == '35':
+			pa.charter (ap,card,answerX[34][0])
+		elif answer == '36':
+			pa.charter (ap,card,answerX[35][0])
+		elif answer == '37':
+			pa.charter (ap,card,answerX[36][0])
+		elif answer == '38':
+			pa.charter (ap,card,answerX[37][0])
+		elif answer == '39':
+			pa.charter (ap,card,answerX[38][0])
+		elif answer == '40':
+			pa.charter (ap,card,answerX[39][0])
+		elif answer == '41':
+			pa.charter (ap,card,answerX[40][0])
+		elif answer == '42':
+			pa.charter (ap,card,answerX[41][0])
+		elif answer == '43':
+			pa.charter (ap,card,answerX[42][0])
+		elif answer == '44':
+			pa.charter (ap,card,answerX[43][0])
+		elif answer == '45':
+			pa.charter (ap,card,answerX[44][0])
+		elif answer == '46':
+			pa.charter (ap,card,answerX[45][0])
+		elif answer == '47':
+			pa.charter (ap,card,answerX[46][0])
+		elif answer == '48':
+			pa.charter (ap,card,answerX[47][0])
+		elif answer == '49':
+			pa.charter (ap,card,answerX[48][0])
+		elif answer == '50':
+			pa.charter (ap,card,answerX[49][0])
+		elif answer == '51':
+			pa.charter (ap,card,answerX[50][0])
+		else:
+			print "You must choose a valid option"
+			g.start ()
+		g.start ()
+
+	def sf (sel):
+		g=game ()
+		it = inaturn ()
+		pa = playeraction ()
+		ap = it.getap ()
+		location = it.getplayer (ap)
+		with sqlite3.connect('pandemic.db') as conn:
+			cursor = conn.cursor()
+			tobedone = """SELECT name FROM BoardTBL where rstation = 1;"""
+			cursor.execute (tobedone)
+			answerX = cursor.fetchall ()
+			rstationloc = 0
+			for a in answerX:
+				if a[0] == location:
+					rstationloc = 1
+			if rstationloc == 0:
+				print "Your location %s, has no research station to take a shuttle flight from" % (location)
+				g.start ()
+			if rstationloc == 1:
+				print "Where would you like to take a shuttle flight to?"
+				i = 0
+				for a in answerX:
+					i = i + 1
+					opt = str (i) + '. '
+					print opt + a[0]
+		answer = raw_input ('>')
+		if answer == '1':
+			pa.shuttle (ap,answerX[0][0])
+		elif answer == '2':
+			pa.shuttle (ap,answerX[1][0])
+		elif answer == '3':
+			pa.shuttle (ap,answerX[2][0])
+		elif answer == '4':
+			pa.shuttle (ap,answerX[3][0])
+		elif answer == '5':
+			pa.shuttle (ap,answerX[4][0])
+		elif answer == '6':
+			pa.shuttle (ap,answerX[5][0])
+		elif answer == '7':
+			pa.shuttle (ap,answerX[6][0])
+		elif answer == '8':
+			pa.shuttle (ap,answerX[7][0])
+		elif answer == '9':
+			pa.shuttle (ap,answerX[8][0])
+		elif answer == '10':
+			pa.shuttle (ap,answerX[9][0])
+		elif answer == '11':
+			pa.shuttle (ap,answerX[10][0])
+		elif answer == '12':
+			pa.shuttle (ap,answerX[11][0])
+		else:
+			print "You must choose a valid option"
+			g.start ()
+		g.start ()
+				
+	def td (self):
+		g=game ()
+		it = inaturn ()
+		pa = playeraction ()
+		ap = it.getap ()
+		location = it.getplayer (ap)
+		print """What colour cube would you like to remove?
+1. Red
+2. Blue
+3. Yellow
+4. Black"""
+		answer = raw_input ('>')
+		if answer == '1':
+			col = 'rcube'
+			cubes = it.getcitycubes ('rcube',location)
+
+		elif answer == '2':
+			col = 'ucube'
+			cubes = it.getcitycubes ('ucube',location)
+
+		elif answer == '3':
+			col = 'ycube'
+			cubes = it.getcitycubes ('ycube',location)
+
+		elif answer == '4':
+			col = 'bcube'
+			cubes = it.getcitycubes ('bcube',location)
+		else:
+			print "You must choose 1,2,3 or 4."
+			g.start ()
+
+		if cubes > 0:
+			pa.treat (ap,col)
+			print "Removing a cube of the chosen colour from %s" % (location) 
+		else:
+			print "There are no cubes of that colour in %s." % (location)
+		g.start ()
+					
+
+	def cd (self):
+		g=game ()
+		it = inaturn ()
+		pa = playeraction ()
+		ap = it.getap ()
+		location = it.getplayer (ap)
+		cured = 0
+		colours = ['u','b','r','y']
+		with sqlite3.connect('pandemic.db') as conn:
+			cursor = conn.cursor()
+			tobedone ="""SELECT rstation FROM BoardTBL where name is '%s';""" % (location)
+			cursor.execute (tobedone)
+			answerX = cursor.fetchone ()
+			print answerX [0]
+			if answerX [0] == 1:
+				print "Using research station in %s." % (location)
+			elif answerX [0] == 0:
+				print "No research station in %s." % (location)
+				g.start ()
+			else:
+				print "Opps something went very wrong!"
+		for a in colours:
+			with sqlite3.connect('pandemic.db') as conn:
+				cursor = conn.cursor()
+				tobedone = """SELECT COUNT (name) FROM %sTBL where colour is '%s';""" % (ap,a)
+				cursor.execute (tobedone)
+				answerX = cursor.fetchone ()
+				if answerX [0] >= 5:
+					print "Curing disease!"
+					cured = 1
+					pa.cure (ap,a)
+		
+		if cured == 0:
+			print "Not enough cards of the same colour, you need 5."
+		g.start ()
+
+	def skg (self):
+		g=game ()
+		it = inaturn ()
+		pa = playeraction ()
+		player = it.getap ()
+		location = it.getplayer (player)
+		with sqlite3.connect('pandemic.db') as conn:
+			cursor = conn.cursor()
+			tobedone = """SELECT players FROM gsTBL;"""
+			cursor.execute (tobedone)
+			answerX = cursor.fetchone ()
+			noplayers = answerX [0]
+		print """Which player would you like to give a card?
+1. Player1
+2. Player2
+3. Player3
+4. Player4"""
+		answer = raw_input ('>')
+		if answer == '1':
+			otherplayer = 'player1'	
+		elif answer == '2':
+			otherplayer = 'player2'
+			if noplayers < 2:
+				print "There is no player 2!"
+				g.start ()		
+		elif answer == '3':
+			otherplayer = 'player3'		
+			if noplayers < 3:
+				print "There is no player 3!"
+				g.start ()		
+		elif answer == '4':
+			otherplayer = 'player4'		
+			if noplayers < 4:
+				print "There is no player 4!"
+				g.start ()		
+		else:
+			print "You must make a valid selection!"
+			g.start ()
+		if otherplayer == player:
+			print "You can't share cards with yourself!"
+			g.start ()
+		otherplayerloc = it.getplayer (otherplayer)
+		if otherplayerloc == location:
+			with sqlite3.connect('pandemic.db') as conn:
+				cursor = conn.cursor()
+				tobedone = """SELECT name FROM %sTBL where name is '%s';""" % (player,location)
+				cursor.execute (tobedone)
+				answerX = cursor.fetchone ()
+				if answerX == None:
+					print "You don't have the %s card to give" % (location)
+					g.start ()
+				else:
+	   			     	tobedone = """INSERT INTO %sTBL (name,colour) SELECT name,colour FROM %sTBL WHERE name is '%s';""" % (otherplayer,player,location)
+					cursor.execute( tobedone )
+	        			tobedone = """DELETE FROM %sTBL WHERE name is '%s';""" % (player, location)
+					cursor.execute( tobedone )
+					conn.commit()
+					print "Sharing %s with %s." % (location, otherplayer)
+					it.action ()
+					g.start ()
+		else:
+			print "You two are not in the same city!"
+			g.start ()
+		
+
+	def skt (self):
+		g=game ()
+		it = inaturn ()
+		pa = playeraction ()
+		player = it.getap ()
+		location = it.getplayer (player)
+		with sqlite3.connect('pandemic.db') as conn:
+			cursor = conn.cursor()
+			tobedone = """SELECT players FROM gsTBL;"""
+			cursor.execute (tobedone)
+			answerX = cursor.fetchone ()
+			noplayers = answerX [0]
+		print """Which player would you like to take a card from?
+1. Player1
+2. Player2
+3. Player3
+4. Player4"""
+		answer = raw_input ('>')
+		if answer == '1':
+			otherplayer = 'player1'	
+		elif answer == '2':
+			otherplayer = 'player2'
+			if noplayers < 2:
+				print "There is no player 2!"
+				g.start ()		
+		elif answer == '3':
+			otherplayer = 'player3'		
+			if noplayers < 3:
+				print "There is no player 3!"
+				g.start ()		
+		elif answer == '4':
+			otherplayer = 'player4'		
+			if noplayers < 4:
+				print "There is no player 4!"
+				g.start ()		
+		else:
+			print "You must make a valid selection!"
+			g.start ()
+		if otherplayer == player:
+			print "You can't share cards with yourself!"
+			g.start ()
+		otherplayerloc = it.getplayer (otherplayer)
+		if otherplayerloc == location:
+			with sqlite3.connect('pandemic.db') as conn:
+				cursor = conn.cursor()
+				tobedone = """SELECT name FROM %sTBL where name is '%s';""" % (otherplayer,location)
+				cursor.execute (tobedone)
+				answerX = cursor.fetchone ()
+				if answerX == None:
+					print "They don't have the %s card to take" % (location)
+					g.start ()
+				else:
+	   			     	tobedone = """INSERT INTO %sTBL (name,colour) SELECT name,colour FROM %sTBL WHERE name is '%s';""" % (player,otherplayer,location)
+					cursor.execute( tobedone )
+	        			tobedone = """DELETE FROM %sTBL WHERE name is '%s';""" % (otherplayer, location)
+					cursor.execute( tobedone )
+					conn.commit()
+					print "Taking %s with %s." % (location, otherplayer)
+					it.action ()
+					g.start ()
+		else:
+			print "You two are not in the same city!"
+			g.start ()
+
+	def br (self):
+		g=game ()
+		it = inaturn ()
+		pa = playeraction ()
+		player = it.getap ()
+		location = it.getplayer (player)
+		with sqlite3.connect('pandemic.db') as conn:
+			cursor = conn.cursor()
+			tobedone = """SELECT name FROM %sTBL where name is '%s';""" % (player,location)
+			cursor.execute (tobedone)
+			answerX = cursor.fetchone ()
+			if answerX == None:
+				print "You don't have the %s card to build a research station here" % (location)
+				g.start ()
+			else:
+	   			tobedone = """UPDATE BoardTBL SET rstation = 1 where name is '%s';""" % (location)
+				print "Building a research station in %s." % (location)
+				cursor.execute( tobedone )
+				conn.commit()
+				it.action ()
+				g.start ()
+				
+
+	def wait (self):
+		g=game ()
+		it = inaturn ()
+		pa = playeraction ()
+		print "Doing nothing"
+		it.action ()
+		g.start ()	
+
+	def gameover (self):
+		print "The game is over"
+		sys.exit()
+		

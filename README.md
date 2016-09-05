@@ -1,7 +1,7 @@
 
 **What is this?**
 
-This is a simple project I've started to help me learn how to use vim, python and github. When it's finished it should let somebody play the Pandemic board game as one or more of the charaters.
+This is a simple project I've started to help me learn how to use vim, python and github. When it's finished it should let somebody play the Pandemic board game as one or more of the players.
 
 I'm about to start an OU degree in computing and IT and hoping for a career in IT eventually. The role I've got my eye on is one of full stack developer https://www.sitepoint.com/full-stack-developer/, although I understand this might already be old hat https://techcrunch.com/2014/11/08/the-rise-and-fall-of-the-full-stack-developer/. So I'm going to try to learn as much code as I can and focus on completing practical fun projects with other people alongside my course. 
 
@@ -17,10 +17,10 @@ Some basic front end website languages (HTML, JavaScript and the like)
 
 **Classes and Defs in PandemicGame.py**
 ***A- Class - startinggame***
-1- startinglocals - Puts a research station in Atlanta, along with a given number of players.
-2- BoardTBL - Sets up the gameboard from a given .txt file.
-3- pdTBL - creates and populates the player deck
-4- pddTBL - creates the player deck discard pile
+1- startinglocals - Updates the BoardTBL table with basic game info. A research station is set in Atlanta, and a given number of players are also set there.
+2- BoardTBL - Sets up the gameboard from a given .txt file. This has columns which give the name, colour, connections and cubes in a city. It also has columns which are set to 1 from 0 when a player or research station is present.
+3- pdTBL - creates and populates the player deck table pdTBL. This has 3 columns for the name, colour and position of the card in the deck.
+4- pddTBL - creates the player deck discard pile, which simply contains the name of the card in the discard pile.
 5- idTBL - creates the infection deck
 6- iddTBL - creates the infection deck discard pile
 7- edTBL - shuffles the event cards together in a pile from a given .txt file.
@@ -34,7 +34,7 @@ Some basic front end website languages (HTML, JavaScript and the like)
 15- player3TBL - draws a hand for player three for a given number of players.
 16- player4TBL - draws a hand for player four for a given number of players.
 17- epTBL - shuffles a given number of Epidemic cards into the player deck.
-18- gsTBL - creates a game state table with the number of players, infection rate and outbreak count.
+18- gsTBL - creates a game state table with the infection rate, outbreak count, number of players, number of epidemics, active player and actions remaining.
 19- sginfect - infects 3 cities with 3 cubes, 3 with 2 and 3 with 1.
 20- startnewgame - starts a new game for a given number of players, on a specific board, with a given number of epidemics using given event and character files.
 
@@ -53,21 +53,22 @@ Some basic front end website languages (HTML, JavaScript and the like)
 12 - getidd - returns the cards in the infection deck discard pile
 13 - getpdd - returns the cards in the player deck pile
 14 - discard - for a given player discards a given card from their hand.
-
-Not yet written
-
 15 - pdraw - draws a single card for a given player, checking if it is an epidemic
 16 - epidemic - carries out an epidemic on the board
 17 - co - checks for unresolved outbreaks
-18 - ocity - in a given city makes an outbreak happen
+18 - ic - infects a given city with a given colour
+19 - action - reduces the current active players action by 1, and if zero moves to the next players turn
+20 - rc - removes a cube of a given colour from a given location
+21 - getap - returns the current active player
 
 ***C - Class - playeraction***
-1 - mp - move a given player from a given location to another adjacent location, for an action.
-2 - df - move a given player to given location dicarding the card of the destination city from their hand.
-3 - cf - move a given player to a given location discarding the card of their current location from their hand.
-4 - sf - move a given player from a given location to a given destination where there is a research station present at each locaton.
-5 - td - remove 1 cube of a given colour from a given city, or all cubes of that colour if a cure has been discovered.
-6 - cd - discard 5 given cards of the same colour to discover a cure for a disease.
+1 - trainboat - move a given player from a given location to another adjacent location, for an action.
+2 - direct - move a given player to given location dicarding the card of the destination city from their hand.
+3 - charter - move a given player to a given location discarding the card of their current location from their hand.
+4 - shuttle - move a given player from a given location to a given destination where there is a research station present at each locaton.
+5 - treat - remove 1 cube of a given colour from a given city, or all cubes of that colour if a cure has been discovered.
+6 - cure - discard 5 given cards of the same colour to discover a cure for a disease.
 7 - sk - moves a given card from a given player to another given player when both are in the same city and the city named on the card.
 8 - br - a given player builds a research station in a given city discarding that city card if they are in the city on the card
+
 
