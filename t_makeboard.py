@@ -316,7 +316,7 @@ class T( unittest.TestCase ):
                 sg.epTBL(5)
                 with sqlite3.connect('pandemic.db') as conn:
                         cursor = conn.cursor()
-                        tobedone = '''SELECT * FROM shufpd WHERE name = 'Ep2';'''
+                        tobedone = '''SELECT name,pos FROM shufpd WHERE name = 'Ep2';'''
                         cursor.execute( tobedone)
                         answerX = cursor.fetchone ( )
                         answer1 = answerX [0]
