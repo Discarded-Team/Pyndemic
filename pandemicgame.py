@@ -4,6 +4,29 @@ import sys
 import sqlite3
 import random
 
+# This file contains four classes:
+
+# 1: startinggame - This class contains all the defs which preform the 
+# actions needed to set up the game, although it does utilise actions 
+# found in other classes.
+
+# 2: inaturn - This class contains all the defs which carry out the 
+# most basic and simple actions that are completed in a turn, such as 
+# moving a player or drawing a card.
+
+# 3: playeraction - This class contains all the defs for the eight 
+# different player actions that can be completed in a turn. These are
+# covered by nine different defs as sharing knowledge requires a def
+# for giving a card and a def for taking a card.
+
+# 4: game - This class contains all the defs which the players interact
+# with to play the game. It should only require defs found in the
+# playeraction class, and does not interact directly with the .db file
+# which contains the game information.
+
+# A list of all the defs found in each class and how they work can be
+# found in readme.md.
+
 # This creates and populates the table which contains the information from the game board.
 class startinggame:
 	def startinglocals (self,players):
