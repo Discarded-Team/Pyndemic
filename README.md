@@ -20,7 +20,7 @@ Some basic front end website languages (HTML, JavaScript and the like)
 This class contains all the defs which preform the actions needed to set up the game, although it does utilise actions found in other classes. It contains 
 
 1- BoardTBL (1 Argument)
-Sets up the gameboard from a given .txt file (1st Argument). This has columns which give the name, colour, connections and cubes in a city. It also has columns which are set to 1 from 0 when a player or 
+Sets up the gameboard from a given .txt file (1st Argument). This has columns which give the name, colour, connections and cubes in a city. It also has columns which are set to 1 from 0 when a player or research station are present.
 
 2- edTBL (1 Argument)
 Shuffles the event cards together by giving each a random number from 0-500 in a column labled "pos". The cards used are taken from a given .txt file (1st Argument).
