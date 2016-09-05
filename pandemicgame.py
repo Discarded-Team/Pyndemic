@@ -606,7 +606,7 @@ class startinggame:
 				cursor.execute( tobedone )
 				conn.commit()
 				epidemicsaddedtopack = epidemicsaddedtopack + 1
-				maxposold = maxposnew
+				maxposold = maxposnew + maxposold
 	            	cursor = conn.cursor()
 	            	tobedone = 'INSERT INTO shufpd (name,pos) SELECT * from epTBL;'
 	            	cursor.execute( tobedone )
