@@ -27,39 +27,12 @@ import random
 # A list of all the defs found in each class and how they work can be
 # found in readme.md.
 
-# This creates and populates the table which contains the information from the game board.
 class startinggame:
-	def startinglocals (self,players):
-		with sqlite3.connect('pandemic.db') as conn:
-		       	cursor = conn.cursor()
-	            	tobedone = """UPDATE BoardTBL set rstation = 1 WHERE name is 'Atlanta';"""
-	            	cursor.execute( tobedone )
-			if players == 1:
-	            		tobedone = """UPDATE BoardTBL set player1 = 1 WHERE name is 'Atlanta';"""
-		            	cursor.execute( tobedone )
-			if players == 2:
-	            		tobedone = """UPDATE BoardTBL set player1 = 1 WHERE name is 'Atlanta';"""
-		            	cursor.execute( tobedone )
-	            		tobedone = """UPDATE BoardTBL set player2 = 1 WHERE name is 'Atlanta';"""
-		            	cursor.execute( tobedone )
-			if players == 3:
-	            		tobedone = """UPDATE BoardTBL set player2 = 1 WHERE name is 'Atlanta';"""
-		            	cursor.execute( tobedone )
-	            		tobedone = """UPDATE BoardTBL set player1 = 1 WHERE name is 'Atlanta';"""
-		            	cursor.execute( tobedone )
-	            		tobedone = """UPDATE BoardTBL set player3 = 1 WHERE name is 'Atlanta';"""
-		            	cursor.execute( tobedone )
-			if players == 4:
-	            		tobedone = """UPDATE BoardTBL set player2 = 1 WHERE name is 'Atlanta';"""
-		            	cursor.execute( tobedone )
-	            		tobedone = """UPDATE BoardTBL set player1 = 1 WHERE name is 'Atlanta';"""
-		            	cursor.execute( tobedone )
-	            		tobedone = """UPDATE BoardTBL set player3 = 1 WHERE name is 'Atlanta';"""
-		            	cursor.execute( tobedone )
-	            		tobedone = """UPDATE BoardTBL set player4 = 1 WHERE name is 'Atlanta';"""
-		            	cursor.execute( tobedone )
-			conn.commit()
 
+# Sets up the gameboard from a given .txt file (1st Argument). This has
+# columns which give the name, colour, connections and cubes in a city.
+# It also has columns which are set to 1 from 0 when a player or 
+# researh station are present.
 
 	def BoardTBL (self,board):
 		with sqlite3.connect('pandemic.db') as conn:
@@ -115,71 +88,10 @@ class startinggame:
 		            		cursor.execute( tobedone )
 					conn.commit()
 
-# This sets up the player deck and populates it
-	def pdTBL (self):
-		with sqlite3.connect('pandemic.db') as conn:
-	            	cursor = conn.cursor()
-	            	tobedone = 'DROP TABLE if exists pdTBL;'
-	            	cursor.execute( tobedone )
-			conn.commit()
-			tobedone = '''CREATE TABLE pdTBL(
-			"name",
-			"colour",
-			"pos" INTEGER);'''
-			cursor.execute( tobedone )
-			conn.commit()
-		        tobedone = """INSERT INTO pdTBL (name,colour) select name,colour from BoardTBL;""" 
-	 		cursor.execute( tobedone )
-			conn.commit()
-	       		tobedone = """UPDATE pdTBL SET pos = 0;""" 
-	       		cursor.execute( tobedone )
-			conn.commit()
+# Shuffles the event cards together by giving each a random number from
+# 0-500 in a column labled "pos". The cards used are taken from a given
+# .txt file (1st Argument).
 
-# This sets up the player deck discard pile
-	def pddTBL (self):
-		with sqlite3.connect('pandemic.db') as conn:
-	            	cursor = conn.cursor()
-	            	tobedone = 'DROP TABLE if exists pddTBL;'
-	            	cursor.execute( tobedone )
-			conn.commit()
-			tobedone = '''CREATE TABLE pddTBL(
-			"name",
-			"colour");'''
-			cursor.execute( tobedone )
-			conn.commit()
-
-# This sets up the infection deck and populates it
-	def idTBL (self):
-		with sqlite3.connect('pandemic.db') as conn:
-	            	cursor = conn.cursor()
-	            	tobedone = 'DROP TABLE if exists idTBL;'
-	            	cursor.execute( tobedone )
-			conn.commit()
-			tobedone = '''CREATE TABLE idTBL(
-			"name",
-			"pos" INTEGER);'''
-			cursor.execute( tobedone )
-			conn.commit()
-		        tobedone = """INSERT INTO idTBL (name) select name from BoardTBL;""" 
-		        cursor.execute( tobedone )
-			conn.commit()
-		        tobedone = """UPDATE idTBL SET pos = 0;""" 
-		        cursor.execute( tobedone )
-			conn.commit()
-
-# This sets up the infection deck discard pile
-	def iddTBL (self):
-		with sqlite3.connect('pandemic.db') as conn:
-	            	cursor = conn.cursor()
-	            	tobedone = 'DROP TABLE if exists iddTBL;'
-	            	cursor.execute( tobedone )
-			conn.commit()
-			tobedone = '''CREATE TABLE iddTBL(
-			"name");'''
-			cursor.execute( tobedone )
-			conn.commit()
-
-# This sets up the event deck and populates it
 	def edTBL (self,event):
 		with sqlite3.connect('pandemic.db') as conn:
 	            	cursor = conn.cursor()
@@ -201,7 +113,32 @@ class startinggame:
 			cursor.execute( tobedone )
 			conn.commit()
 
-# This sets up the character deck and populates it
+# Creates a table with stores the numbers of each type of cube left to 
+# place on the board.
+
+	def cubesTBL (self):
+		with sqlite3.connect('pandemic.db') as conn:
+	            	cursor = conn.cursor()
+	            	tobedone = 'DROP TABLE if exists cubesTBL;'
+	            	cursor.execute( tobedone )
+			conn.commit()
+			tobedone = '''CREATE TABLE cubesTBL(
+			"rcube",
+			"ycube",
+			"bcube",
+			"ucube",
+			"pcube");'''
+			cursor.execute( tobedone )
+			conn.commit()
+		        tobedone = """INSERT INTO cubesTBL (rcube,ycube,bcube,ucube,pcube) VALUES (24,24,24,24,12);"""
+			cursor.execute( tobedone )
+			conn.commit()
+
+
+# Shuffles the character identity cards together by giving each one a 
+# random number from 0-500 in a column labled "pos". The cards used are
+# taken from a given .txt file (1st Argument).
+
 	def cTBL (self,character):
 		with sqlite3.connect('pandemic.db') as conn:
 	            	cursor = conn.cursor()
@@ -224,7 +161,8 @@ class startinggame:
 			cursor.execute( tobedone )
 			conn.commit()
 
-# This gives each player an identity
+# Gives all players an identity (no need to specify player numbers).
+
 	def caTBL (self):
 		with sqlite3.connect('pandemic.db') as conn:
 	            	cursor = conn.cursor()
@@ -268,32 +206,99 @@ class startinggame:
 			tobedone = '''UPDATE cTBL SET pos = 600 WHERE name is '%s' ''' % (answer1)
 			cursor.execute( tobedone )
 			conn.commit()
-			
-		
 
-
-
-# This sets up the table of disease cubes
-	def cubesTBL (self):
+# Creates the infection deck, using the info found in BoardTBL.
+	
+	def idTBL (self):
 		with sqlite3.connect('pandemic.db') as conn:
 	            	cursor = conn.cursor()
-	            	tobedone = 'DROP TABLE if exists cubesTBL;'
+	            	tobedone = 'DROP TABLE if exists idTBL;'
 	            	cursor.execute( tobedone )
 			conn.commit()
-			tobedone = '''CREATE TABLE cubesTBL(
-			"rcube",
-			"ycube",
-			"bcube",
-			"ucube",
-			"pcube");'''
+			tobedone = '''CREATE TABLE idTBL(
+			"name",
+			"pos" INTEGER);'''
 			cursor.execute( tobedone )
 			conn.commit()
-		        tobedone = """INSERT INTO cubesTBL (rcube,ycube,bcube,ucube,pcube) VALUES (24,24,24,24,12);"""
+		        tobedone = """INSERT INTO idTBL (name) select name from BoardTBL;""" 
+		        cursor.execute( tobedone )
+			conn.commit()
+		        tobedone = """UPDATE idTBL SET pos = 0;""" 
+		        cursor.execute( tobedone )
+			conn.commit()
+
+# This sets up the infection deck discard pile.
+
+	def iddTBL (self):
+		with sqlite3.connect('pandemic.db') as conn:
+	            	cursor = conn.cursor()
+	            	tobedone = 'DROP TABLE if exists iddTBL;'
+	            	cursor.execute( tobedone )
+			conn.commit()
+			tobedone = '''CREATE TABLE iddTBL(
+			"name");'''
+			cursor.execute( tobedone )
+			conn.commit()
+		
+# Shuffles the infection deck cards together by giving each one a 
+# random number from 0-500 in a column labled "pos".
+
+	def shufid (self):
+		with sqlite3.connect('pandemic.db') as conn:
+	            	cursor = conn.cursor()
+	            	tobedone = 'DROP TABLE if exists shufid;'
+	            	cursor.execute( tobedone )
+			conn.commit()
+			tobedone = '''CREATE TABLE shufid(
+			"name",
+			"pos" INTEGER);'''
+			cursor.execute( tobedone )
+			conn.commit()
+	        	tobedone = """INSERT INTO shufid (name,pos) select name,ABS(RANDOM() % 500) from idTBL;""" 
+	  		cursor.execute( tobedone )
+			conn.commit()
+	
+# Creates and populates the player deck table with city cards for each 
+# city found in BoardTBL.
+
+	def pdTBL (self):
+		with sqlite3.connect('pandemic.db') as conn:
+	            	cursor = conn.cursor()
+	            	tobedone = 'DROP TABLE if exists pdTBL;'
+	            	cursor.execute( tobedone )
+			conn.commit()
+			tobedone = '''CREATE TABLE pdTBL(
+			"name",
+			"colour",
+			"pos" INTEGER);'''
+			cursor.execute( tobedone )
+			conn.commit()
+		        tobedone = """INSERT INTO pdTBL (name,colour) select name,colour from BoardTBL;""" 
+	 		cursor.execute( tobedone )
+			conn.commit()
+	       		tobedone = """UPDATE pdTBL SET pos = 0;""" 
+	       		cursor.execute( tobedone )
+			conn.commit()
+
+# This sets up the player deck discard pile
+
+	def pddTBL (self):
+		with sqlite3.connect('pandemic.db') as conn:
+	            	cursor = conn.cursor()
+	            	tobedone = 'DROP TABLE if exists pddTBL;'
+	            	cursor.execute( tobedone )
+			conn.commit()
+			tobedone = '''CREATE TABLE pddTBL(
+			"name",
+			"colour");'''
 			cursor.execute( tobedone )
 			conn.commit()
 
+# Shuffles the city cards and event cards together by giving each one a
+# random number from 0-500 in a column labled "pos". These number of 
+# event cards used is based on the given number of players as an 
+# interger (1st Argument).
 
-# This sets up the shuffled player deck (with event cards)
 	def shufpd (self,nplayers):
 		with sqlite3.connect('pandemic.db') as conn:
 			nevents = 2* nplayers
@@ -314,25 +319,43 @@ class startinggame:
 	  		cursor.execute( tobedone )
 			conn.commit()
 
-# This sets up the shuffled infection deck
-	def shufid (self):
+# Updates the BoardTBL table with the basic starting game info. A research station is placed in Atlanta, and a number of players based on a given interger (1st Argument) are also placed there.
+	
+	def startinglocals (self,players):
 		with sqlite3.connect('pandemic.db') as conn:
-	            	cursor = conn.cursor()
-	            	tobedone = 'DROP TABLE if exists shufid;'
+		       	cursor = conn.cursor()
+	            	tobedone = """UPDATE BoardTBL set rstation = 1 WHERE name is 'Atlanta';"""
 	            	cursor.execute( tobedone )
-			conn.commit()
-			tobedone = '''CREATE TABLE shufid(
-			"name",
-			"pos" INTEGER);'''
-			cursor.execute( tobedone )
-			conn.commit()
-	        	tobedone = """INSERT INTO shufid (name,pos) select name,ABS(RANDOM() % 500) from idTBL;""" 
-	  		cursor.execute( tobedone )
+			if players == 1:
+	            		tobedone = """UPDATE BoardTBL set player1 = 1 WHERE name is 'Atlanta';"""
+		            	cursor.execute( tobedone )
+			if players == 2:
+	            		tobedone = """UPDATE BoardTBL set player1 = 1 WHERE name is 'Atlanta';"""
+		            	cursor.execute( tobedone )
+	            		tobedone = """UPDATE BoardTBL set player2 = 1 WHERE name is 'Atlanta';"""
+		            	cursor.execute( tobedone )
+			if players == 3:
+	            		tobedone = """UPDATE BoardTBL set player2 = 1 WHERE name is 'Atlanta';"""
+		            	cursor.execute( tobedone )
+	            		tobedone = """UPDATE BoardTBL set player1 = 1 WHERE name is 'Atlanta';"""
+		            	cursor.execute( tobedone )
+	            		tobedone = """UPDATE BoardTBL set player3 = 1 WHERE name is 'Atlanta';"""
+		            	cursor.execute( tobedone )
+			if players == 4:
+	            		tobedone = """UPDATE BoardTBL set player2 = 1 WHERE name is 'Atlanta';"""
+		            	cursor.execute( tobedone )
+	            		tobedone = """UPDATE BoardTBL set player1 = 1 WHERE name is 'Atlanta';"""
+		            	cursor.execute( tobedone )
+	            		tobedone = """UPDATE BoardTBL set player3 = 1 WHERE name is 'Atlanta';"""
+		            	cursor.execute( tobedone )
+	            		tobedone = """UPDATE BoardTBL set player4 = 1 WHERE name is 'Atlanta';"""
+		            	cursor.execute( tobedone )
 			conn.commit()
 
+# Draws a hand for player one for a game with a specific number of 
+# players based on a given interger (1st Argument) for the number of 
+# players 
 
-
-# This def draws a hand for player1
 	def player1TBL (self,nplayers):
 		if nplayers == 1:
 			with sqlite3.connect('pandemic.db') as conn:
@@ -424,8 +447,10 @@ class startinggame:
 		else:
 			print "something went wrong"
 
+# Draws a hand for player four for a game with a specific number of 
+# players based on a given interger (1st Argument) for the number of 
+# players 
 
-# This def draws a hand for player4
 	def player4TBL (self,nplayers):
 		with sqlite3.connect('pandemic.db') as conn:
 	            	cursor = conn.cursor()
@@ -449,8 +474,10 @@ class startinggame:
        		     	cursor.execute( tobedone )
 			conn.commit()
 
+# Draws a hand for player two for a game with a specific number of 
+# players based on a given interger (1st Argument) for the number of 
+# players
 
-# This def draws a hand for player2
 	def player2TBL (self,nplayers):
 		if nplayers == 2:
 			with sqlite3.connect('pandemic.db') as conn:
@@ -522,7 +549,10 @@ class startinggame:
 			print "error!!!"
 
 
-# This def draws a hand for player3
+# Draws a hand for player three for a game with a specific number of 
+# players based on a given interger (1st Argument) for the number of 
+# players
+ 
 	def player3TBL (self,nplayers):
 		if nplayers == 3:
 			with sqlite3.connect('pandemic.db') as conn:
@@ -571,7 +601,35 @@ class startinggame:
 			print "something went wrong"
 
 
-# This sets up the shuffled player deck (with event & epidemic cards, after hands drawn)
+# Draws a hand for player four for a game with a specific number of 
+# players based on a given interger (1st Argument) for the number of 
+# players 
+
+	def player4TBL (self,nplayers):
+		with sqlite3.connect('pandemic.db') as conn:
+	            	cursor = conn.cursor()
+	            	tobedone = 'DROP TABLE if exists player4TBL;'
+       		     	cursor.execute( tobedone )
+			conn.commit()
+			tobedone = '''CREATE TABLE player4TBL(
+			"name","colour");'''
+			cursor.execute( tobedone )
+			conn.commit()
+	        	tobedone = 'INSERT INTO player4TBL (name,colour) select name,colour from shufpd ORDER BY pos DESC limit 2;'
+       		     	cursor.execute( tobedone )
+	        	tobedone = 'SELECT pos FROM shufpd ORDER BY pos DESC limit 2;'
+       		     	cursor.execute( tobedone )
+			conn.commit()
+			answerX = cursor.fetchall ( )
+			answer1 = answerX [2]
+
+			funny1 = answer1 [0]
+	        	tobedone = """DELETE FROM shufpd WHERE pos >= %s;""" % (funny1)
+       		     	cursor.execute( tobedone )
+			conn.commit()
+
+# Shuffles a given interger (1st Argument) of Epidemic cards into the player deck.	
+
 	def epTBL (self,nep):
 		epidemicsaddedtopack = 0
 		maxposold = 0
@@ -612,7 +670,8 @@ class startinggame:
 	            	cursor.execute( tobedone )
 			conn.commit()
 
-# Sets the infection rate to 2 and the outbreak count to 0 for a game with a given number of players
+# Creates a table with the game state information.
+
 	def gsTBL (self, players):
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
@@ -636,6 +695,10 @@ class startinggame:
 			tobedone = """INSERT INTO gsTBL (ir,oc,players,ec,ap,action,ucure,bcure,ycure,rcure,pcure) VALUES (2,0,%s,0,'player1',4,0,0,0,0,0)""" % (players)
 			cursor.execute( tobedone)
 			conn.commit()
+
+# This infects 3 cities with 3 cubes, 3 cities with 2 cubes and 3 
+# cities with 1 cube. The used infection deck cards are placed in the 
+# infection deck discard pile.
 
 	def sginfect (self):
 		it = inaturn ()
@@ -834,6 +897,8 @@ class startinggame:
 # with a specified number of epidemics
 # specified pool of event cards
 # specified pool of character cards
+# This then launches the game!
+
 	def startnewgame (self,players,board,epidemics,event,characters):
 		sg = startinggame ()
 		g = game ()
@@ -884,7 +949,9 @@ class startinggame:
 		g.start ()
 
 
-# Stats a new game as above, but without the printing
+# Stats a new game as above, but without the printing or starting a new
+# game.
+
 	def startnewgameq (self,players,board,epidemics,event,characters):
 		sg = startinggame ()
 		sg.BoardTBL (board)
