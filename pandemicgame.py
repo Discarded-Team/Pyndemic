@@ -657,7 +657,7 @@ class startinggame:
 				conn.commit()
 				whichcard = numberofcardsinapile * epidemicsaddedtopack
 				answerZ = cursor.fetchall ()
-				posnew = answerZ [whichcard]
+				posnew = answerZ [whichcard -1]
 				maxposnew = posnew [0]
 				maxposuse = random.randint(maxposold, maxposnew)
 		        	tobedone = '''INSERT INTO epTBL (name,pos) VALUES ('Ep%s','%s');''' % (epidemicsaddedtopack, maxposuse)
