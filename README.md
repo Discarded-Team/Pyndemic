@@ -16,7 +16,7 @@ Some basic front end website languages (HTML, JavaScript and the like)
 
 
 **What do the various files do / contain?**
-There 
+There are 12 files in this repository:
 1. fullboard.txt
 2. game.py
 3. pandemicgame.py
@@ -30,8 +30,7 @@ There
 11. t_playeraction.py
 12. t_game.py
 
-
-File 3 'pandemicgame.py'
+**File 3 'pandemicgame.py'**
 Written in python this file contains four different classes of def.
 
 1: startinggame - This class contains all the defs which preform the actions needed to set up the game, although it does utilise actions  found in other classes.
@@ -44,7 +43,7 @@ Written in python this file contains four different classes of def.
 
 **Classes and Defs in PandemicGame.py**
 ***Class One - startinggame***
-This class contains all the defs which preform the actions needed to set up the game, although it does utilise actions found in other classes. It contains 
+This class contains all the defs which preform the actions needed to set up the game, although it does utilise actions found in other classes. It contains the following def's
 
 1. BoardTBL (1 Argument)
 Sets up the gameboard from a given .txt file (1st Argument). This has columns which give the name, colour, connections and cubes in a city. It also has columns which are set to 1 from 0 when a player or research station are present.
@@ -130,6 +129,12 @@ As the game is started each step is printed out, and after it has finished 'def 
 
 21. startnewgameq (5 Arguments)
 The same as startnewgame, but without the printing or running of 'def start' in the game class.
+
+***Class Two - inaturn***
+This class contains all the defs which preform the actions needed to set up the game, although it does utilise actions found in other classes. It contains the following def's
+
+1. BoardTBL (1 Argument)
+
 
 ***B - Class - inaturn***
 1 getplayer - returns the location of a given player. 
