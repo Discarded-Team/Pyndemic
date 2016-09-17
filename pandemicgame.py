@@ -980,6 +980,11 @@ class startinggame:
 		sg.sginfect ()
 		sg.epTBL (epidemics)
 
+class get:
+# This class contains defs which will return information about the state of the game.
+
+
+
 class inaturn:
 
 # This def returns the location of a given player

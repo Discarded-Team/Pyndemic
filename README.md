@@ -31,19 +31,21 @@ There are 12 files in this repository:
 12. t_game.py
 
 **File 3 'pandemicgame.py'**
-Written in python this file contains four different classes of def.
+Written in python this file contains five different classes of def.
 
 1: startinggame - This class contains all the defs which preform the actions needed to set up the game, although it does utilise actions  found in other classes.
 
-2: inaturn - This class contains all the defs which carry out the most basic and simple actions that are completed in a turn, such as # moving a player or drawing a card.
+2: get - This class contains defs which simply return information about the game in progress.
+ 
+3: inaturn - This class contains all the defs which carry out the most basic and simple actions that are completed in a turn, such as # moving a player or drawing a card.
 
-3: playeraction - This class contains all the defs for the eight different player actions that can be completed in a turn. These are covered by nine different defs as sharing knowledge requires a def for giving a card and a def for taking a card.
+4: playeraction - This class contains all the defs for the eight different player actions that can be completed in a turn. These are covered by nine different defs as sharing knowledge requires a def for giving a card and a def for taking a card.
 
-4: game - This class contains all the defs which the players interact with to play the game. It should only require defs found in the playeraction class, and does not interact directly with the .db file which contains the game information.
+5: game - This class contains all the defs which the players interact with to play the game. It should only require defs found in the playeraction class, and does not interact directly with the .db file which contains the game information.
 
 **Classes and Defs in PandemicGame.py**
 ***Class One - startinggame***
-This class contains all the defs which preform the actions needed to set up the game, although it does utilise actions found in other classes. It contains the following def's
+This class contains all the defs which preform the actions needed to set up the game, although it does utilise actions found in other classes. It contains the following 21 def's
 
 1. BoardTBL (1 Argument)
 Sets up the gameboard from a given .txt file (1st Argument). This has columns which give the name, colour, connections and cubes in a city. It also has columns which are set to 1 from 0 when a player or research station are present.
@@ -131,13 +133,12 @@ As the game is started each step is printed out, and after it has finished 'def 
 The same as startnewgame, but without the printing or running of 'def start' in the game class.
 
 ***Class Two - inaturn***
-This class contains all the defs which preform the actions needed to set up the game, although it does utilise actions found in other classes. It contains the following def's
+This class contains all the defs which preform basic in game actions. These are not high level actions like "Treat the disease in Mexico city" or "Take a Charter flight from London to Hong Kong" but the basic composite steps needed to complete actions like this.
 
-1. BoardTBL (1 Argument)
+***Class Three - get*** 
+This class 
 
-
-***B - Class - inaturn***
-1 getplayer - returns the location of a given player. 
+1 - getplayer - returns the location of a given player. 
 2 - getcityallcubes - returns all the cubes of any colour found in a given city.
 3 - infectcities - infects cities at a given rate
 4 - move - moves a given player from a given location to a given destination
@@ -150,6 +151,8 @@ This class contains all the defs which preform the actions needed to set up the 
 11 - usecube - reduces the remaining amount of a given colour of cube by 1.
 12 - getidd - returns the cards in the infection deck discard pile
 13 - getpdd - returns the cards in the player deck pile
+
+
 14 - discard - for a given player discards a given card from their hand.
 15 - pdraw - draws a single card for a given player, checking if it is an epidemic
 16 - epidemic - carries out an epidemic on the board
