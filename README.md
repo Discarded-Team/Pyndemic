@@ -150,34 +150,37 @@ This class contains all the defs which preform basic in game actions. These are 
 
 
 #####Class Three - get 
-This class 
 
-1 - getplayer - returns the location of a given player. 
-2 - getcityallcubes - returns all the cubes of any colour found in a given city.
-5 - getxcube - returns the name of all cities with a given colour and given number of cubes in
-6 - getoc - returns the current outbreak count 
-7 - getir - returns the current infection rate
-8 - gethand - returns the contents of a given players hand
-9 - getcitycubes - returns the number of cubes of a given colour in a given city
-10 - getcubes - returns the number of cubes remaining of a given colour
-12 - getidd - returns the cards in the infection deck discard pile
-13 - getpdd - returns the cards in the player deck pile
-21 - getap - returns the current active player
+1 - player - returns the location of a given player. 
+2 - cityallcubes - returns all the cubes of any colour found in a given city.
+5 - xcube - returns the name of all cities with a given colour and given number of cubes in
+6 - oc - returns the current outbreak count 
+7 - ir - returns the current infection rate
+8 - hand - returns the contents of a given players hand
+9 - citycubes - returns the number of cubes of a given colour in a given city
+10 - cubes - returns the number of cubes remaining of a given colour
+12 - idd - returns the cards in the infection deck discard pile
+13 - pdd - returns the cards in the player deck pile
+21 - ap - returns the current active player
 
 
 
 #####Class Four - playeraction
-1 - trainboat - move a given player from a given location to another adjacent location, for an action.
-2 - direct - move a given player to given location dicarding the card of the destination city from their hand.
-3 - charter - move a given player to a given location discarding the card of their current location from their hand.
-4 - shuttle - move a given player from a given location to a given destination where there is a research station present at each locaton.
-5 - treat - remove 1 cube of a given colour from a given city, or all cubes of that colour if a cure has been discovered.
-6 - cure - discard 5 given cards of the same colour to discover a cure for a disease.
-7 - sk - moves a given card from a given player to another given player when both are in the same city and the city named on the card.
-8 - br - a given player builds a research station in a given city discarding that city card if they are in the city on the card
 
+1 - tf - takes a given player by train or ferry from one given city to another, or presents an error message explaining why this isn't possible.
+2 - df - direct flight 
+3 - cf - charter flight
+4 - sf - shuttle flight
+5 - td - treat disease
+6 - cd - cure disease
+7 - skg - share knowledge give
+8 - skt - share knowledge take
+9 - br - build a research station
+10 - w - wait for an action
 
 #####Class Five - playerinfo
 
 
 #####Class Six - interface
+
+
