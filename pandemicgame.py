@@ -38,7 +38,7 @@ class startinggame:
 			"player2",
 			"player3",
 			"player4");'''
-			cursor.execute( tobedone )
+
 			conn.commit()
 			boardfile = open(board,'r') 
 			for line in boardfile:
@@ -1144,8 +1144,29 @@ class get:
 			answerX = cursor.fetchone ()
 			ap = answerX [0]
 			return ap 
-					
 
+# This def prints a numbered list of adjacent cities for a given 
+# location		
+	def ac (self,location)
+		with sqlite3.connect('pandemic.db') as conn:
+			cursor = conn.cursor()
+	        	tobedone = """SELECT connect FROM BoardTBL WHERE name is '%s';""" % (location)
+			cursor.execute( tobedone )
+			answerX = cursor.fetchone ( )
+			connect = int (answerX [0])
+			t = 0
+			timestodo = connect - 1
+			while t <= timestodo:
+				t = t + 1
+				use = str (t)
+				find = "co"+use
+	        		tobedone = """SELECT %s FROM BoardTBL WHERE name is '%s';""" % (find,location)
+				cursor.execute( tobedone )
+				answerX = cursor.fetchone ( )
+				connect = answerX [0]
+				part1 = str (t) + '. '
+				part2 = str (connect)
+				print part1 + part2
 
 
 
@@ -1648,6 +1669,85 @@ class inaturn:
 		
 
 class playeraction:
+	def tf (self):
+		g = get ()
+		it = inaturn ()
+		pa = playeraction ()
+		ap = g.ap ()
+		location = g.player (ap)
+		print "Where would you like to go?"
+		g.ac (location)
+
+		with sqlite3.connect('pandemic.db') as conn:
+			cursor = conn.cursor()
+	        	tobedone = """SELECT connect FROM BoardTBL WHERE name is '%s';""" % (location)
+			cursor.execute( tobedone )
+			answerX = cursor.fetchone ( )
+			connect = int (answerX [0])
+			t = 0
+			timestodo = connect - 1
+			while t <= timestodo:
+				t = t + 1
+				use = str (t)
+				find = "co"+use
+	        		tobedone = """SELECT %s FROM BoardTBL WHERE name is '%s';""" % (find,location)
+				cursor.execute( tobedone )
+				answerX = cursor.fetchone ( )
+				connect = answerX [0]
+				part1 = str (t) + '. '
+				part2 = str (connect)
+				print part1 + part2
+		choice = raw_input ('>')
+		if choice == '1':	
+			cursor = conn.cursor()
+	        	tobedone = """SELECT co1 FROM BoardTBL WHERE name is '%s';""" % (location)
+			cursor.execute( tobedone )
+			answerX = cursor.fetchone ( )
+			destination = answerX [0]
+		elif choice == '2':	
+			cursor = conn.cursor()
+	        	tobedone = """SELECT co2 FROM BoardTBL WHERE name is '%s';""" % (location)
+			cursor.execute( tobedone )
+			answerX = cursor.fetchone ( )
+			destination = answerX [0]
+		elif choice == '3':	
+			cursor = conn.cursor()
+	        	tobedone = """SELECT co3 FROM BoardTBL WHERE name is '%s';""" % (location)
+			cursor.execute( tobedone )
+			answerX = cursor.fetchone ( )
+			destination = answerX [0]
+		elif choice == '4':	
+			cursor = conn.cursor()
+	        	tobedone = """SELECT co4 FROM BoardTBL WHERE name is '%s';""" % (location)
+			cursor.execute( tobedone )
+			answerX = cursor.fetchone ( )
+			destination = answerX [0]
+		elif choice == '5':	
+			cursor = conn.cursor()
+	        	tobedone = """SELECT co5 FROM BoardTBL WHERE name is '%s';""" % (location)
+			cursor.execute( tobedone )
+			answerX = cursor.fetchone ( )
+			destination = answerX [0]
+		elif choice == '6':	
+			cursor = conn.cursor()
+	        	tobedone = """SELECT co6 FROM BoardTBL WHERE name is '%s';""" % (location)
+			cursor.execute( tobedone )
+			answerX = cursor.fetchone ( )
+			destination = answerX [0]
+		else:
+			print "You must choose an option from the given selection"
+			i.mp ()	
+		pa.trainboat (ap,location,destination)
+		i.start ()
+
+
+
+
+
+
+
+
+
         def direct (self,player,card):
 		it = inaturn ()
 		it.discard (player,card)
@@ -1656,12 +1756,9 @@ class playeraction:
 		print "%s has taken a direct flight to %s" % (player, card)
 		it.action ()
 	
-	def trainboat (self,player,location,destination):
-		it = inaturn ()
-		location = it.getplayer (player)	
-		it.move (player,location,destination)
-		print "%s has moved from %s to %s" % (player, location, destination)
-		it.action ()
+
+
+
 
 	def charter (self,player,card,destination):
 		it = inaturn ()
@@ -1739,408 +1836,6 @@ class playeraction:
 			print "You need to discover %s more cures to win the game." % (neededcures)
 		it.action ()
 				
-class interface:
-# This class interacts directly with the player / players to make the game happen
-
-
-        def start (self):
-		i = interface ()
-                print """What would you like to do? 
-1- Find out about the board state.
-2- Take an action.
-3- Quit."""
-                thing = raw_input ('>')
-                if thing == '1':
-                        i.info ()
-		elif thing == '2':
-			i.action ()
-		elif thing == '3':
-			print "Are you sure? If so press Q."
-			thing = raw_input ('>')
-			if thing == 'q':
-				print "goodbye!"
-			elif thing == 'Q':
-				print "goodbye!"
-			else:
-				i.start ()
-		else:
-			print "Type either 1, 2 or 3."
-			i.start ()
-
-
-
-        def info (self):
-		i = interface ()
-                print """What do you want to know?
-1. About a city?
-2. How many cities with 3 cubes of a given or any colour in?
-3. How many cities with 2 cubes of a given or any colour in?
-4. How many cities with 1 cube of a given or any colour in?
-5. Where am I?
-6. What is in my hand?"""
-                thing = raw_input ('>')
-                if thing == '1':
-			g.cityinfo ()
-		elif thing == '2':	
-			g.cube3info ()
-		elif thing == '3':	
-			g.cube2info ()
-		elif thing == '4':	
-			g.cube1info ()
-		elif thing == '5':	
-			g.playerlocinfo ()
-		elif thing == '6':	
-			g.handinfo ()
-		else:
-			print "Type either 1,2,3,4,5 or 6"
-			g.action
-
-	def cityinfo (self):
-		it = inaturn ()
-		i = interface ()
-		print "What city?"
-		answer = raw_input ('>')
-		findout = it.getcityallcubes (answer)
-		if findout == 'There is no city of that name!':
-			print findout
-			with sqlite3.connect('pandemic.db') as conn:
-		       		cursor = conn.cursor()
-				tobedone = """SELECT name FROM BoardTBL;"""
-				cursor.execute (tobedone)
-				answerX = cursor.fetchall ()
-				print "The cities are listed below."
-				for a in answerX:
-					print a [0]
-				g.cityinfo ()
-		else:
-			print findout
-			i.start ()
-			
-
-	def cube3info (self):
-		it = inaturn ()
-		i = interface ()
-		print """What colour?
-1. Blue
-2. Yellow
-3. Red
-4. Black
-5. All"""
-		answer = raw_input ('>')
-		if answer == '1':
-			findout = g.xcube ('ucube',3)
-			print "There are %s cities with 3 blue cubes, in:" % (findout [0][0])
-			listc = findout [1]
-			for a in listc:
-				print a [0]
-			i.start () 
-		elif answer == '2':
-			findout = g.xcube ('ycube',3)
-			print "There are %s cities with 3 yellow cubes, in:" % (findout [0][0])
-			listc = findout [1]
-			for a in listc:
-				print a [0]
-			i.start () 
-		elif answer == '3':
-			findout = g.xcube ('rcube',3)
-			print "There are %s cities with 3 red cubes, in:" % (findout [0][0])
-			listc = findout [1]
-			for a in listc:
-				print a [0]
-			i.start () 
-		elif answer == '4':
-			findout = g.xcube ('bcube',3)
-			print "There are %s cities with 3 black cubes, in:" % (findout [0][0])
-			listc = findout [1]
-			for a in listc:
-				print a [0]
-			i.start () 
-		elif answer == '5':
-			findout1 = g.xcube ('bcube',3)
-			findout2 = g.xcube ('ucube',3)
-			findout3 = g.xcube ('ycube',3)
-			findout4 = g.xcube ('rcube',3)
-			totalfound =findout1 [0][0] + findout2 [0][0] + findout3 [0][0] + findout4 [0][0] 
-			print "There are %s cities with 3 cubes, in:" % (totalfound)
-			listc = findout1 [1]
-			for a in listc:
-				print a [0]
-			listc = findout2 [1]
-			for a in listc:
-				print a [0]
-			listc = findout3 [1]
-			for a in listc:
-				print a [0]
-			listc = findout4 [1]
-			for a in listc:
-				print a [0]
-			i.start () 
-		else:
-			print "Please answer 1,2,3 or 4."
-			g.cube3info ()
-
-	def cube2info (self):
-		it = inaturn ()
-		i = interface ()
-		print """What colour?
-1. Blue
-2. Yellow
-3. Red
-4. Black
-5. All"""
-		answer = raw_input ('>')
-		if answer == '1':
-			findout = g.xcube ('ucube',2)
-			print "There are %s cities with 2 blue cubes, in:" % (findout [0][0])
-			listc = findout [1]
-			for a in listc:
-				print a [0]
-			i.start () 
-		elif answer == '2':
-			findout = g.xcube ('ycube',2)
-			print "There are %s cities with 2 yellow cubes, in:" % (findout [0][0])
-			listc = findout [1]
-			for a in listc:
-				print a [0]
-			i.start () 
-		elif answer == '3':
-			findout = g.xcube ('rcube',2)
-			print "There are %s cities with 2 red cubes, in:" % (findout [0][0])
-			listc = findout [1]
-			for a in listc:
-				print a [0]
-			i.start () 
-		elif answer == '4':
-			findout = g.xcube ('bcube',2)
-			print "There are %s cities with 2 black cubes, in:" % (findout [0][0])
-			listc = findout [1]
-			for a in listc:
-				print a [0]
-			i.start () 
-		elif answer == '5':
-			findout1 = g.xcube ('bcube',2)
-			findout2 = g.xcube ('ucube',2)
-			findout3 = g.xcube ('ycube',2)
-			findout4 = g.xcube ('rcube',2)
-			totalfound =findout1 [0][0] + findout2 [0][0] + findout3 [0][0] + findout4 [0][0] 
-			print "There are %s cities with 2 cubes, in:" % (totalfound)
-			listc = findout1 [1]
-			for a in listc:
-				print a [0]
-			listc = findout2 [1]
-			for a in listc:
-				print a [0]
-			listc = findout3 [1]
-			for a in listc:
-				print a [0]
-			listc = findout4 [1]
-			for a in listc:
-				print a [0]
-			i.start () 
-		else:
-			print "Please answer 1,2,3 or 4."
-			g.cube2info ()
-
-
-	def cube1info (self):
-		it = inaturn ()
-		i = interface ()
-		print """What colour?
-1. Blue
-2. Yellow
-3. Red
-4. Black
-5. All"""
-		answer = raw_input ('>')
-		if answer == '1':
-			findout = g.xcube ('ucube',1)
-			print "There are %s cities with 1 blue cubes, in:" % (findout [0][0])
-			listc = findout [1]
-			for a in listc:
-				print a [0]
-			i.start () 
-		elif answer == '2':
-			findout = g.xcube ('ycube',1)
-			print "There are %s cities with 1 yellow cubes, in:" % (findout [0][0])
-			listc = findout [1]
-			for a in listc:
-				print a [0]
-			i.start () 
-		elif answer == '3':
-			findout = g.xcube ('rcube',1)
-			print "There are %s cities with 1 red cubes, in:" % (findout [0][0])
-			listc = findout [1]
-			for a in listc:
-				print a [0]
-			i.start () 
-		elif answer == '4':
-			findout = g.xcube ('bcube',1)
-			print "There are %s cities with 1 black cubes, in:" % (findout [0][0])
-			listc = findout [1]
-			for a in listc:
-				print a [0]
-			i.start () 
-		elif answer == '5':
-			findout1 = g.xcube ('bcube',1)
-			findout2 = g.xcube ('ucube',1)
-			findout3 = g.xcube ('ycube',1)
-			findout4 = g.xcube ('rcube',1)
-			totalfound =findout1 [0][0] + findout2 [0][0] + findout3 [0][0] + findout4 [0][0] 
-			print "There are %s cities with 1 cubes, in:" % (totalfound)
-			listc = findout1 [1]
-			for a in listc:
-				print a [0]
-			listc = findout2 [1]
-			for a in listc:
-				print a [0]
-			listc = findout3 [1]
-			for a in listc:
-				print a [0]
-			listc = findout4 [1]
-			for a in listc:
-				print a [0]
-			i.start () 
-		else:
-			print "Please answer 1,2,3 or 4."
-			g.cube1info ()
-
-	def playerlocinfo (self):
-		i = interface ()
-		it = inaturn ()
-		with sqlite3.connect('pandemic.db') as conn:
-		   	cursor = conn.cursor()
-			tobedone = """SELECT ap FROM gsTBL;"""
-			cursor.execute (tobedone)
-			answerX = cursor.fetchone ()
-			location = it.getplayer (answerX [0])
-			print "You, %s are located in %s" % (answerX[0],location)
-			i.start ()
-
-	def handinfo (self):
-		i = interface ()
-		it = inaturn ()
-		with sqlite3.connect('pandemic.db') as conn:
-		   	cursor = conn.cursor()
-			tobedone = """SELECT ap FROM gsTBL;"""
-			cursor.execute (tobedone)
-			answerX = cursor.fetchone ()
-			hand = it.gethand (answerX [0])
-			count = 0
-			for a in hand:
-				count = count + 1
-			print "You, %s have the %s below cards in your hand:" % (answerX[0], count)
-			for a in hand:
-				print a [0]
-			i.start ()
-		
-	def action (self):
-		i = interface ()
-		it = inaturn ()
-                print """What action would you like to take?
-1- Take a train or ferry to another city (doesn't work correctly, you can move anywhere).
-2- Play a card to take a direct flight to that city.
-3- Play the card of the city you are in to take a charter flight to any location.
-4- Take a shuttle flight from one research station to another.
-5- Treat illness in your current city.
-6- Play 5 city cards of the same colour to cure an disease. You must be in a research station.
-7- Give another player a card from your hand that matches the city you are in if you are both in the same city.
-8- Take a card from another player that matches the city you are in if you are both in the same city.
-9- Build a research centre play the city card that matches the city you are in to build a research centre.
-10- Wait."""
-                thing = raw_input ('>')
-                if thing == '1':
-                        i.mp ()
-                elif thing == '2':
-                        i.df ()
-                elif thing == '3':
-                        i.cf ()
-                elif thing == '4':
-                        i.sf ()
-                elif thing == '5':
-                        i.td ()
-                elif thing == '6':
-                        i.cd ()
-                elif thing == '7':
-                        i.skg ()
-                elif thing == '8':
-                        i.skt ()
-                elif thing == '9':
-                        i.br ()
-                elif thing == '10':
-                        i.wait ()
-		else:
-			print "Please type a number from 1-9 for an action."
-			i.action ()
-
-
-	def mp (self):
-		i = interface ()
-		it = inaturn ()
-		pa = playeraction ()
-		ap = it.getap ()
-		location = it.getplayer (ap)
-		print "Where would you like to go?"
-		with sqlite3.connect('pandemic.db') as conn:
-			cursor = conn.cursor()
-	        	tobedone = """SELECT connect FROM BoardTBL WHERE name is '%s';""" % (location)
-			cursor.execute( tobedone )
-			answerX = cursor.fetchone ( )
-			connect = int (answerX [0])
-			t = 0
-			timestodo = connect - 1
-			while t <= timestodo:
-				t = t + 1
-				use = str (t)
-				find = "co"+use
-	        		tobedone = """SELECT %s FROM BoardTBL WHERE name is '%s';""" % (find,location)
-				cursor.execute( tobedone )
-				answerX = cursor.fetchone ( )
-				connect = answerX [0]
-				part1 = str (t) + '. '
-				part2 = str (connect)
-				print part1 + part2
-		choice = raw_input ('>')
-		if choice == '1':	
-			cursor = conn.cursor()
-	        	tobedone = """SELECT co1 FROM BoardTBL WHERE name is '%s';""" % (location)
-			cursor.execute( tobedone )
-			answerX = cursor.fetchone ( )
-			destination = answerX [0]
-		elif choice == '2':	
-			cursor = conn.cursor()
-	        	tobedone = """SELECT co2 FROM BoardTBL WHERE name is '%s';""" % (location)
-			cursor.execute( tobedone )
-			answerX = cursor.fetchone ( )
-			destination = answerX [0]
-		elif choice == '3':	
-			cursor = conn.cursor()
-	        	tobedone = """SELECT co3 FROM BoardTBL WHERE name is '%s';""" % (location)
-			cursor.execute( tobedone )
-			answerX = cursor.fetchone ( )
-			destination = answerX [0]
-		elif choice == '4':	
-			cursor = conn.cursor()
-	        	tobedone = """SELECT co4 FROM BoardTBL WHERE name is '%s';""" % (location)
-			cursor.execute( tobedone )
-			answerX = cursor.fetchone ( )
-			destination = answerX [0]
-		elif choice == '5':	
-			cursor = conn.cursor()
-	        	tobedone = """SELECT co5 FROM BoardTBL WHERE name is '%s';""" % (location)
-			cursor.execute( tobedone )
-			answerX = cursor.fetchone ( )
-			destination = answerX [0]
-		elif choice == '6':	
-			cursor = conn.cursor()
-	        	tobedone = """SELECT co6 FROM BoardTBL WHERE name is '%s';""" % (location)
-			cursor.execute( tobedone )
-			answerX = cursor.fetchone ( )
-			destination = answerX [0]
-		else:
-			print "You must choose an option from the given selection"
-			i.mp ()	
-		pa.trainboat (ap,location,destination)
-		i.start ()
 		
 	def df (self):
 		i = interface ()
