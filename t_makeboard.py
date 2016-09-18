@@ -2,6 +2,7 @@ import unittest
 import sqlite3
 from pandemicgame import startinggame
 from pandemicgame import inaturn
+from pandemicgame import get
 
 class T( unittest.TestCase ):
 
@@ -269,7 +270,7 @@ class T( unittest.TestCase ):
 # This def tests the infection of the first 9 cities works right.
 	def test_setup_sginfect (self):
 		sg = startinggame ()
-		it = inaturn ()
+		g = get ()
 		sg.BoardTBL ('testboard.txt')
 		sg.cubesTBL ()
 		sg.idTBL( )
@@ -290,11 +291,11 @@ class T( unittest.TestCase ):
 			cursor.execute( tobedone)
 			answerZ = cursor.fetchall ( )
 			answer3 = answerZ [2]
-			AnswerF = it.getcubes ('rcube')
-			AnswerG = it.getcubes ('ycube')
-			AnswerH = it.getcubes ('pcube')
-			AnswerI = it.getcubes ('bcube')
-			AnswerJ = it.getcubes ('ucube')
+			AnswerF = g.cubes ('rcube')
+			AnswerG = g.cubes ('ycube')
+			AnswerH = g.cubes ('pcube')
+			AnswerI = g.cubes ('bcube')
+			AnswerJ = g.cubes ('ucube')
 			AnswerK =  AnswerF + AnswerG + AnswerH + AnswerI + AnswerJ
 		self.assertNotEqual(answer3,None,'3 countries with 3 cubes not found')
                 self.assertNotEqual(answer1,None,'3 countries with 1 cubes not found')
@@ -354,7 +355,7 @@ class T( unittest.TestCase ):
 # This checks the starting the game def
 	def test_startnewgame (self):
 		sg = startinggame ()
-		it = inaturn ()
+		g = get ()
 		print "Testing 4 player game set-up" 
 		sg.startnewgameq (4,'testboard.txt',4,'testevent.txt','testcharacter.txt')
 		with sqlite3.connect('pandemic.db') as conn:
@@ -369,7 +370,9 @@ class T( unittest.TestCase ):
                         AnswerAS = cursor.fetchone ( )
                         AnswerAT = AnswerAS [0]
                         AnswerAU = AnswerAS [1]
-			rAnswerAU = int(AnswerAU)
+			rAnswerAU = None
+			if AnswerAU != None:
+				rAnswerAU = int(AnswerAU)
 			tobedone = 'SELECT name FROM cTBL;'
 			cursor.execute( tobedone)
 			AnswerAV = cursor.fetchone ( )
@@ -446,11 +449,11 @@ class T( unittest.TestCase ):
 			AnswerH = AnswerB [5]
 			AnswerI = AnswerB [6]
 			AnswerJ = AnswerB [7]
-			Answer1F = it.getcubes ('rcube')
-			Answer1G = it.getcubes ('ycube')
-			Answer1H = it.getcubes ('pcube')
-			Answer1I = it.getcubes ('bcube')
-			Answer1J = it.getcubes ('ucube')
+			Answer1F = g.cubes ('rcube')
+			Answer1G = g.cubes ('ycube')
+			Answer1H = g.cubes ('pcube')
+			Answer1I = g.cubes ('bcube')
+			Answer1J = g.cubes ('ucube')
 			Answer1K =  Answer1F + Answer1G + Answer1H + Answer1I + Answer1J
 		self.assertEqual(AnswerC,'Atlanta','The table for countries has no name column.')
 		self.assertEqual(AnswerD,'u','The table for countries has no colour column.')

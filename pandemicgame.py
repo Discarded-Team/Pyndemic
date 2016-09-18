@@ -4,28 +4,6 @@ import sys
 import sqlite3
 import random
 
-# This file contains four classes:
-
-# 1: startinggame - This class contains all the defs which preform the 
-# actions needed to set up the game, although it does utilise actions 
-# found in other classes.
-
-# 2: inaturn - This class contains all the defs which carry out the 
-# most basic and simple actions that are completed in a turn, such as 
-# moving a player or drawing a card.
-
-# 3: playeraction - This class contains all the defs for the eight 
-# different player actions that can be completed in a turn. These are
-# covered by nine different defs as sharing knowledge requires a def
-# for giving a card and a def for taking a card.
-
-# 4: game - This class contains all the defs which the players interact
-# with to play the game. It should only require defs found in the
-# playeraction class, and does not interact directly with the .db file
-# which contains the game information.
-
-# A list of all the defs found in each class and how they work can be
-# found in readme.md.
 
 class startinggame:
 
@@ -701,6 +679,7 @@ class startinggame:
 # infection deck discard pile.
 
 	def sginfect (self):
+		g = get ()
 		it = inaturn ()
 		it.infectcities (9)
 		with sqlite3.connect('pandemic.db') as conn:
@@ -788,25 +767,25 @@ class startinggame:
 			count2cb = 0
 			count2cp = 0
 
-			thing = it.getxcube ('ucube', '2')
+			thing = g.xcube ('ucube', '2')
 			blank = thing [1]
 			if blank != []:
 				supercount = thing [0]
 				count2cu = supercount [0]
 
-			thing = it.getxcube ('rcube', '2')
+			thing = g.xcube ('rcube', '2')
 			blank = thing [1]
 			if blank != []:
 				supercount = thing [0]
 				count2cr = supercount [0]
 
-			thing = it.getxcube ('ycube', '2')
+			thing = g.xcube ('ycube', '2')
 			blank = thing [1]
 			if blank != []:
 				supercount = thing [0]
 				count2cy = supercount [0]
 
-			thing = it.getxcube ('bcube', '2')
+			thing = g.xcube ('bcube', '2')
 			blank = thing [1]
 			if blank != []:
 				supercount = thing [0]
@@ -840,25 +819,25 @@ class startinggame:
 			count3cb = 0
 			count3cp = 0
 
-			thing = it.getxcube ('ucube', '3')
+			thing = g.xcube ('ucube', '3')
 			blank = thing [1]
 			if blank != []:
 				supercount = thing [0]
 				count3cu = supercount [0]
 
-			thing = it.getxcube ('rcube', '3')
+			thing = g.xcube ('rcube', '3')
 			blank = thing [1]
 			if blank != []:
 				supercount = thing [0]
 				count3cr = supercount [0]
 
-			thing = it.getxcube ('ycube', '3')
+			thing = g.xcube ('ycube', '3')
 			blank = thing [1]
 			if blank != []:
 				supercount = thing [0]
 				count3cy = supercount [0]
 
-			thing = it.getxcube ('bcube', '3')
+			thing = g.xcube ('bcube', '3')
 			blank = thing [1]
 			if blank != []:
 				supercount = thing [0]
@@ -984,7 +963,7 @@ class get:
 # This class contains defs which will return information about the state of the game.
 
 # This def returns the location of a given player
-	def getplayer (self, player):
+	def player (self, player):
 		if player == 'player1':
 			with sqlite3.connect('pandemic.db') as conn:
 				cursor = conn.cursor()
@@ -1036,7 +1015,7 @@ class get:
 
 
 # This def returns the number of cubes of all colours in a given city
-	def getcityallcubes (self,city):
+	def cityallcubes (self,city):
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
 			tobedone = """SELECT * FROM BoardTBL WHERE name = '%s';""" % (city)
@@ -1069,7 +1048,7 @@ class get:
 				return cubeinfo
 
 # This returns the name of cities with a given number of cubes
-	def getxcube (self,cube,numb):
+	def xcube (self,cube,numb):
 		with sqlite3.connect('pandemic.db') as conn:
 		       	cursor = conn.cursor()
 	            	tobedone = """SELECT count (name) FROM BoardTBL WHERE %s = %s;""" % (cube,numb)
@@ -1082,7 +1061,7 @@ class get:
 			return answer
 
 # Thiis returns the outbreak count
-	def getoc (self):
+	def oc (self):
 		with sqlite3.connect('pandemic.db') as conn:
 		       	cursor = conn.cursor()
 	            	tobedone = """SELECT oc FROM gsTBL;""" 
@@ -1092,7 +1071,7 @@ class get:
 			return oc
 
 # Thiis returns the infection rate
-	def getir (self):
+	def ir (self):
 		with sqlite3.connect('pandemic.db') as conn:
 		       	cursor = conn.cursor()
 	            	tobedone = """SELECT ir FROM gsTBL;""" 
@@ -1101,7 +1080,7 @@ class get:
 			ir = found [0]
 			return ir
 
-	def gethand (self, player):
+	def hand (self, player):
 		with sqlite3.connect('pandemic.db') as conn:
 		       	cursor = conn.cursor()
 	            	tobedone = """SELECT name FROM %sTBL;""" % (player)
@@ -1111,7 +1090,7 @@ class get:
 
  
 # This def returns the number of cubes of a given colour in a given city
-	def getcitycubes (self,cube,city):
+	def citycubes (self,cube,city):
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
 			tobedone = """SELECT * FROM BoardTBL WHERE name = '%s';""" % (city)
@@ -1127,7 +1106,7 @@ class get:
 				return cubes
 
 # This def returns the total remaining cubes of a given colour
-	def getcubes (self,cube):
+	def cubes (self,cube):
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
 			tobedone = """SELECT %s FROM cubesTBL;""" % (cube)
@@ -1137,7 +1116,7 @@ class get:
 			return cubeleft
 
 # This def checks the infectiondeck discard pile
-	def getidd (self):
+	def idd (self):
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
 			tobedone = """SELECT name FROM iddTBL;"""
@@ -1147,7 +1126,7 @@ class get:
 			return iddcont
 
 # This def checks the player deck discard pile
-	def getpdd (self):
+	def pdd (self):
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
 			tobedone = """SELECT name FROM pddTBL;"""
@@ -1156,7 +1135,7 @@ class get:
 			conn.commit ()
 			return pddcont
 
-	def getap (self):
+	def ap (self):
 		it = inaturn ()
 		with sqlite3.connect('pandemic.db') as conn:
 		   	cursor = conn.cursor()
@@ -1390,7 +1369,7 @@ class inaturn:
                 listofnumb2 = [9,10,11,12]
                 for a in listofcol:
                         for b in listofnumb:
-                                city = it.getxcube (a,b)
+                                city = g.xcube (a,b)
 				if city [0][0] >= 1:
 					d = 0
 					while city [0][0] > d:
@@ -1428,7 +1407,7 @@ class inaturn:
 						d = d + 1
                 for a in listofcol:
                         for b in listofnumb:
-                                city = it.getxcube (a,b)
+                                city = g.xcube (a,b)
 				if city [0][0] >= 1:
 					d = 0
 					while city [0][0] > d:
@@ -1461,7 +1440,7 @@ class inaturn:
 						d = d + 1
                 for a in listofcol:
                         for b in listofnumb:
-                                city = it.getxcube (a,b)
+                                city = g.xcube (a,b)
 				if city [0][0] >= 1:
 					d = 0
 					while city [0][0] > d:
@@ -1494,7 +1473,7 @@ class inaturn:
 						d = d + 1
                 for a in listofcol:
                         for b in listofnumb:
-                                city = it.getxcube (a,b)
+                                city = g.xcube (a,b)
 				if city [0][0] >= 1:
 					d = 0
 					while city [0][0] > d:
@@ -1527,7 +1506,7 @@ class inaturn:
 						d = d + 1
                 for a in listofcol:
                         for b in listofnumb2:
-                                city = it.getxcube (a,b)
+                                city = g.xcube (a,b)
 				if city [0][0] >= 1:
 					d = 0
 					while city [0][0] > d:
@@ -1849,38 +1828,38 @@ class interface:
 5. All"""
 		answer = raw_input ('>')
 		if answer == '1':
-			findout = it.getxcube ('ucube',3)
+			findout = g.xcube ('ucube',3)
 			print "There are %s cities with 3 blue cubes, in:" % (findout [0][0])
 			listc = findout [1]
 			for a in listc:
 				print a [0]
 			i.start () 
 		elif answer == '2':
-			findout = it.getxcube ('ycube',3)
+			findout = g.xcube ('ycube',3)
 			print "There are %s cities with 3 yellow cubes, in:" % (findout [0][0])
 			listc = findout [1]
 			for a in listc:
 				print a [0]
 			i.start () 
 		elif answer == '3':
-			findout = it.getxcube ('rcube',3)
+			findout = g.xcube ('rcube',3)
 			print "There are %s cities with 3 red cubes, in:" % (findout [0][0])
 			listc = findout [1]
 			for a in listc:
 				print a [0]
 			i.start () 
 		elif answer == '4':
-			findout = it.getxcube ('bcube',3)
+			findout = g.xcube ('bcube',3)
 			print "There are %s cities with 3 black cubes, in:" % (findout [0][0])
 			listc = findout [1]
 			for a in listc:
 				print a [0]
 			i.start () 
 		elif answer == '5':
-			findout1 = it.getxcube ('bcube',3)
-			findout2 = it.getxcube ('ucube',3)
-			findout3 = it.getxcube ('ycube',3)
-			findout4 = it.getxcube ('rcube',3)
+			findout1 = g.xcube ('bcube',3)
+			findout2 = g.xcube ('ucube',3)
+			findout3 = g.xcube ('ycube',3)
+			findout4 = g.xcube ('rcube',3)
 			totalfound =findout1 [0][0] + findout2 [0][0] + findout3 [0][0] + findout4 [0][0] 
 			print "There are %s cities with 3 cubes, in:" % (totalfound)
 			listc = findout1 [1]
@@ -1911,38 +1890,38 @@ class interface:
 5. All"""
 		answer = raw_input ('>')
 		if answer == '1':
-			findout = it.getxcube ('ucube',2)
+			findout = g.xcube ('ucube',2)
 			print "There are %s cities with 2 blue cubes, in:" % (findout [0][0])
 			listc = findout [1]
 			for a in listc:
 				print a [0]
 			i.start () 
 		elif answer == '2':
-			findout = it.getxcube ('ycube',2)
+			findout = g.xcube ('ycube',2)
 			print "There are %s cities with 2 yellow cubes, in:" % (findout [0][0])
 			listc = findout [1]
 			for a in listc:
 				print a [0]
 			i.start () 
 		elif answer == '3':
-			findout = it.getxcube ('rcube',2)
+			findout = g.xcube ('rcube',2)
 			print "There are %s cities with 2 red cubes, in:" % (findout [0][0])
 			listc = findout [1]
 			for a in listc:
 				print a [0]
 			i.start () 
 		elif answer == '4':
-			findout = it.getxcube ('bcube',2)
+			findout = g.xcube ('bcube',2)
 			print "There are %s cities with 2 black cubes, in:" % (findout [0][0])
 			listc = findout [1]
 			for a in listc:
 				print a [0]
 			i.start () 
 		elif answer == '5':
-			findout1 = it.getxcube ('bcube',2)
-			findout2 = it.getxcube ('ucube',2)
-			findout3 = it.getxcube ('ycube',2)
-			findout4 = it.getxcube ('rcube',2)
+			findout1 = g.xcube ('bcube',2)
+			findout2 = g.xcube ('ucube',2)
+			findout3 = g.xcube ('ycube',2)
+			findout4 = g.xcube ('rcube',2)
 			totalfound =findout1 [0][0] + findout2 [0][0] + findout3 [0][0] + findout4 [0][0] 
 			print "There are %s cities with 2 cubes, in:" % (totalfound)
 			listc = findout1 [1]
@@ -1974,38 +1953,38 @@ class interface:
 5. All"""
 		answer = raw_input ('>')
 		if answer == '1':
-			findout = it.getxcube ('ucube',1)
+			findout = g.xcube ('ucube',1)
 			print "There are %s cities with 1 blue cubes, in:" % (findout [0][0])
 			listc = findout [1]
 			for a in listc:
 				print a [0]
 			i.start () 
 		elif answer == '2':
-			findout = it.getxcube ('ycube',1)
+			findout = g.xcube ('ycube',1)
 			print "There are %s cities with 1 yellow cubes, in:" % (findout [0][0])
 			listc = findout [1]
 			for a in listc:
 				print a [0]
 			i.start () 
 		elif answer == '3':
-			findout = it.getxcube ('rcube',1)
+			findout = g.xcube ('rcube',1)
 			print "There are %s cities with 1 red cubes, in:" % (findout [0][0])
 			listc = findout [1]
 			for a in listc:
 				print a [0]
 			i.start () 
 		elif answer == '4':
-			findout = it.getxcube ('bcube',1)
+			findout = g.xcube ('bcube',1)
 			print "There are %s cities with 1 black cubes, in:" % (findout [0][0])
 			listc = findout [1]
 			for a in listc:
 				print a [0]
 			i.start () 
 		elif answer == '5':
-			findout1 = it.getxcube ('bcube',1)
-			findout2 = it.getxcube ('ucube',1)
-			findout3 = it.getxcube ('ycube',1)
-			findout4 = it.getxcube ('rcube',1)
+			findout1 = g.xcube ('bcube',1)
+			findout2 = g.xcube ('ucube',1)
+			findout3 = g.xcube ('ycube',1)
+			findout4 = g.xcube ('rcube',1)
 			totalfound =findout1 [0][0] + findout2 [0][0] + findout3 [0][0] + findout4 [0][0] 
 			print "There are %s cities with 1 cubes, in:" % (totalfound)
 			listc = findout1 [1]
