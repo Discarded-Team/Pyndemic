@@ -901,7 +901,7 @@ class startinggame:
 
 	def startnewgame (self,players,board,epidemics,event,characters):
 		sg = startinggame ()
-		g = game ()
+		i = interface ()
 		print "1. Laying out the board with everything."
 		sg.BoardTBL (board)
 		print "2. Shuffling the event cards together, so a random selection can be chosen to shuffle into the player deck."
@@ -946,7 +946,7 @@ class startinggame:
 		print "13. Shuffling epidemic cards into the infection deck"
 		sg.epTBL (epidemics)
 		print "14. LETS GO! Time to start the game!"
-		g.start ()
+		i.start ()
 
 
 # Stats a new game as above, but without the printing or starting a new
@@ -1544,7 +1544,7 @@ class inaturn:
 
 
 	def action (self):
-		g = game ()
+		i = interface ()
 		it = inaturn ()
 		with sqlite3.connect('pandemic.db') as conn:
 			cursor = conn.cursor()
@@ -1723,7 +1723,7 @@ class playeraction:
 		it.action ()
 
 	def cure (self,player,colour):
-		g=game ()
+		i = interface ()
 		it = inaturn ()
 		td = 0
 		while td < 5:
@@ -1755,19 +1755,21 @@ class playeraction:
 			print "You need to discover %s more cures to win the game." % (neededcures)
 		it.action ()
 				
-class game:
+class interface:
+# This class interacts directly with the player / players to make the game happen
+
 
         def start (self):
-		g = game ()
+		i = interface ()
                 print """What would you like to do? 
 1- Find out about the board state.
 2- Take an action.
 3- Quit."""
                 thing = raw_input ('>')
                 if thing == '1':
-                        g.info ()
+                        i.info ()
 		elif thing == '2':
-			g.action ()
+			i.action ()
 		elif thing == '3':
 			print "Are you sure? If so press Q."
 			thing = raw_input ('>')
@@ -1776,15 +1778,15 @@ class game:
 			elif thing == 'Q':
 				print "goodbye!"
 			else:
-				g.start ()
+				i.start ()
 		else:
 			print "Type either 1, 2 or 3."
-			g.start ()
+			i.start ()
 
 
 
         def info (self):
-		g = game ()
+		i = interface ()
                 print """What do you want to know?
 1. About a city?
 2. How many cities with 3 cubes of a given or any colour in?
@@ -1811,7 +1813,7 @@ class game:
 
 	def cityinfo (self):
 		it = inaturn ()
-		g = game ()
+		i = interface ()
 		print "What city?"
 		answer = raw_input ('>')
 		findout = it.getcityallcubes (answer)
@@ -1828,12 +1830,12 @@ class game:
 				g.cityinfo ()
 		else:
 			print findout
-			g.start ()
+			i.start ()
 			
 
 	def cube3info (self):
 		it = inaturn ()
-		g = game ()
+		i = interface ()
 		print """What colour?
 1. Blue
 2. Yellow
@@ -1847,28 +1849,28 @@ class game:
 			listc = findout [1]
 			for a in listc:
 				print a [0]
-			g.start () 
+			i.start () 
 		elif answer == '2':
 			findout = it.getxcube ('ycube',3)
 			print "There are %s cities with 3 yellow cubes, in:" % (findout [0][0])
 			listc = findout [1]
 			for a in listc:
 				print a [0]
-			g.start () 
+			i.start () 
 		elif answer == '3':
 			findout = it.getxcube ('rcube',3)
 			print "There are %s cities with 3 red cubes, in:" % (findout [0][0])
 			listc = findout [1]
 			for a in listc:
 				print a [0]
-			g.start () 
+			i.start () 
 		elif answer == '4':
 			findout = it.getxcube ('bcube',3)
 			print "There are %s cities with 3 black cubes, in:" % (findout [0][0])
 			listc = findout [1]
 			for a in listc:
 				print a [0]
-			g.start () 
+			i.start () 
 		elif answer == '5':
 			findout1 = it.getxcube ('bcube',3)
 			findout2 = it.getxcube ('ucube',3)
@@ -1888,14 +1890,14 @@ class game:
 			listc = findout4 [1]
 			for a in listc:
 				print a [0]
-			g.start () 
+			i.start () 
 		else:
 			print "Please answer 1,2,3 or 4."
 			g.cube3info ()
 
 	def cube2info (self):
 		it = inaturn ()
-		g = game ()
+		i = interface ()
 		print """What colour?
 1. Blue
 2. Yellow
@@ -1909,28 +1911,28 @@ class game:
 			listc = findout [1]
 			for a in listc:
 				print a [0]
-			g.start () 
+			i.start () 
 		elif answer == '2':
 			findout = it.getxcube ('ycube',2)
 			print "There are %s cities with 2 yellow cubes, in:" % (findout [0][0])
 			listc = findout [1]
 			for a in listc:
 				print a [0]
-			g.start () 
+			i.start () 
 		elif answer == '3':
 			findout = it.getxcube ('rcube',2)
 			print "There are %s cities with 2 red cubes, in:" % (findout [0][0])
 			listc = findout [1]
 			for a in listc:
 				print a [0]
-			g.start () 
+			i.start () 
 		elif answer == '4':
 			findout = it.getxcube ('bcube',2)
 			print "There are %s cities with 2 black cubes, in:" % (findout [0][0])
 			listc = findout [1]
 			for a in listc:
 				print a [0]
-			g.start () 
+			i.start () 
 		elif answer == '5':
 			findout1 = it.getxcube ('bcube',2)
 			findout2 = it.getxcube ('ucube',2)
@@ -1950,7 +1952,7 @@ class game:
 			listc = findout4 [1]
 			for a in listc:
 				print a [0]
-			g.start () 
+			i.start () 
 		else:
 			print "Please answer 1,2,3 or 4."
 			g.cube2info ()
@@ -1958,7 +1960,7 @@ class game:
 
 	def cube1info (self):
 		it = inaturn ()
-		g = game ()
+		i = interface ()
 		print """What colour?
 1. Blue
 2. Yellow
@@ -1972,28 +1974,28 @@ class game:
 			listc = findout [1]
 			for a in listc:
 				print a [0]
-			g.start () 
+			i.start () 
 		elif answer == '2':
 			findout = it.getxcube ('ycube',1)
 			print "There are %s cities with 1 yellow cubes, in:" % (findout [0][0])
 			listc = findout [1]
 			for a in listc:
 				print a [0]
-			g.start () 
+			i.start () 
 		elif answer == '3':
 			findout = it.getxcube ('rcube',1)
 			print "There are %s cities with 1 red cubes, in:" % (findout [0][0])
 			listc = findout [1]
 			for a in listc:
 				print a [0]
-			g.start () 
+			i.start () 
 		elif answer == '4':
 			findout = it.getxcube ('bcube',1)
 			print "There are %s cities with 1 black cubes, in:" % (findout [0][0])
 			listc = findout [1]
 			for a in listc:
 				print a [0]
-			g.start () 
+			i.start () 
 		elif answer == '5':
 			findout1 = it.getxcube ('bcube',1)
 			findout2 = it.getxcube ('ucube',1)
@@ -2013,13 +2015,13 @@ class game:
 			listc = findout4 [1]
 			for a in listc:
 				print a [0]
-			g.start () 
+			i.start () 
 		else:
 			print "Please answer 1,2,3 or 4."
 			g.cube1info ()
 
 	def playerlocinfo (self):
-		g = game ()
+		i = interface ()
 		it = inaturn ()
 		with sqlite3.connect('pandemic.db') as conn:
 		   	cursor = conn.cursor()
@@ -2028,10 +2030,10 @@ class game:
 			answerX = cursor.fetchone ()
 			location = it.getplayer (answerX [0])
 			print "You, %s are located in %s" % (answerX[0],location)
-			g.start ()
+			i.start ()
 
 	def handinfo (self):
-		g = game ()
+		i = interface ()
 		it = inaturn ()
 		with sqlite3.connect('pandemic.db') as conn:
 		   	cursor = conn.cursor()
@@ -2045,10 +2047,10 @@ class game:
 			print "You, %s have the %s below cards in your hand:" % (answerX[0], count)
 			for a in hand:
 				print a [0]
-			g.start ()
+			i.start ()
 		
 	def action (self):
-		g = game ()
+		i = interface ()
 		it = inaturn ()
                 print """What action would you like to take?
 1- Take a train or ferry to another city (doesn't work correctly, you can move anywhere).
@@ -2063,32 +2065,32 @@ class game:
 10- Wait."""
                 thing = raw_input ('>')
                 if thing == '1':
-                        g.mp ()
+                        i.mp ()
                 elif thing == '2':
-                        g.df ()
+                        i.df ()
                 elif thing == '3':
-                        g.cf ()
+                        i.cf ()
                 elif thing == '4':
-                        g.sf ()
+                        i.sf ()
                 elif thing == '5':
-                        g.td ()
+                        i.td ()
                 elif thing == '6':
-                        g.cd ()
+                        i.cd ()
                 elif thing == '7':
-                        g.skg ()
+                        i.skg ()
                 elif thing == '8':
-                        g.skt ()
+                        i.skt ()
                 elif thing == '9':
-                        g.br ()
+                        i.br ()
                 elif thing == '10':
-                        g.wait ()
+                        i.wait ()
 		else:
 			print "Please type a number from 1-9 for an action."
-			g.action ()
+			i.action ()
 
 
 	def mp (self):
-		g=game ()
+		i = interface ()
 		it = inaturn ()
 		pa = playeraction ()
 		ap = it.getap ()
@@ -2152,12 +2154,12 @@ class game:
 			destination = answerX [0]
 		else:
 			print "You must choose an option from the given selection"
-			g.mp ()	
+			i.mp ()	
 		pa.trainboat (ap,location,destination)
-		g.start ()
+		i.start ()
 		
 	def df (self):
-		g=game ()
+		i = interface ()
 		it = inaturn ()
 		pa = playeraction ()
 		ap = it.getap ()
@@ -2173,37 +2175,37 @@ class game:
 		choice = raw_input ('>')
 		if choice == '1':
 			pa.direct (ap,hand[0][0])
-			g.start ()
+			i.start ()
 		elif choice == '2':
 			pa.direct (ap,hand[1][0])
-			g.start ()
+			i.start ()
 		elif choice == '3':
 			pa.direct (ap,hand[2][0])
-			g.start ()
+			i.start ()
 		elif choice == '4':
 			pa.direct (ap,hand[3][0])
-			g.start ()
+			i.start ()
 		elif choice == '5':
 			pa.direct (ap,hand[4][0])
-			g.start ()
+			i.start ()
 		elif choice == '6':
 			pa.direct (ap,hand[5][0])
-			g.start ()
+			i.start ()
 		elif choice == '7':
 			pa.direct (ap,hand[6][0])
-			g.start ()
+			i.start ()
 		elif choice == '8':
 			pa.direct (ap,hand[7][0])
-			g.start ()
+			i.start ()
 		elif choice == '9':
 			pa.direct (ap,hand[4][0])
-			g.start ()
+			i.start ()
 		else:
 			print "You must make a choice from the given options by entering a number."
-			g.df ()
+			i.df ()
 
 	def cf (self):
-		g=game ()
+		i = interface ()
 		it = inaturn ()
 		pa = playeraction ()
 		ap = it.getap ()
@@ -2356,11 +2358,11 @@ class game:
 			pa.charter (ap,card,answerX[50][0])
 		else:
 			print "You must choose a valid option"
-			g.start ()
-		g.start ()
+			i.start ()
+		i.start ()
 
 	def sf (sel):
-		g=game ()
+		i = interface ()
 		it = inaturn ()
 		pa = playeraction ()
 		ap = it.getap ()
@@ -2376,7 +2378,7 @@ class game:
 					rstationloc = 1
 			if rstationloc == 0:
 				print "Your location %s, has no research station to take a shuttle flight from" % (location)
-				g.start ()
+				i.start ()
 			if rstationloc == 1:
 				print "Where would you like to take a shuttle flight to?"
 				i = 0
@@ -2411,11 +2413,11 @@ class game:
 			pa.shuttle (ap,answerX[11][0])
 		else:
 			print "You must choose a valid option"
-			g.start ()
-		g.start ()
+			i.start ()
+		i.start ()
 				
 	def td (self):
-		g=game ()
+		i = interface ()
 		it = inaturn ()
 		pa = playeraction ()
 		ap = it.getap ()
@@ -2443,18 +2445,18 @@ class game:
 			cubes = it.getcitycubes ('bcube',location)
 		else:
 			print "You must choose 1,2,3 or 4."
-			g.start ()
+			i.start ()
 
 		if cubes > 0:
 			pa.treat (ap,col)
 			print "Removing a cube of the chosen colour from %s" % (location) 
 		else:
 			print "There are no cubes of that colour in %s." % (location)
-		g.start ()
+		i.start ()
 					
 
 	def cd (self):
-		g=game ()
+		i = interface ()
 		it = inaturn ()
 		pa = playeraction ()
 		ap = it.getap ()
@@ -2471,7 +2473,7 @@ class game:
 				print "Using research station in %s." % (location)
 			elif answerX [0] == 0:
 				print "No research station in %s." % (location)
-				g.start ()
+				i.start ()
 			else:
 				print "Opps something went very wrong!"
 		for a in colours:
@@ -2487,10 +2489,10 @@ class game:
 		
 		if cured == 0:
 			print "Not enough cards of the same colour, you need 5."
-		g.start ()
+		i.start ()
 
 	def skg (self):
-		g=game ()
+		i = interface ()
 		it = inaturn ()
 		pa = playeraction ()
 		player = it.getap ()
@@ -2513,23 +2515,23 @@ class game:
 			otherplayer = 'player2'
 			if noplayers < 2:
 				print "There is no player 2!"
-				g.start ()		
+				i.start ()		
 		elif answer == '3':
 			otherplayer = 'player3'		
 			if noplayers < 3:
 				print "There is no player 3!"
-				g.start ()		
+				i.start ()		
 		elif answer == '4':
 			otherplayer = 'player4'		
 			if noplayers < 4:
 				print "There is no player 4!"
-				g.start ()		
+				i.start ()		
 		else:
 			print "You must make a valid selection!"
-			g.start ()
+			i.start ()
 		if otherplayer == player:
 			print "You can't share cards with yourself!"
-			g.start ()
+			i.start ()
 		otherplayerloc = it.getplayer (otherplayer)
 		if otherplayerloc == location:
 			with sqlite3.connect('pandemic.db') as conn:
@@ -2539,7 +2541,7 @@ class game:
 				answerX = cursor.fetchone ()
 				if answerX == None:
 					print "You don't have the %s card to give" % (location)
-					g.start ()
+					i.start ()
 				else:
 	   			     	tobedone = """INSERT INTO %sTBL (name,colour) SELECT name,colour FROM %sTBL WHERE name is '%s';""" % (otherplayer,player,location)
 					cursor.execute( tobedone )
@@ -2548,14 +2550,14 @@ class game:
 					conn.commit()
 					print "Sharing %s with %s." % (location, otherplayer)
 					it.action ()
-					g.start ()
+					i.start ()
 		else:
 			print "You two are not in the same city!"
-			g.start ()
+			i.start ()
 		
 
 	def skt (self):
-		g=game ()
+		i = interface ()
 		it = inaturn ()
 		pa = playeraction ()
 		player = it.getap ()
@@ -2578,23 +2580,23 @@ class game:
 			otherplayer = 'player2'
 			if noplayers < 2:
 				print "There is no player 2!"
-				g.start ()		
+				i.start ()		
 		elif answer == '3':
 			otherplayer = 'player3'		
 			if noplayers < 3:
 				print "There is no player 3!"
-				g.start ()		
+				i.start ()		
 		elif answer == '4':
 			otherplayer = 'player4'		
 			if noplayers < 4:
 				print "There is no player 4!"
-				g.start ()		
+				i.start ()		
 		else:
 			print "You must make a valid selection!"
-			g.start ()
+			i.start ()
 		if otherplayer == player:
 			print "You can't share cards with yourself!"
-			g.start ()
+			i.start ()
 		otherplayerloc = it.getplayer (otherplayer)
 		if otherplayerloc == location:
 			with sqlite3.connect('pandemic.db') as conn:
@@ -2604,7 +2606,7 @@ class game:
 				answerX = cursor.fetchone ()
 				if answerX == None:
 					print "They don't have the %s card to take" % (location)
-					g.start ()
+					i.start ()
 				else:
 	   			     	tobedone = """INSERT INTO %sTBL (name,colour) SELECT name,colour FROM %sTBL WHERE name is '%s';""" % (player,otherplayer,location)
 					cursor.execute( tobedone )
@@ -2613,13 +2615,13 @@ class game:
 					conn.commit()
 					print "Taking %s with %s." % (location, otherplayer)
 					it.action ()
-					g.start ()
+					i.start ()
 		else:
 			print "You two are not in the same city!"
-			g.start ()
+			i.start ()
 
 	def br (self):
-		g=game ()
+		i = interface ()
 		it = inaturn ()
 		pa = playeraction ()
 		player = it.getap ()
@@ -2631,23 +2633,23 @@ class game:
 			answerX = cursor.fetchone ()
 			if answerX == None:
 				print "You don't have the %s card to build a research station here" % (location)
-				g.start ()
+				i.start ()
 			else:
 	   			tobedone = """UPDATE BoardTBL SET rstation = 1 where name is '%s';""" % (location)
 				print "Building a research station in %s." % (location)
 				cursor.execute( tobedone )
 				conn.commit()
 				it.action ()
-				g.start ()
+				i.start ()
 				
 
 	def wait (self):
-		g=game ()
+		i = interface ()
 		it = inaturn ()
 		pa = playeraction ()
 		print "Doing nothing"
 		it.action ()
-		g.start ()	
+		i.start ()	
 
 	def gameover (self):
 		print "The game is over"
