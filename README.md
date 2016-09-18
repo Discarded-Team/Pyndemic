@@ -159,10 +159,10 @@ This class contains all the defs which preform basic in game actions. These are 
 8 - hand - returns the contents of a given players hand
 9 - citycubes - returns the number of cubes of a given colour in a given city
 10 - cubes - returns the number of cubes remaining of a given colour
-12 - idd - returns the cards in the infection deck discard pile
-13 - pdd - returns the cards in the player deck pile
-21 - ap - returns the current active player
-
+11 - idd - returns the cards in the infection deck discard pile
+12 - pdd - returns the cards in the player deck pile
+13 - ap - returns the current active player
+14 - ac - returns a numbered list of adjacent cities for a given location
 
 
 #####Class Four - playeraction

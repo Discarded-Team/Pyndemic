@@ -1677,26 +1677,6 @@ class playeraction:
 		location = g.player (ap)
 		print "Where would you like to go?"
 		g.ac (location)
-
-		with sqlite3.connect('pandemic.db') as conn:
-			cursor = conn.cursor()
-	        	tobedone = """SELECT connect FROM BoardTBL WHERE name is '%s';""" % (location)
-			cursor.execute( tobedone )
-			answerX = cursor.fetchone ( )
-			connect = int (answerX [0])
-			t = 0
-			timestodo = connect - 1
-			while t <= timestodo:
-				t = t + 1
-				use = str (t)
-				find = "co"+use
-	        		tobedone = """SELECT %s FROM BoardTBL WHERE name is '%s';""" % (find,location)
-				cursor.execute( tobedone )
-				answerX = cursor.fetchone ( )
-				connect = answerX [0]
-				part1 = str (t) + '. '
-				part2 = str (connect)
-				print part1 + part2
 		choice = raw_input ('>')
 		if choice == '1':	
 			cursor = conn.cursor()
@@ -1736,9 +1716,9 @@ class playeraction:
 			destination = answerX [0]
 		else:
 			print "You must choose an option from the given selection"
-			i.mp ()	
-		pa.trainboat (ap,location,destination)
-		i.start ()
+			pa.tf ()	
+		it.move (ap,location,destination)
+		it.action ()
 
 
 
