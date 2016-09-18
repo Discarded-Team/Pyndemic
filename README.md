@@ -1,12 +1,13 @@
+#Pandemic Board Game Readme
 
-**What is this?**
+##What is this?
 
 This is a simple project I've started to help me learn how to use vim, python and github. When it's finished it should let somebody play the Pandemic board game as one or more of the players.
 
 I'm about to start an OU degree in computing and IT and hoping for a career in IT eventually. The role I've got my eye on is one of full stack developer https://www.sitepoint.com/full-stack-developer/, although I understand this might already be old hat https://techcrunch.com/2014/11/08/the-rise-and-fall-of-the-full-stack-developer/. So I'm going to try to learn as much code as I can and focus on completing practical fun projects with other people alongside my course. 
 
 
-**What am I trying to learn?**
+##What am I trying to learn?
 
 I'd like to get my head round Python, SQL, and anything else relevant to make this work. I think that probably includes Git and how to use the command line in Linux (running Ubuntu at the moment). In the future I'd also like to learn
 
@@ -15,7 +16,7 @@ At least one version of SQL
 Some basic front end website languages (HTML, JavaScript and the like)
 
 
-**What do the various files do / contain?**
+##What do the various files do / contain?
 There are 12 files in this repository:
 1. fullboard.txt
 2. game.py
@@ -30,7 +31,7 @@ There are 12 files in this repository:
 11. t_playeraction.py
 12. t_game.py
 
-**File 3 'pandemicgame.py'**
+###File 3 'pandemicgame.py'
 Written in python this file contains five different classes of def.
 
 1: startinggame - This class contains all the defs which preform the actions needed to set up the game, although it does utilise actions  found in other classes.
@@ -43,8 +44,8 @@ Written in python this file contains five different classes of def.
 
 5: game - This class contains all the defs which the players interact with to play the game. It should only require defs found in the playeraction class, and does not interact directly with the .db file which contains the game information.
 
-**Classes and Defs in PandemicGame.py**
-***Class One - startinggame***
+####Classes and Defs in PandemicGame.py
+#####Class One - startinggame
 This class contains all the defs which preform the actions needed to set up the game, although it does utilise actions found in other classes. It contains the following 21 def's
 
 1. BoardTBL (1 Argument)
@@ -132,27 +133,12 @@ As the game is started each step is printed out, and after it has finished 'def 
 21. startnewgameq (5 Arguments)
 The same as startnewgame, but without the printing or running of 'def start' in the game class.
 
-***Class Two - inaturn***
+#####Class Two - inaturn
 This class contains all the defs which preform basic in game actions. These are not high level actions like "Treat the disease in Mexico city" or "Take a Charter flight from London to Hong Kong" but the basic composite steps needed to complete actions like this.
 
-***Class Three - get*** 
-This class 
-
-1 - getplayer - returns the location of a given player. 
-2 - getcityallcubes - returns all the cubes of any colour found in a given city.
 3 - infectcities - infects cities at a given rate
 4 - move - moves a given player from a given location to a given destination
-5 - getxcube - returns the name of all cities with a given colour and given number of cubes in
-6 - getoc - returns the current outbreak count 
-7 - getir - returns the current infection rate
-8 - gethand - returns the contents of a given players hand
-9 - getcitycubes - returns the number of cubes of a given colour in a given city
-10 - getcubes - returns the number of cubes remaining of a given colour
 11 - usecube - reduces the remaining amount of a given colour of cube by 1.
-12 - getidd - returns the cards in the infection deck discard pile
-13 - getpdd - returns the cards in the player deck pile
-
-
 14 - discard - for a given player discards a given card from their hand.
 15 - pdraw - draws a single card for a given player, checking if it is an epidemic
 16 - epidemic - carries out an epidemic on the board
@@ -160,9 +146,27 @@ This class
 18 - ic - infects a given city with a given colour
 19 - action - reduces the current active players action by 1, and if zero moves to the next players turn
 20 - rc - removes a cube of a given colour from a given location
+
+
+
+#####Class Three - get 
+This class 
+
+1 - getplayer - returns the location of a given player. 
+2 - getcityallcubes - returns all the cubes of any colour found in a given city.
+5 - getxcube - returns the name of all cities with a given colour and given number of cubes in
+6 - getoc - returns the current outbreak count 
+7 - getir - returns the current infection rate
+8 - gethand - returns the contents of a given players hand
+9 - getcitycubes - returns the number of cubes of a given colour in a given city
+10 - getcubes - returns the number of cubes remaining of a given colour
+12 - getidd - returns the cards in the infection deck discard pile
+13 - getpdd - returns the cards in the player deck pile
 21 - getap - returns the current active player
 
-***C - Class - playeraction***
+
+
+#####Class Four - playeraction
 1 - trainboat - move a given player from a given location to another adjacent location, for an action.
 2 - direct - move a given player to given location dicarding the card of the destination city from their hand.
 3 - charter - move a given player to a given location discarding the card of their current location from their hand.
@@ -173,3 +177,7 @@ This class
 8 - br - a given player builds a research station in a given city discarding that city card if they are in the city on the card
 
 
+#####Class Five - playerinfo
+
+
+#####Class Six - interface
