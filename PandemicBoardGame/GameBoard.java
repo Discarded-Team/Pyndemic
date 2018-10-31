@@ -1,24 +1,27 @@
-
+import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 /**
- * Write a description of class PandemicBoardGame here.
+ * Write a description of class GameBoard here.
  * 
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class PandemicBoardGame
+public class GameBoard
 {
-    // instance variables - replace the example below with your own
-    private GameBoard board = new GameBoard();
-    private int x = 0;
+    // instance variables - replaceString> the example below with your own
+    private int x;
+    private ArrayList<String> cities = new ArrayList<>();
 
     /**
-     * Constructor for objects of class PandemicBoardGame
+     * Constructor for objects of class GameBoard
      */
-    public PandemicBoardGame(String player1, String player2, String player3, 
-    String player4, String gameboard, int difficult)
+    public GameBoard()
     {
+        x = 5;
+        cities.add("New York");
+
         // initialise instance variables
-        x = 0;
     }
 
     /**
