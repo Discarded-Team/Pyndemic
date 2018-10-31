@@ -49,3 +49,7 @@ After drawing the player cards and resolving any epidemics, you must draw a numb
 **Game End**
 
 If the player draw deck runs out, or the eighth outbreak happens, or if the cubes of any color run out, the players all lose the game. If the players manage to cure all four diseases before this happens, they win the game, and rejoice in their shared victory.
+
+**Inital version**
+
+This is my first go at a game in java, so I'm not going to worry about roles, and the world is going to be much much smaller to start with as well.
