@@ -1,0 +1,13 @@
+#BlueJ class context
+comment0.params=diseaseColour
+comment0.target=Disease(java.lang.String)
+comment0.text=\n\ Constructor\ for\ objects\ of\ class\ Disease\n
+comment1.params=
+comment1.target=boolean\ getCured()
+comment2.params=toSet
+comment2.target=void\ setCured(boolean)
+comment3.params=newColour
+comment3.target=void\ setColour(java.lang.String)
+comment4.params=
+comment4.target=java.lang.String\ getColour()
+numComments=5

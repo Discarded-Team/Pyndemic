@@ -1,0 +1,13 @@
+#BlueJ class context
+comment0.params=newOwner\ pieceBoard\ currentLocation
+comment0.target=Piece(Player,\ GameBoard,\ City)
+comment0.text=\n\ Constructor\ for\ objects\ of\ class\ piece\n
+comment1.params=pieceLocation
+comment1.target=City\ getLocationCityFromString(java.lang.String)
+comment2.params=newLocation
+comment2.target=void\ setLocation(City)
+comment3.params=
+comment3.target=City[]\ getLocationConnections()
+comment4.params=
+comment4.target=City\ getLocation()
+numComments=5
