@@ -1,24 +1,22 @@
 
 /**
- * Write a description of class PandemicBoardGame here.
+ * Write a description of class ResearchCentre here.
  * 
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class PandemicBoardGame
+public class ResearchCentre
 {
     // instance variables - replace the example below with your own
-    private GameBoard board = new GameBoard();
-    private int x = 0;
+    public City location;
 
     /**
-     * Constructor for objects of class PandemicBoardGame
+     * Constructor for objects of class ResearchCentre
      */
-    public PandemicBoardGame(String player1, String player2, String player3, 
-    String player4, String gameboard, int difficult)
+    public ResearchCentre(City currentLocation)
     {
         // initialise instance variables
-        x = 0;
+        location = currentLocation;
     }
 
     /**
@@ -27,9 +25,15 @@ public class PandemicBoardGame
      * @param  y   a sample parameter for a method
      * @return     the sum of x and y 
      */
-    public int sampleMethod(int y)
+    public void setLocation(City newLocation)
     {
         // put your code here
-        return x + y;
+        location = newLocation;
+    }
+    
+        public City getLocation()
+    {
+        // put your code here
+        return location;
     }
 }

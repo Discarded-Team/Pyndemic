@@ -1,0 +1,47 @@
+
+PandemicGame testgame;
+Player jesus;
+Player beyonce;
+Player susan;
+Player deadpool;
+susan = new Player("Susan");
+beyonce = new Player("Beyonce");
+jesus = new Player("Jesus");
+deadpool = new Player("Deadpool");
+Player[] currentPlayers;
+currentPlayers = new Player[4];
+currentPlayers[0] = susan;
+currentPlayers[1] = jesus;
+currentPlayers[2] = beyonce;
+currentPlayers[3] = deadpool;
+
+int[] infectRate;
+infectRate = new int[13];
+infectRate[0] = 2;
+infectRate[1] = 2;
+infectRate[2] = 2;
+infectRate[3] = 3;
+infectRate[4] = 3;
+infectRate[5] = 4;
+infectRate[6] = 4;
+infectRate[7] = 4;
+infectRate[8] = 4;
+infectRate[9] = 5;
+infectRate[10] = 5;
+infectRate[11] = 5;
+infectRate[12] = 6;
+
+int[] initalInfect;
+initalInfect = new int[3];
+initalInfect[0] = 3;
+initalInfect[1] = 3;
+initalInfect[2] = 3;
+int colours;
+colours = 4;
+int cure;
+cure = 3;
+int epidemics;
+epidemics = 5;
+testgame = new PandemicGame(currentPlayers, colours, cure,epidemics, infectRate, 8, initalInfect, 9,7,1,"cities.csv");
+
+testgame.playGame();
