@@ -1,0 +1,966 @@
+Setting up a new game of pandemic with the below features.
+4 Colours of disease.
+3 cards of the same colour must be discarded at a research station to cure a disease.
+5 is the maximum number of epidemics.
+The infection rate will develop in as such;- 22233.
+Any more than 8 outbreaks and the game will be lost
+The inital infection step will see 333 cities infected 
+Between all players a maximum of 9 cards are drawn at start of the game
+There are 7 research stations which can be placed, and 1 (min 1) are placed at the start of the game
+Setting map location to /home/joe/Git/PandemicBoardGame/Pandemic/cities.csv
+Setting up the map
+I have initalResearch 1
+Setting inital station
+setting a new station in Sunspear
+Deadpool has joined the game
+Beyonce has joined the game
+Jesus has joined the game
+Susan has joined the game
+drawing hand for Deadpool
+Deadpool draws a card
+Deadpool draws a card
+drawing hand for Beyonce
+Beyonce draws a card
+Beyonce draws a card
+drawing hand for Jesus
+Jesus draws a card
+Jesus draws a card
+drawing hand for Susan
+Susan draws a card
+Susan draws a card
+There are 40 cards in the player deck
+Putting 8 in a pile
+Epidemic : 0 at 1
+Epidemic : 1 at 9
+Epidemic : 2 at 16
+Epidemic : 3 at 31
+Epidemic : 4 at 34
+Deadpool is thinking..... Wants to treat disease... Doesn't think it's worth trying to treat here.
+Deadpool drives from Sunspear to Blackmont.
+Wants to treat disease... As there are 3 cubes in Blackmont Deadpool will try and treat disease.
+Removing a black cube from Blackmont
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Deadpool drives from Blackmont to Kingsgrave.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Deadpool drives from Kingsgrave to Volantis.
+Deadpool completed 4 actions
+Deadpool draws a card
+EPIDEMIC DRAWN!
+Increasing the rate of infection
+Washington has now been infected with 3 cubes.
+Deadpool draws a card
+INFECTING Cambridge with yellow cubes.
+INFECTING Washington with red cubes.
+OUTBREAK
+Beyonce is thinking..... Wants to treat disease... Doesn't think it's worth trying to treat here.
+Beyonce drives from Sunspear to Barrowton.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Beyonce drives from Barrowton to Leeds.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Beyonce drives from Leeds to Leicester.
+Wants to treat disease... As there are 3 cubes in Leicester Beyonce will try and treat disease.
+Removing a yellow cube from Leicester
+Beyonce completed 4 actions
+Beyonce draws a card
+Beyonce draws a card
+INFECTING Mexico_City with red cubes.
+INFECTING Houston with red cubes.
+OUTBREAK
+Jesus is thinking..... Wants to treat disease... Doesn't think it's worth trying to treat here.
+Jesus drives from Sunspear to Barrowton.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Jesus drives from Barrowton to Leeds.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Jesus drives from Leeds to Cambridge.
+Wants to treat disease... As there are 3 cubes in Cambridge Jesus will try and treat disease.
+Removing a yellow cube from Cambridge
+Jesus completed 4 actions
+Jesus draws a card
+Jesus draws a card
+INFECTING Blackmont with black cubes.
+INFECTING Minas_Tirith with blue cubes.
+Susan is thinking..... Wants to treat disease... Doesn't think it's worth trying to treat here.
+Susan drives from Sunspear to Blackmont.
+Wants to treat disease... As there are 3 cubes in Blackmont Susan will try and treat disease.
+Removing a black cube from Blackmont
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Susan drives from Blackmont to Kingsgrave.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Susan drives from Kingsgrave to Volantis.
+Susan completed 4 actions
+Susan draws a card
+Susan draws a card
+INFECTING Las_Vegas with red cubes.
+INFECTING Barrowton with black cubes.
+Ending turn 1 everybody has had a go.
+Deadpool is thinking..... Wants to treat disease... Doesn't think it's worth trying to treat here.
+Deadpool drives from Volantis to Houston.
+Wants to treat disease... As there are 3 cubes in Houston Deadpool will try and treat disease.
+Removing a red cube from Houston
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Deadpool drives from Houston to Philadelphia.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Deadpool drives from Philadelphia to Washington.
+Deadpool completed 4 actions
+Deadpool draws a card
+Deadpool draws a card
+INFECTING Leicester with yellow cubes.
+INFECTING Hobbiton with blue cubes.
+Beyonce is thinking..... might be worth trying to find a cure.
+They need to go to a researh station.
+Setting cities with research stations as destinations.
+Beyonce drives from Leicester to Leeds.
+Beyonce is thinking..... might be worth trying to find a cure.
+They need to go to a researh station.
+Setting cities with research stations as destinations.
+Beyonce drives from Leeds to Barrowton.
+Beyonce is thinking..... might be worth trying to find a cure.
+They need to go to a researh station.
+Setting cities with research stations as destinations.
+Beyonce drives from Barrowton to Sunspear.
+Beyonce is thinking..... might be worth trying to find a cure.
+Its possible to discover a cure
+Cured blue
+Beyoncehas discovered a cure!
+WHOOO!
+WHOOO!
+WHOOO!
+WHOOO!
+WHOOO!
+Beyonce completed 4 actions
+EPIDEMIC DRAWN!
+Increasing the rate of infection
+Sunspear has now been infected with 3 cubes.
+Beyonce draws a card
+Beyonce draws a card
+INFECTING Minas_Tirith with blue cubes.
+INFECTING Mexico_City with red cubes.
+Jesus is thinking..... Wants to treat disease... Doesn't think it's worth trying to treat here.
+Jesus drives from Cambridge to Leicester.
+Wants to treat disease... As there are 3 cubes in Leicester Jesus will try and treat disease.
+Removing a yellow cube from Leicester
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Jesus drives from Leicester to Leeds.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Jesus drives from Leeds to Barrowton.
+Jesus completed 4 actions
+Jesus draws a card
+Jesus draws a card
+INFECTING Leicester with yellow cubes.
+INFECTING Blackmont with black cubes.
+Susan is thinking..... Wants to treat disease... Doesn't think it's worth trying to treat here.
+Susan drives from Volantis to Houston.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Susan drives from Houston to Philadelphia.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Susan drives from Philadelphia to Washington.
+Wants to treat disease... As there are 3 cubes in Washington Susan will try and treat disease.
+Removing a red cube from Washington
+Susan completed 4 actions
+Susan draws a card
+Susan draws a card
+INFECTING Washington with red cubes.
+INFECTING Sunspear with black cubes.
+OUTBREAK
+Ending turn 2 everybody has had a go.
+Deadpool is thinking..... They are far enough from a research station to consider building one. Can't find the required card.
+Wants to treat disease... As there are 3 cubes in Washington Deadpool will try and treat disease.
+Removing a red cube from Washington
+Deadpool is thinking..... They are far enough from a research station to consider building one. Can't find the required card.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Deadpool drives from Washington to Philadelphia.
+Deadpool is thinking..... They are far enough from a research station to consider building one. Can't find the required card.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Deadpool drives from Philadelphia to Houston.
+Deadpool is thinking..... They are far enough from a research station to consider building one. Can't find the required card.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Deadpool drives from Houston to Philadelphia.
+Deadpool completed 4 actions
+Deadpool draws a card
+Deadpool draws a card
+INFECTING Cambridge with yellow cubes.
+INFECTING Barrowton with black cubes.
+Beyonce is thinking..... Wants to treat disease... As there are 3 cubes in Sunspear Beyonce will try and treat disease.
+Removing a black cube from Sunspear
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Beyonce drives from Sunspear to Blackmont.
+Wants to treat disease... As there are 3 cubes in Blackmont Beyonce will try and treat disease.
+Removing a black cube from Blackmont
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Beyonce drives from Blackmont to Sunspear.
+Beyonce completed 4 actions
+EPIDEMIC DRAWN!
+Increasing the rate of infection
+Osgiliath has now been infected with 3 cubes.
+Beyonce draws a card
+Beyonce draws a card
+INFECTING Minas_Tirith with blue cubes.
+OUTBREAK
+INFECTING Blackmont with black cubes.
+INFECTING Osgiliath with blue cubes.
+OUTBREAK
+Jesus is thinking..... might be worth trying to find a cure.
+They need to go to a researh station.
+Setting cities with research stations as destinations.
+Jesus drives from Barrowton to Sunspear.
+Jesus is thinking..... might be worth trying to find a cure.
+Its possible to discover a cure
+Cured red
+Jesushas discovered a cure!
+WHOOO!
+WHOOO!
+WHOOO!
+WHOOO!
+WHOOO!
+Jesus is thinking..... Wants to treat disease... Doesn't think it's worth trying to treat here.
+Jesus drives from Sunspear to Blackmont.
+Wants to treat disease... As there are 3 cubes in Blackmont Jesus will try and treat disease.
+Removing a black cube from Blackmont
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Jesus drives from Blackmont to Sunspear.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Jesus drives from Sunspear to Barrowton.
+Jesus completed 4 actions
+Jesus draws a card
+Jesus draws a card
+INFECTING Leicester with yellow cubes.
+OUTBREAK
+INFECTING Mexico_City with red cubes.
+OUTBREAK
+INFECTING Washington with red cubes.
+Susan is thinking..... might be worth trying to find a cure.
+They need to go to a researh station.
+Setting cities with research stations as destinations.
+Susan drives from Washington to Philadelphia.
+Susan is thinking..... might be worth trying to find a cure.
+They need to go to a researh station.
+Setting cities with research stations as destinations.
+Susan drives from Philadelphia to Houston.
+Susan is thinking..... might be worth trying to find a cure.
+They need to go to a researh station.
+Setting cities with research stations as destinations.
+Susan drives from Houston to Volantis.
+Susan is thinking..... might be worth trying to find a cure.
+They need to go to a researh station.
+Setting cities with research stations as destinations.
+Susan drives from Volantis to Kingsgrave.
+Susan completed 4 actions
+Susan draws a card
+Susan draws a card
+INFECTING Cambridge with yellow cubes.
+OUTBREAK
+INFECTING Barrowton with black cubes.
+OUTBREAK
+INFECTING Sunspear with black cubes.
+game over, too many outbreaks!
+YOU GUYS SUCK AT THIS GAME!!
+YOU GUYS SUCK AT THIS GAME!!
+YOU GUYS SUCK AT THIS GAME!!
+YOU GUYS SUCK AT THIS GAME!!
+YOU GUYS SUCK AT THIS GAME!!
+game over, too many outbreaks!
+YOU GUYS SUCK AT THIS GAME!!
+YOU GUYS SUCK AT THIS GAME!!
+YOU GUYS SUCK AT THIS GAME!!
+YOU GUYS SUCK AT THIS GAME!!
+YOU GUYS SUCK AT THIS GAME!!
+
+
+Setting up a new game of pandemic with the below features.
+4 Colours of disease.
+3 cards of the same colour must be discarded at a research station to cure a disease.
+1 is the maximum number of epidemics.
+The infection rate will develop in as such;- 22233.
+Any more than 8 outbreaks and the game will be lost
+The inital infection step will see 333 cities infected 
+Between all players a maximum of 9 cards are drawn at start of the game
+There are 7 research stations which can be placed, and 1 (min 1) are placed at the start of the game
+Setting map location to /home/joe/Git/PandemicBoardGame/Pandemic/cities.csv
+Setting up the map
+I have initalResearch 1
+Setting inital station
+setting a new station in Sunspear
+Deadpool has joined the game
+Beyonce has joined the game
+Jesus has joined the game
+Susan has joined the game
+drawing hand for Deadpool
+Deadpool draws a card
+Deadpool draws a card
+drawing hand for Beyonce
+Beyonce draws a card
+Beyonce draws a card
+drawing hand for Jesus
+Jesus draws a card
+Jesus draws a card
+drawing hand for Susan
+Susan draws a card
+Susan draws a card
+There are 40 cards in the player deck
+Putting 40 in a pile
+Epidemic : 0 at 12
+Deadpool is thinking..... Wants to treat disease... As there are 3 cubes in Sunspear Deadpool will try and treat disease.
+Removing a black cube from Sunspear
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Deadpool drives from Sunspear to Blackmont.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Deadpool drives from Blackmont to Kingsgrave.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Deadpool drives from Kingsgrave to Volantis.
+Deadpool completed 4 actions
+Deadpool draws a card
+Deadpool draws a card
+INFECTING Brighton with yellow cubes.
+INFECTING Bath with yellow cubes.
+Beyonce is thinking..... Wants to treat disease... Doesn't think it's worth trying to treat here.
+Beyonce drives from Sunspear to Blackmont.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Beyonce drives from Blackmont to Kingsgrave.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Beyonce drives from Kingsgrave to Volantis.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Beyonce drives from Volantis to Houston.
+Beyonce completed 4 actions
+Beyonce draws a card
+Beyonce draws a card
+INFECTING Castle_Cerwyn with black cubes.
+INFECTING Dol_Amroth with blue cubes.
+Jesus is thinking..... Wants to treat disease... Doesn't think it's worth trying to treat here.
+Jesus drives from Sunspear to Blackmont.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Jesus drives from Blackmont to Kingsgrave.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Jesus drives from Kingsgrave to Volantis.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Jesus drives from Volantis to Houston.
+Jesus completed 4 actions
+Jesus draws a card
+Jesus draws a card
+INFECTING Kingsgrave with black cubes.
+INFECTING Dale with blue cubes.
+Susan is thinking..... Wants to treat disease... Doesn't think it's worth trying to treat here.
+Susan drives from Sunspear to Blackmont.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Susan drives from Blackmont to Kingsgrave.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Susan drives from Kingsgrave to Volantis.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Susan drives from Volantis to Houston.
+Susan completed 4 actions
+Susan draws a card
+Susan draws a card
+INFECTING Washington with red cubes.
+INFECTING Edoras with blue cubes.
+Ending turn 1 everybody has had a go.
+Deadpool is thinking..... Wants to treat disease... Doesn't think it's worth trying to treat here.
+Deadpool drives from Volantis to Houston.
+Wants to treat disease... As there are 3 cubes in Houston Deadpool will try and treat disease.
+Removing a red cube from Houston
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Deadpool drives from Houston to Philadelphia.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Deadpool drives from Philadelphia to Washington.
+Deadpool completed 4 actions
+Deadpool draws a card
+Deadpool draws a card
+INFECTING Cambridge with yellow cubes.
+INFECTING Crickhollow with blue cubes.
+Beyonce is thinking..... They are far enough from a research station to consider building one. Can't find the required card.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Beyonce drives from Houston to Philadelphia.
+Beyonce is thinking..... They are far enough from a research station to consider building one. Can't find the required card.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Beyonce drives from Philadelphia to Washington.
+Beyonce is thinking..... They are far enough from a research station to consider building one. Can't find the required card.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Beyonce drives from Washington to Ottawa.
+Beyonce is thinking..... They are far enough from a research station to consider building one. Can't find the required card.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Beyonce drives from Ottawa to Osgiliath.
+Beyonce completed 4 actions
+Beyonce draws a card
+Beyonce draws a card
+INFECTING Southampton with yellow cubes.
+INFECTING Blackmont with black cubes.
+Jesus is thinking..... They are far enough from a research station to consider building one. Can't find the required card.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Jesus drives from Houston to Philadelphia.
+Jesus is thinking..... They are far enough from a research station to consider building one. Can't find the required card.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Jesus drives from Philadelphia to Washington.
+Jesus is thinking..... They are far enough from a research station to consider building one. Can't find the required card.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Jesus drives from Washington to Ottawa.
+Jesus is thinking..... They are far enough from a research station to consider building one. Can't find the required card.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Jesus drives from Ottawa to Osgiliath.
+Jesus completed 4 actions
+EPIDEMIC DRAWN!
+Increasing the rate of infection
+Bree has now been infected with 3 cubes.
+Jesus draws a card
+Jesus draws a card
+INFECTING Starfall with black cubes.
+INFECTING Bywater with blue cubes.
+Susan is thinking..... They are far enough from a research station to consider building one. Can't find the required card.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Susan drives from Houston to San_Francisco.
+Susan is thinking..... They are far enough from a research station to consider building one. Can't find the required card.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Susan drives from San_Francisco to Braavos.
+Susan is thinking..... Wants to treat disease... Doesn't think it's worth trying to treat here.
+Susan drives from Braavos to Starfall.
+Wants to treat disease... As there are 3 cubes in Starfall Susan will try and treat disease.
+Removing a black cube from Starfall
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Susan drives from Starfall to Blackmont.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Susan drives from Blackmont to Kings_Landing.
+Susan completed 4 actions
+Susan draws a card
+Susan draws a card
+INFECTING Washington with red cubes.
+INFECTING Blackmont with black cubes.
+Ending turn 2 everybody has had a go.
+Deadpool is thinking..... might be worth trying to find a cure.
+They need to go to a researh station.
+Setting cities with research stations as destinations.
+Deadpool drives from Washington to Philadelphia.
+Deadpool is thinking..... might be worth trying to find a cure.
+They need to go to a researh station.
+Setting cities with research stations as destinations.
+Deadpool drives from Philadelphia to Houston.
+Deadpool is thinking..... might be worth trying to find a cure.
+They need to go to a researh station.
+Setting cities with research stations as destinations.
+Deadpool drives from Houston to Volantis.
+Deadpool is thinking..... might be worth trying to find a cure.
+They need to go to a researh station.
+Setting cities with research stations as destinations.
+Deadpool drives from Volantis to Kingsgrave.
+Deadpool completed 4 actions
+Deadpool draws a card
+Deadpool draws a card
+INFECTING Bath with yellow cubes.
+INFECTING Castle_Cerwyn with black cubes.
+Beyonce is thinking..... might be worth trying to find a cure.
+They need to go to a researh station.
+Setting cities with research stations as destinations.
+Beyonce drives from Osgiliath to Dol_Amroth.
+Beyonce is thinking..... might be worth trying to find a cure.
+They need to go to a researh station.
+Setting cities with research stations as destinations.
+Beyonce drives from Dol_Amroth to Cair_Andros.
+Beyonce is thinking..... might be worth trying to find a cure.
+They need to go to a researh station.
+Setting cities with research stations as destinations.
+Beyonce drives from Cair_Andros to Lake_town.
+Beyonce is thinking..... might be worth trying to find a cure.
+They need to go to a researh station.
+Setting cities with research stations as destinations.
+Beyonce drives from Lake_town to Bree.
+Beyonce completed 4 actions
+Beyonce draws a card
+Beyonce draws a card
+INFECTING Dol_Amroth with blue cubes.
+INFECTING Philadelphia with red cubes.
+Jesus is thinking..... They are far enough from a research station to consider building one. Can't find the required card.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Jesus drives from Osgiliath to Dol_Amroth.
+Jesus is thinking..... They are far enough from a research station to consider building one. Can't find the required card.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Jesus drives from Dol_Amroth to Cair_Andros.
+Jesus is thinking..... They are far enough from a research station to consider building one. Can't find the required card.
+Wants to treat disease... As there are 3 cubes in Cair_Andros Jesus will try and treat disease.
+Removing a blue cube from Cair_Andros
+Jesus is thinking..... They are far enough from a research station to consider building one. Can't find the required card.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Jesus drives from Cair_Andros to Lake_town.
+Jesus completed 4 actions
+Jesus draws a card
+Jesus draws a card
+INFECTING Southampton with yellow cubes.
+INFECTING Exeter with yellow cubes.
+Susan is thinking..... Wants to treat disease... Doesn't think it's worth trying to treat here.
+Susan drives from Kings_Landing to Bear_Island.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Susan drives from Bear_Island to Bywater.
+Wants to treat disease... As there are 3 cubes in Bywater Susan will try and treat disease.
+Removing a blue cube from Bywater
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Susan drives from Bywater to Hobbiton.
+Susan completed 4 actions
+Susan draws a card
+Susan draws a card
+INFECTING Los_Angeles with red cubes.
+INFECTING Dale with blue cubes.
+Ending turn 3 everybody has had a go.
+Deadpool is thinking..... might be worth trying to find a cure.
+They need to go to a researh station.
+Setting cities with research stations as destinations.
+Deadpool drives from Kingsgrave to Blackmont.
+Deadpool is thinking..... might be worth trying to find a cure.
+They need to go to a researh station.
+Setting cities with research stations as destinations.
+Deadpool drives from Blackmont to Sunspear.
+Deadpool is thinking..... might be worth trying to find a cure.
+Its possible to discover a cure
+Cured red
+Deadpoolhas discovered a cure!
+WHOOO!
+WHOOO!
+WHOOO!
+WHOOO!
+WHOOO!
+Deadpool is thinking..... might be worth trying to find a cure.
+Its possible to discover a cure
+Cured blue
+Deadpoolhas discovered a cure!
+WHOOO!
+WHOOO!
+WHOOO!
+WHOOO!
+WHOOO!
+Deadpool completed 4 actions
+Deadpool draws a card
+Deadpool draws a card
+INFECTING Leeds with yellow cubes.
+INFECTING Bree with blue cubes.
+OUTBREAK
+Beyonce is thinking..... might be worth trying to find a cure.
+They need to go to a researh station.
+Setting cities with research stations as destinations.
+Beyonce drives from Bree to Castle_Cerwyn.
+Beyonce is thinking..... might be worth trying to find a cure.
+They need to go to a researh station.
+Setting cities with research stations as destinations.
+Beyonce drives from Castle_Cerwyn to Barrowton.
+Beyonce is thinking..... might be worth trying to find a cure.
+They need to go to a researh station.
+Setting cities with research stations as destinations.
+Beyonce drives from Barrowton to Sunspear.
+Beyonce is thinking..... might be worth trying to find a cure.
+Its possible to discover a cure
+Cured yellow
+Beyoncehas discovered a cure!
+WHOOO!
+WHOOO!
+WHOOO!
+WHOOO!
+WHOOO!
+Beyonce completed 4 actions
+Beyonce draws a card
+Beyonce draws a card
+INFECTING Houston with red cubes.
+INFECTING Edoras with blue cubes.
+Jesus is thinking..... might be worth trying to find a cure.
+They need to go to a researh station.
+Setting cities with research stations as destinations.
+Jesus drives from Lake_town to Bree.
+Jesus is thinking..... might be worth trying to find a cure.
+They need to go to a researh station.
+Setting cities with research stations as destinations.
+Jesus drives from Bree to Castle_Cerwyn.
+Jesus is thinking..... might be worth trying to find a cure.
+They need to go to a researh station.
+Setting cities with research stations as destinations.
+Jesus drives from Castle_Cerwyn to Barrowton.
+Jesus is thinking..... might be worth trying to find a cure.
+They need to go to a researh station.
+Setting cities with research stations as destinations.
+Jesus drives from Barrowton to Sunspear.
+Jesus completed 4 actions
+Jesus draws a card
+Jesus draws a card
+INFECTING Sunspear with black cubes.
+INFECTING Crickhollow with blue cubes.
+Susan is thinking..... Wants to treat disease... Doesn't think it's worth trying to treat here.
+Susan drives from Hobbiton to Bree.
+Wants to treat disease... As there are 3 cubes in Bree Susan will try and treat disease.
+Removing a blue cube from Bree
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Susan drives from Bree to Brighton.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Susan drives from Brighton to Exeter.
+Susan completed 4 actions
+Susan draws a card
+Susan draws a card
+INFECTING Cair_Andros with blue cubes.
+INFECTING Brighton with yellow cubes.
+Ending turn 4 everybody has had a go.
+Deadpool is thinking..... Wants to treat disease... As there are 3 cubes in Sunspear Deadpool will try and treat disease.
+Removing a black cube from Sunspear
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Deadpool drives from Sunspear to Blackmont.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Deadpool drives from Blackmont to Kingsgrave.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Deadpool drives from Kingsgrave to Volantis.
+Deadpool completed 4 actions
+Deadpool draws a card
+Deadpool draws a card
+INFECTING Kingsgrave with black cubes.
+INFECTING Cambridge with yellow cubes.
+Beyonce is thinking..... Wants to treat disease... Doesn't think it's worth trying to treat here.
+Beyonce drives from Sunspear to Blackmont.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Beyonce drives from Blackmont to Kingsgrave.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Beyonce drives from Kingsgrave to Volantis.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Beyonce drives from Volantis to Houston.
+Beyonce completed 4 actions
+Beyonce draws a card
+Beyonce draws a card
+INFECTING Kings_Landing with black cubes.
+INFECTING Leicester with yellow cubes.
+Jesus is thinking..... might be worth trying to find a cure.
+Its possible to discover a cure
+Cured black
+Jesushas discovered a cure!
+WHOOO!
+WHOOO!
+WHOOO!
+WHOOO!
+WHOOO!
+YOU WIN!!!
+YOU WIN!!!
+YOU WIN!!!
+YOU WIN!!!
+YOU WIN!!!
+YOU WIN!!!
+YOU WIN!!!
+YOU WIN!!!
+YOU WIN!!!
+YOU WIN!!!
+YOU WIN!!!
+YOU WIN!!!
+YOU WIN!!!
+YOU WIN!!!
+YOU WIN!!!
+YOU WIN!!!
+YOU WIN!!!
+YOU WIN!!!
+YOU WIN!!!
+YOU WIN!!!
+
+
+
+
+
+
+Setting up a new game of pandemic with the below features.
+4 Colours of disease.
+3 cards of the same colour must be discarded at a research station to cure a disease.
+5 is the maximum number of epidemics.
+The infection rate will develop in as such;- 22233.
+Any more than 8 outbreaks and the game will be lost
+The inital infection step will see 333 cities infected 
+Between all players a maximum of 9 cards are drawn at start of the game
+There are 7 research stations which can be placed, and 1 (min 1) are placed at the start of the game
+Setting map location to /home/joe/Git/PandemicBoardGame/Pandemic/cities.csv
+Setting up the map
+I have initalResearch 1
+Setting inital station
+setting a new station in Sunspear
+Deadpool has joined the game
+Beyonce has joined the game
+Jesus has joined the game
+Susan has joined the game
+drawing hand for Deadpool
+Deadpool draws a card
+Deadpool draws a card
+drawing hand for Beyonce
+Beyonce draws a card
+Beyonce draws a card
+drawing hand for Jesus
+Jesus draws a card
+Jesus draws a card
+drawing hand for Susan
+Susan draws a card
+Susan draws a card
+There are 40 cards in the player deck
+Putting 8 in a pile
+Epidemic : 0 at 1
+Epidemic : 1 at 13
+Epidemic : 2 at 23
+Epidemic : 3 at 30
+Epidemic : 4 at 36
+Deadpool is thinking..... Wants to treat disease... Doesn't think it's worth trying to treat here.
+Deadpool drives from Sunspear to Barrowton.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Deadpool drives from Barrowton to Castle_Cerwyn.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Deadpool drives from Castle_Cerwyn to Bree.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Deadpool drives from Bree to Lake_town.
+Deadpool completed 4 actions
+Deadpool draws a card
+EPIDEMIC DRAWN!
+Increasing the rate of infection
+Osgiliath has now been infected with 3 cubes.
+Deadpool draws a card
+INFECTING Brighton with yellow cubes.
+INFECTING Minas_Tirith with blue cubes.
+OUTBREAK
+Beyonce is thinking..... Wants to treat disease... Doesn't think it's worth trying to treat here.
+Beyonce drives from Sunspear to Barrowton.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Beyonce drives from Barrowton to Castle_Cerwyn.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Beyonce drives from Castle_Cerwyn to Bree.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Beyonce drives from Bree to Lake_town.
+Beyonce completed 4 actions
+Beyonce draws a card
+Beyonce draws a card
+INFECTING Toronto with red cubes.
+INFECTING Bear_Island with black cubes.
+Jesus is thinking..... Wants to treat disease... Doesn't think it's worth trying to treat here.
+Jesus drives from Sunspear to Kings_Landing.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Jesus drives from Kings_Landing to Bear_Island.
+Wants to treat disease... As there are 3 cubes in Bear_Island Jesus will try and treat disease.
+Removing a black cube from Bear_Island
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Jesus drives from Bear_Island to Castle_Cerwyn.
+Jesus completed 4 actions
+Jesus draws a card
+Jesus draws a card
+INFECTING Bywater with blue cubes.
+INFECTING London with yellow cubes.
+Susan is thinking..... Wants to treat disease... Doesn't think it's worth trying to treat here.
+Susan drives from Sunspear to Barrowton.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Susan drives from Barrowton to Castle_Cerwyn.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Susan drives from Castle_Cerwyn to Bree.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Susan drives from Bree to Lake_town.
+Susan completed 4 actions
+Susan draws a card
+Susan draws a card
+INFECTING Osgiliath with blue cubes.
+OUTBREAK
+INFECTING Dol_Amroth with blue cubes.
+OUTBREAK
+Ending turn 1 everybody has had a go.
+Deadpool is thinking..... They are far enough from a research station to consider building one. Can't find the required card.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Deadpool drives from Lake_town to Cair_Andros.
+Deadpool is thinking..... They are far enough from a research station to consider building one. Can't find the required card.
+Wants to treat disease... As there are 3 cubes in Cair_Andros Deadpool will try and treat disease.
+Removing a blue cube from Cair_Andros
+Deadpool is thinking..... They are far enough from a research station to consider building one. Can't find the required card.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Deadpool drives from Cair_Andros to Dol_Amroth.
+Deadpool is thinking..... They are far enough from a research station to consider building one. Can't find the required card.
+Wants to treat disease... As there are 3 cubes in Dol_Amroth Deadpool will try and treat disease.
+Removing a blue cube from Dol_Amroth
+Deadpool completed 4 actions
+Deadpool draws a card
+Deadpool draws a card
+INFECTING Cair_Andros with blue cubes.
+INFECTING Bree with blue cubes.
+Beyonce is thinking..... might be worth trying to find a cure.
+They need to go to a researh station.
+Setting cities with research stations as destinations.
+Beyonce drives from Lake_town to Bree.
+Beyonce is thinking..... might be worth trying to find a cure.
+They need to go to a researh station.
+Setting cities with research stations as destinations.
+Beyonce drives from Bree to Castle_Cerwyn.
+Beyonce is thinking..... might be worth trying to find a cure.
+They need to go to a researh station.
+Setting cities with research stations as destinations.
+Beyonce drives from Castle_Cerwyn to Barrowton.
+Beyonce is thinking..... might be worth trying to find a cure.
+They need to go to a researh station.
+Setting cities with research stations as destinations.
+Beyonce drives from Barrowton to Sunspear.
+Beyonce completed 4 actions
+Beyonce draws a card
+Beyonce draws a card
+INFECTING Barrowton with black cubes.
+INFECTING Houston with red cubes.
+Jesus is thinking..... might be worth trying to find a cure.
+They need to go to a researh station.
+Setting cities with research stations as destinations.
+Jesus drives from Castle_Cerwyn to Barrowton.
+Jesus is thinking..... might be worth trying to find a cure.
+They need to go to a researh station.
+Setting cities with research stations as destinations.
+Jesus drives from Barrowton to Sunspear.
+Jesus is thinking..... might be worth trying to find a cure.
+Its possible to discover a cure
+Cured red
+Jesushas discovered a cure!
+WHOOO!
+WHOOO!
+WHOOO!
+WHOOO!
+WHOOO!
+Jesus is thinking..... Wants to treat disease... Doesn't think it's worth trying to treat here.
+Jesus drives from Sunspear to Barrowton.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Jesus drives from Barrowton to Castle_Cerwyn.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Jesus drives from Castle_Cerwyn to Bree.
+Wants to treat disease... As there are 3 cubes in Bree Jesus will try and treat disease.
+Removing a blue cube from Bree
+Jesus completed 4 actions
+Jesus draws a card
+Jesus draws a card
+INFECTING Hobbiton with blue cubes.
+INFECTING Crickhollow with blue cubes.
+Susan is thinking..... They are far enough from a research station to consider building one. Can't find the required card.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Susan drives from Lake_town to Cair_Andros.
+Susan is thinking..... They are far enough from a research station to consider building one. Can't find the required card.
+Wants to treat disease... As there are 3 cubes in Cair_Andros Susan will try and treat disease.
+Removing a blue cube from Cair_Andros
+Susan is thinking..... They are far enough from a research station to consider building one. Can't find the required card.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Susan drives from Cair_Andros to Dol_Amroth.
+Susan is thinking..... They are far enough from a research station to consider building one.and have the card.
+Placing a new station in Dol_Amroth.
+Susan completed 4 actions
+EPIDEMIC DRAWN!
+Increasing the rate of infection
+Mexico_City has now been infected with 3 cubes.
+Susan draws a card
+Susan draws a card
+INFECTING Crickhollow with blue cubes.
+INFECTING Brighton with yellow cubes.
+Ending turn 2 everybody has had a go.
+Deadpool is thinking..... Wants to treat disease... Doesn't think it's worth trying to treat here.
+Deadpool drives from Dol_Amroth to Minas_Tirith.
+Wants to treat disease... As there are 3 cubes in Minas_Tirith Deadpool will try and treat disease.
+Removing a blue cube from Minas_Tirith
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Deadpool drives from Minas_Tirith to Dol_Amroth.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Deadpool drives from Dol_Amroth to Osgiliath.
+Deadpool completed 4 actions
+Deadpool draws a card
+Deadpool draws a card
+INFECTING Dol_Amroth with blue cubes.
+INFECTING Mexico_City with red cubes.
+OUTBREAK
+Beyonce is thinking..... might be worth trying to find a cure.
+Its possible to discover a cure
+Cured blue
+Beyoncehas discovered a cure!
+WHOOO!
+WHOOO!
+WHOOO!
+WHOOO!
+WHOOO!
+Beyonce is thinking..... Wants to treat disease... Doesn't think it's worth trying to treat here.
+Beyonce drives from Sunspear to Barrowton.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Beyonce drives from Barrowton to Castle_Cerwyn.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Beyonce drives from Castle_Cerwyn to Bree.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Beyonce drives from Bree to Brighton.
+Beyonce completed 4 actions
+Beyonce draws a card
+Beyonce draws a card
+INFECTING Cair_Andros with blue cubes.
+INFECTING Bywater with blue cubes.
+Jesus is thinking..... Wants to treat disease... Doesn't think it's worth trying to treat here.
+Jesus drives from Bree to Brighton.
+Wants to treat disease... As there are 3 cubes in Brighton Jesus will try and treat disease.
+Removing a yellow cube from Brighton
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Jesus drives from Brighton to Exeter.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Jesus drives from Exeter to Southampton.
+Jesus completed 4 actions
+Jesus draws a card
+Jesus draws a card
+INFECTING Bear_Island with black cubes.
+INFECTING London with yellow cubes.
+Susan is thinking..... Wants to treat disease... As there are 3 cubes in Dol_Amroth Susan will try and treat disease.
+Removing a blue cube from Dol_Amroth
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Susan drives from Dol_Amroth to Cair_Andros.
+Wants to treat disease... As there are 3 cubes in Cair_Andros Susan will try and treat disease.
+Removing a blue cube from Cair_Andros
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Susan drives from Cair_Andros to Dol_Amroth.
+Susan completed 4 actions
+Susan draws a card
+Susan draws a card
+INFECTING Houston with red cubes.
+INFECTING Toronto with red cubes.
+OUTBREAK
+Ending turn 3 everybody has had a go.
+Deadpool is thinking..... might be worth trying to find a cure.
+They need to go to a researh station.
+Setting cities with research stations as destinations.
+Deadpool drives from Osgiliath to Dol_Amroth.
+Deadpool is thinking..... might be worth trying to find a cure.
+Its possible to discover a cure
+Cured black
+Deadpoolhas discovered a cure!
+WHOOO!
+WHOOO!
+WHOOO!
+WHOOO!
+WHOOO!
+Deadpool is thinking..... Wants to treat disease... Doesn't think it's worth trying to treat here.
+Deadpool drives from Dol_Amroth to Osgiliath.
+Wants to treat disease... As there are 3 cubes in Osgiliath Deadpool will try and treat disease.
+Removing a blue cube from Osgiliath
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Deadpool drives from Osgiliath to Mexico_City.
+Wants to treat disease... As there are 3 cubes in Mexico_City Deadpool will try and treat disease.
+Removing a red cube from Mexico_City
+Deadpool completed 4 actions
+Deadpool draws a card
+EPIDEMIC DRAWN!
+Increasing the rate of infection
+Las_Vegas has now been infected with 3 cubes.
+Deadpool draws a card
+INFECTING Las_Vegas with red cubes.
+OUTBREAK
+INFECTING Bywater with blue cubes.
+OUTBREAK
+INFECTING Bear_Island with black cubes.
+OUTBREAK
+Beyonce is thinking..... Wants to treat disease... Doesn't think it's worth trying to treat here.
+Beyonce drives from Brighton to London.
+Wants to treat disease... As there are 3 cubes in London Beyonce will try and treat disease.
+Removing a yellow cube from London
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Beyonce drives from London to Brighton.
+Wants to treat disease... Doesn't think it's worth trying to treat here.
+Beyonce drives from Brighton to Bree.
+Beyonce completed 4 actions
+Beyonce draws a card
+Beyonce draws a card
+INFECTING Toronto with red cubes.
+OUTBREAK
+INFECTING Cair_Andros with blue cubes.
+INFECTING Dol_Amroth with blue cubes.
+game over, too many outbreaks!
+YOU GUYS SUCK AT THIS GAME!!
+YOU GUYS SUCK AT THIS GAME!!
+YOU GUYS SUCK AT THIS GAME!!
+YOU GUYS SUCK AT THIS GAME!!
+YOU GUYS SUCK AT THIS GAME!!
+game over, too many outbreaks!
+YOU GUYS SUCK AT THIS GAME!!
+YOU GUYS SUCK AT THIS GAME!!
+YOU GUYS SUCK AT THIS GAME!!
+YOU GUYS SUCK AT THIS GAME!!
+YOU GUYS SUCK AT THIS GAME!!
+
+
+
+
+
+
+
