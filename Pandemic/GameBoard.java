@@ -581,7 +581,7 @@ public class GameBoard
     {
         ArrayList<String> ar = new ArrayList<String>();
 
-        File file = new  File("/home/joe/Documents/OU/Year2.0/M250/Pandemic8/" + fileLoc);
+        File file = new  File(fileLoc);
         try
         {
             Scanner inputStream = new Scanner(file);
@@ -609,7 +609,7 @@ public class GameBoard
     {
         ArrayList<String> ar = new ArrayList<String>();
 
-        File file = new  File("/home/joe/Documents/OU/Year2.0/M250/Pandemic8/" + fileLoc);
+        File file = new  File(fileLoc);
         try
         {
             Scanner inputStream = new Scanner(file);
@@ -638,13 +638,13 @@ public class GameBoard
         
         // creates an array of names
         ArrayList<String> namesAL = new ArrayList<String>();
-        namesAL = getCSVCol(0,"cities.csv");
+        namesAL = getCSVCol(0,fileLoc);
         String[] namesArray = namesAL.toArray(new String[namesAL.size()]);
         
         // System.out.println("here is okay");
         // creates an array of colours
         ArrayList<String> colourAL = new ArrayList<String>();
-        colourAL = getCSVCol(1,"cities.csv");
+        colourAL = getCSVCol(1,fileLoc);
         String[] colourArray = colourAL.toArray(new String[colourAL.size()]);
 
         
@@ -658,7 +658,7 @@ public class GameBoard
         
         // creates an array of connections
         ArrayList<String[]> connectionAL = new ArrayList<String[]>();
-        connectionAL = getCSVCols("cities.csv");
+        connectionAL = getCSVCols(fileLoc);
         String[] connectionArray = connectionAL.toArray(new String[connectionAL.size()]);
 
         
