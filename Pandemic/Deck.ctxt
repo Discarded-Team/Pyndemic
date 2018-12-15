@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.params=currentDeckName
+comment0.target=Deck(java.lang.String)
+comment0.text=\n\ Constructor\ for\ objects\ of\ class\ Deck\n
+comment1.params=
+comment1.target=void\ shuffle()
+numComments=2

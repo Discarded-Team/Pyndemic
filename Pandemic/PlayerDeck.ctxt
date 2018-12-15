@@ -1,0 +1,27 @@
+#BlueJ class context
+comment0.params=currentPlayerDeckName\ size
+comment0.target=PlayerDeck(java.lang.String,\ int)
+comment0.text=\n\ Constructor\ for\ objects\ of\ class\ PlayerDeck\n
+comment1.params=
+comment1.target=int\ findNextNull()
+comment10.params=
+comment10.target=void\ shuffle()
+comment11.params=toRemove
+comment11.target=void\ removeCardInt(int)
+comment2.params=
+comment2.target=int\ findNextNonNull()
+comment3.params=toAdd
+comment3.target=void\ addCardTop(PlayerCard)
+comment4.params=toAdd
+comment4.target=void\ addCardBottom(PlayerCard)
+comment5.params=toAdd\ position
+comment5.target=void\ addCardPos(PlayerCard,\ int)
+comment6.params=drawingPlayer
+comment6.target=PlayerCard\ drawTop(Player)
+comment7.params=
+comment7.target=void\ removeNulls()
+comment8.params=
+comment8.target=PlayerCard\ drawBottom()
+comment9.params=
+comment9.target=int\ getSize()
+numComments=12
