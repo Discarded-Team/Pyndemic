@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.params=currentLocation
+comment0.target=ResearchCentre(City)
+comment0.text=\n\ Constructor\ for\ objects\ of\ class\ ResearchCentre\n
+comment1.params=newLocation
+comment1.target=void\ setLocation(City)
+comment1.text=\n\ An\ example\ of\ a\ method\ -\ replace\ this\ comment\ with\ your\ own\n\ \n\ @param\ \ y\ \ \ a\ sample\ parameter\ for\ a\ method\n\ @return\ \ \ \ \ the\ sum\ of\ x\ and\ y\ \n
+comment2.params=
+comment2.target=City\ getLocation()
+numComments=3
