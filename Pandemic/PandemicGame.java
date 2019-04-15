@@ -49,7 +49,7 @@ int cure;
 cure = 5;
 int epidemics;
 epidemics = 5;
-testgame = new PandemicGame(currentPlayers, colours, cure,epidemics, infectRate, 8, initalInfect, 9,7,1,"/home/joe/Git/PandemicBoardGame/Pandemic/cities.csv");
+testgame = new PandemicGame(currentPlayers, colours, cure,epidemics, infectRate, 8, initalInfect, 9,7,1,"/home/joe/Git/PandemicBoardGame-master/Pandemic/cities.csv");
 
 testgame.playGame();
     }
@@ -113,6 +113,7 @@ testgame.playGame();
         System.out.println("There are " + currentAvailableResearchStation + " research stations which can be placed, and " + currentInitalResearchStation + 
                             " (min 1) are placed at the start of the game");
         System.out.println("Setting map location to " + currentMapLocation);
+	System.out.println("MAP LOCATION WILL CAUSE AN ERROR IF THIS ISN'T CORRECT, PLEASE MODIFY LINE 52 IN 'PandemicGame.java' TO SOLVE THIS PROBLEM");
         
         mapLocation = currentMapLocation;
                             
