@@ -11,12 +11,12 @@ This is some java code I've written in BlueJ to try and simulate the boardgame p
 It should when ran create a game with a few players who will make automatic choices about what to do until the game is either won or lost.
 
 VERSION or DATE:
-12th December 2018.
+15 April 2019.
 
 HOW TO START THIS PROJECT:
-I use the commands given in either 2playertest.txt or 4playertest.txt
+Running PandemicGame.java after all the files have been compiled should work if the cities.csv file can be located.
 
 
 AUTHORS: Joe Salmon
 
-USER INSTRUCTIONS: You will need to play around with the location of the file "cities.csv" I think to get the program to find it. Also I think that having written this in BlueJ it will need beefing up to actually run in a JVM.
+USER INSTRUCTIONS: You will need to play around with the location of the file "cities.csv" I think to get the program to find it.
