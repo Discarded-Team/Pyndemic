@@ -51,9 +51,8 @@ class City:
     def get_cubes(self, colour):
         return self.cubes[colour]
 
+    # TODO: redesign this method
     @classmethod
-    def set_cube_colours(cls, settings_location):
-        parser = ConfigParser()
-        parser.read(settings_location)
-        cls.cube_colours = parser.get('Colours', 'colours').split(',')
+    def set_cube_colours(cls, settings):
+        cls.cube_colours = settings['Colours'].get('colours').split(',')
 

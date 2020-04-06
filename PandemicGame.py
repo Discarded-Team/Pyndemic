@@ -1,6 +1,7 @@
 # coding: utf-8
 from configparser import ConfigParser
 
+import config
 from city import City
 from card import Card
 from deck import Deck
@@ -26,22 +27,18 @@ class PandemicGame:
         self.players = []
         self.turn_number = None
 
-    def setup_game(self, settings_location):
-        City.set_cube_colours(settings_location)
-        self.get_infection_rate(settings_location)
-        self.get_new_cities(settings_location)
-        self.get_new_decks(settings_location)
-        self.get_new_diseases(settings_location)
-        self.set_starting_epidemics(settings_location)
+    def setup_game(self, settings_location=None):
+        self.settings = config.get_settings(settings_location)
+        City.set_cube_colours(self.settings)
+        self.get_infection_rate()
+        self.get_new_cities()
+        self.get_new_decks()
+        self.get_new_diseases()
+        self.set_starting_epidemics()
         for player in self.players:
             # TODO: simplify this line
             player.set_location(list(self.city_map.keys())[0])
         AIController.number_AI = 0
-
-    def set_starting_epidemics(self, settings_location):
-        parser = ConfigParser()
-        parser.read(settings_location)
-        self.starting_epidemics = int(parser.get('Diseases', 'epidemics'))
 
     def start_game(self):
         self.shuffle_decks()
@@ -125,59 +122,67 @@ class PandemicGame:
         self.infect_deck.shuffle_discard_to_top()
         self.increment_epidemic_count()
 
-    def get_new_cities(self, settings_location):
-        parser = ConfigParser()
-        parser.read(settings_location)
-        number_of_cities = int(parser.get('Cities', 'number'))
-        for i in range(1, number_of_cities + 1):
-            city_name = parser.get('Cities', "city" + str(i))
-            city_colour = parser.get('Colours', "city" + str(i))
-            self.city_map[city_name] = City(city_name, city_colour)
-        self.make_cities(settings_location)
+    def set_starting_epidemics(self):
+        self.starting_epidemics = self.settings['Other'].getint('epidemics')
 
-    def new_infect_deck(self, settings_location):
-        parser = ConfigParser()
-        parser.read(settings_location)
-        number_of_cards = int(parser.get('Cities', 'number'))
-        for i in range(1, number_of_cards + 1):
-            city_name = parser.get('Cities', "city" + str(i))
-            city_colour = parser.get('Colours', "city" + str(i))
+    def get_new_cities(self):
+        cities_section = self.settings['Cities']
+        city_colours_section = self.settings['City Colours']
+
+        for city_id in cities_section:
+            city_name = cities_section[city_id]
+            city_colour = city_colours_section[city_id]
+            new_city = City(city_name, city_colour)
+            self.city_map[city_name] = new_city
+
+        self.make_cities()
+
+    def new_infect_deck(self):
+        cities_section = self.settings['Cities']
+        city_colours_section = self.settings['City Colours']
+
+        for city_id in cities_section:
+            city_name = cities_section[city_id]
+            city_colour = city_colours_section[city_id]
             new_card = Card(city_name, city_colour)
             self.infect_deck.add_card(new_card)
 
-    def new_player_deck(self, settings_location):
-        parser = ConfigParser()
-        parser.read(settings_location)
-        number_of_cards = int(parser.get('Cities', 'number'))
-        for i in range(1, number_of_cards + 1):
-            city_name = parser.get('Cities', "city" + str(i))
-            city_colour = parser.get('Colours', "city" + str(i))
+    def new_player_deck(self):
+        cities_section = self.settings['Cities']
+        city_colours_section = self.settings['City Colours']
+
+        for city_id in cities_section:
+            city_name = cities_section[city_id]
+            city_colour = city_colours_section[city_id]
             new_card = Card(city_name, city_colour)
             self.player_deck.add_card(new_card)
 
-    def get_new_decks(self, settings_location):
-        self.new_infect_deck(settings_location)
-        self.new_player_deck(settings_location)
+    def get_new_decks(self):
+        self.new_infect_deck()
+        self.new_player_deck()
 
-    def get_new_diseases(self, settings_location):
-        parser = ConfigParser()
-        parser.read(settings_location)
-        number_of_disease = int(parser.get('Diseases', 'number'))
-        for i in range(1, number_of_disease + 1):
-            disease_colour = parser.get('Diseases', 'disease' + str(i))
+    def get_new_diseases(self):
+        diseases_section = self.settings['Diseases']
+        number_of_cubes = self.settings['Other'].getint('cubes')
+
+        for disease_id in diseases_section:
+            disease_colour = diseases_section[disease_id]
             self.diseases[disease_colour] = Disease(disease_colour)
-            num_cubes = int(parser.get('Diseases', 'cubes'))
-            self.disease_cubes[disease_colour] = num_cubes
+            self.disease_cubes[disease_colour] = number_of_cubes
 
-    def make_cities(self, settings_location):
-        parser = ConfigParser()
-        parser.read(settings_location)
+    def make_cities(self):
+        cities_section = self.settings['Cities']
+        connections = self.settings['Connections']
+
         for city_name, city in self.city_map.items():
-            connections = parser.get('Connections', city_name)
-            usedlist = connections.split()
-            for x in usedlist:
-                added_city_name = parser.get('Cities', "city" + x)
+            city_connections = connections.get(city_name).split()
+            for id_ in city_connections:
+                added_city_name = cities_section.get('city' + id_)
                 city.add_connection(self.city_map[added_city_name])
+
+    def get_infection_rate(self):
+        self.infection_rates = self.settings['Other'].get('rate')
+        self.infection_rate = int(self.infection_rates[0])
 
     def set_lab_distances(self):
         cities_with_labs = []
@@ -224,12 +229,6 @@ class PandemicGame:
     def increment_epidemic_count(self):
         self.epidemic_count += 1
         self.infection_rate = self.infection_rates[self.epidemic_count]
-
-    def get_infection_rate(self, settings_location):
-        parser = ConfigParser()
-        parser.read(settings_location)
-        self.infection_rates = parser.get('Diseases', 'rate')
-        self.infection_rate = int(self.infection_rates[0])
 
     def draw_inital_hands(self):
         num_cards_by_players = {4: 2, 3: 3, 2: 4}
