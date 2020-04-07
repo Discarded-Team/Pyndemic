@@ -197,7 +197,7 @@ class PandemicGame:
 
     def update_distances(self, starting_cities):
         updated_cities = []
-        currentDistance = starting_cities[0].distance
+        current_distance = starting_cities[0].distance
         for city in starting_cities:
             for connected_city in city.connected_cities:
                 if connected_city.distance == 999:

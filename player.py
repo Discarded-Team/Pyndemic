@@ -39,7 +39,7 @@ class Player:
 
     def check_direct_flight(self, location, destination):
         if self.action_count > 0 and self.location.name == location:
-            if self.handContains(destination):
+            if self.hand_contains(destination):
                 return True
         return False
 
@@ -112,18 +112,15 @@ class Player:
             return True
         return False
 
-    def check_share_knowledge(self, card, player):
-        if self.action_count > 0:
-            if self.location.name == player.location.name:
-                # FIXME: check if we use card or its name attribute here
-                if self.location.name == card:
-                    return True
+    def check_share_knowledge(self, card_name, player):
+        if self.action_count > 0 and self.location.name == player.location.name:
+            if self.hand_contains(card_name):
+                return True
         return False
 
-    def share_knowledge(self, card, player):
-        if self.check_share_knowledge(card, player):
-            held_card = card
-            # FIXME: check if we use card or its name attribute here
+    def share_knowledge(self, card_name, player):
+        if self.check_share_knowledge(card_name, player):
+            held_card = self.get_card(card_name)
             player.add_card(held_card)
             self.hand.remove(held_card)
             self.action_count -= 1
@@ -134,10 +131,10 @@ class Player:
         self.hand.append(new_card)
 
     def discard_card(self, to_discard):
-        # FIXME: check if we use card or its name attribute here
         if self.hand_contains(to_discard):
-            self.hand.remove(to_discard)
-            self.game.player_deck.add_discard(to_discard)
+            card_to_discard = self.get_card(to_discard)
+            self.hand.remove(card_to_discard)
+            self.game.player_deck.add_discard(card_to_discard)
             return True
         return False
 
