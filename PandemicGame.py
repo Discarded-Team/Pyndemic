@@ -4,7 +4,7 @@ from configparser import ConfigParser
 import config
 from city import City
 from card import Card
-from deck import Deck
+from deck import PlayerDeck, InfectDeck
 from disease import Disease
 from player import Player
 from ai import AIController
@@ -18,8 +18,8 @@ class PandemicGame:
         self.game_won = False
         self.disease_cubes = {}
         self.city_map = {}
-        self.player_deck = Deck()
-        self.infect_deck = Deck()
+        self.player_deck = PlayerDeck()
+        self.infect_deck = InfectDeck()
         self.infection_rate = None
         self.infection_rates = []
         self.epidemic_count = 0
@@ -137,29 +137,9 @@ class PandemicGame:
 
         self.make_cities()
 
-    def new_infect_deck(self):
-        cities_section = self.settings['Cities']
-        city_colours_section = self.settings['City Colours']
-
-        for city_id in cities_section:
-            city_name = cities_section[city_id]
-            city_colour = city_colours_section[city_id]
-            new_card = Card(city_name, city_colour)
-            self.infect_deck.add_card(new_card)
-
-    def new_player_deck(self):
-        cities_section = self.settings['Cities']
-        city_colours_section = self.settings['City Colours']
-
-        for city_id in cities_section:
-            city_name = cities_section[city_id]
-            city_colour = city_colours_section[city_id]
-            new_card = Card(city_name, city_colour)
-            self.player_deck.add_card(new_card)
-
     def get_new_decks(self):
-        self.new_infect_deck()
-        self.new_player_deck()
+        self.player_deck.prepare(self.settings)
+        self.infect_deck.prepare(self.settings)
 
     def get_new_diseases(self):
         diseases_section = self.settings['Diseases']

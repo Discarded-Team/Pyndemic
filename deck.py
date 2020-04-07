@@ -2,13 +2,17 @@
 import random
 from itertools import cycle, chain
 
-from card import Card
+import config
+from card import PlayerCard, InfectCard
 
 
 class Deck:
     def __init__(self):
         self.cards = []
         self.discard = []
+
+    def prepare(self, settings):
+        raise NotImplementedError
 
     def take_top_card(self):
         return self.cards.pop(0)
@@ -22,19 +26,23 @@ class Deck:
     def add_discard(self, discarded_card):
         self.discard.append(discarded_card)
 
-    def get_discard_count(self):
-        return len(self.discard)
-
-    # TODO: make DiseaseDeck subclass and place this method there
-    def shuffle_discard_to_top(self):
-        random.shuffle(self.discard)
-        self.cards = self.discard + self.cards
-        self.discard = []
-
     def shuffle(self):
         random.shuffle(self.cards)
 
-    # TODO: make PlayerDeck subclass and place this method there
+
+class PlayerDeck(Deck):
+    def prepare(self, settings):
+        cities_section = settings['Cities']
+        city_colours_section = settings['City Colours']
+
+        for city_id in cities_section:
+            city_name = cities_section[city_id]
+            city_colour = city_colours_section[city_id]
+            new_card = PlayerCard(city_name, city_colour)
+            self.add_card(new_card)
+
+        # TODO: add action cards
+
     def add_epidemics(self, number_epidemics):
         card_piles = [[] for i in range(number_epidemics)]
         random.shuffle(self.cards)
@@ -45,9 +53,26 @@ class Deck:
                 break
 
         for pile in card_piles:
-            epidemic_card = Card("Epidemic", "All")
+            epidemic_card = PlayerCard('Epidemic', 'no-colour')
             place_to_insert = random.randint(0, len(pile))
             pile.insert(place_to_insert, epidemic_card)
 
         self.cards = list(chain(*card_piles))
+
+
+class InfectDeck(Deck):
+    def prepare(self, settings):
+        cities_section = settings['Cities']
+        city_colours_section = settings['City Colours']
+
+        for city_id in cities_section:
+            city_name = cities_section[city_id]
+            city_colour = city_colours_section[city_id]
+            new_card = InfectCard(city_name, city_colour)
+            self.add_card(new_card)
+
+    def shuffle_discard_to_top(self):
+        random.shuffle(self.discard)
+        self.cards = self.discard + self.cards
+        self.discard = []
 

@@ -6,3 +6,10 @@ class Card:
         self.name = name
         self.colour = colour
 
+
+class PlayerCard(Card):
+    pass
+
+
+class InfectCard(Card):
+    pass
