@@ -18,10 +18,6 @@ class City:
         for colour in cube_colours:
             self.cubes[colour] = 0
 
-    # TODO: rewrite or remove this method
-    def get_connected_city(self, connection):
-        return self.connected_cities[connection - 1]
-
     def remove_cube(self, colour):
         # TODO: check for positive values (and where we actually must do this)
         self.cubes[colour] -= 1
@@ -38,18 +34,11 @@ class City:
     def add_connection(self, new_city):
         self.connected_cities.append(new_city)
 
-    # TODO: remove this method after checking all places that use it
-    def get_connections(self):
-        return self.connected_cities
-
     def remove_all_cubes(self, colour):
         self.cubes[colour] = 0
 
     def get_max_cubes(self):
         return max(self.cubes.values())
-
-    def get_cubes(self, colour):
-        return self.cubes[colour]
 
     # TODO: redesign this method
     @classmethod

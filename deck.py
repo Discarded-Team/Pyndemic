@@ -12,7 +12,8 @@ class Deck:
         self.discard = []
 
     def prepare(self, settings):
-        raise NotImplementedError
+        self.cards = []
+        self.discard = []
 
     def take_top_card(self):
         return self.cards.pop(0)
@@ -32,6 +33,8 @@ class Deck:
 
 class PlayerDeck(Deck):
     def prepare(self, settings):
+        super().prepare(settings)
+
         cities_section = settings['Cities']
         city_colours_section = settings['City Colours']
 
@@ -62,6 +65,8 @@ class PlayerDeck(Deck):
 
 class InfectDeck(Deck):
     def prepare(self, settings):
+        super().prepare(settings)
+
         cities_section = settings['Cities']
         city_colours_section = settings['City Colours']
 
