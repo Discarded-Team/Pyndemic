@@ -11,6 +11,13 @@ class Deck:
         self.cards = []
         self.discard = []
 
+    def __repr__(self):
+        return '{}()'.format(self.__class__.__name__)
+
+    def __str__(self):
+        return '{} (deck size: {}, discard size: {})'.format(
+            self.__class__.__name__, len(self.cards), len(self.discard))
+
     def prepare(self, settings):
         self.cards = []
         self.discard = []

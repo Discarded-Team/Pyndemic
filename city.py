@@ -14,6 +14,17 @@ class City:
         self.distance = 999
         self.connected_cities = []
 
+    def __repr__(self):
+        return '{}({!r}, {!r})'.format(
+            self.__class__.__name__, self.name, self.colour)
+
+    def __str__(self):
+        has_lab = 'built' if self.has_lab else 'not built'
+        result = 'City {} (colour: {}, total neighbours: {}, laboratory: {}) '.format(
+            self.name, self.colour, len(self.connected_cities), has_lab)
+
+        return result
+
     def init_city_colours(self, cube_colours):
         for colour in cube_colours:
             self.cubes[colour] = 0

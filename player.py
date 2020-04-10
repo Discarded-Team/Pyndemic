@@ -10,6 +10,17 @@ class Player:
         self.name = name
         self.controller = None
 
+    def __repr__(self):
+        return '{}({!r})'.format(
+            self.__class__.__name__, self.name)
+
+    def __str__(self):
+        result = 'Player {}'.format(self.name)
+        if self.location is not None:
+            result += ' (stays at: {}) '.format(self.location.name)
+
+        return result
+
     def get_distance_from_lab(self):
         self.game.set_lab_distances()
         return self.location.distance
