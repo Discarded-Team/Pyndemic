@@ -92,7 +92,6 @@ class GameSetupTestCase(TestCase):
         self.pg.set_starting_epidemics()
         self.assertEqual(4, self.pg.starting_epidemics)
 
-    @skip('Fix mistake with AIController setup.')
     def test_setup_game(self):
         del self.pg.settings
 
@@ -156,30 +155,30 @@ class GameTestCase(unittest.TestCase):
     @skip('Not implemented.')
     def test_complete_round(self):
         self.pg.inital_infect_phase()
-        self.pg.draw_inital_hands()
-        self.assertEqual(3, self.pg.city_map['Cambridge'].get_cubes('Blue'))
-        self.assertEqual(2, self.pg.city_map['Bristol'].get_cubes('Blue'))
+        self.pg.draw_initial_hands()
+        self.assertEqual(3, self.pg.city_map['Cambridge'].cubes['Blue'])
+        self.assertEqual(2, self.pg.city_map['Bristol'].cubes['Blue'])
         self.pg.complete_round()
-        self.assertEqual(0, self.pg.city_map['Cambridge'].get_cubes('Blue'))
+        self.assertEqual(0, self.pg.city_map['Cambridge'].cubes['Blue'])
         self.assertEqual('Cambridge', self.player1.location.name)
-        self.assertEqual(0, self.pg.city_map['Bristol'].get_cubes('Blue'))
+        self.assertEqual(0, self.pg.city_map['Bristol'].cubes['Blue'])
         self.assertEqual('Bristol', self.player1.location.name)
 
     def test_infect_city(self):
         self.pg.infect_city('London', 'Blue')
-        self.assertEqual(1, self.pg.city_map['London'].get_cubes('Blue'))
+        self.assertEqual(1, self.pg.city_map['London'].cubes['Blue'])
 
     def test_infect_city_phase(self):
         self.pg.infect_city_phase()
-        self.assertEqual(1, self.pg.city_map['London'].get_cubes('Blue'))
-        self.assertEqual(1, self.pg.city_map['Oxford'].get_cubes('Blue'))
+        self.assertEqual(1, self.pg.city_map['London'].cubes['Blue'])
+        self.assertEqual(1, self.pg.city_map['Oxford'].cubes['Blue'])
         self.assertEqual(2, len(self.pg.infect_deck.discard))
         self.assertEqual('London', self.pg.infect_deck.discard[0].name)
         self.assertEqual(28, self.pg.disease_cubes['Blue'])
 
     def test_epidemic_phase(self):
         self.pg.epidemic_phase()
-        self.assertEqual(3, self.pg.city_map['Belgorod'].get_cubes('Black'))
+        self.assertEqual(3, self.pg.city_map['Belgorod'].cubes['Black'])
         top_infect_card = self.pg.infect_deck.take_top_card()
         self.assertEqual('Belgorod', top_infect_card.name)
         self.assertEqual('Black', top_infect_card.colour)
@@ -189,23 +188,23 @@ class GameTestCase(unittest.TestCase):
     def test_outbreak_trigger(self):
         for i in range(4):
             self.pg.infect_city('London', 'Blue')
-        self.assertEqual(3, self.pg.city_map['London'].get_cubes('Blue'))
-        self.assertEqual(1, self.pg.city_map['Oxford'].get_cubes('Blue'))
-        self.assertEqual(1, self.pg.city_map['Cambridge'].get_cubes('Blue'))
-        self.assertEqual(1, self.pg.city_map['Brighton'].get_cubes('Blue'))
-        self.assertEqual(1, self.pg.city_map['Washington'].get_cubes('Blue'))
-        self.assertEqual(1, self.pg.city_map['Bejing'].get_cubes('Blue'))
-        self.assertEqual(1, self.pg.city_map['Moscow'].get_cubes('Blue'))
+        self.assertEqual(3, self.pg.city_map['London'].cubes['Blue'])
+        self.assertEqual(1, self.pg.city_map['Oxford'].cubes['Blue'])
+        self.assertEqual(1, self.pg.city_map['Cambridge'].cubes['Blue'])
+        self.assertEqual(1, self.pg.city_map['Brighton'].cubes['Blue'])
+        self.assertEqual(1, self.pg.city_map['Washington'].cubes['Blue'])
+        self.assertEqual(1, self.pg.city_map['Bejing'].cubes['Blue'])
+        self.assertEqual(1, self.pg.city_map['Moscow'].cubes['Blue'])
         self.assertEqual(1, self.pg.outbreak_count)
 
     def test_outbreak(self):
         self.pg.outbreak('London', 'Blue')
-        self.assertEqual(1, self.pg.city_map['Oxford'].get_cubes('Blue'))
-        self.assertEqual(1, self.pg.city_map['Cambridge'].get_cubes('Blue'))
-        self.assertEqual(1, self.pg.city_map['Brighton'].get_cubes('Blue'))
-        self.assertEqual(1, self.pg.city_map['Washington'].get_cubes('Blue'))
-        self.assertEqual(1, self.pg.city_map['Bejing'].get_cubes('Blue'))
-        self.assertEqual(1, self.pg.city_map['Moscow'].get_cubes('Blue'))
+        self.assertEqual(1, self.pg.city_map['Oxford'].cubes['Blue'])
+        self.assertEqual(1, self.pg.city_map['Cambridge'].cubes['Blue'])
+        self.assertEqual(1, self.pg.city_map['Brighton'].cubes['Blue'])
+        self.assertEqual(1, self.pg.city_map['Washington'].cubes['Blue'])
+        self.assertEqual(1, self.pg.city_map['Bejing'].cubes['Blue'])
+        self.assertEqual(1, self.pg.city_map['Moscow'].cubes['Blue'])
 
     def test_shuffle(self):
         import random
@@ -239,24 +238,24 @@ class GameTestCase(unittest.TestCase):
             self.pg.draw_card(self.player1)
         self.assertEqual(1, self.pg.epidemic_count)
 
-    def test_inital_infect_phase(self):
+    def test_initial_infect_phase(self):
         self.pg.inital_infect_phase()
-        self.assertEqual(3, self.pg.city_map['London'].get_cubes('Blue'))
-        self.assertEqual(3, self.pg.city_map['Oxford'].get_cubes('Blue'))
-        self.assertEqual(3, self.pg.city_map['Cambridge'].get_cubes('Blue'))
-        self.assertEqual(2, self.pg.city_map['Brighton'].get_cubes('Blue'))
-        self.assertEqual(2, self.pg.city_map['Southampton'].get_cubes('Blue'))
-        self.assertEqual(2, self.pg.city_map['Bristol'].get_cubes('Blue'))
-        self.assertEqual(1, self.pg.city_map['Plymouth'].get_cubes('Blue'))
-        self.assertEqual(1, self.pg.city_map['Liverpool'].get_cubes('Blue'))
-        self.assertEqual(1, self.pg.city_map['Manchester'].get_cubes('Blue'))
+        self.assertEqual(3, self.pg.city_map['London'].cubes['Blue'])
+        self.assertEqual(3, self.pg.city_map['Oxford'].cubes['Blue'])
+        self.assertEqual(3, self.pg.city_map['Cambridge'].cubes['Blue'])
+        self.assertEqual(2, self.pg.city_map['Brighton'].cubes['Blue'])
+        self.assertEqual(2, self.pg.city_map['Southampton'].cubes['Blue'])
+        self.assertEqual(2, self.pg.city_map['Bristol'].cubes['Blue'])
+        self.assertEqual(1, self.pg.city_map['Plymouth'].cubes['Blue'])
+        self.assertEqual(1, self.pg.city_map['Liverpool'].cubes['Blue'])
+        self.assertEqual(1, self.pg.city_map['Manchester'].cubes['Blue'])
         self.assertEqual(9, len(self.pg.infect_deck.discard))
         self.assertEqual(12, self.pg.disease_cubes['Blue'])
 
-    def test_draw_inital_hands(self):
+    def test_draw_initial_hands(self):
         test_cards = self.pg.player_deck.cards[:8]
         # TODO: fix typo in method name
-        self.pg.draw_inital_hands()
+        self.pg.draw_initial_hands()
 
         for i, player in enumerate(self.pg.players):
             with self.subTest(i=i, player=player):
@@ -382,7 +381,7 @@ class GameTestCase(unittest.TestCase):
         self.assertEqual(0, test_inputs[300])
         self.assertEqual(0, test_inputs[301])
 
-        self.pg.draw_inital_hands()
+        self.pg.draw_initial_hands()
         self.pg.inital_infect_phase()
         self.pg.start_turn(self.player1)
 

@@ -81,5 +81,5 @@ class CityTestCase(TestCase):
 
     def test_get_cubes(self):
         self.city.cubes['Blue'] = 2
-        self.assertEqual(2, self.city.get_cubes('Blue'))
+        self.assertEqual(2, self.city.cubes['Blue'])
 

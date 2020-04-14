@@ -27,8 +27,9 @@ class DeckTestCase(TestCase):
         self.deck.cards = self.test_cards.copy()
 
     def test_prepare(self):
-        with self.assertRaises(NotImplementedError):
-            self.deck.prepare('fake settings')
+        self.deck.prepare('fake settings')
+        self.assertEqual([], self.deck.cards)
+        self.assertEqual([], self.deck.discard)
 
     def test_take_top_card(self):
         card = self.deck.take_top_card()
@@ -80,7 +81,6 @@ class PlayerDeckTestCase(TestCase):
         self.assertEqual('London', self.deck.cards[0].name)
         self.assertEqual('Black', self.deck.cards[29].colour)
 
-    @skip('Known bug in method.')
     def test_multiple_prepare(self):
         self.deck.prepare(self.settings)
         deck_size = len(self.deck.cards)
@@ -115,7 +115,6 @@ class InfectDeckTestCase(TestCase):
         self.assertEqual('London', self.deck.cards[0].name)
         self.assertEqual('Black', self.deck.cards[29].colour)
 
-    @skip('Known bug in method.')
     def test_multiple_prepare(self):
         self.deck.prepare(self.settings)
         deck_size = len(self.deck.cards)

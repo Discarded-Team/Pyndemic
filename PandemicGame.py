@@ -38,12 +38,11 @@ class PandemicGame:
         for player in self.players:
             # TODO: simplify this line
             player.set_location(list(self.city_map.keys())[0])
-        AIController.number_AI = 0
 
     def start_game(self):
         self.shuffle_decks()
         self.inital_infect_phase()
-        self.draw_inital_hands()
+        self.draw_initial_hands()
         self.add_epidemics()
 
     def add_epidemics(self):
@@ -210,7 +209,7 @@ class PandemicGame:
         self.epidemic_count += 1
         self.infection_rate = self.infection_rates[self.epidemic_count]
 
-    def draw_inital_hands(self):
+    def draw_initial_hands(self):
         num_cards_by_players = {4: 2, 3: 3, 2: 4}
         num_players = len(self.players)
         cards_to_draw = num_cards_by_players[num_players]
