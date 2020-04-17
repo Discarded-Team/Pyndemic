@@ -154,7 +154,6 @@ class PlayerTestCase(TestCase):
         self.assertEqual(3, self.player.action_count)
         self.assertEqual(card.name, self.player.location.name)
 
-    @skip('\'PandemicGame.all_one_colour\' method is not provided yet.')
     def test_check_cure_disease(self):
         for i in range(9):
             self.game.draw_card(self.player)
@@ -176,7 +175,6 @@ class PlayerTestCase(TestCase):
         card_names[3] = 'Oxford'
         self.assertFalse(self.player.check_cure_disease(*card_names))
 
-    @skip('\'PandemicGame.all_one_colour\' method is not provided yet.')
     def test_cure_disease(self):
         for i in range(9):
             self.game.draw_card(self.player)
@@ -201,7 +199,6 @@ class PlayerTestCase(TestCase):
         self.assertFalse(self.player.cure_disease(*card_names))
         self.assertEqual(3, self.player.action_count)
 
-    @skip('Fix case when player attempts to transfer card of another city.')
     def test_check_share_knowledge(self):
         self.player.hand = [PlayerCard('London', 'Blue'),
                             PlayerCard('Moscow', 'Black')]

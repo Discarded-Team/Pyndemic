@@ -107,9 +107,9 @@ class Player:
 
     def check_cure_disease(self, card1, card2, card3, card4, card5):
         card_list = [card1, card2, card3, card4, card5]
+        if len(set(card_list)) != 5:
+            return False
         if self.action_count > 0 and self.location.has_lab:
-            # TODO: check that Game Controller class provides method for
-            # checking card colours
             all_one_colour = self.game.all_one_colour(card_list)
             all_in_hand = all(self.hand_contains(card) for card in card_list)
             if all_in_hand and all_one_colour:
@@ -119,13 +119,16 @@ class Player:
     def cure_disease(self, card1, card2, card3, card4, card5):
         if self.check_cure_disease(card1, card2, card3, card4, card5):
             self.game.diseases[self.get_card(card1).colour].cured = True
+            card_list = [card1, card2, card3, card4, card5]
+            for card in card_list:
+                self.discard_card(card)
             self.action_count -= 1
             return True
         return False
 
     def check_share_knowledge(self, card_name, player):
         if self.action_count > 0 and self.location.name == player.location.name:
-            if self.hand_contains(card_name):
+            if self.hand_contains(card_name) and card_name == player.location.name:
                 return True
         return False
 
