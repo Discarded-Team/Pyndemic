@@ -1,6 +1,11 @@
 # coding: utf-8
 
 
+class LastDiseaseCuredException(Exception):
+    def __str__(self):
+        return 'All disease have been cured!'
+
+
 class Player:
     def __init__(self, name):
         self.game = None
@@ -29,10 +34,10 @@ class Player:
         for card in self.hand:
             if card.name == card_name:
                 return card
+        raise ValueError("No such card in {} player's hand: {}".format(self.name, card_name))
 
-    # TODO: check the real need in this method
     def set_location(self, new_location):
-        self.location = self.game.city_map.get(new_location)
+        self.location = self.game.city_map[new_location]
 
     def check_charter_flight(self, location, destination):
         if self.action_count > 0 and self.location.name == location:
@@ -123,6 +128,10 @@ class Player:
             for card in card_list:
                 self.discard_card(card)
             self.action_count -= 1
+
+            if self.game.all_diseases_cured():
+                raise LastDiseaseCuredException
+
             return True
         return False
 

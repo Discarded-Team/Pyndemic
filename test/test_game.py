@@ -142,6 +142,26 @@ class GameTestCase(unittest.TestCase):
         self.pg.add_player(self.player2)
         self.pg.setup_game(SETTINGS_LOCATION)
 
+    def test_all_one_colour(self):
+        card_names = ['London', 'Oxford', 'Cambridge', 'Brighton', 'Southampton']
+        self.assertTrue(self.pg.all_one_colour(card_names))
+
+        card_names[3] = 'Moscow'
+        self.assertFalse(self.pg.all_one_colour(card_names))
+
+    def test_all_diseases_cured(self):
+        self.assertFalse(self.pg.all_diseases_cured())
+
+        self.pg.diseases['Yellow'].cured = True
+        self.assertFalse(self.pg.all_diseases_cured())
+
+        self.pg.diseases['Blue'].cured = True
+        self.pg.diseases['Black'].cured = True
+        self.assertFalse(self.pg.all_diseases_cured())
+
+        self.pg.diseases['Red'].cured = True
+        self.assertTrue(self.pg.all_diseases_cured())
+
     def test_add_epidemics(self):
         self.pg.add_epidemics()
         self.assertFalse(self.pg.has_x_cube_city(3))
@@ -150,21 +170,13 @@ class GameTestCase(unittest.TestCase):
         self.assertEqual(1, self.pg.epidemic_count)
         self.assertTrue(self.pg.has_x_cube_city(3))
 
-    @skip('Not implemented.')
-    def test_complete_round(self):
-        self.pg.inital_infect_phase()
-        self.pg.draw_initial_hands()
-        self.assertEqual(3, self.pg.city_map['Cambridge'].cubes['Blue'])
-        self.assertEqual(2, self.pg.city_map['Bristol'].cubes['Blue'])
-        self.pg.complete_round()
-        self.assertEqual(0, self.pg.city_map['Cambridge'].cubes['Blue'])
-        self.assertEqual('Cambridge', self.player1.location.name)
-        self.assertEqual(0, self.pg.city_map['Bristol'].cubes['Blue'])
-        self.assertEqual('Bristol', self.player1.location.name)
-
     def test_infect_city(self):
         self.pg.infect_city('London', 'Blue')
         self.assertEqual(1, self.pg.city_map['London'].cubes['Blue'])
+
+        self.pg.disease_cubes['Blue'] = 0
+        with self.assertRaises(Exception):
+            self.pg.infect_city('London', 'Blue')
 
     def test_infect_city_phase(self):
         self.pg.infect_city_phase()
@@ -203,6 +215,11 @@ class GameTestCase(unittest.TestCase):
         self.assertEqual(1, self.pg.city_map['Washington'].cubes['Blue'])
         self.assertEqual(1, self.pg.city_map['Bejing'].cubes['Blue'])
         self.assertEqual(1, self.pg.city_map['Moscow'].cubes['Blue'])
+
+        self.pg.outbreak_count = 7
+        self.pg.outbreak_stack.clear()
+        with self.assertRaises(Exception):
+            self.pg.outbreak('London', 'Blue')
 
     def test_shuffle(self):
         import random
@@ -252,7 +269,6 @@ class GameTestCase(unittest.TestCase):
 
     def test_draw_initial_hands(self):
         test_cards = self.pg.player_deck.cards[:8]
-        # TODO: fix typo in method name
         self.pg.draw_initial_hands()
 
         for i, player in enumerate(self.pg.players):
@@ -263,6 +279,10 @@ class GameTestCase(unittest.TestCase):
     def test_draw_card(self):
         self.pg.draw_card(self.player1)
         self.assertEqual('London', self.player1.hand[0].name)
+
+        self.pg.player_deck = []
+        with self.assertRaises(Exception):
+            self.pg.draw_card(self.player1)
 
     def test_get_new_diseaes(self):
         self.assertFalse(self.pg.diseases['Blue'].cured)
@@ -310,155 +330,6 @@ class GameTestCase(unittest.TestCase):
         self.assertEqual(0, self.pg.city_map['London'].distance)
         self.assertEqual(1, self.pg.city_map['Moscow'].distance)
         self.assertEqual(3, self.player1.get_distance_from_lab())
-
-    @skip('Not implemented.')
-    def test_get_inputs(self):
-        test_inputs = self.player1.get_inputs()
-        self.assertIsNotNone(test_inputs)
-        print("check_ing test inputs at start of game")
-        print("check_ing first 40 inputs (0-39) for city cubes are all 0")
-        for i in range(40):
-            self.assertEqual(test_inputs[i],0)
-        print("check_ing inputs (40-46 for player1 potential cards are all 0")
-        for i in range(40, 46):
-            self.assertEqual(test_inputs[i], 0)
-        print("check_ing inputs (47-53 for player2 potential cards are all 0")
-        for i in range(47, 53):
-            self.assertEqual(test_inputs[i], 0)
-        print("check_ing inputs (54-60 for player3 potential cards are all 0")
-        for i in range(54, 60):
-            self.assertEqual(test_inputs[i], 0)
-        print("check_ing inputs (61-68 for player4 potential cards are all 0")
-        for i in range(61, 68):
-            self.assertEqual(test_inputs[i], 0)
-        print("check_ing inputs for player cards in discard are all 0")
-        for i in range(69, 109):
-            self.assertEqual(test_inputs[i], 0)
-        print("check_ing inputs for infect cards in discard are all 0")
-        for i in range(110, 150):
-            self.assertEqual(test_inputs[i], 0)
-        print("check_ing inputs for epidemic cards in game is 0")
-        self.assertEqual(0, test_inputs[151])
-        print("check_ing inputs for epidemic drawn in game is 0")
-        self.assertEqual(0, test_inputs[152])
-        print("check_ing inputs for outbreaks in game is 0")
-        self.assertEqual(0, test_inputs[152])
-        print("check_ing inputs for infection rate is 2")
-        self.assertEqual(2, test_inputs[152])
-        print("check_ing location for each player is set to London")
-        self.assertEqual(0.975, test_inputs[153])
-        print("check_ing the number of research stations in London is set to 1")
-        self.assertEqual(1, test_inputs[158])
-        print("check_ing number of research stations in each location is to 0")
-        for i in range(159, 199):
-            self.assertAlmostEqual(test_inputs[i], 0.975)
-        print("checking each disease is set to uncured")
-        for i in range(200, 203):
-            self.assertEqual(test_inputs[i], 0)
-        print("checking the availability of each non movement option (cure disease, treat disease, share knowledge, "
-              "buildResaerch) is set to 0")
-        for i in range(204, 207):
-            self.assertEqual(test_inputs[i], 0)
-        print("checking the availability of each movement option (standard, direct, charter, shuttle) is set correctly")
-        print("standard possible")
-        for i in range(208, 248):
-            self.assertEqual(test_inputs[i], 0)
-        print("standard not possible")
-        for i in range(208, 248):
-            self.assertEqual(test_inputs[i], 0)
-        print("direct")
-        for i in range(249, 289):
-            self.assertEqual(test_inputs[i], 0)
-        print("charter")
-        for i in range(249, 289):
-            self.assertEqual(test_inputs[i], 0)
-        print("shuttle")
-        for i in range(249, 289):
-            self.assertEqual(test_inputs[i], 0)
-        print("checking available actions for each player is set to 0")
-        self.assertEqual(0, test_inputs[300])
-        self.assertEqual(0, test_inputs[301])
-
-        self.pg.draw_initial_hands()
-        self.pg.inital_infect_phase()
-        self.pg.start_turn(self.player1)
-
-        print("check_ing test inputs after game Start during player 1 turn")
-        test_inputs = self.player1.get_inputs()
-        print("check_ing first 40 inputs (0-39) for city cubes are all correct")
-        self.assertEqual(0.25, test_inputs[0])
-        self.assertEqual(0.25, test_inputs[3])
-        self.assertEqual(0.25, test_inputs[6])
-        self.assertEqual(0.50, test_inputs[1])
-        self.assertEqual(0.50, test_inputs[4])
-        self.assertEqual(0.50, test_inputs[7])
-        self.assertEqual(0.75, test_inputs[2])
-        self.assertEqual(0.75, test_inputs[5])
-        self.assertEqual(0.75, test_inputs[8])
-        for i in range(9, 40):
-            self.assertEqual(test_inputs[i],0)
-        print("check_ing inputs (40-46 for player1 potential cards are all 0")
-        self.assertAlmostEqual(0.975, test_inputs[41])
-        self.assertAlmostEqual(0.95, test_inputs[42])
-        self.assertAlmostEqual(0.925, test_inputs[43])
-        self.assertAlmostEqual(0.9, test_inputs[44])
-        for i in range(45, 53):
-            self.assertEqual(test_inputs[i], 0)
-        print("check_ing inputs (47-53 for player2 potential cards are all 0")
-        for i in range(47, 53):
-            self.assertEqual(test_inputs[i], 0)
-        print("check_ing inputs (54-60 for player3 potential cards are all 0")
-        for i in range(54, 60):
-            self.assertEqual(test_inputs[i], 0)
-        print("check_ing inputs (61-68 for player4 potential cards are all 0")
-        for i in range(61, 68):
-            self.assertEqual(test_inputs[i], 0)
-        print("check_ing inputs for player cards in discard are all 0")
-        for i in range(69, 109):
-            self.assertEqual(test_inputs[i], 0)
-        print("check_ing inputs for infect cards in discard are all 0")
-        for i in range(110, 150):
-            self.assertEqual(test_inputs[i], 0)
-        print("check_ing inputs for epidemic cards in game is 0")
-        self.assertEqual(0, test_inputs[151])
-        print("check_ing inputs for epidemic drawn in game is 0")
-        self.assertEqual(0, test_inputs[152])
-        print("check_ing inputs for outbreaks in game is 0")
-        self.assertEqual(0, test_inputs[152])
-        print("check_ing inputs for infection rate is 2")
-        self.assertEqual(0, test_inputs[152])
-        print("check_ing location for each player is set to London")
-        for i in range(153, 158):
-            self.assertEqual(test_inputs[i], 0.975)
-        print("check_ing number of research stations in each location is to 0.75")
-        for i in range(159, 199):
-            self.assertEqual(0, test_inputs[i])
-        print("checking each disease is set to uncured")
-        for i in range(200, 203):
-            self.assertEqual(test_inputs[i], 0)
-        print("checking the availability of each non movement option (cure disease, treat disease, share knowledge, "
-              "buildResaerch) is set to 0")
-        for i in range(204, 207):
-            self.assertEqual(test_inputs[i], 0)
-        print("checking the availability of each movement option (standard, direct, charter, shuttle) is set correctly")
-        print("standard possible")
-        for i in range(208, 248):
-            self.assertEqual(test_inputs[i], 0)
-        print("standard not possible")
-        for i in range(208, 248):
-            self.assertEqual(test_inputs[i], 0)
-        print("direct")
-        for i in range(249, 289):
-            self.assertEqual(test_inputs[i], 0)
-        print("charter")
-        for i in range(249, 289):
-            self.assertEqual(test_inputs[i], 0)
-        print("shuttle")
-        for i in range(249, 289):
-            self.assertEqual(test_inputs[i], 0)
-        print("checking available actions for each player is set to 0")
-        self.assertEqual(0, test_inputs[300])
-        self.assertEqual(0, test_inputs[301])
 
 
 if __name__ == '__main__':

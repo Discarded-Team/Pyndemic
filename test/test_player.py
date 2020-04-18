@@ -43,7 +43,6 @@ class PlayerTestCase(TestCase):
         distance = self.player.get_distance_from_lab()
         self.assertEqual(3, distance)
 
-    @skip('Implement exception raising when required card is not in player\'s hand.')
     def test_get_card(self):
         self.player.hand = [PlayerCard('London', 'Blue'),
                             PlayerCard('New York', 'Yellow')]
@@ -198,6 +197,24 @@ class PlayerTestCase(TestCase):
 
         self.assertFalse(self.player.cure_disease(*card_names))
         self.assertEqual(3, self.player.action_count)
+
+    def test_game_won(self):
+        for i in range(9):
+            self.game.draw_card(self.player)
+        location = self.game.city_map['London']
+        self.player.set_location('London')
+
+        self.game.diseases['Blue'].cured = False
+        self.game.diseases['Black'].cured = True
+        self.game.diseases['Red'].cured = True
+        self.game.diseases['Yellow'].cured = True
+        location.has_lab = True
+        self.player.action_count = 4
+        card_names = ['Cambridge', 'Liverpool', 'Brighton', 'Southampton', 'Manchester']
+
+        with self.assertRaises(Exception):
+            success = self.player.cure_disease(*card_names)
+
 
     def test_check_share_knowledge(self):
         self.player.hand = [PlayerCard('London', 'Blue'),

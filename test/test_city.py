@@ -43,7 +43,6 @@ class CityTestCase(TestCase):
         self.city.add_cube('Black')
         self.assertEqual(3, self.city.cubes['Black'])
 
-    @skip('Implement exception raising when city does not have any cubes.')
     def test_remove_cube(self):
         self.city.cubes['Black'] = 2
         self.city.remove_cube('Black')
@@ -57,6 +56,10 @@ class CityTestCase(TestCase):
     def test_remove_all_cubes(self):
         self.city.cubes['Red'] = 3
         self.city.remove_all_cubes('Red')
+        self.assertEqual(0, self.city.cubes['Red'])
+
+        with self.assertRaises(Exception):
+            self.city.remove_all_cubes('Red')
         self.assertEqual(0, self.city.cubes['Red'])
 
     def test_build_lab(self):
