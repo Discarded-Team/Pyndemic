@@ -32,8 +32,7 @@ class AIControllerTestCase(TestCase):
         self.assertIs(self.player, controller.player)
         self.assertEqual('AIController1', controller.name)
 
-
-    @skip('\'PandemicGame.all_one_colour\' method is not provided yet.')
+    @skip('\'PandemicGame.all_one_colour\' method is dependent on city map.')
     def test_cure_possible(self):
         city = City('London', 'Blue')
         city.has_lab = True

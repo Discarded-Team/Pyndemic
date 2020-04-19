@@ -2,6 +2,15 @@
 from configparser import ConfigParser
 
 
+class NoCityCubesException(Exception):
+    def __init__(self, city, colour):
+        self.city = city
+        self.colour = colour
+
+    def __str__(self):
+        return 'No {} cubes left in {}'.format(self.colour, self.city.name)
+
+
 class City:
     cube_colours = []
 
@@ -30,7 +39,8 @@ class City:
             self.cubes[colour] = 0
 
     def remove_cube(self, colour):
-        # TODO: check for positive values (and where we actually must do this)
+        if not self.cubes[colour]:
+            raise NoCityCubesException(self, colour)
         self.cubes[colour] -= 1
 
     def add_cube(self, colour):
@@ -46,6 +56,8 @@ class City:
         self.connected_cities.append(new_city)
 
     def remove_all_cubes(self, colour):
+        if not self.cubes[colour]:
+            raise NoCityCubesException(self, colour)
         self.cubes[colour] = 0
 
     def get_max_cubes(self):

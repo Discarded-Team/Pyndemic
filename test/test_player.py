@@ -43,7 +43,6 @@ class PlayerTestCase(TestCase):
         distance = self.player.get_distance_from_lab()
         self.assertEqual(3, distance)
 
-    @skip('Implement exception raising when required card is not in player\'s hand.')
     def test_get_card(self):
         self.player.hand = [PlayerCard('London', 'Blue'),
                             PlayerCard('New York', 'Yellow')]
@@ -154,7 +153,6 @@ class PlayerTestCase(TestCase):
         self.assertEqual(3, self.player.action_count)
         self.assertEqual(card.name, self.player.location.name)
 
-    @skip('\'PandemicGame.all_one_colour\' method is not provided yet.')
     def test_check_cure_disease(self):
         for i in range(9):
             self.game.draw_card(self.player)
@@ -176,7 +174,6 @@ class PlayerTestCase(TestCase):
         card_names[3] = 'Oxford'
         self.assertFalse(self.player.check_cure_disease(*card_names))
 
-    @skip('\'PandemicGame.all_one_colour\' method is not provided yet.')
     def test_cure_disease(self):
         for i in range(9):
             self.game.draw_card(self.player)
@@ -201,7 +198,24 @@ class PlayerTestCase(TestCase):
         self.assertFalse(self.player.cure_disease(*card_names))
         self.assertEqual(3, self.player.action_count)
 
-    @skip('Fix case when player attempts to transfer card of another city.')
+    def test_game_won(self):
+        for i in range(9):
+            self.game.draw_card(self.player)
+        location = self.game.city_map['London']
+        self.player.set_location('London')
+
+        self.game.diseases['Blue'].cured = False
+        self.game.diseases['Black'].cured = True
+        self.game.diseases['Red'].cured = True
+        self.game.diseases['Yellow'].cured = True
+        location.has_lab = True
+        self.player.action_count = 4
+        card_names = ['Cambridge', 'Liverpool', 'Brighton', 'Southampton', 'Manchester']
+
+        with self.assertRaises(Exception):
+            success = self.player.cure_disease(*card_names)
+
+
     def test_check_share_knowledge(self):
         self.player.hand = [PlayerCard('London', 'Blue'),
                             PlayerCard('Moscow', 'Black')]
