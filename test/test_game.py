@@ -127,9 +127,6 @@ class GameSetupTestCase(TestCase):
 
         self.assertEqual(4, self.pg.starting_epidemics)
 
-        self.assertEqual('London', players[0].location.name)
-        self.assertEqual('London', players[1].location.name)
-
         self.assertEqual(2, AIController.number_AI)
 
 
@@ -249,6 +246,10 @@ class GameTestCase(unittest.TestCase):
         self.assertEqual(4, len(self.player2.hand))
         self.assertNotEqual('London', self.top_player_card.name)
         self.assertNotEqual('London', self.top_infect_card.name)
+        self.assertEqual('London', self.pg.players[0].location.name)
+        self.assertEqual('London', self.pg.players[1].location.name)
+        self.assertTrue(self.pg.city_map['London'].has_lab)
+
         for i in range (10):
             self.pg.draw_card(self.player1)
         self.assertEqual(1, self.pg.epidemic_count)

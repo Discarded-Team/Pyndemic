@@ -1,5 +1,4 @@
 # coding: utf-8
-from configparser import ConfigParser
 
 
 class NoCityCubesException(Exception):
@@ -50,15 +49,19 @@ class City:
         if self.has_lab:
             return False
         self.has_lab = True
+
         return True
 
     def add_connection(self, new_city):
         self.connected_cities.append(new_city)
 
+    # TODO redesign this method
     def remove_all_cubes(self, colour):
         if not self.cubes[colour]:
             raise NoCityCubesException(self, colour)
+        dropped_cubes = self.cubes[colour]
         self.cubes[colour] = 0
+        return dropped_cubes
 
     def get_max_cubes(self):
         return max(self.cubes.values())
