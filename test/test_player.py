@@ -215,7 +215,6 @@ class PlayerTestCase(TestCase):
         with self.assertRaises(Exception):
             success = self.player.cure_disease(*card_names)
 
-
     def test_check_share_knowledge(self):
         self.player.hand = [PlayerCard('London', 'Blue'),
                             PlayerCard('Moscow', 'Black')]
@@ -228,6 +227,9 @@ class PlayerTestCase(TestCase):
         self.assertTrue(self.player.check_share_knowledge('London', self.other_player))
         self.assertFalse(self.player.check_share_knowledge('Moscow', self.other_player))
 
+        self.other_player.hand.append(self.player.hand.pop(0))
+        self.assertTrue(self.player.check_share_knowledge('London', self.other_player))
+
         self.other_player.set_location('New York')
         self.assertFalse(self.player.check_share_knowledge('London', self.other_player))
 
@@ -235,8 +237,9 @@ class PlayerTestCase(TestCase):
         self.assertFalse(self.player.check_share_knowledge('New York', self.other_player))
 
     def test_share_knowledge(self):
-        self.player.hand = [PlayerCard('London', 'Blue'),
-                            PlayerCard('Moscow', 'Black')]
+        shared_card = PlayerCard('London', 'Blue')
+        unshared_card = PlayerCard('Moscow', 'Black')
+        self.player.hand = [shared_card, unshared_card]
 
         self.player.set_location('London')
         self.other_player.set_location('London')
@@ -244,14 +247,21 @@ class PlayerTestCase(TestCase):
 
         success = self.player.share_knowledge('London', self.other_player)
         self.assertTrue(success)
-        self.assertEqual('London', self.other_player.hand[0].name)
+        self.assertNotIn(shared_card, self.player.hand)
+        self.assertIn(shared_card, self.other_player.hand)
         self.assertEqual(3, self.player.action_count)
+
+        success = self.player.share_knowledge('London', self.other_player)
+        self.assertTrue(success)
+        self.assertNotIn(shared_card, self.other_player.hand)
+        self.assertIn(shared_card, self.player.hand)
+        self.assertEqual(2, self.player.action_count)
 
         success = self.player.share_knowledge('Moskow', self.other_player)
         self.assertFalse(success)
-        self.assertEqual('Moscow', self.player.hand[0].name)
-        self.assertFalse(any(card.name == 'Moscow' for card in self.other_player.hand))
-        self.assertEqual(3, self.player.action_count)
+        self.assertNotIn(unshared_card, self.other_player.hand)
+        self.assertIn(unshared_card, self.player.hand)
+        self.assertEqual(2, self.player.action_count)
 
     def test_check_treat_disease(self):
         self.game.infect_city('London', 'Blue')
@@ -269,15 +279,19 @@ class PlayerTestCase(TestCase):
         self.player.set_location('London')
         self.player.action_count = 4
         location.cubes['Blue'] = 3
+        initial_cubes = self.game.disease_cubes['Blue']
 
         success = self.player.treat_disease('Blue')
         self.assertTrue(success)
         self.assertEqual(2, location.cubes['Blue'])
+        self.assertEqual(initial_cubes + 1, self.game.disease_cubes['Blue'])
         self.assertEqual(3, self.player.action_count)
 
+        initial_cubes = self.game.disease_cubes['Red']
         success = self.player.treat_disease('Red')
         self.assertFalse(success)
         self.assertEqual(2, location.cubes['Blue'])
+        self.assertEqual(initial_cubes, self.game.disease_cubes['Red'])
         self.assertEqual(3, self.player.action_count)
 
         self.player.action_count = 0

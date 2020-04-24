@@ -55,7 +55,8 @@ class CityTestCase(TestCase):
 
     def test_remove_all_cubes(self):
         self.city.cubes['Red'] = 3
-        self.city.remove_all_cubes('Red')
+        dropped_cubes = self.city.remove_all_cubes('Red')
+        self.assertEqual(3, dropped_cubes)
         self.assertEqual(0, self.city.cubes['Red'])
 
         with self.assertRaises(Exception):

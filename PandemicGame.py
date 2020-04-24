@@ -15,17 +15,17 @@ class NullDiseaseCapacityException(Exception):
         self.colour = colour
 
     def __str__(self):
-        return 'No {!s} cubes left.'.format(self.colour)
+        return 'No {!s} disease cubes left!'.format(self.colour)
 
 
 class ExhaustedPlayerDeckException(Exception):
     def __str__(self):
-        return 'Player deck exhausted.'.format(self.colour)
+        return 'Player deck exhausted!'
 
 
 class DeathOutbreakLevelException(Exception):
     def __str__(self):
-        return 'Number of outbreaks reached death level.'
+        return 'Number of outbreaks reached death level!'
 
 
 class PandemicGame:
@@ -55,15 +55,16 @@ class PandemicGame:
         self.get_new_diseases()
         self.set_starting_epidemics()
 
-        initial_city = self.settings['Other']['initial_city']
-        for player in self.players:
-            player.set_location(initial_city)
-
     def start_game(self):
         self.shuffle_decks()
         self.inital_infect_phase()
         self.draw_initial_hands()
         self.add_epidemics()
+
+        initial_city = self.settings['Other']['initial_city']
+        for player in self.players:
+            player.set_location(initial_city)
+        self.city_map[initial_city].has_lab = True
 
     # TODO: improve this method
     def all_one_colour(self, card_names):
@@ -123,6 +124,7 @@ class PandemicGame:
         outbreak_city = self.city_map.get(city)
         if city in self.outbreak_stack:
             return
+
         self.outbreak_stack.add(city)
         self.outbreak_count += 1
         if self.outbreak_count == 8:
@@ -145,7 +147,8 @@ class PandemicGame:
 
     def infect_city_phase(self):
         self.outbreak_stack.clear()
-        for i in range(int(self.infection_rate)):
+
+        for i in range(self.infection_rate):
             drawn_card = self.infect_deck.take_top_card()
             self.infect_deck.add_discard(drawn_card)
             infected_city = self.city_map.get(drawn_card.name)
@@ -157,6 +160,8 @@ class PandemicGame:
         # TODO
 
     def epidemic_phase(self):
+        self.increment_epidemic_count()
+
         drawn_card = self.infect_deck.take_bottom_card()
         self.infect_deck.add_discard(drawn_card)
         city_epidemic = self.city_map.get(drawn_card.name)
@@ -165,7 +170,6 @@ class PandemicGame:
             if city_epidemic in self.outbreak_stack:
                 break
         self.infect_deck.shuffle_discard_to_top()
-        self.increment_epidemic_count()
 
     def set_starting_epidemics(self):
         self.starting_epidemics = self.settings['Other'].getint('epidemics')
@@ -253,7 +257,7 @@ class PandemicGame:
 
     def increment_epidemic_count(self):
         self.epidemic_count += 1
-        self.infection_rate = self.infection_rates[self.epidemic_count]
+        self.infection_rate = int(self.infection_rates[self.epidemic_count])
 
     def draw_initial_hands(self):
         num_cards_by_players = {4: 2, 3: 3, 2: 4}
@@ -262,5 +266,5 @@ class PandemicGame:
 
         for player in self.players:
             for i in range(cards_to_draw):
-                player.add_card(self.player_deck.take_top_card())
+                self.draw_card(player)
 

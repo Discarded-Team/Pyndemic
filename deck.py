@@ -83,6 +83,7 @@ class InfectDeck(Deck):
             new_card = InfectCard(city_name, city_colour)
             self.add_card(new_card)
 
+
     def shuffle_discard_to_top(self):
         random.shuffle(self.discard)
         self.cards = self.discard + self.cards
