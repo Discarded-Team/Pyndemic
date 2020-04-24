@@ -1,4 +1,5 @@
 # coding: utf-8
+import logging
 
 
 class NoCityCubesException(Exception):
@@ -21,6 +22,7 @@ class City:
         self.init_city_colours(__class__.cube_colours)
         self.distance = 999
         self.connected_cities = []
+        logging.debug('Created location {!r}'.format(self))
 
     def __repr__(self):
         return '{}({!r}, {!r})'.format(
@@ -41,14 +43,17 @@ class City:
         if not self.cubes[colour]:
             raise NoCityCubesException(self, colour)
         self.cubes[colour] -= 1
+        logging.debug('Removed {!r} cube from {!r}'.format(colour, self))
 
     def add_cube(self, colour):
         self.cubes[colour] += 1
+        logging.debug('Added {!r} cube to {!r}'.format(colour, self))
 
     def build_lab(self):
         if self.has_lab:
             return False
         self.has_lab = True
+        logging.debug('Built laboratory in {!r}'.format(self))
 
         return True
 
@@ -61,6 +66,8 @@ class City:
             raise NoCityCubesException(self, colour)
         dropped_cubes = self.cubes[colour]
         self.cubes[colour] = 0
+        logging.debug('Removed all {!r} cubes from {!r}'.format(colour, self))
+
         return dropped_cubes
 
     def get_max_cubes(self):

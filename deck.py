@@ -1,6 +1,7 @@
 # coding: utf-8
 import random
 from itertools import cycle, chain
+import logging
 
 import config
 from card import PlayerCard, InfectCard
@@ -51,6 +52,7 @@ class PlayerDeck(Deck):
             new_card = PlayerCard(city_name, city_colour)
             self.add_card(new_card)
 
+        logging.debug('{!r} prepared.'.format(self))
         # TODO: add action cards
 
     def add_epidemics(self, number_epidemics):
@@ -68,6 +70,7 @@ class PlayerDeck(Deck):
             pile.insert(place_to_insert, epidemic_card)
 
         self.cards = list(chain(*card_piles))
+        logging.debug('Added {} Epidemics to {!r}.'.format(number_epidemics, self))
 
 
 class InfectDeck(Deck):
@@ -83,9 +86,11 @@ class InfectDeck(Deck):
             new_card = InfectCard(city_name, city_colour)
             self.add_card(new_card)
 
+        logging.debug('{!r} prepared.'.format(self))
 
     def shuffle_discard_to_top(self):
         random.shuffle(self.discard)
         self.cards = self.discard + self.cards
         self.discard = []
+        logging.debug('Shuffled infect discard and placed on {!r}.'.format(self))
 

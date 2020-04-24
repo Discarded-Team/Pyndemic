@@ -1,5 +1,6 @@
 # coding: utf-8
 from configparser import ConfigParser
+import logging
 
 import config
 from city import City
@@ -45,6 +46,7 @@ class PandemicGame:
         self.players = []
         self.turn_number = None
         self.outbreak_stack = set()
+        logging.debug('Created new game.')
 
     def setup_game(self, settings_location=None):
         self.settings = config.get_settings(settings_location)
@@ -55,11 +57,15 @@ class PandemicGame:
         self.get_new_diseases()
         self.set_starting_epidemics()
 
+        logging.info('Game ready to begin.')
+        logging.info('Difficulty level: {} Epidemics.'.format(self.starting_epidemics))
+
     def start_game(self):
         self.shuffle_decks()
         self.inital_infect_phase()
         self.draw_initial_hands()
         self.add_epidemics()
+        logging.info('Game started.')
 
         initial_city = self.settings['Other']['initial_city']
         for player in self.players:
@@ -77,11 +83,13 @@ class PandemicGame:
 
     def add_epidemics(self):
         self.player_deck.add_epidemics(self.starting_epidemics)
+        logging.debug('Added {} Epidemics to a player deck.'.format(self.starting_epidemics))
 
     def add_player(self, new_player):
         new_player.game = self
         new_player.controller = AIController(new_player)
         self.players.append(new_player)
+        logging.info('Added new {!r}.'.format(new_player))
 
     def draw_card(self, player_drawing):
         try:
@@ -90,13 +98,16 @@ class PandemicGame:
             raise ExhaustedPlayerDeckException
 
         if drawn_card.name == 'Epidemic':
+            logging.info('Drawn Epidemic!')
             self.epidemic_phase()
         else:
             player_drawing.add_card(drawn_card)
+            logging.info('{!r} got {!r}.'.format(player_drawing, drawn_card))
 
     def shuffle_decks(self):
         self.infect_deck.shuffle()
         self.player_deck.shuffle()
+        logging.info('Decks shuffled.')
 
     def has_x_cube_city(self, x):
         return any(city.get_max_cubes() == x
@@ -112,12 +123,16 @@ class PandemicGame:
     # TODO: Extend this method for arbitrary cube number
     def infect_city(self, city, colour):
         infected_city = self.city_map.get(city)
+        logging.info('Infecting {!r} with {!s} disease.'.format(infected_city, colour))
         if infected_city.cubes[colour] < 3:
             if self.disease_cubes[colour] == 0:
                 raise NullDiseaseCapacityException(colour)
             self.disease_cubes[colour] -= 1
+            logging.debug('{!s} disease capacity is now {}.'.format(colour, self.disease_cubes[colour]))
             infected_city.add_cube(colour)
+            logging.info('Infected {!r} with {!s} disease (reached level {}).'.format(infected_city, colour, infected_city.cubes[colour]))
         else:
+            logging.info('{!r} has already maximum {!s} disease infection level and causes outbreak!'.format(infected_city, colour))
             self.outbreak(city, colour)
 
     def outbreak(self, city, colour):
@@ -125,8 +140,10 @@ class PandemicGame:
         if city in self.outbreak_stack:
             return
 
+        logging.info('Starting outbreak scenario in {!r} ({!s} disease).'.format(outbreak_city, colour))
         self.outbreak_stack.add(city)
         self.outbreak_count += 1
+        logging.info('Outbreak reached level {}.'.format(self.outbreak_count))
         if self.outbreak_count == 8:
             raise DeathOutbreakLevelException
 
@@ -136,6 +153,7 @@ class PandemicGame:
             self.infect_city(connected_city.name, colour)
 
     def inital_infect_phase(self):
+        logging.info('Starting initial infect phase.')
         cubes_to_add = 3
         for i in range(3):
             for j in range(3):
@@ -144,9 +162,11 @@ class PandemicGame:
                 for k in range(cubes_to_add):
                     self.infect_city(drawn_card.name, drawn_card.colour)
             cubes_to_add -= 1
+        logging.info('Initial infect phase finished.')
 
     def infect_city_phase(self):
         self.outbreak_stack.clear()
+        logging.info('Starting infect phase ({} cities to infect).'.format(self.infection_rate))
 
         for i in range(self.infection_rate):
             drawn_card = self.infect_deck.take_top_card()
@@ -155,24 +175,32 @@ class PandemicGame:
             self.infect_city(infected_city.name, infected_city.colour)
         self.outbreak_stack.clear()
 
+        logging.info('Infect phase finished.')
+
     def start_turn(self, player):
         player.action_count = 4
+        logging.info('{!r} now plays.'.format(player))
         # TODO
 
     def epidemic_phase(self):
+        logging.info('Starting epidemic phase.')
         self.increment_epidemic_count()
 
         drawn_card = self.infect_deck.take_bottom_card()
         self.infect_deck.add_discard(drawn_card)
         city_epidemic = self.city_map.get(drawn_card.name)
+        logging.info('Starting epidemy in {!r}.'.format(city_epidemic))
         for i in range(3):
             self.infect_city(city_epidemic.name, city_epidemic.colour)
             if city_epidemic in self.outbreak_stack:
                 break
         self.infect_deck.shuffle_discard_to_top()
+        logging.info('Infect discard shuffled and returned to deck.')
+        logging.info('Epidemic phase finished.')
 
     def set_starting_epidemics(self):
         self.starting_epidemics = self.settings['Other'].getint('epidemics')
+        logging.debug('Set difficulty level {}.'.format(self.starting_epidemics))
 
     def get_new_cities(self):
         cities_section = self.settings['Cities']
@@ -185,10 +213,12 @@ class PandemicGame:
             self.city_map[city_name] = new_city
 
         self.make_cities()
+        logging.debug('Created city graph.')
 
     def get_new_decks(self):
         self.player_deck.prepare(self.settings)
         self.infect_deck.prepare(self.settings)
+        logging.debug('Decks prepared.')
 
     def get_new_diseases(self):
         diseases_section = self.settings['Diseases']
@@ -258,11 +288,13 @@ class PandemicGame:
     def increment_epidemic_count(self):
         self.epidemic_count += 1
         self.infection_rate = int(self.infection_rates[self.epidemic_count])
+        logging.info('Incremented infection rate (now {}).'.format(self.infection_rate))
 
     def draw_initial_hands(self):
         num_cards_by_players = {4: 2, 3: 3, 2: 4}
         num_players = len(self.players)
         cards_to_draw = num_cards_by_players[num_players]
+        logging.info('Draw initial player cards ({} per player).'.format(cards_to_draw))
 
         for player in self.players:
             for i in range(cards_to_draw):
