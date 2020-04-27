@@ -29,7 +29,7 @@ class DeathOutbreakLevelException(GameCrisisException):
         return 'Number of outbreaks reached death level!'
 
 
-class PandemicGame:
+class Game:
     def __init__(self):
         self.starting_epidemics = None
         self.outbreak_count = 0

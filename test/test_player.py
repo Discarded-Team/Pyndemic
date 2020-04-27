@@ -7,7 +7,7 @@ import random
 
 import config
 from exceptions import *
-from PandemicGame import PandemicGame
+from game import Game
 from city import City
 from disease import Disease
 from card import Card, PlayerCard, InfectCard
@@ -20,7 +20,7 @@ SETTINGS_LOCATION = op.join(op.dirname(__file__), 'test_settings.cfg')
 
 class PlayerTestCase(TestCase):
     def setUp(self):
-        self.game = PandemicGame()
+        self.game = Game()
         self.player = Player('Alice')
         self.other_player = Player('Bob')
         self.game.add_player(self.player)

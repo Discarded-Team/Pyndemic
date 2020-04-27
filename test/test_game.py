@@ -7,7 +7,7 @@ import random
 
 import config
 from exceptions import *
-from PandemicGame import PandemicGame
+from game import Game
 from city import City
 from disease import Disease
 from card import Card, PlayerCard, InfectCard
@@ -24,7 +24,7 @@ class GameSetupTestCase(TestCase):
         cls.settings = config.get_settings(SETTINGS_LOCATION, refresh=True)
 
     def setUp(self):
-        self.pg = PandemicGame()
+        self.pg = Game()
         self.pg.settings = self.settings
 
     def test_add_player(self):
@@ -129,7 +129,7 @@ class GameTestCase(unittest.TestCase):
     def setUp(self):
         self.player1 = Player('Evie')
         self.player2 = Player('Amelia')
-        self.pg = PandemicGame()
+        self.pg = Game()
         self.pg.add_player(self.player1)
         self.pg.add_player(self.player2)
         self.pg.setup_game(SETTINGS_LOCATION)
