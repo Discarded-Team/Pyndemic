@@ -6,6 +6,7 @@ import os.path as op
 import random
 
 import config
+from exceptions import *
 from PandemicGame import PandemicGame
 from city import City
 from disease import Disease
@@ -166,7 +167,7 @@ class GameTestCase(unittest.TestCase):
         self.assertEqual(1, self.pg.city_map['London'].cubes['Blue'])
 
         self.pg.disease_cubes['Blue'] = 0
-        with self.assertRaises(Exception):
+        with self.assertRaises(GameCrisisException):
             self.pg.infect_city('London', 'Blue')
 
     def test_infect_city_phase(self):
@@ -209,7 +210,7 @@ class GameTestCase(unittest.TestCase):
 
         self.pg.outbreak_count = 7
         self.pg.outbreak_stack.clear()
-        with self.assertRaises(Exception):
+        with self.assertRaises(GameCrisisException):
             self.pg.outbreak('London', 'Blue')
 
     def test_shuffle(self):
@@ -275,8 +276,8 @@ class GameTestCase(unittest.TestCase):
         self.pg.draw_card(self.player1)
         self.assertEqual('London', self.player1.hand[0].name)
 
-        self.pg.player_deck = []
-        with self.assertRaises(Exception):
+        self.pg.player_deck.cards = []
+        with self.assertRaises(GameCrisisException):
             self.pg.draw_card(self.player1)
 
     def test_get_new_diseaes(self):

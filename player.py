@@ -1,8 +1,10 @@
 # coding: utf-8
 import logging
 
+from exceptions import GameCrisisException
 
-class LastDiseaseCuredException(Exception):
+
+class LastDiseaseCuredException(GameCrisisException):
     def __str__(self):
         return 'All diseases have been cured!'
 

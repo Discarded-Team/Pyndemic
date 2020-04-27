@@ -3,6 +3,7 @@ from configparser import ConfigParser
 import logging
 
 import config
+from exceptions import GameCrisisException
 from city import City
 from card import Card
 from deck import PlayerDeck, InfectDeck
@@ -10,7 +11,7 @@ from disease import Disease
 from player import Player
 
 
-class NullDiseaseCapacityException(Exception):
+class NullDiseaseCapacityException(GameCrisisException):
     def __init__(self, colour):
         self.colour = colour
 
@@ -18,12 +19,12 @@ class NullDiseaseCapacityException(Exception):
         return f'No {self.colour} disease cubes left!'
 
 
-class ExhaustedPlayerDeckException(Exception):
+class ExhaustedPlayerDeckException(GameCrisisException):
     def __str__(self):
         return 'Player deck exhausted!'
 
 
-class DeathOutbreakLevelException(Exception):
+class DeathOutbreakLevelException(GameCrisisException):
     def __str__(self):
         return 'Number of outbreaks reached death level!'
 

@@ -5,6 +5,7 @@ from unittest import TestCase, skip, expectedFailure
 import os.path as op
 import random
 
+from exceptions import *
 from city import City
 
 
@@ -49,7 +50,7 @@ class CityTestCase(TestCase):
         self.assertEqual(1, self.city.cubes['Black'])
 
         self.city.cubes['Black'] = 0
-        with self.assertRaises(Exception):
+        with self.assertRaises(GameException):
             self.city.remove_cube('Black')
         self.assertEqual(0, self.city.cubes['Black'])
 
@@ -59,7 +60,7 @@ class CityTestCase(TestCase):
         self.assertEqual(3, dropped_cubes)
         self.assertEqual(0, self.city.cubes['Red'])
 
-        with self.assertRaises(Exception):
+        with self.assertRaises(GameException):
             self.city.remove_all_cubes('Red')
         self.assertEqual(0, self.city.cubes['Red'])
 

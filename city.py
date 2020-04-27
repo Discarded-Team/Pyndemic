@@ -1,8 +1,10 @@
 # coding: utf-8
 import logging
 
+from exceptions import GameException
 
-class NoCityCubesException(Exception):
+
+class NoCityCubesException(GameException):
     def __init__(self, city, colour):
         self.city = city
         self.colour = colour

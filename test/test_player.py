@@ -6,6 +6,7 @@ import os.path as op
 import random
 
 import config
+from exceptions import *
 from PandemicGame import PandemicGame
 from city import City
 from disease import Disease
@@ -209,7 +210,7 @@ class PlayerTestCase(TestCase):
         self.player.action_count = 4
         card_names = ['Cambridge', 'Liverpool', 'Brighton', 'Southampton', 'Manchester']
 
-        with self.assertRaises(Exception):
+        with self.assertRaises(GameCrisisException):
             success = self.player.cure_disease(*card_names)
 
     def test_check_share_knowledge(self):
