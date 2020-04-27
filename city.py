@@ -1,14 +1,16 @@
 # coding: utf-8
-from configparser import ConfigParser
+import logging
+
+from exceptions import GameException
 
 
-class NoCityCubesException(Exception):
+class NoCityCubesException(GameException):
     def __init__(self, city, colour):
         self.city = city
         self.colour = colour
 
     def __str__(self):
-        return 'No {} cubes left in {}'.format(self.colour, self.city.name)
+        return f'No {self.colour} cubes left in {self.city.name}!'
 
 
 class City:
@@ -22,15 +24,16 @@ class City:
         self.init_city_colours(__class__.cube_colours)
         self.distance = 999
         self.connected_cities = []
-
-    def __repr__(self):
-        return '{}({!r}, {!r})'.format(
-            self.__class__.__name__, self.name, self.colour)
+        logging.debug(
+            f'Created location {self}')
 
     def __str__(self):
+        return f'City {self.name} ({self.colour})'
+
+    def info(self):
         has_lab = 'built' if self.has_lab else 'not built'
-        result = 'City {} (colour: {}, total neighbours: {}, laboratory: {}) '.format(
-            self.name, self.colour, len(self.connected_cities), has_lab)
+        result = (f'City {self.name} (colour: {self.colour}, total neighbours:'
+                  f' {len(self.connected_cities)}, laboratory: {has_lab})')
 
         return result
 
@@ -42,23 +45,36 @@ class City:
         if not self.cubes[colour]:
             raise NoCityCubesException(self, colour)
         self.cubes[colour] -= 1
+        logging.debug(
+            f'Removed {colour} cube from {self}')
 
     def add_cube(self, colour):
         self.cubes[colour] += 1
+        logging.debug(
+            f'Added {colour} cube to {self}')
 
     def build_lab(self):
         if self.has_lab:
             return False
         self.has_lab = True
+        logging.debug(
+            f'Built laboratory in {self}')
+
         return True
 
     def add_connection(self, new_city):
         self.connected_cities.append(new_city)
 
+    # TODO redesign this method
     def remove_all_cubes(self, colour):
         if not self.cubes[colour]:
             raise NoCityCubesException(self, colour)
+        dropped_cubes = self.cubes[colour]
         self.cubes[colour] = 0
+        logging.debug(
+            f'Removed all {colour} cubes from {self}')
+
+        return dropped_cubes
 
     def get_max_cubes(self):
         return max(self.cubes.values())

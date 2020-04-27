@@ -6,12 +6,12 @@ import os.path as op
 import random
 
 import config
-from PandemicGame import PandemicGame
+from exceptions import *
+from game import Game
 from city import City
 from disease import Disease
 from card import Card, PlayerCard, InfectCard
 from deck import Deck, PlayerDeck, InfectDeck
-from ai import AIController
 from player import Player
 
 
@@ -24,7 +24,7 @@ class GameSetupTestCase(TestCase):
         cls.settings = config.get_settings(SETTINGS_LOCATION, refresh=True)
 
     def setUp(self):
-        self.pg = PandemicGame()
+        self.pg = Game()
         self.pg.settings = self.settings
 
     def test_add_player(self):
@@ -37,9 +37,6 @@ class GameSetupTestCase(TestCase):
                 self.assertIs(self.pg, player.game)
                 self.assertIn(player, self.pg.players)
                 self.assertEqual(player.name, self.pg.players[-1].name)
-                self.assertEqual(len(self.pg.players), AIController.number_AI)
-
-        AIController.number_AI = 0
 
     def test_get_infection_rate(self):
         self.pg.get_infection_rate()
@@ -127,17 +124,12 @@ class GameSetupTestCase(TestCase):
 
         self.assertEqual(4, self.pg.starting_epidemics)
 
-        self.assertEqual('London', players[0].location.name)
-        self.assertEqual('London', players[1].location.name)
-
-        self.assertEqual(2, AIController.number_AI)
-
 
 class GameTestCase(unittest.TestCase):
     def setUp(self):
         self.player1 = Player('Evie')
         self.player2 = Player('Amelia')
-        self.pg = PandemicGame()
+        self.pg = Game()
         self.pg.add_player(self.player1)
         self.pg.add_player(self.player2)
         self.pg.setup_game(SETTINGS_LOCATION)
@@ -175,7 +167,7 @@ class GameTestCase(unittest.TestCase):
         self.assertEqual(1, self.pg.city_map['London'].cubes['Blue'])
 
         self.pg.disease_cubes['Blue'] = 0
-        with self.assertRaises(Exception):
+        with self.assertRaises(GameCrisisException):
             self.pg.infect_city('London', 'Blue')
 
     def test_infect_city_phase(self):
@@ -218,7 +210,7 @@ class GameTestCase(unittest.TestCase):
 
         self.pg.outbreak_count = 7
         self.pg.outbreak_stack.clear()
-        with self.assertRaises(Exception):
+        with self.assertRaises(GameCrisisException):
             self.pg.outbreak('London', 'Blue')
 
     def test_shuffle(self):
@@ -249,6 +241,10 @@ class GameTestCase(unittest.TestCase):
         self.assertEqual(4, len(self.player2.hand))
         self.assertNotEqual('London', self.top_player_card.name)
         self.assertNotEqual('London', self.top_infect_card.name)
+        self.assertEqual('London', self.pg.players[0].location.name)
+        self.assertEqual('London', self.pg.players[1].location.name)
+        self.assertTrue(self.pg.city_map['London'].has_lab)
+
         for i in range (10):
             self.pg.draw_card(self.player1)
         self.assertEqual(1, self.pg.epidemic_count)
@@ -280,8 +276,8 @@ class GameTestCase(unittest.TestCase):
         self.pg.draw_card(self.player1)
         self.assertEqual('London', self.player1.hand[0].name)
 
-        self.pg.player_deck = []
-        with self.assertRaises(Exception):
+        self.pg.player_deck.cards = []
+        with self.assertRaises(GameCrisisException):
             self.pg.draw_card(self.player1)
 
     def test_get_new_diseaes(self):

@@ -6,7 +6,6 @@ import os.path as op
 import random
 
 import config
-from PandemicGame import PandemicGame
 from card import Card, PlayerCard, InfectCard
 from deck import Deck, PlayerDeck, InfectDeck
 
