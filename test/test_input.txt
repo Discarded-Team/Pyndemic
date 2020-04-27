@@ -1,0 +1,115 @@
+fly Johannesburg
+treat Yellow
+treat Yellow
+fly Jakarta
+
+charter Paris
+treat Blue
+move Milan
+treat Blue
+
+move Chicago
+move Montreal
+treat Blue
+treat Blue
+
+fly Mumbai
+treat Black
+move Chennai
+treat Black
+
+treat Red
+treat Red
+move Bangkok
+treat Red
+
+fly Manila
+treat Red
+treat Red
+move HongKong
+
+move Chicago
+move SanFrancisco
+move Tokyo
+treat Red
+
+treat Black
+treat Black
+move Bangkok
+treat Red
+
+move HongKong
+share HongKong Bravo
+treat Red
+treat Red
+
+treat Red
+move Manila
+treat Red
+move Taipei
+
+treat Red
+treat Red
+move Osaka
+treat Red
+
+fly Paris
+treat Blue
+fly Cairo
+treat Black
+
+move Taipei
+share Taipei Bravo
+move Shanghai
+move Beijing
+
+fly SanFrancisco
+move Chicago
+move Atlanta
+cure HoChiMinhCity Sydney HongKong Shanghai Taipei
+
+treat Red
+fly Lima
+move Santiago
+charter Istanbul
+
+move Khartoum
+move Lagos
+move SaoPaolo
+move Bogota
+
+charter Istanbul
+share Istanbul Charlie
+move Algiers
+move Madrid
+
+move Miami
+move Bogota
+share Bogota Delta
+move MexicoCity
+
+fly Washington
+move Atlanta
+cure Delhi Algiers Karachi Moscow Istanbul
+treat Blue
+
+move Miami
+move Atlanta
+cure Lagos Miami Khartoum Bogota LosAngeles
+treat Blue
+
+move Paris
+treat Blue
+move Milan
+treat Blue
+
+fly Montreal
+treat Blue
+fly Madrid
+treat Blue
+
+move Miami
+move Bogota
+treat Yellow
+pass
+
