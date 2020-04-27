@@ -8,7 +8,7 @@ class NoCityCubesException(Exception):
         self.colour = colour
 
     def __str__(self):
-        return 'No {} cubes left in {}'.format(self.colour, self.city.name)
+        return f'No {self.colour} cubes left in {self.city.name}!'
 
 
 class City:
@@ -22,16 +22,16 @@ class City:
         self.init_city_colours(__class__.cube_colours)
         self.distance = 999
         self.connected_cities = []
-        logging.debug('Created location {!r}'.format(self))
-
-    def __repr__(self):
-        return '{}({!r}, {!r})'.format(
-            self.__class__.__name__, self.name, self.colour)
+        logging.debug(
+            f'Created location {self}')
 
     def __str__(self):
+        return f'City {self.name} ({self.colour})'
+
+    def info(self):
         has_lab = 'built' if self.has_lab else 'not built'
-        result = 'City {} (colour: {}, total neighbours: {}, laboratory: {}) '.format(
-            self.name, self.colour, len(self.connected_cities), has_lab)
+        result = (f'City {self.name} (colour: {self.colour}, total neighbours:'
+                  f' {len(self.connected_cities)}, laboratory: {has_lab})')
 
         return result
 
@@ -43,17 +43,20 @@ class City:
         if not self.cubes[colour]:
             raise NoCityCubesException(self, colour)
         self.cubes[colour] -= 1
-        logging.debug('Removed {!r} cube from {!r}'.format(colour, self))
+        logging.debug(
+            f'Removed {colour} cube from {self}')
 
     def add_cube(self, colour):
         self.cubes[colour] += 1
-        logging.debug('Added {!r} cube to {!r}'.format(colour, self))
+        logging.debug(
+            f'Added {colour} cube to {self}')
 
     def build_lab(self):
         if self.has_lab:
             return False
         self.has_lab = True
-        logging.debug('Built laboratory in {!r}'.format(self))
+        logging.debug(
+            f'Built laboratory in {self}')
 
         return True
 
@@ -66,7 +69,8 @@ class City:
             raise NoCityCubesException(self, colour)
         dropped_cubes = self.cubes[colour]
         self.cubes[colour] = 0
-        logging.debug('Removed all {!r} cubes from {!r}'.format(colour, self))
+        logging.debug(
+            f'Removed all {colour} cubes from {self}')
 
         return dropped_cubes
 

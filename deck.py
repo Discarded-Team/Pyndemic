@@ -12,12 +12,13 @@ class Deck:
         self.cards = []
         self.discard = []
 
-    def __repr__(self):
-        return '{}()'.format(self.__class__.__name__)
-
     def __str__(self):
-        return '{} (deck size: {}, discard size: {})'.format(
-            self.__class__.__name__, len(self.cards), len(self.discard))
+        return f'{self.__class__.__name__}'
+
+    def info(self):
+        result = (f'{self.__class__.__name__} (deck size: {len(self.cards)}, '
+                  f'discard size: {len(self.discard)})')
+        return result
 
     def prepare(self, settings):
         self.cards = []
@@ -52,7 +53,8 @@ class PlayerDeck(Deck):
             new_card = PlayerCard(city_name, city_colour)
             self.add_card(new_card)
 
-        logging.debug('{!r} prepared.'.format(self))
+        logging.debug(
+            f'{self} prepared.')
         # TODO: add action cards
 
     def add_epidemics(self, number_epidemics):
@@ -70,7 +72,8 @@ class PlayerDeck(Deck):
             pile.insert(place_to_insert, epidemic_card)
 
         self.cards = list(chain(*card_piles))
-        logging.debug('Added {} Epidemics to {!r}.'.format(number_epidemics, self))
+        logging.debug(
+            f'Added {number_epidemics} Epidemics to {self}.')
 
 
 class InfectDeck(Deck):
@@ -86,11 +89,13 @@ class InfectDeck(Deck):
             new_card = InfectCard(city_name, city_colour)
             self.add_card(new_card)
 
-        logging.debug('{!r} prepared.'.format(self))
+        logging.debug(
+            f'{self} prepared.'.format(self))
 
     def shuffle_discard_to_top(self):
         random.shuffle(self.discard)
         self.cards = self.discard + self.cards
         self.discard = []
-        logging.debug('Shuffled infect discard and placed on {!r}.'.format(self))
+        logging.debug(
+            f'Shuffled infect discard and placed on top of {self}.')
 

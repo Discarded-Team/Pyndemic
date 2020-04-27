@@ -15,16 +15,16 @@ class Player:
         self.hand = []
         self.name = name
         self.controller = None
-        logging.debug('Created {!r}'.format(self))
-
-    def __repr__(self):
-        return '{}({!r})'.format(
-            self.__class__.__name__, self.name)
+        logging.debug(
+            f'Created {self}')
 
     def __str__(self):
-        result = 'Player {}'.format(self.name)
+        return f'Player "{self.name}"'
+
+    def info(self):
+        result = f'Player {self.name}'
         if self.location is not None:
-            result += ' (stays at: {}) '.format(self.location.name)
+            result += f' (stays at: {self.location.name}).'
 
         return result
 
@@ -36,11 +36,13 @@ class Player:
         for card in self.hand:
             if card.name == card_name:
                 return card
-        raise ValueError("No such card in {} player's hand: {}.".format(self.name, card_name))
+        raise ValueError(
+            f"No such card in {self.name} player's hand: {card_name}.")
 
     def set_location(self, new_location):
         self.location = self.game.city_map[new_location]
-        logging.debug('{!r}: changed location to {!r}.'.format(self, new_location))
+        logging.debug(
+            f'{self}: changed location to {new_location}.')
 
     def check_charter_flight(self, location, destination):
         if self.action_count > 0 and self.location.name == location:
@@ -53,7 +55,9 @@ class Player:
             self.discard_card(location)
             self.set_location(destination)
             self.action_count -= 1
-            logging.info('{!r}: Performed charter flight from {!r} to {!r}.'.format(self, location, destination))
+            logging.info(
+                (f'{self}: Performed charter flight from {location} to '
+                 f'{destination}.'))
             return True
         return False
 
@@ -68,7 +72,9 @@ class Player:
             self.discard_card(destination)
             self.set_location(destination)
             self.action_count -= 1
-            logging.info('{!r}: Performed direct flight from {!r} to {!r}.'.format(self, location, destination))
+            logging.info(
+                (f'{self}: Performed direct flight from {location} to '
+                 f'{destination}.'))
             return True
         return False
 
@@ -83,7 +89,8 @@ class Player:
             self.discard_card(self.location.name)
             self.location.build_lab()
             self.action_count -= 1
-            logging.info('{!r}: Built laboratory in {!r}.'.format(self, self.location))
+            logging.info(
+                f'{self}: Built laboratory in {self.location}.')
             return True
         return False
 
@@ -97,7 +104,9 @@ class Player:
         if self.check_shuttle_flight(location, destination):
             self.set_location(destination)
             self.action_count -= 1
-            logging.info('{!r}: Performed shuttle flight from {!r} to {!r}.'.format(self, location, destination))
+            logging.info(
+                (f'{self}: Performed shuttle flight from {location} to '
+                 f'{destination}.'))
             return True
         return False
 
@@ -112,14 +121,21 @@ class Player:
             if self.game.diseases[colour].cured:
                 dropped_cubes = self.location.remove_all_cubes(colour)
                 self.game.disease_cubes[colour] += dropped_cubes
-                logging.info('{!r}: Treated {!s} disease in {!r} (effectively).'.format(self, colour, self.location))
+                logging.info(
+                    (f'{self}: Treated {colour} disease in {self.location} '
+                     f'(effectively).'))
             else:
                 self.location.remove_cube(colour)
                 self.game.disease_cubes[colour] += 1
-                logging.info('{!r}: Treated {!s} disease in {!r}.'.format(self, colour, self.location))
+                logging.info(
+                    f'{self}: Treated {colour} disease in {self.location}.')
             self.action_count -= 1
-            logging.info('Now {!r} has {} level of {!r} disease.'.format(self.location, self.location.cubes[colour], colour))
-            logging.debug('{!s} disease capacity is now {}.'.format(colour, self.game.disease_cubes[colour]))
+            logging.info(
+                (f'Now {self.location} has {self.location.cubes[colour]} '
+                 f'level of {colour} disease.'))
+            logging.debug(
+                (f'{colour} disease capacity is now '
+                 f'{self.game.disease_cubes[colour]}.'))
 
             return True
         return False
@@ -143,7 +159,8 @@ class Player:
             for card in card_list:
                 self.discard_card(card)
             self.action_count -= 1
-            logging.info('{!r}: Cured {!s} disease in {!r}.'.format(self, colour, self.location))
+            logging.info(
+                f'{self}: Cured {colour} disease in {self.location}.')
 
             if self.game.all_diseases_cured():
                 raise LastDiseaseCuredException
@@ -159,7 +176,7 @@ class Player:
             return False
 
         if self.hand_contains(card_name) or player.hand_contains(card_name):
-                return True
+            return True
         return False
 
     def share_knowledge(self, card_name, player):
@@ -177,21 +194,24 @@ class Player:
                 self.add_card(held_card)
                 player.hand.remove(held_card)
             self.action_count -= 1
-            logging.info('{!r}: Transferred {!r} to {!r}.'.format(self, held_card, player))
+            logging.info(
+                f'{self}: Shared knowledge {held_card} with {player}.')
 
             return True
         return False
 
     def add_card(self, new_card):
         self.hand.append(new_card)
-        logging.debug('{!r}: Got new {!r}.'.format(self, new_card))
+        logging.debug(
+            f'{self}: Received new {new_card}.')
 
     def discard_card(self, to_discard):
         if self.hand_contains(to_discard):
             card_to_discard = self.get_card(to_discard)
             self.hand.remove(card_to_discard)
             self.game.player_deck.add_discard(card_to_discard)
-            logging.info('{!r}: discarded {!r}.'.format(self, card_to_discard))
+            logging.info(
+                f'{self}: discarded {card_to_discard}.')
 
             return True
         return False
@@ -210,7 +230,9 @@ class Player:
         if self.check_standard_move(location, destination):
             self.set_location(destination)
             self.action_count -= 1
-            logging.info('{!r}: Performed standard move from {!r} to {!r}.'.format(self, location, destination))
+            logging.info(
+                (f'{self}: Performed standard move from {location} to '
+                 f'{destination}.'))
 
             return True
         return False
@@ -226,7 +248,9 @@ class Player:
         if self.check_long_move(location, destination):
             self.action_count -= self.location.distance
             self.set_location(destination)
-            logging.info('{!r}: Performed long move from {!r} to {!r}.'.format(self, location, destination))
+            logging.info(
+                (f'{self}: Performed long move from {location} to '
+                 f'{destination}.'))
 
             return True
         return False

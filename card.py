@@ -6,9 +6,8 @@ class Card:
         self.name = name
         self.colour = colour
 
-    def __repr__(self):
-        return '{}({!r}, {!r})'.format(
-            self.__class__.__name__, self.name, self.colour)
+    def __str__(self):
+        return f'Card "{self.name}-{self.colour}"'
 
 
 class PlayerCard(Card):
