@@ -1,3 +1,12 @@
-*.pyc
-*~
-*.db
+# Log files
+log
+
+# Game assets
+assets
+
+# Temporary files
+temp
+
+# Other
+*pycache*
+
