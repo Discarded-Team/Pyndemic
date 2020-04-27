@@ -169,6 +169,9 @@ class Player:
         return False
 
     def check_share_knowledge(self, card_name, player):
+        if player is self:
+            return False
+
         no_actions = self.action_count == 0
         different_locations = self.location.name != player.location.name
         card_mismatch = card_name != player.location.name
@@ -254,7 +257,4 @@ class Player:
 
             return True
         return False
-
-    def get_inputs(self):
-        pass
 

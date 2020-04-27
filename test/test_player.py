@@ -13,8 +13,6 @@ from card import Card, PlayerCard, InfectCard
 from deck import Deck, PlayerDeck, InfectDeck
 from player import Player
 
-# TODO: provide test cases for City and Player classes.
-
 
 SETTINGS_LOCATION = op.join(op.dirname(__file__), 'test_settings.cfg')
 
@@ -225,6 +223,8 @@ class PlayerTestCase(TestCase):
         self.player.action_count = 4
         self.assertTrue(self.player.check_share_knowledge('London', self.other_player))
         self.assertFalse(self.player.check_share_knowledge('Moscow', self.other_player))
+
+        self.assertFalse(self.player.check_share_knowledge('London', self.player))
 
         self.other_player.hand.append(self.player.hand.pop(0))
         self.assertTrue(self.player.check_share_knowledge('London', self.other_player))
