@@ -8,7 +8,6 @@ from card import Card
 from deck import PlayerDeck, InfectDeck
 from disease import Disease
 from player import Player
-from ai import AIController
 
 
 class NullDiseaseCapacityException(Exception):
@@ -92,7 +91,6 @@ class PandemicGame:
 
     def add_player(self, new_player):
         new_player.game = self
-        new_player.controller = AIController(new_player)
         self.players.append(new_player)
         logging.info(
             f'Added new {new_player}.')

@@ -11,7 +11,6 @@ from city import City
 from disease import Disease
 from card import Card, PlayerCard, InfectCard
 from deck import Deck, PlayerDeck, InfectDeck
-from ai import AIController
 from player import Player
 
 
@@ -37,9 +36,6 @@ class GameSetupTestCase(TestCase):
                 self.assertIs(self.pg, player.game)
                 self.assertIn(player, self.pg.players)
                 self.assertEqual(player.name, self.pg.players[-1].name)
-                self.assertEqual(len(self.pg.players), AIController.number_AI)
-
-        AIController.number_AI = 0
 
     def test_get_infection_rate(self):
         self.pg.get_infection_rate()
@@ -126,8 +122,6 @@ class GameSetupTestCase(TestCase):
         self.assertEqual(30, self.pg.disease_cubes['Black'])
 
         self.assertEqual(4, self.pg.starting_epidemics)
-
-        self.assertEqual(2, AIController.number_AI)
 
 
 class GameTestCase(unittest.TestCase):

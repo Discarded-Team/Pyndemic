@@ -11,7 +11,6 @@ from city import City
 from disease import Disease
 from card import Card, PlayerCard, InfectCard
 from deck import Deck, PlayerDeck, InfectDeck
-from ai import AIController
 from player import Player
 
 # TODO: provide test cases for City and Player classes.
