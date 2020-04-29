@@ -9,42 +9,44 @@ from city import NoCityCubesException
 from player import LastDiseaseCuredException
 import log
 from commands import COMMANDS
-from api import ConsoleInputManager as input_manager
+from api import HybridInputManager
 
 
-class Controller:
-    def run_game(self, input_file=None):
-
+class MainController:
+    def __init__(self, input_file=None, random_state=None):
         if input_file is not None:
-            self.input_manager = input_manager('file', input_file)
+            self.input = HybridInputManager('file', input_file)
         else:
-            self.input_manager = input_manager()
+            self.input = HybridInputManager()
 
+        if random_state is not None:
+            random.seed(random_state)
+            logging.info(
+                f'Random state is fixed ({random_state})')
+
+    def run(self):
         logging.info(
-            'Game started for 4 players.')
-
-        random.seed(42)
+            'Starting game for 4 players.')
 
         self.player_names = names = ['Alpha', 'Bravo', 'Charlie', 'Delta']
         self.players = players = {name: Player(name) for name in names}
 
         game = self.game = Game()
 
-        for p in names:
-            game.add_player(players[p])
+        for name in self.player_names:
+            game.add_player(players[name])
 
         game.setup_game()
         game.start_game()
 
         try:
             self.game_cycle()
-        except (NullDiseaseCapacityException, ExhaustedPlayerDeckException,
-                DeathOutbreakLevelException) as e:
-            logging.warning(e)
-            logging.warning('Game lost!')
         except LastDiseaseCuredException as e:
             logging.warning(e)
             logging.warning('Game won!')
+        except GameCrisisException as e:
+            logging.warning(e)
+            logging.warning('Game lost!')
         except KeyboardInterrupt:
             logging.warning(
                 'You decided to exit the game...')
@@ -67,7 +69,7 @@ class Controller:
                     f'Actions left: {player.action_count}')
                 print('Type your command:')
 
-                command = self.input_manager.input()
+                command = self.input()
                 if not command:
                     continue
 
@@ -116,6 +118,11 @@ class Controller:
 
 
 if __name__ == '__main__':
-    input_file = sys.argv[1] if sys.argv[1:] else None
-    Controller().run_game(input_file)
+    cli_args = sys.argv[1:]
+
+    input_file = cli_args[0] if cli_args else None
+    random_state = int(cli_args[1]) if cli_args[1:] else None
+
+    controller = MainController(input_file, random_state)
+    controller.run()
 

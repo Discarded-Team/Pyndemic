@@ -5,47 +5,56 @@ import logging
 
 class InputManager(metaclass=ABCMeta):
     @abstractmethod
-    def input(self):
+    def __call__(self):
         pass
 
 
 class ConsoleInputManager(InputManager):
-    def __init__(self, input_mode='stream', input_file=None):
-        self.input_mode = input_mode
-        self.input_file = input_file
+    def __init__(self):
+        pass
 
-        if self.input_mode == 'file':
-            if input_file is None:
-                raise ValueError('You must specify `input_file` argument if '
-                                 '`input_mode` is "file".')
-            with open(self.input_file, 'r') as fin:
-                self.cached_commands = fin.readlines()
-            self.cached_commands.reverse()
-
-    def input(self):
-        if self.input_mode == 'file':
-            try:
-                command = self.cached_commands.pop().rstrip()
-            except IndexError:
-                self.input_mode = 'stream'
-                logging.warning(
-                    'No more commands in cached input! Now switching to manual mode.')
-        if self.input_mode == 'stream':
-            command = input()
-
+    def __call__(self):
+        command = input()
         return command
 
 
 class FileInputManager(InputManager):
-    def __init__(self, input_mode='stream', input_file=None):
+    def __init__(self, input_file):
+        with open(input_file, 'r') as fin:
+            self._cached = fin.readlines()
+        self._cached.reverse()
+
+    def __call__(self):
+        try:
+            command = self._cached.pop().rstrip()
+        except IndexError:
+            raise IndexError(
+                'No more commands in file input!')
+
+        return command
+
+
+class HybridInputManager(InputManager):
+    def __init__(self, input_mode='console', input_file=None):
         self.input_mode = input_mode
-        self.input_file = input_file
 
         if self.input_mode == 'file':
-            if input_file is None:
-                raise ValueError('You must specify `input_file` argument if '
-                                 '`input_mode` is "file".')
-            with open(self.input_file, 'r') as fin:
-                self.cached_commands = fin.readlines()
-            self.cached_commands.reverse()
+            self.input = FileInputManager(input_file)
+            logging.info('Using file input mode.')
+        else:
+            self.input = ConsoleInputManager()
+            logging.info('Using console input mode.')
+
+    def __call__(self):
+        try:
+            command = self.input()
+        except IndexError:
+            self.input_mode = 'console'
+            logging.warning(
+                'No more commands in file input! '
+                'Now switching to console mode.')
+            self.input = ConsoleInputManager()
+            command = self.input()
+
+        return command
 
