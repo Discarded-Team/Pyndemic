@@ -9,15 +9,16 @@ from city import NoCityCubesException
 from player import LastDiseaseCuredException
 import log
 from commands import COMMANDS
+from api import ConsoleInputManager as input_manager
 
 
 class Controller:
     def run_game(self, input_file=None):
 
         if input_file is not None:
-            self.inp = InputManager('file', input_file)
+            self.input_manager = input_manager('file', input_file)
         else:
-            self.inp = InputManager()
+            self.input_manager = input_manager()
 
         logging.info(
             'Game started for 4 players.')
@@ -66,7 +67,7 @@ class Controller:
                     f'Actions left: {player.action_count}')
                 print('Type your command:')
 
-                command = self.inp.get_input()
+                command = self.input_manager.input()
                 if not command:
                     continue
 
@@ -112,29 +113,6 @@ class Controller:
 
             logging.info(
                 'Infect phase gone. Starting new turn.')
-
-
-class InputManager:
-    def __init__(self, input_mode='stream', input_file=None):
-        self.input_mode = input_mode
-        self.input_file = input_file
-        if self.input_mode == 'file':
-            with open(input_file, 'r') as fin:
-                self.cached_commands = fin.readlines()
-            self.cached_commands.reverse()
-
-    def get_input(self):
-        if self.input_mode == 'file':
-            try:
-                command = self.cached_commands.pop().rstrip()
-            except IndexError:
-                self.input_mode = 'stream'
-                logging.warning(
-                    'No more commands in cached input! Now switching to manual mode.')
-        if self.input_mode == 'stream':
-            command = input()
-
-        return command
 
 
 if __name__ == '__main__':
