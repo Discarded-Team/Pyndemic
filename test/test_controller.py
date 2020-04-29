@@ -14,5 +14,5 @@ INPUT_LOCATION = op.join(op.dirname(__file__), 'test_input.txt')
 class MainControllerTestCase(TestCase):
     def test_run(self):
         self.controller = MainController(INPUT_LOCATION, 42)
-        controller.run()
+        self.controller.run()
 

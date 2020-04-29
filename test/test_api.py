@@ -4,7 +4,6 @@ from unittest import TestCase, skip, expectedFailure
 from unittest.mock import patch
 
 import os.path as op
-import logging
 
 from api import ConsoleInputManager, FileInputManager, HybridInputManager
 
@@ -73,8 +72,6 @@ class HybridInputManagerTestCase(TestCase):
 
     @patch('builtins.input', return_value='console input')
     def test_call(self, mock_input):
-        logging.disable()
-
         for command in self.file_commands:
             with self.subTest(command=command):
                 input_command = self.input()
@@ -84,6 +81,4 @@ class HybridInputManagerTestCase(TestCase):
             with self.subTest(i=i):
                 input_command = self.input()
                 self.assertEqual('console input', input_command)
-
-        logging.disable(logging.NOTSET)
 
