@@ -67,7 +67,6 @@ class MainController:
             while player.action_count:
                 logging.info(
                     f'Actions left: {player.action_count}')
-                print('Type your command:')
 
                 command = self.input()
                 if not command:

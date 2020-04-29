@@ -14,7 +14,7 @@ class ConsoleInputManager(InputManager):
         pass
 
     def __call__(self):
-        command = input()
+        command = input('Type your command: ')
         return command
 
 
