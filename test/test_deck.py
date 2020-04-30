@@ -5,9 +5,9 @@ from unittest import TestCase, skip, expectedFailure
 import os.path as op
 import random
 
-import config
-from card import Card, PlayerCard, InfectCard
-from deck import Deck, PlayerDeck, InfectDeck
+from src import config
+from src.card import Card, PlayerCard, InfectCard
+from src.deck import Deck, PlayerDeck, InfectDeck
 
 
 SETTINGS_LOCATION = op.join(op.dirname(__file__), 'test_settings.cfg')

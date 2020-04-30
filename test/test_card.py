@@ -2,7 +2,7 @@
 import unittest
 from unittest import TestCase, skip, expectedFailure
 
-from card import Card, PlayerCard, InfectCard
+from src.card import Card, PlayerCard, InfectCard
 
 
 class CardTestCase(TestCase):

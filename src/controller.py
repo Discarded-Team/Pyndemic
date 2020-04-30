@@ -4,12 +4,12 @@ import itertools as its
 import random
 import logging
 
-from game import *
-from city import NoCityCubesException
-from player import LastDiseaseCuredException
-import log
-from commands import COMMANDS
-from api import HybridInputManager
+from .game import *
+from .city import NoCityCubesException
+from .player import LastDiseaseCuredException
+from . import log
+from .commands import COMMANDS
+from .api import HybridInputManager
 
 
 class MainController:
@@ -114,14 +114,4 @@ class MainController:
 
             logging.info(
                 'Infect phase gone. Starting new turn.')
-
-
-if __name__ == '__main__':
-    cli_args = sys.argv[1:]
-
-    input_file = cli_args[0] if cli_args else None
-    random_state = int(cli_args[1]) if cli_args[1:] else None
-
-    controller = MainController(input_file, random_state)
-    controller.run()
 

@@ -5,7 +5,7 @@ import logging
 from logging import StreamHandler, Formatter
 from logging.handlers import RotatingFileHandler
 
-import config
+from . import config
 
 
 LOG_DIR = os.path.join(config.ROOT_DIR, 'log')

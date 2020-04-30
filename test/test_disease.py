@@ -2,7 +2,7 @@
 import unittest
 from unittest import TestCase, skip, expectedFailure
 
-from disease import Disease
+from src.disease import Disease
 
 
 class DiseaseTestCase(TestCase):

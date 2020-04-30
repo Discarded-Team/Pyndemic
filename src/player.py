@@ -1,7 +1,7 @@
 # coding: utf-8
 import logging
 
-from exceptions import GameCrisisException
+from .exceptions import GameCrisisException
 
 
 class LastDiseaseCuredException(GameCrisisException):

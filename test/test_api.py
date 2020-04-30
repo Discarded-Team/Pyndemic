@@ -5,7 +5,7 @@ from unittest.mock import patch
 
 import os.path as op
 
-from api import ConsoleInputManager, FileInputManager, HybridInputManager
+from src.api import ConsoleInputManager, FileInputManager, HybridInputManager
 
 
 INPUT_LOCATION = op.join(op.dirname(__file__), 'test_input.txt')

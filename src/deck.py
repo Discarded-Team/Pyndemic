@@ -3,8 +3,8 @@ import random
 from itertools import cycle, chain
 import logging
 
-import config
-from card import PlayerCard, InfectCard
+from . import config
+from .card import PlayerCard, InfectCard
 
 
 class Deck:

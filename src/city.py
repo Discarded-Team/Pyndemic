@@ -1,7 +1,7 @@
 # coding: utf-8
 import logging
 
-from exceptions import GameException
+from .exceptions import GameException
 
 
 class NoCityCubesException(GameException):

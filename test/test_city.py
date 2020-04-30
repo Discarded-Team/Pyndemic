@@ -5,8 +5,8 @@ from unittest import TestCase, skip, expectedFailure
 import os.path as op
 import random
 
-from exceptions import *
-from city import City
+from src.exceptions import *
+from src.city import City
 
 
 class CityClassmethodTestCase(TestCase):

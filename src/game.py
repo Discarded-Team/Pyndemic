@@ -1,14 +1,13 @@
 # coding: utf-8
-from configparser import ConfigParser
 import logging
 
-import config
-from exceptions import GameCrisisException
-from city import City
-from card import Card
-from deck import PlayerDeck, InfectDeck
-from disease import Disease
-from player import Player
+from . import config
+from .exceptions import GameCrisisException
+from .city import City
+from .card import Card
+from .deck import PlayerDeck, InfectDeck
+from .disease import Disease
+from .player import Player
 
 
 class NullDiseaseCapacityException(GameCrisisException):

@@ -3,7 +3,7 @@ import os
 from configparser import ConfigParser
 
 
-ROOT_DIR = os.path.dirname(__file__)
+ROOT_DIR = os.path.join(os.path.dirname(__file__), os.pardir)
 SETTINGS_DEFAULT_LOCATION = os.path.join(ROOT_DIR, 'settings.cfg')
 
 _CACHED_SETTINGS = None

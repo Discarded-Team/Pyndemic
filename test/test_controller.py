@@ -4,7 +4,7 @@ from unittest import TestCase, skip, expectedFailure
 
 import os.path as op
 
-from controller import MainController
+from src.controller import MainController
 
 
 INPUT_LOCATION = op.join(op.dirname(__file__), 'test_input.txt')
