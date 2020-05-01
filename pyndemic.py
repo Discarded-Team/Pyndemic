@@ -5,6 +5,9 @@ import sys
 from src.controller import MainController
 
 
+__version__ = "0.1.0"
+
+
 if __name__ == '__main__':
     cli_args = sys.argv[1:]
 
