@@ -1,0 +1,36 @@
+# Auto detect text files and perform LF normalization
+*          text=auto
+
+# Source files
+# ============
+*.py     text diff=python
+*.py3    text diff=python
+
+# Binary files
+# ============
+*.db     binary
+*.pkl    binary
+
+# Documents
+# ============
+*.md       text
+
+# Graphics
+# ============
+*.png      binary
+
+# Scripts
+# ============
+*.bash     text eol=lf
+*.sh       text eol=lf
+
+# Serialization
+# ============
+*.json     text
+*.yaml     text
+*.yml      text
+
+# Exclude files from exporting
+# ============
+.gitattributes export-ignore
+.gitignore     export-ignore
