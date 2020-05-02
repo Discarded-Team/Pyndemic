@@ -81,7 +81,7 @@ class GameSetupTestCase(TestCase):
         self.pg.get_new_diseases()
 
         self.assertEqual('Red', self.pg.diseases['Red'].colour)
-        self.assertEqual(30, self.pg.disease_cubes['Blue'])
+        self.assertEqual(30, self.pg.diseases['Blue'].cubes_at_bank)
 
     def test_set_starting_epidemics(self):
         self.pg.set_starting_epidemics()
@@ -120,7 +120,7 @@ class GameSetupTestCase(TestCase):
         self.assertEqual('London', top_infect_card.name)
 
         self.assertEqual('Red', self.pg.diseases['Red'].colour)
-        self.assertEqual(30, self.pg.disease_cubes['Black'])
+        self.assertEqual(30, self.pg.diseases['Black'].cubes_at_bank)
 
         self.assertEqual(4, self.pg.starting_epidemics)
 
@@ -166,7 +166,7 @@ class GameTestCase(unittest.TestCase):
         self.pg.infect_city('London', 'Blue')
         self.assertEqual(1, self.pg.city_map['London'].cubes['Blue'])
 
-        self.pg.disease_cubes['Blue'] = 0
+        self.pg.diseases['Blue'].cubes_at_bank = 0
         with self.assertRaises(GameCrisisException):
             self.pg.infect_city('London', 'Blue')
 
@@ -176,7 +176,7 @@ class GameTestCase(unittest.TestCase):
         self.assertEqual(1, self.pg.city_map['Oxford'].cubes['Blue'])
         self.assertEqual(2, len(self.pg.infect_deck.discard))
         self.assertEqual('London', self.pg.infect_deck.discard[0].name)
-        self.assertEqual(28, self.pg.disease_cubes['Blue'])
+        self.assertEqual(28, self.pg.diseases['Blue'].cubes_at_bank)
 
     def test_epidemic_phase(self):
         self.pg.epidemic_phase()
@@ -261,7 +261,7 @@ class GameTestCase(unittest.TestCase):
         self.assertEqual(1, self.pg.city_map['Liverpool'].cubes['Blue'])
         self.assertEqual(1, self.pg.city_map['Manchester'].cubes['Blue'])
         self.assertEqual(9, len(self.pg.infect_deck.discard))
-        self.assertEqual(12, self.pg.disease_cubes['Blue'])
+        self.assertEqual(12, self.pg.diseases['Blue'].cubes_at_bank)
 
     def test_draw_initial_hands(self):
         test_cards = self.pg.player_deck.cards[:8]

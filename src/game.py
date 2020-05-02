@@ -10,14 +10,6 @@ from .disease import Disease
 from .player import Player
 
 
-class NullDiseaseCapacityException(GameCrisisException):
-    def __init__(self, colour):
-        self.colour = colour
-
-    def __str__(self):
-        return f'No {self.colour} disease cubes left!'
-
-
 class ExhaustedPlayerDeckException(GameCrisisException):
     def __str__(self):
         return 'Player deck exhausted!'
@@ -34,7 +26,6 @@ class Game:
         self.outbreak_count = 0
         self.game_over = False
         self.game_won = False
-        self.disease_cubes = {}
         self.city_map = {}
         self.player_deck = PlayerDeck()
         self.infect_deck = InfectDeck()
@@ -133,12 +124,7 @@ class Game:
         logging.info(
             f'Infecting {infected_city} with {colour} disease.')
         if infected_city.cubes[colour] < 3:
-            if self.disease_cubes[colour] == 0:
-                raise NullDiseaseCapacityException(colour)
-            self.disease_cubes[colour] -= 1
-            logging.debug(
-                (f'{colour} disease capacity is now '
-                 f'{self.disease_cubes[colour]}.'))
+            self.diseases[colour].take_cubes_from_bank(1) # 1 cube
             infected_city.add_cube(colour)
             logging.info(
                 (f'Infected {infected_city} with {colour} disease (reached '
@@ -254,8 +240,7 @@ class Game:
 
         for disease_id in diseases_section:
             disease_colour = diseases_section[disease_id]
-            self.diseases[disease_colour] = Disease(disease_colour)
-            self.disease_cubes[disease_colour] = number_of_cubes
+            self.diseases[disease_colour] = Disease(disease_colour, number_of_cubes)
 
     def make_cities(self):
         cities_section = self.settings['Cities']
@@ -329,4 +314,3 @@ class Game:
         for player in self.players:
             for i in range(cards_to_draw):
                 self.draw_card(player)
-

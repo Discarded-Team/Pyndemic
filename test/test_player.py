@@ -279,19 +279,19 @@ class PlayerTestCase(TestCase):
         self.player.set_location('London')
         self.player.action_count = 4
         location.cubes['Blue'] = 3
-        initial_cubes = self.game.disease_cubes['Blue']
+        initial_cubes = self.game.diseases['Blue'].cubes_at_bank
 
         success = self.player.treat_disease('Blue')
         self.assertTrue(success)
         self.assertEqual(2, location.cubes['Blue'])
-        self.assertEqual(initial_cubes + 1, self.game.disease_cubes['Blue'])
+        self.assertEqual(initial_cubes + 1, self.game.diseases['Blue'].cubes_at_bank)
         self.assertEqual(3, self.player.action_count)
 
-        initial_cubes = self.game.disease_cubes['Red']
+        initial_cubes = self.game.diseases['Red'].cubes_at_bank
         success = self.player.treat_disease('Red')
         self.assertFalse(success)
         self.assertEqual(2, location.cubes['Blue'])
-        self.assertEqual(initial_cubes, self.game.disease_cubes['Red'])
+        self.assertEqual(initial_cubes, self.game.diseases['Red'].cubes_at_bank)
         self.assertEqual(3, self.player.action_count)
 
         self.player.action_count = 0
