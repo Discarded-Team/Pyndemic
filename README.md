@@ -4,6 +4,35 @@
 This is an attempt to create a digital version of the original [Pandemic board game][official].
 This version is forked from [original repository][ref] and is expected to be written in Python with perspectives to become a standalone application.
 
+## Project status
+Current release version is 0.1. This release is focused on implementing MPV. Minimalistic console client with limited gameplay and hotseat multiplayer introduced.
+Here's part of a game log:
+![gameplay screenshot](/assets/readme/game_screenshot_1.png)
+
+Game mechanics:
+ - [x] Basic player actions
+ - [x] Epidemic event
+ - [x] Outbreak event
+ - [x] Win and Fail conditions
+ - [ ] Special character actions
+ - [ ] Event Cards
+ - [ ] Hand Limit
+
+## How to
+Run console client in interactive mode:
+```bash
+python3 pyndemic.py
+```
+or read commands form file:
+```bash
+python3 pyndemic.py commands.txt
+```
+
+Run tests:
+```bash
+python3 -m unittest
+```
+
 ---
 ## From Developer Zero
 **What is this?**
