@@ -1,11 +1,12 @@
 # Log files
-log
+/log
 
 # Game assets
-assets
+/assets/*
+!/assets/readme
 
 # Temporary files
-temp
+/temp
 
 # Other
 *pycache*
