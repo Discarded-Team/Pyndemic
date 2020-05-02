@@ -4,25 +4,25 @@ import logging
 from .exceptions import GameCrisisException
 
 
-class NullDiseaseCapacityException(GameCrisisException):
+class NoHealthException(GameCrisisException):
     def __init__(self, colour):
         self.colour = colour
 
     def __str__(self):
-        return f'No {self.colour} disease cubes left!'
+        return f'Public health resistance vs {self.colour} disease is no more! Pandemics!'
 
 
 class Disease:
     """
-        Monitors disease cubes in bank and whether it was cured completely
+        Monitors public health resistance vs this disease and whether the disease was cured completely
         :param colour: Str
-        :param cubes_at_bank: Int
+        :param init_public_health: Int
         """
 
-    def __init__(self, colour, cubes_at_bank):
+    def __init__(self, colour, init_public_health):
         self.colour = colour
         self.cured = False
-        self.cubes_at_bank = cubes_at_bank
+        self.public_health = init_public_health
 
     def __str__(self):
         result = f'{self.colour} disease'
@@ -31,29 +31,29 @@ class Disease:
 
         return result
 
-    def put_cubes_to_bank(self, qty_of_cubes):
+    def increase_resistance(self, change_size):
         """
-        :param qty_of_cubes: Int
+        :param change_size: Int
         """
 
-        assert isinstance(qty_of_cubes, int)
-        self.cubes_at_bank += qty_of_cubes
+        assert isinstance(change_size, int)
+        self.public_health += change_size
 
         logging.debug(
-            (f'{self.colour} disease capacity is now '
-             f'{self.cubes_at_bank}.'))
+            (f'Public health resistance vs {self.colour} disease is now '
+             f'{self.public_health}.'))
 
-    def take_cubes_from_bank(self, qty_of_cubes):
+    def decrease_resistance(self, change_size):
         """
-        :param qty_of_cubes: Int
+        :param change_size: Int
         """
 
-        assert isinstance(qty_of_cubes, int)
-        if qty_of_cubes >= self.cubes_at_bank:
-            raise NullDiseaseCapacityException(self.colour)
+        assert isinstance(change_size, int)
+        if change_size >= self.public_health:
+            raise NoHealthException(self.colour)
         else:
-            self.cubes_at_bank -= qty_of_cubes
+            self.public_health -= change_size
 
             logging.debug(
-                (f'{self.colour} disease capacity is now '
-                 f'{self.cubes_at_bank}.'))
+                (f'Public health resistance vs {self.colour} disease is now '
+                 f'{self.public_health}.'))

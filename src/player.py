@@ -121,14 +121,14 @@ class Player:
     def treat_disease(self, colour):
         if self.check_treat_disease(colour):
             if self.game.diseases[colour].cured:
-                dropped_cubes = self.location.remove_all_cubes(colour)
-                self.game.diseases[colour].put_cubes_to_bank(dropped_cubes)
+                dropped_cubes = self.location.remove_all_cubes(colour) # TODO rename to infection lvl
+                self.game.diseases[colour].increase_resistance(dropped_cubes)
                 logging.info(
                     (f'{self}: Treated {colour} disease in {self.location} '
                      f'(effectively).'))
             else:
                 self.location.remove_cube(colour)
-                self.game.diseases[colour].put_cubes_to_bank(1)
+                self.game.diseases[colour].increase_resistance(1)
                 logging.info(
                     f'{self}: Treated {colour} disease in {self.location}.')
             self.action_count -= 1
