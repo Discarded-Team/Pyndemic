@@ -20,11 +20,26 @@ Game mechanics:
  - [ ] Hand Limit
 
 ## How to
+### Run the game
 To play a game run console client in an interactive mode:
 ```bash
 python3 pyndemic.py
 ```
 
+### Possible commands
+ * `move <location>` - perform a standard move action
+ * `fly <location>` - perform a direct flight action
+ * `charter <location>` - perform a charter flight action
+ * `shuttle <location>` - perform a shuttle flight action
+ * `build` - perform a laboratory build action
+ * `treat <colour>` - perform a treat disease action
+ * `cure <card_1> ... <card_5>` - perform a cure disease action
+ * `share <card> <player>` - perform a share knowledge action
+ * `pass` - end turn
+
+Also you can do `Ctrl`+`C` to terminate the game.
+
+### Test run
 For tests run:
 ```bash
 python3 -m unittest

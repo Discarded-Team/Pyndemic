@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on format provided by [Keep a Changelog](https://keepachangelog.com) website.
 
 ## [Unreleased]
+- Backend API for interacting with various frontend versions
+- Game logic improvements
+- Web browser visualization
+- Fine colored messages in console =)
+- Refactoring, refactoring...
 
 ---
 
