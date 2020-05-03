@@ -1,6 +1,8 @@
 # coding: utf-8
 import logging
 
+from collections import OrderedDict
+
 from . import config
 from .exceptions import GameCrisisException
 from .city import City
@@ -26,7 +28,7 @@ class Game:
         self.outbreak_count = 0
         self.game_over = False
         self.game_won = False
-        self.city_map = {}
+        self.city_map = OrderedDict()
         self.player_deck = PlayerDeck()
         self.infect_deck = InfectDeck()
         self.infection_rate = None
