@@ -67,6 +67,7 @@ class GameSetupTestCase(TestCase):
         self.assertNotIn(self.pg.city_map['Liverpool'], city.connected_cities)
 
     def test_get_new_decks(self):
+        self.pg.get_new_cities()
         self.pg.get_new_decks()
 
         deck = self.pg.player_deck

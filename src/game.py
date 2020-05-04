@@ -231,8 +231,8 @@ class Game:
             'Created city graph.')
 
     def get_new_decks(self):
-        self.player_deck.prepare(self.settings)
-        self.infect_deck.prepare(self.settings)
+        self.player_deck.prepare(self.city_map.values())
+        self.infect_deck.prepare(self.city_map.values())
         logging.debug(
             'Decks prepared.')
 

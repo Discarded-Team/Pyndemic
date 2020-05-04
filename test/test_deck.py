@@ -2,15 +2,11 @@
 import unittest
 from unittest import TestCase, skip, expectedFailure
 
-import os.path as op
 import random
 
-from src import config
+from src.city import City
 from src.card import Card, PlayerCard, InfectCard
 from src.deck import Deck, PlayerDeck, InfectDeck
-
-
-SETTINGS_LOCATION = op.join(op.dirname(__file__), 'test_settings.cfg')
 
 
 class DeckTestCase(TestCase):
@@ -25,8 +21,8 @@ class DeckTestCase(TestCase):
         ]
         self.deck.cards = self.test_cards.copy()
 
-    def test_prepare(self):
-        self.deck.prepare('fake settings')
+    def test_clear(self):
+        self.deck.clear()
         self.assertEqual([], self.deck.cards)
         self.assertEqual([], self.deck.discard)
 
@@ -65,30 +61,54 @@ class DeckTestCase(TestCase):
         self.assertEqual(self.test_cards, self.deck.cards)
 
 
+TEST_CITIES = [
+    City('London', 'Blue'),         City('Oxford', 'Blue'),
+    City('Cambridge', 'Blue'),      City('Brighton', 'Blue'),
+    City('Southampton', 'Blue'),    City('Bristol', 'Blue'),
+    City('Plymouth', 'Blue'),       City('Liverpool', 'Blue'),
+    City('Manchester', 'Blue'),     City('Leeds', 'Blue'),
+    City('Washington', 'Yellow'),   City('Detroit', 'Yellow'),
+    City('New', 'York'),            City('Indianapolis', 'Yellow'),
+    City('Chicago', 'Yellow'),      City('Nashville', 'Yellow'),
+    City('Atlanta', 'Yellow'),      City('Charlotte', 'Yellow'),
+    City('Jacksonville', 'Yellow'), City('Bejing', 'Red'),
+    City('Tianjin', 'Red'),         City('Baoding', 'Red'),
+    City('Jinan', 'Red'),           City('Jining', 'Red'),
+    City('Weifang', 'Red'),         City('Linyi', 'Red'),
+    City('Qingdao', 'Red'),         City('Yantai', 'Red'),
+    City('Shijiazhuang', 'Red'),    City('Moscow', 'Black'),
+    City('Tver', 'Black'),          City('Kaluga', 'Black'),
+    City('Tula', 'Black'),          City('Cherepovets', 'Black'),
+    City('Vologda', 'Black'),       City('Bryansk', 'Black'),
+    City('Smolensk', 'Black'),      City('Oryol', 'Black'),
+    City('Krusk', 'Black'),         City('Belgorod', 'Black'),
+]
+
+
 class PlayerDeckTestCase(TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.settings = config.get_settings(SETTINGS_LOCATION, refresh=True)
+        cls.cities = TEST_CITIES
 
     def setUp(self):
         self.deck = PlayerDeck()
 
     def test_prepare(self):
-        self.deck.prepare(self.settings)
+        self.deck.prepare(self.cities)
 
         self.assertIsInstance(self.deck.cards[10], PlayerCard)
         self.assertEqual('London', self.deck.cards[0].name)
         self.assertEqual('Black', self.deck.cards[29].colour)
 
     def test_multiple_prepare(self):
-        self.deck.prepare(self.settings)
+        self.deck.prepare(self.cities)
         deck_size = len(self.deck.cards)
 
-        self.deck.prepare(self.settings)
+        self.deck.prepare(self.cities)
         self.assertEqual(deck_size, len(self.deck.cards))
 
     def test_add_epidemics(self):
-        self.deck.prepare(self.settings)
+        self.deck.prepare(self.cities)
 
         random.seed(42)
         self.deck.add_epidemics(6)
@@ -102,27 +122,27 @@ class PlayerDeckTestCase(TestCase):
 class InfectDeckTestCase(TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.settings = config.get_settings(SETTINGS_LOCATION, refresh=True)
+        cls.cities = TEST_CITIES
 
     def setUp(self):
         self.deck = InfectDeck()
 
     def test_prepare(self):
-        self.deck.prepare(self.settings)
+        self.deck.prepare(self.cities)
 
         self.assertIsInstance(self.deck.cards[10], InfectCard)
         self.assertEqual('London', self.deck.cards[0].name)
         self.assertEqual('Black', self.deck.cards[29].colour)
 
     def test_multiple_prepare(self):
-        self.deck.prepare(self.settings)
+        self.deck.prepare(self.cities)
         deck_size = len(self.deck.cards)
 
-        self.deck.prepare(self.settings)
+        self.deck.prepare(self.cities)
         self.assertEqual(deck_size, len(self.deck.cards))
 
     def test_shuffle_discard_to_top(self):
-        self.deck.prepare(self.settings)
+        self.deck.prepare(self.cities)
         for i in range(10):
             self.deck.add_discard(self.deck.take_top_card())
 

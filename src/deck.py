@@ -3,7 +3,6 @@ import random
 from itertools import cycle, chain
 import logging
 
-from . import config
 from .card import PlayerCard, InfectCard
 
 
@@ -20,7 +19,7 @@ class Deck:
                   f'discard size: {len(self.discard)})')
         return result
 
-    def prepare(self, settings):
+    def clear(self):
         self.cards = []
         self.discard = []
 
@@ -41,16 +40,10 @@ class Deck:
 
 
 class PlayerDeck(Deck):
-    def prepare(self, settings):
-        super().prepare(settings)
-
-        cities_section = settings['Cities']
-        city_colours_section = settings['City Colours']
-
-        for city_id in cities_section:
-            city_name = cities_section[city_id]
-            city_colour = city_colours_section[city_id]
-            new_card = PlayerCard(city_name, city_colour)
+    def prepare(self, cities):
+        self.clear()
+        for city in cities:
+            new_card = PlayerCard(city.name, city.colour)
             self.add_card(new_card)
 
         logging.debug(
@@ -77,16 +70,10 @@ class PlayerDeck(Deck):
 
 
 class InfectDeck(Deck):
-    def prepare(self, settings):
-        super().prepare(settings)
-
-        cities_section = settings['Cities']
-        city_colours_section = settings['City Colours']
-
-        for city_id in cities_section:
-            city_name = cities_section[city_id]
-            city_colour = city_colours_section[city_id]
-            new_card = InfectCard(city_name, city_colour)
+    def prepare(self, cities):
+        self.clear()
+        for city in cities:
+            new_card = InfectCard(city.name, city.colour)
             self.add_card(new_card)
 
         logging.debug(
