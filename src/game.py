@@ -43,11 +43,10 @@ class Game:
 
     def setup_game(self, settings_location=None):
         self.settings = config.get_settings(settings_location)
-        City.set_cube_colours(self.settings)
         self.get_infection_rate()
+        self.get_new_diseases()
         self.get_new_cities()
         self.get_new_decks()
-        self.get_new_diseases()
         self.set_starting_epidemics()
 
         logging.info(
@@ -219,11 +218,13 @@ class Game:
     def get_new_cities(self):
         cities_section = self.settings['Cities']
         city_colours_section = self.settings['City Colours']
+        cube_colours = list(self.diseases.keys())
 
         for city_id in cities_section:
             city_name = cities_section[city_id]
             city_colour = city_colours_section[city_id]
             new_city = City(city_name, city_colour)
+            new_city.init_colours(cube_colours)
             self.city_map[city_name] = new_city
 
         self.make_cities()

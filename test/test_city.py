@@ -9,19 +9,6 @@ from src.exceptions import *
 from src.city import City
 
 
-class CityClassmethodTestCase(TestCase):
-    def test_set_cube_colours(self):
-        saved = City.cube_colours
-
-        City.cube_colours = []
-        mocked_settings = {'Colours': {'colours': 'Red,Blue,Yellow,Black'}}
-        City.set_cube_colours(mocked_settings)
-        self.assertIn('Yellow', City.cube_colours)
-        self.assertIn('Red', City.cube_colours)
-
-        City.cube_colours = saved
-
-
 class CityTestCase(TestCase):
     def setUp(self):
         self.city = City('London', 'Blue')
@@ -35,7 +22,7 @@ class CityTestCase(TestCase):
     def test_init_city_colours(self):
         self.city.cubes = {}
         cube_colours = ['Red', 'Yellow']
-        self.city.init_city_colours(cube_colours)
+        self.city.init_colours(cube_colours)
         self.assertEqual(0, self.city.cubes['Red'])
         self.assertEqual(0, self.city.cubes['Yellow'])
 

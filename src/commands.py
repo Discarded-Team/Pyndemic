@@ -117,7 +117,7 @@ class TreatCommand(Command):
     def check_arguments(self, command):
         colour = command[1]
         location = self.player.location
-        if colour not in location.cube_colours:
+        if colour not in location.cubes:
             return False
         return True
 
