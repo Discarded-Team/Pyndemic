@@ -9,12 +9,12 @@ class NoHealthException(GameCrisisException):
         self.colour = colour
 
     def __str__(self):
-        return f'Public health resistance vs {self.colour} disease is no more! Pandemics!'
+        return f'Public health resistance to {self.colour} disease is over! Pandemic!'
 
 
 class Disease:
     """
-        Monitors public health resistance vs this disease and whether the disease was cured completely
+        Monitors public health resistance to this disease and whether the disease has been cured completely
         :param colour: Str
         :param init_public_health: Int
         """
@@ -36,11 +36,10 @@ class Disease:
         :param change_size: Int
         """
 
-        assert isinstance(change_size, int)
         self.public_health += change_size
 
         logging.debug(
-            (f'Public health resistance vs {self.colour} disease is now '
+            (f'Public health resistance to {self.colour} disease is now '
              f'{self.public_health}.'))
 
     def decrease_resistance(self, change_size):
@@ -48,12 +47,11 @@ class Disease:
         :param change_size: Int
         """
 
-        assert isinstance(change_size, int)
         if change_size >= self.public_health:
             raise NoHealthException(self.colour)
         else:
             self.public_health -= change_size
 
             logging.debug(
-                (f'Public health resistance vs {self.colour} disease is now '
+                (f'Public health resistance to {self.colour} disease is now '
                  f'{self.public_health}.'))

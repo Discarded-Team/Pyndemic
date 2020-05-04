@@ -124,7 +124,7 @@ class Game:
         logging.info(
             f'Infecting {infected_city} with {colour} disease.')
         if infected_city.cubes[colour] < 3:
-            self.diseases[colour].decrease_resistance(1) # 1 cube
+            self.diseases[colour].decrease_resistance(1)
             infected_city.add_cube(colour)
             logging.info(
                 (f'Infected {infected_city} with {colour} disease (reached '
