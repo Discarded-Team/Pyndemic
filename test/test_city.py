@@ -26,12 +26,12 @@ class CityTestCase(TestCase):
         self.assertEqual(0, self.city.infection_levels['Red'])
         self.assertEqual(0, self.city.infection_levels['Yellow'])
 
-    def add_cube(self, colour):
+    def test_increase_infection_level(self):
         self.city.infection_levels['Black'] = 2
         self.city.increase_infection_level('Black')
         self.assertEqual(3, self.city.infection_levels['Black'])
 
-    def test_remove_cube(self):
+    def test_decrease_infection_level(self):
         self.city.infection_levels['Black'] = 2
         self.city.decrease_infection_level('Black')
         self.assertEqual(1, self.city.infection_levels['Black'])
@@ -41,14 +41,14 @@ class CityTestCase(TestCase):
             self.city.decrease_infection_level('Black')
         self.assertEqual(0, self.city.infection_levels['Black'])
 
-    def test_remove_all_cubes(self):
+    def test_nullify_infection_level(self):
         self.city.infection_levels['Red'] = 3
-        dropped_cubes = self.city.remove_all_cubes('Red')
+        dropped_cubes = self.city.nullify_infection_level('Red')
         self.assertEqual(3, dropped_cubes)
         self.assertEqual(0, self.city.infection_levels['Red'])
 
         with self.assertRaises(GameException):
-            self.city.remove_all_cubes('Red')
+            self.city.nullify_infection_level('Red')
         self.assertEqual(0, self.city.infection_levels['Red'])
 
     def test_build_lab(self):
@@ -65,13 +65,12 @@ class CityTestCase(TestCase):
         self.city.add_connection(another_city)
         self.assertIn(another_city, self.city.connected_cities)
 
-    def test_get_max_cubes(self):
+    def test_get_max_infection_level(self):
         self.city.infection_levels['Blue'] = 1
         self.city.infection_levels['Red'] = 2
         self.city.infection_levels['Yellow'] = 4
-        self.assertEqual(4, self.city.get_max_cubes())
+        self.assertEqual(4, self.city.get_max_infection_level())
 
-    def test_get_cubes(self):
+    def test_get_infection_levels(self):
         self.city.infection_levels['Blue'] = 2
         self.assertEqual(2, self.city.infection_levels['Blue'])
-

@@ -109,13 +109,13 @@ class Game:
             'Decks shuffled.')
 
     def has_x_cube_city(self, x):
-        return any(city.get_max_cubes() == x
+        return any(city.get_max_infection_level() == x
                    for city in self.city_map.values())
 
     def get_count_x_cube_city(self, x):
         count_x_cities = 0
         for city in self.city_map.values():
-            if city.get_max_cubes() == x:
+            if city.get_max_infection_level() == x:
                 count_x_cities += 1
         return count_x_cities
 

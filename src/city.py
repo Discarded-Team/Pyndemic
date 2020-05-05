@@ -63,15 +63,15 @@ class City:
         self.connected_cities.append(new_city)
 
     # TODO redesign this method
-    def remove_all_cubes(self, colour):
+    def nullify_infection_level(self, colour):
         if not self.infection_levels[colour]:
             raise NoDiseaseInCityException(self, colour)
-        dropped_cubes = self.infection_levels[colour]
+        level_reduction = self.infection_levels[colour]
         self.infection_levels[colour] = 0
         logging.debug(
             f'Removed all {colour} cubes from {self}')
 
-        return dropped_cubes
+        return level_reduction
 
-    def get_max_cubes(self):
+    def get_max_infection_level(self):
         return max(self.infection_levels.values())
