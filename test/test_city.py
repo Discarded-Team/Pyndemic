@@ -65,6 +65,3 @@ class CityTestCase(TestCase):
         self.city.add_connection(another_city)
         self.assertIn(another_city, self.city.connected_cities)
 
-    def test_get_infection_levels(self):
-        self.city.infection_levels['Blue'] = 2
-        self.assertEqual(2, self.city.infection_levels['Blue'])

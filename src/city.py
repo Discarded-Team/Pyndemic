@@ -69,7 +69,7 @@ class City:
         level_reduction = self.infection_levels[colour]
         self.infection_levels[colour] = 0
         logging.debug(
-            f'Removed all levels of {colour} disease from {self}')
+            f'{colour} disease infection in {self} dropped to zero level')
 
         return level_reduction
 
