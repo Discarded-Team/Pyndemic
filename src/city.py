@@ -14,14 +14,11 @@ class NoCityCubesException(GameException):
 
 
 class City:
-    cube_colours = []
-
     def __init__(self, name, colour):
         self.name = name
         self.has_lab = False
         self.colour = colour
         self.cubes = {}
-        self.init_city_colours(__class__.cube_colours)
         self.distance = 999
         self.connected_cities = []
         logging.debug(
@@ -37,7 +34,7 @@ class City:
 
         return result
 
-    def init_city_colours(self, cube_colours):
+    def init_colours(self, cube_colours):
         for colour in cube_colours:
             self.cubes[colour] = 0
 
@@ -78,9 +75,3 @@ class City:
 
     def get_max_cubes(self):
         return max(self.cubes.values())
-
-    # TODO: redesign this method
-    @classmethod
-    def set_cube_colours(cls, settings):
-        cls.cube_colours = settings['Colours'].get('colours').split(',')
-

@@ -67,6 +67,7 @@ class GameSetupTestCase(TestCase):
         self.assertNotIn(self.pg.city_map['Liverpool'], city.connected_cities)
 
     def test_get_new_decks(self):
+        self.pg.get_new_cities()
         self.pg.get_new_decks()
 
         deck = self.pg.player_deck
@@ -103,9 +104,6 @@ class GameSetupTestCase(TestCase):
         self.assertFalse(self.pg.game_won)
         self.assertFalse(self.pg.game_over)
 
-        self.assertIn('Yellow', City.cube_colours)
-        City.cube_colours = []
-
         self.assertEqual(2, self.pg.infection_rate)
 
         self.assertIn('New York', self.pg.city_map)
@@ -113,6 +111,8 @@ class GameSetupTestCase(TestCase):
         self.assertEqual('New York', self.newyork.name)
         self.assertEqual('Yellow', self.newyork.colour)
         self.assertEqual(3, len(self.newyork.connected_cities))
+        for colour in ('Blue', 'Red', 'Yellow', 'Black'):
+            self.assertIn(colour, self.newyork.cubes)
 
         top_player_card = self.pg.player_deck.take_top_card()
         top_infect_card = self.pg.infect_deck.take_top_card()
