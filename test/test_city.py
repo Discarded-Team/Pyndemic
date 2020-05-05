@@ -65,12 +65,6 @@ class CityTestCase(TestCase):
         self.city.add_connection(another_city)
         self.assertIn(another_city, self.city.connected_cities)
 
-    def test_get_max_cubes(self):
-        self.city.cubes['Blue'] = 1
-        self.city.cubes['Red'] = 2
-        self.city.cubes['Yellow'] = 4
-        self.assertEqual(4, self.city.get_max_cubes())
-
     def test_get_cubes(self):
         self.city.cubes['Blue'] = 2
         self.assertEqual(2, self.city.cubes['Blue'])
