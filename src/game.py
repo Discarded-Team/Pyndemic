@@ -108,17 +108,6 @@ class Game:
         logging.info(
             'Decks shuffled.')
 
-    def has_x_cube_city(self, x):
-        return any(city.get_max_cubes() == x
-                   for city in self.city_map.values())
-
-    def get_count_x_cube_city(self, x):
-        count_x_cities = 0
-        for city in self.city_map.values():
-            if city.get_max_cubes() == x:
-                count_x_cities += 1
-        return count_x_cities
-
     # TODO: Extend this method for arbitrary cube number
     def infect_city(self, city, colour):
         infected_city = self.city_map.get(city)
@@ -258,48 +247,6 @@ class Game:
     def get_infection_rate(self):
         self.infection_rates = self.settings['Other'].get('rate')
         self.infection_rate = int(self.infection_rates[0])
-
-    def set_lab_distances(self):
-        cities_with_labs = []
-        for city in self.city_map.values():
-            if city.has_lab:
-                cities_with_labs.append(city)
-        self.set_cities_distances(cities_with_labs)
-
-    def set_cities_distances_names(self, city_names):
-        cities = []
-        for name in city_names:
-            cities.append(self.city_map[name])
-        self.set_cities_distances(cities)
-
-    def set_cities_distances(self, cities):
-        self.reset_distances()
-        for city in cities:
-            city.distance = 0
-        self.update_distances(cities)
-
-    def set_city_distance_name(self, city_name):
-        city_list = [self.city_map[city_name]]
-        self.set_cities_distances(city_list)
-
-    def set_city_distance(self, city):
-        city_list = [city]
-        self.set_cities_distances(city_list)
-
-    def reset_distances(self):
-        for city in self.city_map.values():
-            city.distance = 999
-
-    def update_distances(self, starting_cities):
-        updated_cities = []
-        current_distance = starting_cities[0].distance
-        for city in starting_cities:
-            for connected_city in city.connected_cities:
-                if connected_city.distance == 999:
-                    updated_cities.append(connected_city)
-                    connected_city.distance = current_distance + 1
-        if updated_cities:
-            self.update_distances(updated_cities)
 
     def increment_epidemic_count(self):
         self.epidemic_count += 1
