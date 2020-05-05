@@ -108,7 +108,7 @@ class Game:
         logging.info(
             'Decks shuffled.')
 
-    # TODO: Extend this method for arbitrary cube number
+    # TODO: Extend this method for arbitrary change of levels
     def infect_city(self, city, colour):
         infected_city = self.city_map.get(city)
         logging.info(
