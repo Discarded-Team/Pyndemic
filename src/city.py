@@ -4,13 +4,13 @@ import logging
 from .exceptions import GameException
 
 
-class NoCityCubesException(GameException):
+class NoDiseaseInCityException(GameException):
     def __init__(self, city, colour):
         self.city = city
         self.colour = colour
 
     def __str__(self):
-        return f'No {self.colour} cubes left in {self.city.name}!'
+        return f'No {self.colour} disease found in {self.city.name}!'
 
 
 class City:
@@ -38,17 +38,17 @@ class City:
         for colour in cube_colours:
             self.infection_levels[colour] = 0
 
-    def remove_cube(self, colour):
+    def decrease_infection_level(self, colour):
         if not self.infection_levels[colour]:
-            raise NoCityCubesException(self, colour)
+            raise NoDiseaseInCityException(self, colour)
         self.infection_levels[colour] -= 1
         logging.debug(
-            f'Removed {colour} cube from {self}')
+            f'{colour} disease infection in {self} went one level down')
 
-    def add_cube(self, colour):
+    def increase_infection_level(self, colour):
         self.infection_levels[colour] += 1
         logging.debug(
-            f'Added {colour} cube to {self}')
+            f'{colour} disease infection in {self} went one level up')
 
     def build_lab(self):
         if self.has_lab:
@@ -65,7 +65,7 @@ class City:
     # TODO redesign this method
     def remove_all_cubes(self, colour):
         if not self.infection_levels[colour]:
-            raise NoCityCubesException(self, colour)
+            raise NoDiseaseInCityException(self, colour)
         dropped_cubes = self.infection_levels[colour]
         self.infection_levels[colour] = 0
         logging.debug(

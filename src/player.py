@@ -127,7 +127,7 @@ class Player:
                     (f'{self}: Treated {colour} disease in {self.location} '
                      f'(effectively).'))
             else:
-                self.location.remove_cube(colour)
+                self.location.decrease_infection_level(colour)
                 self.game.diseases[colour].increase_resistance(1)
                 logging.info(
                     f'{self}: Treated {colour} disease in {self.location}.')

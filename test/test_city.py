@@ -28,17 +28,17 @@ class CityTestCase(TestCase):
 
     def add_cube(self, colour):
         self.city.infection_levels['Black'] = 2
-        self.city.add_cube('Black')
+        self.city.increase_infection_level('Black')
         self.assertEqual(3, self.city.infection_levels['Black'])
 
     def test_remove_cube(self):
         self.city.infection_levels['Black'] = 2
-        self.city.remove_cube('Black')
+        self.city.decrease_infection_level('Black')
         self.assertEqual(1, self.city.infection_levels['Black'])
 
         self.city.infection_levels['Black'] = 0
         with self.assertRaises(GameException):
-            self.city.remove_cube('Black')
+            self.city.decrease_infection_level('Black')
         self.assertEqual(0, self.city.infection_levels['Black'])
 
     def test_remove_all_cubes(self):
