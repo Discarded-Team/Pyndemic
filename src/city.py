@@ -73,5 +73,3 @@ class City:
 
         return dropped_cubes
 
-    def get_max_cubes(self):
-        return max(self.cubes.values())
