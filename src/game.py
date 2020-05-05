@@ -124,12 +124,12 @@ class Game:
         infected_city = self.city_map.get(city)
         logging.info(
             f'Infecting {infected_city} with {colour} disease.')
-        if infected_city.cubes[colour] < 3:
+        if infected_city.infection_levels[colour] < 3:
             self.diseases[colour].decrease_resistance(1)
             infected_city.add_cube(colour)
             logging.info(
                 (f'Infected {infected_city} with {colour} disease (reached '
-                 f'level {infected_city.cubes[colour]}).'))
+                 f'level {infected_city.infection_levels[colour]}).'))
         else:
             logging.info(
                 (f'{infected_city} has already maximum {colour} disease '

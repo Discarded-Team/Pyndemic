@@ -114,7 +114,7 @@ class Player:
 
     def check_treat_disease(self, colour):
         if self.action_count > 0:
-            if self.location.cubes.get(colour, 0) > 0:
+            if self.location.infection_levels.get(colour, 0) > 0:
                 return True
         return False
 
@@ -133,7 +133,7 @@ class Player:
                     f'{self}: Treated {colour} disease in {self.location}.')
             self.action_count -= 1
             logging.info(
-                (f'Now {self.location} has {self.location.cubes[colour]} '
+                (f'Now {self.location} has {self.location.infection_levels[colour]} '
                  f'level of {colour} disease.'))
 
             return True

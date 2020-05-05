@@ -18,7 +18,7 @@ class City:
         self.name = name
         self.has_lab = False
         self.colour = colour
-        self.cubes = {}
+        self.infection_levels = {}
         self.distance = 999
         self.connected_cities = []
         logging.debug(
@@ -36,17 +36,17 @@ class City:
 
     def init_colours(self, cube_colours):
         for colour in cube_colours:
-            self.cubes[colour] = 0
+            self.infection_levels[colour] = 0
 
     def remove_cube(self, colour):
-        if not self.cubes[colour]:
+        if not self.infection_levels[colour]:
             raise NoCityCubesException(self, colour)
-        self.cubes[colour] -= 1
+        self.infection_levels[colour] -= 1
         logging.debug(
             f'Removed {colour} cube from {self}')
 
     def add_cube(self, colour):
-        self.cubes[colour] += 1
+        self.infection_levels[colour] += 1
         logging.debug(
             f'Added {colour} cube to {self}')
 
@@ -64,14 +64,14 @@ class City:
 
     # TODO redesign this method
     def remove_all_cubes(self, colour):
-        if not self.cubes[colour]:
+        if not self.infection_levels[colour]:
             raise NoCityCubesException(self, colour)
-        dropped_cubes = self.cubes[colour]
-        self.cubes[colour] = 0
+        dropped_cubes = self.infection_levels[colour]
+        self.infection_levels[colour] = 0
         logging.debug(
             f'Removed all {colour} cubes from {self}')
 
         return dropped_cubes
 
     def get_max_cubes(self):
-        return max(self.cubes.values())
+        return max(self.infection_levels.values())

@@ -278,49 +278,49 @@ class PlayerTestCase(TestCase):
         location = self.game.city_map['London']
         self.player.set_location('London')
         self.player.action_count = 4
-        location.cubes['Blue'] = 3
+        location.infection_levels['Blue'] = 3
         initial_cubes = self.game.diseases['Blue'].public_health
 
         success = self.player.treat_disease('Blue')
         self.assertTrue(success)
-        self.assertEqual(2, location.cubes['Blue'])
+        self.assertEqual(2, location.infection_levels['Blue'])
         self.assertEqual(initial_cubes + 1, self.game.diseases['Blue'].public_health)
         self.assertEqual(3, self.player.action_count)
 
         initial_cubes = self.game.diseases['Red'].public_health
         success = self.player.treat_disease('Red')
         self.assertFalse(success)
-        self.assertEqual(2, location.cubes['Blue'])
+        self.assertEqual(2, location.infection_levels['Blue'])
         self.assertEqual(initial_cubes, self.game.diseases['Red'].public_health)
         self.assertEqual(3, self.player.action_count)
 
         self.player.action_count = 0
         success = self.player.treat_disease('Blue')
         self.assertFalse(success)
-        self.assertEqual(2, location.cubes['Blue'])
+        self.assertEqual(2, location.infection_levels['Blue'])
 
     def test_treat_disease_cure(self):
         self.game.diseases['Blue'].cured = True
         location = self.game.city_map['London']
         self.player.set_location('London')
         self.player.action_count = 4
-        location.cubes['Blue'] = 3
+        location.infection_levels['Blue'] = 3
 
         success = self.player.treat_disease('Blue')
         self.assertTrue(success)
-        self.assertEqual(0, location.cubes['Blue'])
+        self.assertEqual(0, location.infection_levels['Blue'])
         self.assertEqual(3, self.player.action_count)
 
-        location.cubes['Blue'] = 3
+        location.infection_levels['Blue'] = 3
         success = self.player.treat_disease('Red')
         self.assertFalse(success)
-        self.assertEqual(3, location.cubes['Blue'])
+        self.assertEqual(3, location.infection_levels['Blue'])
         self.assertEqual(3, self.player.action_count)
 
         self.player.action_count = 0
         success = self.player.treat_disease('Blue')
         self.assertFalse(success)
-        self.assertEqual(3, location.cubes['Blue'])
+        self.assertEqual(3, location.infection_levels['Blue'])
 
     def test_check_shuttle_flight(self):
         self.player.set_location('London')
