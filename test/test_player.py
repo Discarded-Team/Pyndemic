@@ -279,19 +279,19 @@ class PlayerTestCase(TestCase):
         self.player.set_location('London')
         self.player.action_count = 4
         location.infection_levels['Blue'] = 3
-        initial_cubes = self.game.diseases['Blue'].public_health
+        initial_resistance = self.game.diseases['Blue'].public_health
 
         success = self.player.treat_disease('Blue')
         self.assertTrue(success)
         self.assertEqual(2, location.infection_levels['Blue'])
-        self.assertEqual(initial_cubes + 1, self.game.diseases['Blue'].public_health)
+        self.assertEqual(initial_resistance + 1, self.game.diseases['Blue'].public_health)
         self.assertEqual(3, self.player.action_count)
 
-        initial_cubes = self.game.diseases['Red'].public_health
+        initial_resistance = self.game.diseases['Red'].public_health
         success = self.player.treat_disease('Red')
         self.assertFalse(success)
         self.assertEqual(2, location.infection_levels['Blue'])
-        self.assertEqual(initial_cubes, self.game.diseases['Red'].public_health)
+        self.assertEqual(initial_resistance, self.game.diseases['Red'].public_health)
         self.assertEqual(3, self.player.action_count)
 
         self.player.action_count = 0

@@ -21,8 +21,8 @@ class CityTestCase(TestCase):
 
     def test_init_city_colours(self):
         self.city.infection_levels = {}
-        cube_colours = ['Red', 'Yellow']
-        self.city.init_colours(cube_colours)
+        disease_colours = ['Red', 'Yellow']
+        self.city.init_colours(disease_colours)
         self.assertEqual(0, self.city.infection_levels['Red'])
         self.assertEqual(0, self.city.infection_levels['Yellow'])
 
@@ -43,8 +43,8 @@ class CityTestCase(TestCase):
 
     def test_nullify_infection_level(self):
         self.city.infection_levels['Red'] = 3
-        dropped_cubes = self.city.nullify_infection_level('Red')
-        self.assertEqual(3, dropped_cubes)
+        level_reduction = self.city.nullify_infection_level('Red')
+        self.assertEqual(3, level_reduction)
         self.assertEqual(0, self.city.infection_levels['Red'])
 
         with self.assertRaises(GameException):

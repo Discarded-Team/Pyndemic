@@ -156,11 +156,11 @@ class GameTestCase(unittest.TestCase):
 
     def test_add_epidemics(self):
         self.pg.add_epidemics()
-        self.assertFalse(self.pg.has_x_cube_city(3))
+        self.assertFalse(self.pg.has_x_infection_level_city(3))
         for i in range(0,11):
             self.pg.draw_card(self.player1)
         self.assertEqual(1, self.pg.epidemic_count)
-        self.assertTrue(self.pg.has_x_cube_city(3))
+        self.assertTrue(self.pg.has_x_infection_level_city(3))
 
     def test_infect_city(self):
         self.pg.infect_city('London', 'Blue')
@@ -231,12 +231,12 @@ class GameTestCase(unittest.TestCase):
         self.top_infect_card = self.pg.infect_deck.take_top_card()
         self.assertEqual(9, len(self.pg.infect_deck.discard))
         self.assertEqual(0, len(self.pg.player_deck.discard))
-        self.assertTrue(self.pg.has_x_cube_city(3))
-        self.assertEqual(3, self.pg.get_count_x_cube_city(3))
-        self.assertTrue(self.pg.has_x_cube_city(2))
-        self.assertEqual(3, self.pg.get_count_x_cube_city(2))
-        self.assertTrue(self.pg.has_x_cube_city(1))
-        self.assertEqual(3, self.pg.get_count_x_cube_city(1))
+        self.assertTrue(self.pg.has_x_infection_level_city(3))
+        self.assertEqual(3, self.pg.get_count_x_infection_level_city(3))
+        self.assertTrue(self.pg.has_x_infection_level_city(2))
+        self.assertEqual(3, self.pg.get_count_x_infection_level_city(2))
+        self.assertTrue(self.pg.has_x_infection_level_city(1))
+        self.assertEqual(3, self.pg.get_count_x_infection_level_city(1))
         self.assertEqual(4, len(self.player1.hand))
         self.assertEqual(4, len(self.player2.hand))
         self.assertNotEqual('London', self.top_player_card.name)

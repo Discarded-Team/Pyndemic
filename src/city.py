@@ -34,8 +34,8 @@ class City:
 
         return result
 
-    def init_colours(self, cube_colours):
-        for colour in cube_colours:
+    def init_colours(self, disease_colours):
+        for colour in disease_colours:
             self.infection_levels[colour] = 0
 
     def decrease_infection_level(self, colour):
@@ -69,7 +69,7 @@ class City:
         level_reduction = self.infection_levels[colour]
         self.infection_levels[colour] = 0
         logging.debug(
-            f'Removed all {colour} cubes from {self}')
+            f'Removed all levels of {colour} disease from {self}')
 
         return level_reduction
 
