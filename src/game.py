@@ -239,7 +239,7 @@ class Game:
 
     def get_new_diseases(self):
         diseases_section = self.settings['Diseases']
-        max_resistance = self.settings['Other'].getint('cubes')
+        max_resistance = self.settings['Other'].getint('max_resistance')
 
         for disease_id in diseases_section:
             disease_colour = diseases_section[disease_id]
