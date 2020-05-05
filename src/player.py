@@ -30,10 +30,6 @@ class Player:
 
         return result
 
-    def get_distance_from_lab(self):
-        self.game.set_lab_distances()
-        return self.location.distance
-
     def get_card(self, card_name):
         for card in self.hand:
             if card.name == card_name:
@@ -222,9 +218,9 @@ class Player:
         return any(card.name == card_name for card in self.hand)
 
     def check_standard_move(self, location, destination):
-        self.game.set_city_distance_name(destination)
         if self.action_count > 0 and self.location.name == location:
-            if self.location.distance == 1:
+            destination_city = self.game.city_map[destination]
+            if destination_city in self.location.connected_cities:
                 return True
         return False
 
@@ -234,24 +230,6 @@ class Player:
             self.action_count -= 1
             logging.info(
                 (f'{self}: Performed standard move from {location} to '
-                 f'{destination}.'))
-
-            return True
-        return False
-
-    def check_long_move(self, location, destination):
-        self.game.set_city_distance_name(destination)
-        if self.location.name == location:
-            if self.action_count >= self.location.distance:
-                return True
-        return False
-
-    def long_move(self, location, destination):
-        if self.check_long_move(location, destination):
-            self.action_count -= self.location.distance
-            self.set_location(destination)
-            logging.info(
-                (f'{self}: Performed long move from {location} to '
                  f'{destination}.'))
 
             return True

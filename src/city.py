@@ -73,5 +73,3 @@ class City:
 
         return level_reduction
 
-    def get_max_infection_level(self):
-        return max(self.infection_levels.values())
