@@ -5,7 +5,7 @@ import random
 import logging
 
 from .game import *
-from .city import NoCityCubesException
+from .city import NoDiseaseInCityException
 from .player import LastDiseaseCuredException
 from . import log
 from .commands import COMMANDS
@@ -89,7 +89,7 @@ class MainController:
 
                 try:
                     success = chosen_executor.execute(command)
-                except NoCityCubesException as e:
+                except NoDiseaseInCityException as e:
                     logging.error(e)
                     success = False
                 if not success:

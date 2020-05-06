@@ -108,17 +108,17 @@ class Game:
         logging.info(
             'Decks shuffled.')
 
-    # TODO: Extend this method for arbitrary cube number
+    # TODO: Extend this method for arbitrary change of levels
     def infect_city(self, city, colour):
         infected_city = self.city_map.get(city)
         logging.info(
             f'Infecting {infected_city} with {colour} disease.')
-        if infected_city.cubes[colour] < 3:
+        if infected_city.infection_levels[colour] < 3:
             self.diseases[colour].decrease_resistance(1)
-            infected_city.add_cube(colour)
+            infected_city.increase_infection_level(colour)
             logging.info(
                 (f'Infected {infected_city} with {colour} disease (reached '
-                 f'level {infected_city.cubes[colour]}).'))
+                 f'level {infected_city.infection_levels[colour]}).'))
         else:
             logging.info(
                 (f'{infected_city} has already maximum {colour} disease '
@@ -147,14 +147,14 @@ class Game:
     def inital_infect_phase(self):
         logging.info(
             'Starting initial infect phase.')
-        cubes_to_add = 3
+        levels_to_add = 3
         for i in range(3):
             for j in range(3):
                 drawn_card = self.infect_deck.take_top_card()
                 self.infect_deck.add_discard(drawn_card)
-                for k in range(cubes_to_add):
+                for k in range(levels_to_add):
                     self.infect_city(drawn_card.name, drawn_card.colour)
-            cubes_to_add -= 1
+            levels_to_add -= 1
         logging.info(
             'Initial infect phase finished.')
 
@@ -207,13 +207,13 @@ class Game:
     def get_new_cities(self):
         cities_section = self.settings['Cities']
         city_colours_section = self.settings['City Colours']
-        cube_colours = list(self.diseases.keys())
+        disease_colours = list(self.diseases.keys())
 
         for city_id in cities_section:
             city_name = cities_section[city_id]
             city_colour = city_colours_section[city_id]
             new_city = City(city_name, city_colour)
-            new_city.init_colours(cube_colours)
+            new_city.init_colours(disease_colours)
             self.city_map[city_name] = new_city
 
         self.make_cities()
@@ -228,11 +228,11 @@ class Game:
 
     def get_new_diseases(self):
         diseases_section = self.settings['Diseases']
-        number_of_cubes = self.settings['Other'].getint('cubes')
+        max_resistance = self.settings['Other'].getint('max_resistance')
 
         for disease_id in diseases_section:
             disease_colour = diseases_section[disease_id]
-            self.diseases[disease_colour] = Disease(disease_colour, number_of_cubes)
+            self.diseases[disease_colour] = Disease(disease_colour, max_resistance)
 
     def make_cities(self):
         cities_section = self.settings['Cities']

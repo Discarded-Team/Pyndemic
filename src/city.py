@@ -4,13 +4,13 @@ import logging
 from .exceptions import GameException
 
 
-class NoCityCubesException(GameException):
+class NoDiseaseInCityException(GameException):
     def __init__(self, city, colour):
         self.city = city
         self.colour = colour
 
     def __str__(self):
-        return f'No {self.colour} cubes left in {self.city.name}!'
+        return f'No {self.colour} disease found in {self.city.name}!'
 
 
 class City:
@@ -18,7 +18,7 @@ class City:
         self.name = name
         self.has_lab = False
         self.colour = colour
-        self.cubes = {}
+        self.infection_levels = {}
         self.distance = 999
         self.connected_cities = []
         logging.debug(
@@ -34,21 +34,21 @@ class City:
 
         return result
 
-    def init_colours(self, cube_colours):
-        for colour in cube_colours:
-            self.cubes[colour] = 0
+    def init_colours(self, disease_colours):
+        for colour in disease_colours:
+            self.infection_levels[colour] = 0
 
-    def remove_cube(self, colour):
-        if not self.cubes[colour]:
-            raise NoCityCubesException(self, colour)
-        self.cubes[colour] -= 1
+    def decrease_infection_level(self, colour):
+        if not self.infection_levels[colour]:
+            raise NoDiseaseInCityException(self, colour)
+        self.infection_levels[colour] -= 1
         logging.debug(
-            f'Removed {colour} cube from {self}')
+            f'{colour} disease infection in {self} went one level down')
 
-    def add_cube(self, colour):
-        self.cubes[colour] += 1
+    def increase_infection_level(self, colour):
+        self.infection_levels[colour] += 1
         logging.debug(
-            f'Added {colour} cube to {self}')
+            f'{colour} disease infection in {self} went one level up')
 
     def build_lab(self):
         if self.has_lab:
@@ -63,13 +63,13 @@ class City:
         self.connected_cities.append(new_city)
 
     # TODO redesign this method
-    def remove_all_cubes(self, colour):
-        if not self.cubes[colour]:
-            raise NoCityCubesException(self, colour)
-        dropped_cubes = self.cubes[colour]
-        self.cubes[colour] = 0
+    def nullify_infection_level(self, colour):
+        if not self.infection_levels[colour]:
+            raise NoDiseaseInCityException(self, colour)
+        level_reduction = self.infection_levels[colour]
+        self.infection_levels[colour] = 0
         logging.debug(
-            f'Removed all {colour} cubes from {self}')
+            f'{colour} disease infection in {self} dropped to zero level')
 
-        return dropped_cubes
+        return level_reduction
 
