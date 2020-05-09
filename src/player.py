@@ -16,7 +16,7 @@ class Player:
         self.action_count = 0
         self.hand = []
         self.name = name
-        self.controller = None
+        self.controller = None # TODO is it used?
         logging.debug(
             f'Created {self}')
 

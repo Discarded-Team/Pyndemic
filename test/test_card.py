@@ -10,4 +10,3 @@ class CardTestCase(TestCase):
         card = Card('London', 'Blue')
         self.assertEqual('London', card.name)
         self.assertEqual('Blue', card.colour)
-

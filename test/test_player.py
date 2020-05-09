@@ -449,4 +449,3 @@ class PlayerTestCase(TestCase):
         success = self.player.standard_move('Brighton', 'London')
         self.assertFalse(success)
         self.assertEqual('Brighton', self.player.location.name)
-
