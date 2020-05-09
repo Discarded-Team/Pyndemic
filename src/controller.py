@@ -1,5 +1,4 @@
 # coding: utf-8
-import sys
 import itertools as its
 import random
 import logging
@@ -19,28 +18,98 @@ class MainController:
         else:
             self.input = HybridInputManager()
 
+        self.game = None
+        self.players = {}
+        self.current_player = None
+
+        self.name_cycle = None
         if random_state is not None:
             random.seed(random_state)
             logging.info(
                 f'Random state is fixed ({random_state})')
 
-    def run(self):
+    @property
+    def player_names(self):
+        return self.players.keys()
+
+    def _switch_player(self):
+        self.current_player = self.players[next(self.name_cycle)]
         logging.info(
-            'Starting game for 4 players.')
+            f'Active player: {self.current_player.name}')
 
-        self.player_names = names = ['Alpha', 'Bravo', 'Charlie', 'Delta']
-        self.players = players = {name: Player(name) for name in names}
+        self.game.start_turn(self.current_player)
+        logging.info(
+            f'Actions left: {self.current_player.action_count}')
 
-        game = self.game = Game()
+    def start_game(self, player_names):
+        logging.info(
+            f'Starting game for {len(player_names)} players.')
 
-        for name in self.player_names:
-            game.add_player(players[name])
+        self.players = {name: Player(name) for name in player_names}
+        self.name_cycle = its.cycle(self.player_names)
 
-        game.setup_game()
-        game.start_game()
+        self.game = Game()
+        for player in self.players.values():
+            self.game.add_player(player)
+
+        self.game.setup_game()
+        self.game.start_game()
+        self._switch_player()
+
+    def end_turn(self):
+        for i in range(2):
+            self.game.draw_card(self.current_player)
+
+        logging.info(
+            'Cards drawn. Now starting infect phase.')
+
+        self.game.infect_city_phase()
+
+        logging.info(
+            'Infect phase gone. Starting new turn.')
+
+        self._switch_player()
+
+    def run_single_command(self, command):
+        logging.debug(
+            'Player action: ' + command)
+        command = command.split()
+
+        for executor_class in COMMANDS:
+            executor = executor_class(self.game, self.current_player, self)
+            if executor.check_valid_command(command):
+                break
+        else:
+            logging.error(
+                'Command cannot be parsed. Type a correct command.')
+            return
 
         try:
-            self.game_cycle()
+            success = executor.execute(command)
+        except NoDiseaseInCityException as e:
+            logging.error(e)
+            success = False
+        if not success:
+            logging.error(
+                'Command cannot be executed. Type some other command.')
+
+        if self.current_player.action_count == 0:
+            logging.info(
+                'No actions left. Now getting cards...')
+            self.end_turn()
+        else:
+            logging.info(
+                f'Actions left: {self.current_player.action_count}')
+
+    def run(self):
+        self.start_game(['Alpha', 'Bravo', 'Charlie', 'Delta'])
+        try:
+            while True:
+                command = self.input()
+                if not command:
+                    continue
+
+                self.run_single_command(command)
         except LastDiseaseCuredException as e:
             logging.warning(e)
             logging.warning('Game won!')
@@ -52,66 +121,4 @@ class MainController:
                 'You decided to exit the game...')
 
         logging.info('---<<< Thats all! >>>---')
-
-    def game_cycle(self):
-        name_cycle = its.cycle(self.player_names)
-        game = self.game
-
-        while True:
-            player = self.player = self.players[next(name_cycle)]
-            logging.info(
-                f'Active player: {player.name}')
-
-            game.start_turn(player)
-
-            while player.action_count:
-                logging.info(
-                    f'Actions left: {player.action_count}')
-
-                command = self.input()
-                if not command:
-                    continue
-
-                logging.debug(
-                    'Player action: ' + command)
-                command = command.split()
-
-                chosen_executor = None
-                for executor in COMMANDS:
-                    potential_executor = executor(game, player, self)
-                    if potential_executor.check_valid_command(command):
-                        chosen_executor = potential_executor
-                        break
-                if not chosen_executor:
-                    logging.error(
-                        'Command cannot be parsed. Type a correct command.')
-                    continue
-
-                try:
-                    success = chosen_executor.execute(command)
-                except NoDiseaseInCityException as e:
-                    logging.error(e)
-                    success = False
-                if not success:
-                    logging.error(
-                        'Command cannot be executed. Type some other command.')
-                continue
-
-                logging.info(
-                    'Command successfully executed.')
-
-            logging.info(
-                'No actions left. Now getting cards...')
-
-            # TODO: this must be a game method
-            for i in range(2):
-                game.draw_card(player)
-
-            logging.info(
-                'Cards drawn. Now starting infect phase.')
-
-            game.infect_city_phase()
-
-            logging.info(
-                'Infect phase gone. Starting new turn.')
 
