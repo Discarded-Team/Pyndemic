@@ -32,14 +32,26 @@ class MainController:
     def player_names(self):
         return self.players.keys()
 
-    def _switch_player(self):
-        self.current_player = self.players[next(self.name_cycle)]
-        logging.info(
-            f'Active player: {self.current_player.name}')
+    def run(self):
+        self.start_game(['Alpha', 'Bravo', 'Charlie', 'Delta'])
+        try:
+            while True:
+                command = self.input()
+                if not command:
+                    continue
 
-        self.game.start_turn(self.current_player)
-        logging.info(
-            f'Actions left: {self.current_player.action_count}')
+                self.run_single_command(command)
+        except LastDiseaseCuredException as e:
+            logging.warning(e)
+            logging.warning('Game won!')
+        except GameCrisisException as e:
+            logging.warning(e)
+            logging.warning('Game lost!')
+        except KeyboardInterrupt:
+            logging.warning(
+                'You decided to exit the game...')
+
+        logging.info('---<<< Thats all! >>>---')
 
     def start_game(self, player_names):
         logging.info(
@@ -56,19 +68,14 @@ class MainController:
         self.game.start_game()
         self._switch_player()
 
-    def end_turn(self):
-        for i in range(2):
-            self.game.draw_card(self.current_player)
-
+    def _switch_player(self):
+        self.current_player = self.players[next(self.name_cycle)]
         logging.info(
-            'Cards drawn. Now starting infect phase.')
+            f'Active player: {self.current_player.name}')
 
-        self.game.infect_city_phase()
-
+        self.game.start_turn(self.current_player)
         logging.info(
-            'Infect phase gone. Starting new turn.')
-
-        self._switch_player()
+            f'Actions left: {self.current_player.action_count}')
 
     def run_single_command(self, command):
         logging.debug(
@@ -101,24 +108,16 @@ class MainController:
             logging.info(
                 f'Actions left: {self.current_player.action_count}')
 
-    def run(self):
-        self.start_game(['Alpha', 'Bravo', 'Charlie', 'Delta'])
-        try:
-            while True:
-                command = self.input()
-                if not command:
-                    continue
+    def end_turn(self):
+        for i in range(2):
+            self.game.draw_card(self.current_player)
 
-                self.run_single_command(command)
-        except LastDiseaseCuredException as e:
-            logging.warning(e)
-            logging.warning('Game won!')
-        except GameCrisisException as e:
-            logging.warning(e)
-            logging.warning('Game lost!')
-        except KeyboardInterrupt:
-            logging.warning(
-                'You decided to exit the game...')
+        logging.info(
+            'Cards drawn. Now starting infect phase.')
 
-        logging.info('---<<< Thats all! >>>---')
+        self.game.infect_city_phase()
 
+        logging.info(
+            'Infect phase gone. Starting new turn.')
+
+        self._switch_player()
