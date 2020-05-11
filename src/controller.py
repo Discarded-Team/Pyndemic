@@ -8,21 +8,36 @@ from .city import NoDiseaseInCityException
 from .player import LastDiseaseCuredException
 from . import log
 from .commands import COMMANDS
-from .api import HybridInputManager
 
 
-class MainController:
-    def __init__(self, input_file=None, random_state=None):
-        if input_file is not None:
-            self.input = HybridInputManager('file', input_file)
-        else:
-            self.input = HybridInputManager()
+class BaseController:
+    def send(self, command):
+        return self._loop.send(command)
 
+    def throw(self, exception):
+        self._loop.throw(exception)
+
+    def empty_response(self):
+        return {
+            'type': 'empty',
+        }
+
+    def final_response(self, message):
+        final_response = {
+            'type': 'termination',
+            'message': message,
+        }
+        return final_response
+
+
+class GameController(BaseController):
+    def __init__(self, random_state=None):
         self.game = None
         self.players = {}
         self.current_player = None
-
         self.name_cycle = None
+        self._loop = None
+
         if random_state is not None:
             random.seed(random_state)
             logging.info(
@@ -34,24 +49,8 @@ class MainController:
 
     def run(self):
         self.start_game(['Alpha', 'Bravo', 'Charlie', 'Delta'])
-        try:
-            while True:
-                command = self.input()
-                if not command:
-                    continue
-
-                self.run_single_command(command)
-        except LastDiseaseCuredException as e:
-            logging.warning(e)
-            logging.warning('Game won!')
-        except GameCrisisException as e:
-            logging.warning(e)
-            logging.warning('Game lost!')
-        except KeyboardInterrupt:
-            logging.warning(
-                'You decided to exit the game...')
-
-        logging.info('---<<< Thats all! >>>---')
+        self._loop = self.game_loop()
+        self._loop.send(None)
 
     def start_game(self, player_names):
         logging.info(
@@ -68,14 +67,30 @@ class MainController:
         self.game.start_game()
         self._switch_player()
 
-    def _switch_player(self):
-        self.current_player = self.players[next(self.name_cycle)]
-        logging.info(
-            f'Active player: {self.current_player.name}')
+    def send(self, command):
+        if command == 'quit':
+            return self.final_response('---<<< That\'s all! >>>---')
+        try:
+            return self._loop.send(command)
+        except LastDiseaseCuredException as e:
+            logging.warning(e)
+            logging.warning('Game won!')
+        except GameCrisisException as e:
+            logging.warning(e)
+            logging.warning('Game lost!')
 
-        self.game.start_turn(self.current_player)
-        logging.info(
-            f'Actions left: {self.current_player.action_count}')
+        return self.final_response('---<<< That\'s all! >>>---')
+
+    def game_loop(self):
+        response = None
+        while True:
+            command = yield response
+            if not command:
+                response = self.empty_response()
+                continue
+
+            self.run_single_command(command)
+            response = self.empty_response()
 
     def run_single_command(self, command):
         logging.debug(
@@ -121,3 +136,12 @@ class MainController:
             'Infect phase gone. Starting new turn.')
 
         self._switch_player()
+
+    def _switch_player(self):
+        self.current_player = self.players[next(self.name_cycle)]
+        logging.info(
+            f'Active player: {self.current_player.name}')
+
+        self.game.start_turn(self.current_player)
+        logging.info(
+            f'Actions left: {self.current_player.action_count}')
