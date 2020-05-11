@@ -2,6 +2,7 @@
 import itertools as its
 import random
 import logging
+from abc import ABC, abstractmethod
 
 from .game import *
 from .city import NoDiseaseInCityException
@@ -10,7 +11,18 @@ from . import log
 from .commands import COMMANDS
 
 
-class BaseController:
+class AbstractController(ABC):
+    def __enter__(self):
+        self.run()
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        pass
+
+    @abstractmethod
+    def run(self):
+        pass
+
     def send(self, command):
         return self._loop.send(command)
 
@@ -30,7 +42,7 @@ class BaseController:
         return final_response
 
 
-class GameController(BaseController):
+class GameController(AbstractController):
     def __init__(self, random_state=None):
         self.game = None
         self.players = {}
