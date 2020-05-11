@@ -17,11 +17,14 @@ class AbstractController(ABC):
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        pass
+        self.stop()
 
     @abstractmethod
     def run(self):
         pass
+
+    def stop(self):
+        self._loop.close()
 
     def send(self, command):
         return self._loop.send(command)

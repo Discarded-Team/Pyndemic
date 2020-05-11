@@ -7,7 +7,6 @@ import os
 import sys
 
 from src.controller import GameController
-from pyndemic import main
 
 
 INPUT_LOCATION = op.join(op.dirname(__file__), 'test_input.txt')
