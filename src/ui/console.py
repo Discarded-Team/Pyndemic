@@ -40,7 +40,6 @@ class ConsoleUI:
 
 class ConsoleIO:
     def __init__(self):
-        self.requests = Queue()
         self.responses = Queue()
 
     def __enter__(self):
@@ -51,31 +50,18 @@ class ConsoleIO:
         self.stop()
 
     def run(self):
-        self._loop = self._async_loop()
+        pass
 
     def stop(self):
-        self._loop.close()
         self.flush_output()
 
     def listen(self):
-        request = self._loop.send(None)
+        request = sys.stdin.readline().rstrip()
         return request
 
     def send(self, response):
         self.responses.put(response)
-
-    def _async_loop(self):
-        while True:
-            self.flush_output()
-            self.check_input()
-
-            if not self.requests.empty():
-                yield self.requests.get()
-
-    def check_input(self):
-        command = sys.stdin.readline().rstrip()
-        if command:
-            self.requests.put(command)
+        self.flush_output()
 
     def flush_output(self):
         while not self.responses.empty():
