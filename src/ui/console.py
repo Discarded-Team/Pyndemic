@@ -1,16 +1,12 @@
 """Console User Interface for Pyndemic"""
+import sys
 from queue import Queue
-
-from src.controller import MainController
 
 
 class ConsoleUI:
-    def __init__(self, controller=None):
+    def __init__(self, controller):
         self.io = ConsoleIO()
-        if controller is None:
-            self.controller = MainController()
-        else:
-            self.controller = controller
+        self.controller = controller
 
         self.termination_step = None
 
@@ -18,7 +14,13 @@ class ConsoleUI:
         self.termination_step = False
         with self.io, self.controller:
             while True:
-                command = self.io.listen()
+                self.io.send('Waiting for command...')
+                try:
+                    command = self.io.listen()
+                except KeyboardInterrupt:
+                    self.io.send('You decided to exit the game...')
+                    command = 'quit'
+
                 if not command:
                     continue
 
@@ -27,7 +29,7 @@ class ConsoleUI:
                 self.io.send(response)
 
                 if self.termination_step:
-                    self.io.send('---<<< That\'s all! >>>---')
+                    self.io.send('Finishing program...')
                     break
 
     def process_response(self, response):
@@ -52,6 +54,7 @@ class ConsoleIO:
         self._loop = self._async_loop()
 
     def stop(self):
+        self._loop.close()
         self.flush_output()
 
     def listen(self):
@@ -70,7 +73,7 @@ class ConsoleIO:
                 yield self.requests.get()
 
     def check_input(self):
-        command = input()
+        command = sys.stdin.readline().rstrip()
         if command:
             self.requests.put(command)
 
