@@ -1,5 +1,5 @@
 # coding: utf-8
-import unittest
+
 from unittest import TestCase, skip, expectedFailure
 
 import os.path as op
@@ -7,7 +7,6 @@ import os
 import sys
 
 from pyndemic.controller import GameController
-
 
 INPUT_LOCATION = op.join(op.dirname(__file__), 'test_input.txt')
 

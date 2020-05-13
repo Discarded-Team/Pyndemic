@@ -8,10 +8,6 @@ import random
 from pyndemic import config
 from pyndemic.exceptions import *
 from pyndemic.game import Game
-from pyndemic.city import City
-from pyndemic.disease import Disease
-from pyndemic.card import Card, PlayerCard, InfectCard
-from pyndemic.deck import Deck, PlayerDeck, InfectDeck
 from pyndemic.player import Player
 
 
@@ -42,8 +38,8 @@ class GameSetupTestCase(TestCase):
         self.pg.get_infection_rate()
         self.assertEqual(2, self.pg.infection_rate)
 
-    def test_get_new_cities(self):
-        self.pg.get_new_cities()
+    def test_get_new_city_map(self):
+        self.pg.get_new_city_map()
 
         self.assertEqual(40, len(self.pg.city_map))
         self.assertIn('London', self.pg.city_map)
@@ -57,9 +53,20 @@ class GameSetupTestCase(TestCase):
         self.assertIn(self.pg.city_map['Washington'], city.connected_cities)
         self.assertNotIn(self.pg.city_map['Liverpool'], city.connected_cities)
 
-    def test_make_cities(self):
-        # TODO: get around implicit method call
-        self.pg.get_new_cities()
+    def test_create_cities(self):
+        self.pg.create_cities()
+
+        self.assertEqual(40, len(self.pg.city_map))
+        self.assertIn('London', self.pg.city_map)
+
+        city = self.pg.city_map['London']
+        self.assertEqual('London', city.name)
+        self.assertEqual('Blue', city.colour)
+        self.assertEqual('Yellow', self.pg.city_map['Washington'].colour)
+
+    def test_connect_cities(self):
+        self.pg.create_cities()
+        self.pg.connect_cities()
         city = self.pg.city_map['London']
 
         self.assertEqual(6, len(city.connected_cities))
@@ -67,7 +74,7 @@ class GameSetupTestCase(TestCase):
         self.assertNotIn(self.pg.city_map['Liverpool'], city.connected_cities)
 
     def test_get_new_decks(self):
-        self.pg.get_new_cities()
+        self.pg.get_new_city_map()
         self.pg.get_new_decks()
 
         deck = self.pg.player_deck
@@ -243,7 +250,7 @@ class GameTestCase(unittest.TestCase):
         self.assertEqual(1, self.pg.epidemic_count)
 
     def test_initial_infect_phase(self):
-        self.pg.inital_infect_phase()
+        self.pg.initial_infect_phase()
         self.assertEqual(3, self.pg.city_map['London'].infection_levels['Blue'])
         self.assertEqual(3, self.pg.city_map['Oxford'].infection_levels['Blue'])
         self.assertEqual(3, self.pg.city_map['Cambridge'].infection_levels['Blue'])

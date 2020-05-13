@@ -16,7 +16,6 @@ class Player:
         self.action_count = 0
         self.hand = []
         self.name = name
-        self.controller = None # TODO is it used?
         logging.debug(
             f'Created {self}')
 
@@ -42,14 +41,14 @@ class Player:
         logging.debug(
             f'{self}: changed location to {new_location}.')
 
-    def check_charter_flight(self, location, destination):
+    def check_charter_flight(self, location):
         if self.action_count > 0 and self.location.name == location:
             if self.hand_contains(location):
                 return True
         return False
 
     def charter_flight(self, location, destination):
-        if self.check_charter_flight(location, destination):
+        if self.check_charter_flight(location):
             self.discard_card(location)
             self.set_location(destination)
             self.action_count -= 1
@@ -94,7 +93,8 @@ class Player:
 
     def check_shuttle_flight(self, location, destination):
         if self.action_count > 0 and self.location.name == location:
-            if self.location.has_lab and self.game.city_map.get(destination).has_lab:
+            if self.location.has_lab and \
+                    self.game.city_map.get(destination).has_lab:
                 return True
         return False
 
@@ -129,7 +129,8 @@ class Player:
                     f'{self}: Treated {colour} disease in {self.location}.')
             self.action_count -= 1
             logging.info(
-                (f'Now {self.location} has {self.location.infection_levels[colour]} '
+                (f'Now {self.location} has '
+                 f'{self.location.infection_levels[colour]} '
                  f'level of {colour} disease.'))
 
             return True
@@ -234,4 +235,3 @@ class Player:
 
             return True
         return False
-

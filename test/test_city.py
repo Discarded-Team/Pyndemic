@@ -1,9 +1,6 @@
 # coding: utf-8
-import unittest
-from unittest import TestCase, skip, expectedFailure
 
-import os.path as op
-import random
+from unittest import TestCase, skip, expectedFailure
 
 from pyndemic.exceptions import *
 from pyndemic.city import City

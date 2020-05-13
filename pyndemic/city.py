@@ -19,7 +19,6 @@ class City:
         self.has_lab = False
         self.colour = colour
         self.infection_levels = {}
-        self.distance = 999 # TODO unused?
         self.connected_cities = []
         logging.debug(
             f'Created location {self}')

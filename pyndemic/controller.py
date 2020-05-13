@@ -1,12 +1,12 @@
 # coding: utf-8
 import itertools as its
 import random
-import logging
+
 from abc import ABC, abstractmethod
 
 from .game import *
 from .city import NoDiseaseInCityException
-from .player import LastDiseaseCuredException
+from .player import LastDiseaseCuredException, Player
 from . import log
 from .commands import COMMANDS
 
@@ -131,26 +131,11 @@ class GameController(AbstractController):
                 'Command cannot be executed. Type some other command.')
 
         if self.current_player.action_count == 0:
-            logging.info(
-                'No actions left. Now getting cards...')
-            self.end_turn()
+            self.game.end_turn(self.current_player)
+            self._switch_player()
         else:
             logging.info(
                 f'Actions left: {self.current_player.action_count}')
-
-    def end_turn(self):
-        for i in range(2):
-            self.game.draw_card(self.current_player)
-
-        logging.info(
-            'Cards drawn. Now starting infect phase.')
-
-        self.game.infect_city_phase()
-
-        logging.info(
-            'Infect phase gone. Starting new turn.')
-
-        self._switch_player()
 
     def _switch_player(self):
         self.current_player = self.players[next(self.name_cycle)]

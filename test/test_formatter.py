@@ -7,8 +7,8 @@ from pyndemic import config
 from pyndemic.game import Game
 from pyndemic.city import City
 from pyndemic.disease import Disease
-from pyndemic.card import Card, PlayerCard, InfectCard
-from pyndemic.deck import Deck, PlayerDeck, InfectDeck
+from pyndemic.card import Card, PlayerCard
+from pyndemic.deck import Deck
 from pyndemic.player import Player
 from pyndemic.formatter import BaseFormatter
 

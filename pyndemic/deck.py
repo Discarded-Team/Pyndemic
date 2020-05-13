@@ -77,7 +77,7 @@ class InfectDeck(Deck):
             self.add_card(new_card)
 
         logging.debug(
-            f'{self} prepared.'.format(self))
+            f'{self} prepared.')
 
     def shuffle_discard_to_top(self):
         random.shuffle(self.discard)

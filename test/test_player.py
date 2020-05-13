@@ -1,17 +1,12 @@
 # coding: utf-8
-import unittest
+
 from unittest import TestCase, skip, expectedFailure
 
 import os.path as op
-import random
 
-from pyndemic import config
 from pyndemic.exceptions import *
 from pyndemic.game import Game
-from pyndemic.city import City
-from pyndemic.disease import Disease
-from pyndemic.card import Card, PlayerCard, InfectCard
-from pyndemic.deck import Deck, PlayerDeck, InfectDeck
+from pyndemic.card import PlayerCard
 from pyndemic.player import Player
 
 
@@ -42,7 +37,7 @@ class PlayerTestCase(TestCase):
         self.assertIs(self.player.hand[0], card)
 
         with self.assertRaises(ValueError):
-            card = self.player.get_card('Moscow')
+            self.player.get_card('Moscow')
 
     def test_add_card(self):
         top_player_card = self.game.player_deck.take_top_card()
@@ -75,22 +70,22 @@ class PlayerTestCase(TestCase):
 
     def test_check_charter_flight(self):
         self.player.set_location('London')
-        self.assertFalse(self.player.check_charter_flight('London', 'Moscow'))
+        self.assertFalse(self.player.check_charter_flight('London'))
 
         self.player.action_count = 1
-        self.assertFalse(self.player.check_charter_flight('London', 'Moscow'))
+        self.assertFalse(self.player.check_charter_flight('London'))
 
         self.player.hand = [PlayerCard('London', 'Blue'),
                             PlayerCard('Moscow', 'Black')]
-        self.assertTrue(self.player.check_charter_flight('London', 'Moscow'))
-        self.assertFalse(self.player.check_charter_flight('Moscow', 'London'))
+        self.assertTrue(self.player.check_charter_flight('London'))
+        self.assertFalse(self.player.check_charter_flight('Moscow'))
 
         self.player.action_count = 0
-        self.assertFalse(self.player.check_charter_flight('London', 'Moscow'))
+        self.assertFalse(self.player.check_charter_flight('London'))
 
         self.player.action_count = 1
         self.player.set_location('Moscow')
-        self.assertFalse(self.player.check_charter_flight('London', 'Moscow'))
+        self.assertFalse(self.player.check_charter_flight('London'))
 
     def test_charter_flight(self):
         self.player.set_location('London')
@@ -417,14 +412,6 @@ class PlayerTestCase(TestCase):
 
         self.player.action_count = 0
         self.assertFalse(self.player.check_standard_move('London', 'Brighton'))
-
-
-    def standard_move(self, location, destination):
-        if self.check_standard_move(location, destination):
-            self.set_location(destination)
-            self.action_count -= 1
-            return True
-        return False
 
     def test_standard_move(self):
         self.player.set_location('London')

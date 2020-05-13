@@ -6,10 +6,8 @@ from collections import OrderedDict
 from . import config
 from .exceptions import GameCrisisException
 from .city import City
-from .card import Card
 from .deck import PlayerDeck, InfectDeck
 from .disease import Disease
-from .player import Player
 
 
 class ExhaustedPlayerDeckException(GameCrisisException):
@@ -38,6 +36,7 @@ class Game:
         self.players = []
         self.turn_number = None
         self.outbreak_stack = set()
+        self.settings = None
         logging.debug(
             'Created new game.')
 
@@ -45,7 +44,7 @@ class Game:
         self.settings = config.get_settings(settings_location)
         self.get_infection_rate()
         self.get_new_diseases()
-        self.get_new_cities()
+        self.get_new_city_map()
         self.get_new_decks()
         self.set_starting_epidemics()
 
@@ -56,7 +55,7 @@ class Game:
 
     def start_game(self):
         self.shuffle_decks()
-        self.inital_infect_phase()
+        self.initial_infect_phase()
         self.draw_initial_hands()
         self.add_epidemics()
         logging.info(
@@ -109,8 +108,8 @@ class Game:
             'Decks shuffled.')
 
     # TODO: Extend this method for arbitrary change of levels
-    def infect_city(self, city, colour):
-        infected_city = self.city_map.get(city)
+    def infect_city(self, city_name, colour):
+        infected_city = self.city_map.get(city_name)
         logging.info(
             f'Infecting {infected_city} with {colour} disease.')
         if infected_city.infection_levels[colour] < 3:
@@ -123,16 +122,16 @@ class Game:
             logging.info(
                 (f'{infected_city} has already maximum {colour} disease '
                  'level. Outbreak is coming!'))
-            self.outbreak(city, colour)
+            self.outbreak(city_name, colour)
 
-    def outbreak(self, city, colour):
-        outbreak_city = self.city_map.get(city)
-        if city in self.outbreak_stack:
+    def outbreak(self, city_name, colour):
+        outbreak_city = self.city_map.get(city_name)
+        if city_name in self.outbreak_stack:
             return
 
         logging.info(
             f'Starting outbreak in {outbreak_city} ({colour} disease).')
-        self.outbreak_stack.add(city)
+        self.outbreak_stack.add(city_name)
         self.outbreak_count += 1
         logging.info(
             f'Outbreak level is now {self.outbreak_count}.')
@@ -144,7 +143,7 @@ class Game:
                 continue
             self.infect_city(connected_city.name, colour)
 
-    def inital_infect_phase(self):
+    def initial_infect_phase(self):
         logging.info(
             'Starting initial infect phase.')
         levels_to_add = 3
@@ -177,7 +176,22 @@ class Game:
         player.action_count = 4
         logging.info(
             f'{player} now plays.')
-        # TODO
+        # TODO test?
+
+    def end_turn(self, player):
+        logging.info(
+            'No actions left. Now getting cards...')
+
+        for i in range(2):
+            self.draw_card(player)
+
+        logging.info(
+            'Cards drawn. Now starting infect phase.')
+
+        self.infect_city_phase()
+        logging.info(
+            'Infect phase gone. Starting new turn.')
+        # TODO test ?
 
     def epidemic_phase(self):
         logging.info(
@@ -188,7 +202,7 @@ class Game:
         self.infect_deck.add_discard(drawn_card)
         city_epidemic = self.city_map.get(drawn_card.name)
         logging.info(
-            f'Starting epidemy in {city_epidemic}.')
+            f'Starting epidemic in {city_epidemic}.')
         for i in range(3):
             self.infect_city(city_epidemic.name, city_epidemic.colour)
             if city_epidemic in self.outbreak_stack:
@@ -204,19 +218,9 @@ class Game:
         logging.debug(
             f'Set difficulty level to {self.starting_epidemics}.')
 
-    def get_new_cities(self):
-        cities_section = self.settings['Cities']
-        city_colours_section = self.settings['City Colours']
-        disease_colours = list(self.diseases.keys())
-
-        for city_id in cities_section:
-            city_name = cities_section[city_id]
-            city_colour = city_colours_section[city_id]
-            new_city = City(city_name, city_colour)
-            new_city.init_colours(disease_colours)
-            self.city_map[city_name] = new_city
-
-        self.make_cities()
+    def get_new_city_map(self):
+        self.create_cities()
+        self.connect_cities()
         logging.debug(
             'Created city graph.')
 
@@ -232,9 +236,22 @@ class Game:
 
         for disease_id in diseases_section:
             disease_colour = diseases_section[disease_id]
-            self.diseases[disease_colour] = Disease(disease_colour, max_resistance)
+            self.diseases[disease_colour] = \
+                Disease(disease_colour, max_resistance)
 
-    def make_cities(self):
+    def create_cities(self):
+        cities_section = self.settings['Cities']
+        city_colours_section = self.settings['City Colours']
+        disease_colours = list(self.diseases.keys())
+
+        for city_id in cities_section:
+            city_name = cities_section[city_id]
+            city_colour = city_colours_section[city_id]
+            new_city = City(city_name, city_colour)
+            new_city.init_colours(disease_colours)
+            self.city_map[city_name] = new_city
+
+    def connect_cities(self):
         cities_section = self.settings['Cities']
         connections = self.settings['Connections']
 
