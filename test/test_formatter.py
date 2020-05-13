@@ -3,14 +3,14 @@ import unittest
 import os.path as op
 import random
 
-from src import config
-from src.game import Game
-from src.city import City
-from src.disease import Disease
-from src.card import Card, PlayerCard, InfectCard
-from src.deck import Deck, PlayerDeck, InfectDeck
-from src.player import Player
-from src.formatter import BaseFormatter
+from pyndemic import config
+from pyndemic.game import Game
+from pyndemic.city import City
+from pyndemic.disease import Disease
+from pyndemic.card import Card, PlayerCard, InfectCard
+from pyndemic.deck import Deck, PlayerDeck, InfectDeck
+from pyndemic.player import Player
+from pyndemic.formatter import BaseFormatter
 
 
 SETTINGS_LOCATION = op.join(op.dirname(__file__), 'test_settings.cfg')

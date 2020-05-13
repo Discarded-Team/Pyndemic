@@ -5,8 +5,8 @@ from unittest import TestCase, skip, expectedFailure
 import os.path as op
 import random
 
-from src.exceptions import *
-from src.city import City
+from pyndemic.exceptions import *
+from pyndemic.city import City
 
 
 class CityTestCase(TestCase):

@@ -4,9 +4,9 @@ from unittest import TestCase, skip, expectedFailure
 
 import random
 
-from src.city import City
-from src.card import Card, PlayerCard, InfectCard
-from src.deck import Deck, PlayerDeck, InfectDeck
+from pyndemic.city import City
+from pyndemic.card import Card, PlayerCard, InfectCard
+from pyndemic.deck import Deck, PlayerDeck, InfectDeck
 
 
 class DeckTestCase(TestCase):

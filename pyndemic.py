@@ -2,8 +2,8 @@
 # coding: utf-8
 import sys
 
-from src.controller import GameController
-from src.ui import ConsoleUI
+from pyndemic.controller import GameController
+from pyndemic.ui import ConsoleUI
 
 __version__ = "0.1.0"
 

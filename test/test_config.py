@@ -4,7 +4,7 @@ from unittest import TestCase, skip, expectedFailure
 
 import os.path as op
 
-from src import config
+from pyndemic import config
 
 
 SETTINGS_LOCATION = op.join(op.dirname(__file__), 'test_settings.cfg')

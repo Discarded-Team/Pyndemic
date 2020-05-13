@@ -5,14 +5,14 @@ from unittest import TestCase, skip, expectedFailure
 import os.path as op
 import random
 
-from src import config
-from src.exceptions import *
-from src.game import Game
-from src.city import City
-from src.disease import Disease
-from src.card import Card, PlayerCard, InfectCard
-from src.deck import Deck, PlayerDeck, InfectDeck
-from src.player import Player
+from pyndemic import config
+from pyndemic.exceptions import *
+from pyndemic.game import Game
+from pyndemic.city import City
+from pyndemic.disease import Disease
+from pyndemic.card import Card, PlayerCard, InfectCard
+from pyndemic.deck import Deck, PlayerDeck, InfectDeck
+from pyndemic.player import Player
 
 
 SETTINGS_LOCATION = op.join(op.dirname(__file__), 'test_settings.cfg')

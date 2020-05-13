@@ -1,12 +1,12 @@
 # Log files
 /log
 
-# Game assets
-/assets/*
-!/assets/readme
-
 # Temporary files
 /temp
+
+# IDE
+.vscode
+.idea
 
 # Other
 *pycache*
