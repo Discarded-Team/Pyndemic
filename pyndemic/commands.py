@@ -77,6 +77,7 @@ class CharterCommand(Command):
         success = player.charter_flight(location, destination)
         return success
 
+
 class ShuttleCommand(Command):
     command = 'shuttle'
     min_arguments = 1
