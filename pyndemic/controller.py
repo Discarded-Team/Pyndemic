@@ -6,7 +6,7 @@ from abc import ABC, abstractmethod
 
 from .game import *
 from .city import NoDiseaseInCityException
-from .player import LastDiseaseCuredException, Player
+from .character import LastDiseaseCuredException, Character
 from . import log
 from .commands import COMMANDS
 
@@ -48,8 +48,8 @@ class AbstractController(ABC):
 class GameController(AbstractController):
     def __init__(self, random_state=None):
         self.game = None
-        self.players = {}
-        self.current_player = None
+        self.characters = {}
+        self.current_character = None
         self.name_cycle = None
         self._loop = None
 
@@ -59,28 +59,28 @@ class GameController(AbstractController):
                 f'Random state is fixed ({random_state})')
 
     @property
-    def player_names(self):
-        return self.players.keys()
+    def character_names(self):
+        return self.characters.keys()
 
     def run(self):
         self.start_game(['Alpha', 'Bravo', 'Charlie', 'Delta'])
         self._loop = self.game_loop()
         self._loop.send(None)
 
-    def start_game(self, player_names):
+    def start_game(self, character_names):
         logging.info(
-            f'Starting game for {len(player_names)} players.')
+            f'Starting game for {len(character_names)} players.')
 
-        self.players = {name: Player(name) for name in player_names}
-        self.name_cycle = its.cycle(self.player_names)
+        self.characters = {name: Character(name) for name in character_names}
+        self.name_cycle = its.cycle(self.character_names)
 
         self.game = Game()
-        for player in self.players.values():
-            self.game.add_player(player)
+        for character in self.characters.values():
+            self.game.add_character(character)
 
         self.game.setup_game()
         self.game.start_game()
-        self._switch_player()
+        self._switch_character()
 
     def send(self, command):
         if command == 'quit':
@@ -109,11 +109,11 @@ class GameController(AbstractController):
 
     def run_single_command(self, command):
         logging.debug(
-            'Player action: ' + command)
+            'Character action: ' + command)
         command = command.split()
 
         for executor_class in COMMANDS:
-            executor = executor_class(self.game, self.current_player, self)
+            executor = executor_class(self.game, self.current_character, self)
             if executor.check_valid_command(command):
                 break
         else:
@@ -130,18 +130,18 @@ class GameController(AbstractController):
             logging.error(
                 'Command cannot be executed. Type some other command.')
 
-        if self.current_player.action_count == 0:
-            self.game.end_turn(self.current_player)
-            self._switch_player()
+        if self.current_character.action_count == 0:
+            self.game.end_turn(self.current_character)
+            self._switch_character()
         else:
             logging.info(
-                f'Actions left: {self.current_player.action_count}')
+                f'Actions left: {self.current_character.action_count}')
 
-    def _switch_player(self):
-        self.current_player = self.players[next(self.name_cycle)]
+    def _switch_character(self):
+        self.current_character = self.characters[next(self.name_cycle)]
         logging.info(
-            f'Active player: {self.current_player.name}')
+            f'Active player: {self.current_character.name}')
 
-        self.game.start_turn(self.current_player)
+        self.game.start_turn(self.current_character)
         logging.info(
-            f'Actions left: {self.current_player.action_count}')
+            f'Actions left: {self.current_character.action_count}')

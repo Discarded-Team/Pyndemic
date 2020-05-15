@@ -2,7 +2,7 @@
 
 from unittest import TestCase, skip, expectedFailure
 
-from pyndemic.card import Card # , PlayerCard, InfectCard
+from pyndemic.card import Card # , CharacterCard, InfectCard
 
 
 class CardTestCase(TestCase):

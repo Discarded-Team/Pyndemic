@@ -6,13 +6,13 @@ from collections import OrderedDict
 from . import config
 from .exceptions import GameCrisisException
 from .city import City
-from .deck import PlayerDeck, InfectDeck
+from .deck import CharacterDeck, InfectDeck
 from .disease import Disease
 
 
-class ExhaustedPlayerDeckException(GameCrisisException):
+class ExhaustedCharacterDeckException(GameCrisisException):
     def __str__(self):
-        return 'Player deck exhausted!'
+        return 'Character deck exhausted!'
 
 
 class DeathOutbreakLevelException(GameCrisisException):
@@ -27,13 +27,13 @@ class Game:
         self.game_over = False
         self.game_won = False
         self.city_map = OrderedDict()
-        self.player_deck = PlayerDeck()
+        self.character_deck = CharacterDeck()
         self.infect_deck = InfectDeck()
         self.infection_rate = None
         self.infection_rates = []
         self.epidemic_count = 0
         self.diseases = {}
-        self.players = []
+        self.characters = []
         self.turn_number = None
         self.outbreak_stack = set()
         self.settings = None
@@ -62,8 +62,8 @@ class Game:
             'Game started.')
 
         initial_city = self.settings['Other']['initial_city']
-        for player in self.players:
-            player.set_location(initial_city)
+        for character in self.characters:
+            character.set_location(initial_city)
         self.city_map[initial_city].has_lab = True
 
     # TODO: improve this method
@@ -76,34 +76,34 @@ class Game:
         return all(disease.cured for disease in self.diseases.values())
 
     def add_epidemics(self):
-        self.player_deck.add_epidemics(self.starting_epidemics)
+        self.character_deck.add_epidemics(self.starting_epidemics)
         logging.info(
-            f'Added {self.starting_epidemics} Epidemics to a player deck.')
+            f'Added {self.starting_epidemics} Epidemics to a character deck.')
 
-    def add_player(self, new_player):
-        new_player.game = self
-        self.players.append(new_player)
+    def add_character(self, new_character):
+        new_character.game = self
+        self.characters.append(new_character)
         logging.info(
-            f'Added new {new_player}.')
+            f'Added new {new_character}.')
 
-    def draw_card(self, player_drawing):
+    def draw_card(self, character_drawing):
         try:
-            drawn_card = self.player_deck.take_top_card()
+            drawn_card = self.character_deck.take_top_card()
         except IndexError:
-            raise ExhaustedPlayerDeckException
+            raise ExhaustedCharacterDeckException
 
         if drawn_card.name == 'Epidemic':
             logging.info(
-                f'{player_drawing} drew Epidemic!')
+                f'{character_drawing} drew Epidemic!')
             self.epidemic_phase()
         else:
-            player_drawing.add_card(drawn_card)
+            character_drawing.add_card(drawn_card)
             logging.info(
-                f'{player_drawing} got {drawn_card}.')
+                f'{character_drawing} got {drawn_card}.')
 
     def shuffle_decks(self):
         self.infect_deck.shuffle()
-        self.player_deck.shuffle()
+        self.character_deck.shuffle()
         logging.info(
             'Decks shuffled.')
 
@@ -172,18 +172,18 @@ class Game:
         logging.info(
             'Infect phase finished.')
 
-    def start_turn(self, player):
-        player.action_count = 4
+    def start_turn(self, character):
+        character.action_count = 4
         logging.info(
-            f'{player} now plays.')
+            f'{character} now plays.')
         # TODO test?
 
-    def end_turn(self, player):
+    def end_turn(self, character):
         logging.info(
             'No actions left. Now getting cards...')
 
         for i in range(2):
-            self.draw_card(player)
+            self.draw_card(character)
 
         logging.info(
             'Cards drawn. Now starting infect phase.')
@@ -225,7 +225,7 @@ class Game:
             'Created city graph.')
 
     def get_new_decks(self):
-        self.player_deck.prepare(self.city_map.values())
+        self.character_deck.prepare(self.city_map.values())
         self.infect_deck.prepare(self.city_map.values())
         logging.debug(
             'Decks prepared.')
@@ -272,12 +272,12 @@ class Game:
             f'Incremented infection rate (now {self.infection_rate}).')
 
     def draw_initial_hands(self):
-        num_cards_by_players = {4: 2, 3: 3, 2: 4}
-        num_players = len(self.players)
-        cards_to_draw = num_cards_by_players[num_players]
+        num_cards_by_characters = {4: 2, 3: 3, 2: 4}
+        num_characters = len(self.characters)
+        cards_to_draw = num_cards_by_characters[num_characters]
         logging.info(
-            f'Draw initial player cards ({cards_to_draw} per player).')
+            f'Draw initial character cards ({cards_to_draw} per character).')
 
-        for player in self.players:
+        for character in self.characters:
             for i in range(cards_to_draw):
-                self.draw_card(player)
+                self.draw_card(character)

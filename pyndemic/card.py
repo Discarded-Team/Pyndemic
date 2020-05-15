@@ -10,7 +10,7 @@ class Card:
         return f'Card "{self.name}-{self.colour}"'
 
 
-class PlayerCard(Card):
+class CharacterCard(Card):
     pass
 
 

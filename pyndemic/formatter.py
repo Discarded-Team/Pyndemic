@@ -11,14 +11,14 @@ class BaseFormatter:
         :param game: Game object
         :return: dict with (almost) complete state of the game. Decks return
             only the discard.
-        :players: list of Player dicts
+        :characters: list of Character dicts
             :name: str
             :location: str
             :action_count: int
             :hand: list of Card dicts
                 :name: str
                 :colour: str
-        :player_deck_discard: list of Card dicts
+        :character_deck_discard: list of Card dicts
             :name: str
             :colour: str
         :infect_deck_discard: list of Card dicts
@@ -37,9 +37,9 @@ class BaseFormatter:
         :epidemic_count: int
         """
         output = {}
-        output['players'] = \
-            [cls.player_to_dict(player) for player in game.players]
-        output['player_deck_discard'] = cls.deck_to_list(game.player_deck)
+        output['characters'] = \
+            [cls.character_to_dict(character) for character in game.characters]
+        output['character_deck_discard'] = cls.deck_to_list(game.character_deck)
         output['infect_deck_discard'] = cls.deck_to_list(game.infect_deck)
         output['diseases'] = {colour: cls.disease_to_dict(disease)
                               for colour, disease in game.diseases.items()}
@@ -103,10 +103,10 @@ class BaseFormatter:
         return output
 
     @classmethod
-    def player_to_dict(cls, player):
+    def character_to_dict(cls, character):
         """
-        :param player: Player object
-        :return: dict with player properties, nested objects are copied
+        :param character: Character object
+        :return: dict with character properties, nested objects are copied
         :name: str
         :location: str
         :action_count: int
@@ -115,8 +115,8 @@ class BaseFormatter:
             :colour: str
         """
         output = {}
-        output['name'] = player.name
-        output['location'] = player.location.name
-        output['action_count'] = player.action_count
-        output['hand'] = [cls.card_to_dict(card) for card in player.hand]
+        output['name'] = character.name
+        output['location'] = character.location.name
+        output['action_count'] = character.action_count
+        output['hand'] = [cls.card_to_dict(card) for card in character.hand]
         return output

@@ -3,7 +3,7 @@ import random
 from itertools import cycle, chain
 import logging
 
-from .card import PlayerCard, InfectCard
+from .card import CharacterCard, InfectCard
 
 
 class Deck:
@@ -39,11 +39,11 @@ class Deck:
         random.shuffle(self.cards)
 
 
-class PlayerDeck(Deck):
+class CharacterDeck(Deck):
     def prepare(self, cities):
         self.clear()
         for city in cities:
-            new_card = PlayerCard(city.name, city.colour)
+            new_card = CharacterCard(city.name, city.colour)
             self.add_card(new_card)
 
         logging.debug(
@@ -60,7 +60,7 @@ class PlayerDeck(Deck):
                 break
 
         for pile in card_piles:
-            epidemic_card = PlayerCard('Epidemic', 'no-colour')
+            epidemic_card = CharacterCard('Epidemic', 'no-colour')
             place_to_insert = random.randint(0, len(pile))
             pile.insert(place_to_insert, epidemic_card)
 
