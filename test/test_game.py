@@ -1,6 +1,6 @@
 # coding: utf-8
 import unittest
-from unittest import TestCase, skip, expectedFailure
+from unittest import TestCase
 
 import os.path as op
 import random
@@ -77,7 +77,7 @@ class GameSetupTestCase(TestCase):
         self.pg.get_new_city_map()
         self.pg.get_new_decks()
 
-        deck = self.pg.character_deck
+        deck = self.pg.player_deck
         self.assertEqual('London', deck.cards[0].name)
         self.assertEqual('Black', deck.cards[29].colour)
 
@@ -121,9 +121,9 @@ class GameSetupTestCase(TestCase):
         for colour in ('Blue', 'Red', 'Yellow', 'Black'):
             self.assertIn(colour, self.newyork.infection_levels)
 
-        top_character_card = self.pg.character_deck.take_top_card()
+        top_player_card = self.pg.player_deck.take_top_card()
         top_infect_card = self.pg.infect_deck.take_top_card()
-        self.assertEqual('London', top_character_card.name)
+        self.assertEqual('London', top_player_card.name)
         self.assertEqual('London', top_infect_card.name)
 
         self.assertEqual('Red', self.pg.diseases['Red'].colour)
@@ -164,7 +164,7 @@ class GameTestCase(unittest.TestCase):
 
     def test_add_epidemics(self):
         self.pg.add_epidemics()
-        num_epidemics = len({card for card in self.pg.character_deck.cards
+        num_epidemics = len({card for card in self.pg.player_deck.cards
                              if card.name == 'Epidemic'})
         self.assertTrue(self.pg.starting_epidemics, num_epidemics)
 
@@ -220,9 +220,9 @@ class GameTestCase(unittest.TestCase):
             self.pg.outbreak('London', 'Blue')
 
     def test_shuffle(self):
-        self.assertEqual('London', self.pg.character_deck.take_top_card().name)
-        self.pg.character_deck.shuffle()
-        self.assertNotEqual('Oxford', self.pg.character_deck.take_top_card().name)
+        self.assertEqual('London', self.pg.player_deck.take_top_card().name)
+        self.pg.player_deck.shuffle()
+        self.assertNotEqual('Oxford', self.pg.player_deck.take_top_card().name)
 
         self.assertEqual('London', self.pg.infect_deck.take_top_card().name)
         self.pg.infect_deck.shuffle()
@@ -230,16 +230,16 @@ class GameTestCase(unittest.TestCase):
 
     def test_start_game(self):
         self.pg.start_game()
-        self.top_character_card = self.pg.character_deck.take_top_card()
+        self.top_player_card = self.pg.player_deck.take_top_card()
         self.top_infect_card = self.pg.infect_deck.take_top_card()
         self.assertEqual(9, len(self.pg.infect_deck.discard))
-        self.assertEqual(0, len(self.pg.character_deck.discard))
+        self.assertEqual(0, len(self.pg.player_deck.discard))
         self.assertEqual(3, self.pg.city_map['Brighton'].infection_levels['Blue'])
         self.assertEqual(1, self.pg.city_map['Detroit'].infection_levels['Yellow'])
         self.assertEqual(2, self.pg.city_map['Smolensk'].infection_levels['Black'])
         self.assertEqual(4, len(self.character1.hand))
         self.assertEqual(4, len(self.character2.hand))
-        self.assertNotEqual('London', self.top_character_card.name)
+        self.assertNotEqual('London', self.top_player_card.name)
         self.assertNotEqual('London', self.top_infect_card.name)
         self.assertEqual('London', self.pg.characters[0].location.name)
         self.assertEqual('London', self.pg.characters[1].location.name)
@@ -264,7 +264,7 @@ class GameTestCase(unittest.TestCase):
         self.assertEqual(12, self.pg.diseases['Blue'].public_health)
 
     def test_draw_initial_hands(self):
-        test_cards = self.pg.character_deck.cards[:8]
+        test_cards = self.pg.player_deck.cards[:8]
         self.pg.draw_initial_hands()
 
         for i, character in enumerate(self.pg.characters):
@@ -276,7 +276,7 @@ class GameTestCase(unittest.TestCase):
         self.pg.draw_card(self.character1)
         self.assertEqual('London', self.character1.hand[0].name)
 
-        self.pg.character_deck.cards = []
+        self.pg.player_deck.cards = []
         with self.assertRaises(GameCrisisException):
             self.pg.draw_card(self.character1)
 

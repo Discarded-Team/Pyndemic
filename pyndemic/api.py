@@ -6,6 +6,7 @@ class CommandTypes(Enum):
     EMPTY = 'empty'
     CHECK = 'check'
     COMMAND = 'command'
+    MESSAGE = 'message'
 
 
 class ResponseTypes(Enum):

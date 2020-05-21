@@ -3,13 +3,11 @@ from unittest.mock import patch
 from io import StringIO
 
 import os.path as op
-import os
-import sys
-
-from pyndemic.controller import GameController
 from pyndemic.ui.console import ConsoleIO, ConsoleUI
 
+
 INPUT_LOCATION = op.join(op.dirname(__file__), 'test_input.txt')
+
 
 class ConsoleIOCase(unittest.TestCase):
     input_example = ['command one', 'command two', 'quit']
@@ -44,9 +42,6 @@ class ConsoleIOCase(unittest.TestCase):
                 self.assertEqual(command, received_commands[idx])
 
 
+# TODO: Provide tests for ConsoleUI
 class ConsoleUICase(unittest.TestCase):
     pass
-
-
-if __name__ == '__main__':
-    unittest.main()

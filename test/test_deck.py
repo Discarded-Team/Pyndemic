@@ -1,12 +1,12 @@
 # coding: utf-8
 
-from unittest import TestCase, skip, expectedFailure
+from unittest import TestCase
 
 import random
 
 from pyndemic.city import City
-from pyndemic.card import Card, CharacterCard, InfectCard
-from pyndemic.deck import Deck, CharacterDeck, InfectDeck
+from pyndemic.card import Card, PlayerCard, InfectCard
+from pyndemic.deck import Deck, PlayerDeck, InfectDeck
 
 
 class DeckTestCase(TestCase):
@@ -85,18 +85,18 @@ TEST_CITIES = [
 ]
 
 
-class CharacterDeckTestCase(TestCase):
+class PlayerDeckTestCase(TestCase):
     @classmethod
     def setUpClass(cls):
         cls.cities = TEST_CITIES
 
     def setUp(self):
-        self.deck = CharacterDeck()
+        self.deck = PlayerDeck()
 
     def test_prepare(self):
         self.deck.prepare(self.cities)
 
-        self.assertIsInstance(self.deck.cards[10], CharacterCard)
+        self.assertIsInstance(self.deck.cards[10], PlayerCard)
         self.assertEqual('London', self.deck.cards[0].name)
         self.assertEqual('Black', self.deck.cards[29].colour)
 

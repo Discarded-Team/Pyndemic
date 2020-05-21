@@ -2,4 +2,3 @@
 import logging
 
 logging.disable()
-

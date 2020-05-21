@@ -7,7 +7,7 @@ from pyndemic import config
 from pyndemic.game import Game
 from pyndemic.city import City
 from pyndemic.disease import Disease
-from pyndemic.card import Card, CharacterCard
+from pyndemic.card import Card, PlayerCard
 from pyndemic.deck import Deck
 from pyndemic.character import Character
 from pyndemic.formatter import BaseFormatter
@@ -31,9 +31,9 @@ class GameStateSerialisationCase(unittest.TestCase):
         self.pg.setup_game(SETTINGS_LOCATION)
         self.pg.start_game()
 
-        top_character_card = self.pg.character_deck.take_top_card()
+        top_player_card = self.pg.player_deck.take_top_card()
         top_infect_card = self.pg.infect_deck.take_top_card()
-        self.pg.character_deck.discard.append(top_character_card)
+        self.pg.player_deck.discard.append(top_player_card)
         self.pg.infect_deck.discard.append(top_infect_card)
 
     def test_game_to_dict(self):
@@ -43,9 +43,9 @@ class GameStateSerialisationCase(unittest.TestCase):
         self.assertEqual('Amelia', output['characters'][1]['name'])
         # other subdicts are tested for character_to_dict()
 
-        self.assertEqual(1, len(output['character_deck_discard']))
+        self.assertEqual(1, len(output['player_deck_discard']))
         self.assertEqual(10, len(output['infect_deck_discard'])) # 9 start + 1
-        self.assertEqual('Plymouth', output['character_deck_discard'][0]['name'])
+        self.assertEqual('Plymouth', output['player_deck_discard'][0]['name'])
         self.assertEqual('Tula', output['infect_deck_discard'][9]['name'])
 
         self.assertEqual(4, len(output['diseases']))
@@ -133,8 +133,8 @@ class CharacterSerialisationTestCase(unittest.TestCase):
         self.game.setup_game(SETTINGS_LOCATION)
         self.character.set_location('London')
         self.character.action_count = 4
-        self.character.hand = [CharacterCard('London', 'Blue'),
-                               CharacterCard('New York', 'Yellow')]
+        self.character.hand = [PlayerCard('London', 'Blue'),
+                               PlayerCard('New York', 'Yellow')]
 
     def test_character_to_dict(self):
         output = BaseFormatter.character_to_dict(self.character)

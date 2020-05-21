@@ -6,7 +6,7 @@ import os.path as op
 from pyndemic import config
 from pyndemic.exceptions import *
 from pyndemic.game import Game
-from pyndemic.card import CharacterCard
+from pyndemic.card import PlayerCard
 from pyndemic.character import Character
 
 
@@ -35,8 +35,8 @@ class CharacterTestCase(TestCase):
         self.assertEqual(0, character.action_count)
 
     def test_get_card(self):
-        self.character.hand = [CharacterCard('London', 'Blue'),
-                               CharacterCard('New York', 'Yellow')]
+        self.character.hand = [PlayerCard('London', 'Blue'),
+                               PlayerCard('New York', 'Yellow')]
 
         card = self.character.get_card('London')
         self.assertIs(self.character.hand[0], card)
@@ -45,14 +45,14 @@ class CharacterTestCase(TestCase):
             self.character.get_card('Moscow')
 
     def test_add_card(self):
-        top_character_card = self.game.character_deck.take_top_card()
-        self.character.add_card(top_character_card)
+        top_player_card = self.game.player_deck.take_top_card()
+        self.character.add_card(top_player_card)
         self.assertEqual(1, len(self.character.hand))
         self.assertTrue(self.character.hand_contains('London'))
 
     def test_hand_contains(self):
-        self.character.hand = [CharacterCard('London', 'Blue'),
-                               CharacterCard('New York', 'Yellow')]
+        self.character.hand = [PlayerCard('London', 'Blue'),
+                               PlayerCard('New York', 'Yellow')]
 
         self.assertTrue(self.character.hand_contains('New York'))
         self.assertFalse(self.character.hand_contains('Oxford'))
@@ -63,7 +63,7 @@ class CharacterTestCase(TestCase):
 
         success = self.character.discard_card(card.name)
         self.assertTrue(success)
-        self.assertIn(card, self.game.character_deck.discard)
+        self.assertIn(card, self.game.player_deck.discard)
         self.assertNotIn(card, self.character.hand)
 
         self.assertFalse(self.character.discard_card('Moscow'))
@@ -80,8 +80,8 @@ class CharacterTestCase(TestCase):
         self.character.action_count = 1
         self.assertFalse(self.character.check_charter_flight('London'))
 
-        self.character.hand = [CharacterCard('London', 'Blue'),
-                               CharacterCard('Moscow', 'Black')]
+        self.character.hand = [PlayerCard('London', 'Blue'),
+                               PlayerCard('Moscow', 'Black')]
         self.assertTrue(self.character.check_charter_flight('London'))
         self.assertFalse(self.character.check_charter_flight('Moscow'))
 
@@ -100,21 +100,21 @@ class CharacterTestCase(TestCase):
 
         success = self.character.charter_flight(card.name, 'New York')
         self.assertTrue(success)
-        self.assertIn(card, self.game.character_deck.discard)
+        self.assertIn(card, self.game.player_deck.discard)
         self.assertNotIn(card, self.character.hand)
         self.assertEqual('New York', self.character.location.name)
         self.assertEqual(3, self.character.action_count)
 
         success = self.character.charter_flight('New York', 'Brighton')
         self.assertFalse(success)
-        self.assertEqual(1, len(self.game.character_deck.discard))
-        self.assertIn(card, self.game.character_deck.discard)
+        self.assertEqual(1, len(self.game.player_deck.discard))
+        self.assertIn(card, self.game.player_deck.discard)
         self.assertEqual(3, self.character.action_count)
         self.assertEqual('New York', self.character.location.name)
 
     def test_check_direct_flight(self):
         self.character.set_location('London')
-        self.character.hand = [CharacterCard('Moscow', 'Black')]
+        self.character.hand = [PlayerCard('Moscow', 'Black')]
         self.character.action_count = 4
 
         self.assertFalse(self.character.check_direct_flight('London', 'Bejing'))
@@ -132,15 +132,15 @@ class CharacterTestCase(TestCase):
 
         success = self.character.direct_flight('Moscow', card.name)
         self.assertTrue(success)
-        self.assertIn(card, self.game.character_deck.discard)
+        self.assertIn(card, self.game.player_deck.discard)
         self.assertNotIn(card, self.character.hand)
         self.assertEqual(card.name, self.character.location.name)
         self.assertEqual(3, self.character.action_count)
 
         success = self.character.direct_flight('London', 'Brighton')
         self.assertFalse(success)
-        self.assertEqual(1, len(self.game.character_deck.discard))
-        self.assertIn(card, self.game.character_deck.discard)
+        self.assertEqual(1, len(self.game.player_deck.discard))
+        self.assertIn(card, self.game.player_deck.discard)
         self.assertEqual(3, self.character.action_count)
         self.assertEqual(card.name, self.character.location.name)
 
@@ -185,7 +185,7 @@ class CharacterTestCase(TestCase):
             with self.subTest(card_name=card_name):
                 self.assertFalse(self.character.hand_contains(card_name))
                 self.assertTrue(any(card.name == card_name
-                                    for card in self.game.character_deck.discard))
+                                    for card in self.game.player_deck.discard))
 
         self.assertFalse(self.character.cure_disease(*card_names))
         self.assertEqual(3, self.character.action_count)
@@ -208,8 +208,8 @@ class CharacterTestCase(TestCase):
             success = self.character.cure_disease(*card_names)
 
     def test_check_share_knowledge(self):
-        self.character.hand = [CharacterCard('London', 'Blue'),
-                               CharacterCard('Moscow', 'Black')]
+        self.character.hand = [PlayerCard('London', 'Blue'),
+                               PlayerCard('Moscow', 'Black')]
 
         self.character.set_location('London')
         self.other_character.set_location('London')
@@ -231,8 +231,8 @@ class CharacterTestCase(TestCase):
         self.assertFalse(self.character.check_share_knowledge('New York', self.other_character))
 
     def test_share_knowledge(self):
-        shared_card = CharacterCard('London', 'Blue')
-        unshared_card = CharacterCard('Moscow', 'Black')
+        shared_card = PlayerCard('London', 'Blue')
+        unshared_card = PlayerCard('Moscow', 'Black')
         self.character.hand = [shared_card, unshared_card]
 
         self.character.set_location('London')
@@ -251,7 +251,7 @@ class CharacterTestCase(TestCase):
         self.assertIn(shared_card, self.character.hand)
         self.assertEqual(2, self.character.action_count)
 
-        success = self.character.share_knowledge('Moskow', self.other_character)
+        success = self.character.share_knowledge('Moscow', self.other_character)
         self.assertFalse(success)
         self.assertNotIn(unshared_card, self.other_character.hand)
         self.assertIn(unshared_card, self.character.hand)
@@ -363,8 +363,8 @@ class CharacterTestCase(TestCase):
         self.character.set_location('London')
         self.character.action_count = 4
 
-        self.character.hand = [CharacterCard('London', 'Blue'),
-                               CharacterCard('Moscow', 'Black')]
+        self.character.hand = [PlayerCard('London', 'Blue'),
+                               PlayerCard('Moscow', 'Black')]
 
         self.assertTrue(self.character.check_build_lab())
 
@@ -382,7 +382,7 @@ class CharacterTestCase(TestCase):
     def test_build_lab(self):
         location = self.game.city_map['London']
         location.has_lab = False
-        card = CharacterCard('London', 'Blue')
+        card = PlayerCard('London', 'Blue')
         self.character.hand.append(card)
         self.character.set_location('London')
         self.character.action_count = 4
@@ -392,11 +392,11 @@ class CharacterTestCase(TestCase):
         self.assertEqual(3, self.character.action_count)
         self.assertTrue(location.has_lab)
         self.assertNotIn(card, self.character.hand)
-        self.assertIn(card, self.game.character_deck.discard)
+        self.assertIn(card, self.game.player_deck.discard)
 
         location = self.game.city_map['Moscow']
         lab_status = location.has_lab
-        card = CharacterCard('Moscow', 'Black')
+        card = PlayerCard('Moscow', 'Black')
         self.character.hand.append(card)
         self.character.set_location('Moscow')
         self.character.action_count = 0
@@ -404,7 +404,7 @@ class CharacterTestCase(TestCase):
         success = self.character.build_lab()
         self.assertFalse(success)
         self.assertIn(card, self.character.hand)
-        self.assertNotIn(card, self.game.character_deck.discard)
+        self.assertNotIn(card, self.game.player_deck.discard)
         self.assertEqual(0, self.character.action_count)
         self.assertEqual(lab_status, location.has_lab)
 

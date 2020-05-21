@@ -1,8 +1,8 @@
 # coding: utf-8
 
-from unittest import TestCase, skip, expectedFailure
+from unittest import TestCase
 
-from pyndemic.card import Card # , CharacterCard, InfectCard
+from pyndemic.card import Card
 
 
 class CardTestCase(TestCase):
