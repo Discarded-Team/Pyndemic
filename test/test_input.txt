@@ -112,4 +112,3 @@ move Miami
 move Bogota
 treat Yellow
 pass
-

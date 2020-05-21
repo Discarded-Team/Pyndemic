@@ -1,6 +1,4 @@
-# coding: utf-8
-
-from unittest import TestCase, skip, expectedFailure
+from unittest import TestCase
 
 import os.path as op
 from pyndemic import config

@@ -1,4 +1,3 @@
-# coding: utf-8
 import itertools as its
 import random
 

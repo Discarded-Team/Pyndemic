@@ -1,6 +1,4 @@
-# coding: utf-8
-
-from unittest import TestCase, skip, expectedFailure
+from unittest import TestCase
 
 from pyndemic.disease import Disease, NoHealthException
 

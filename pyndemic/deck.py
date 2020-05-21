@@ -1,4 +1,3 @@
-# coding: utf-8
 import random
 from itertools import cycle, chain
 import logging
@@ -85,4 +84,3 @@ class InfectDeck(Deck):
         self.discard = []
         logging.debug(
             f'Shuffled infect discard and placed on top of {self}.')
-

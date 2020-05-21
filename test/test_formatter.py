@@ -143,7 +143,3 @@ class CharacterSerialisationTestCase(unittest.TestCase):
         self.assertEqual(2, len(output['hand']))
         self.assertEqual('London', output['hand'][0]['name'])
         self.assertEqual('London', output['location'])
-
-
-if __name__ == '__main__':
-    unittest.main()

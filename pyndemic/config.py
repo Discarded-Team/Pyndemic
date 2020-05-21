@@ -1,4 +1,3 @@
-# coding: utf-8
 import os
 from configparser import ConfigParser
 
@@ -30,4 +29,3 @@ def refresh_settings(settings_location=None):
     app_config.read(settings_location)
 
     _CACHED_SETTINGS = app_config
-

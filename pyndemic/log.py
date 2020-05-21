@@ -1,4 +1,3 @@
-# coding: utf-8
 import sys
 import os
 import logging
@@ -40,4 +39,3 @@ if file_log_enabled:
 
 
 logging.root = logger
-

@@ -1,5 +1,3 @@
-# coding: utf-8
-
 from unittest import TestCase
 
 import random
@@ -152,4 +150,3 @@ class InfectDeckTestCase(TestCase):
         self.assertFalse(self.deck.discard)
         self.assertEqual('London', self.deck.cards[8].name)
         self.assertEqual('Washington', self.deck.cards[10].name)
-

@@ -1,4 +1,3 @@
-# coding: utf-8
 import logging
 
 
@@ -203,4 +202,3 @@ COMMANDS = [
     ShareCommand,
     PassCommand,
 ]
-
