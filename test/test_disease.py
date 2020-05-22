@@ -1,8 +1,6 @@
-# coding: utf-8
+from unittest import TestCase
 
-from unittest import TestCase, skip, expectedFailure
-
-from src.disease import Disease, NoHealthException
+from pyndemic.disease import Disease, NoHealthException
 
 
 class DiseaseTestCase(TestCase):

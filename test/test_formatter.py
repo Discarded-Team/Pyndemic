@@ -3,14 +3,14 @@ import unittest
 import os.path as op
 import random
 
-from src import config
-from src.game import Game
-from src.city import City
-from src.disease import Disease
-from src.card import Card, PlayerCard, InfectCard
-from src.deck import Deck, PlayerDeck, InfectDeck
-from src.player import Player
-from src.formatter import BaseFormatter
+from pyndemic import config
+from pyndemic.game import Game
+from pyndemic.city import City
+from pyndemic.disease import Disease
+from pyndemic.card import Card, PlayerCard
+from pyndemic.deck import Deck
+from pyndemic.character import Character
+from pyndemic.formatter import BaseFormatter
 
 
 SETTINGS_LOCATION = op.join(op.dirname(__file__), 'test_settings.cfg')
@@ -23,11 +23,11 @@ class GameStateSerialisationCase(unittest.TestCase):
 
     def setUp(self):
         random.seed(42)
-        self.player1 = Player('Evie')
-        self.player2 = Player('Amelia')
+        self.character1 = Character('Evie')
+        self.character2 = Character('Amelia')
         self.pg = Game()
-        self.pg.add_player(self.player1)
-        self.pg.add_player(self.player2)
+        self.pg.add_character(self.character1)
+        self.pg.add_character(self.character2)
         self.pg.setup_game(SETTINGS_LOCATION)
         self.pg.start_game()
 
@@ -38,10 +38,10 @@ class GameStateSerialisationCase(unittest.TestCase):
 
     def test_game_to_dict(self):
         output = BaseFormatter.game_to_dict(self.pg)
-        self.assertEqual(2, len(output['players']))
-        self.assertEqual('Evie', output['players'][0]['name'])
-        self.assertEqual('Amelia', output['players'][1]['name'])
-        # other subdicts are tested for player_to_dict()
+        self.assertEqual(2, len(output['characters']))
+        self.assertEqual('Evie', output['characters'][0]['name'])
+        self.assertEqual('Amelia', output['characters'][1]['name'])
+        # other subdicts are tested for character_to_dict()
 
         self.assertEqual(1, len(output['player_deck_discard']))
         self.assertEqual(10, len(output['infect_deck_discard'])) # 9 start + 1
@@ -124,26 +124,22 @@ class DiseaseSerialisationTestCase(unittest.TestCase):
         self.assertFalse(output['cured'])
 
 
-class PlayerSerialisationTestCase(unittest.TestCase):
+class CharacterSerialisationTestCase(unittest.TestCase):
     def setUp(self):
         random.seed(42)
         self.game = Game()
-        self.player = Player('Alice')
-        self.game.add_player(self.player)
+        self.character = Character('Alice')
+        self.game.add_character(self.character)
         self.game.setup_game(SETTINGS_LOCATION)
-        self.player.set_location('London')
-        self.player.action_count = 4
-        self.player.hand = [PlayerCard('London', 'Blue'),
-                            PlayerCard('New York', 'Yellow')]
+        self.character.set_location('London')
+        self.character.action_count = 4
+        self.character.hand = [PlayerCard('London', 'Blue'),
+                               PlayerCard('New York', 'Yellow')]
 
-    def test_player_to_dict(self):
-        output = BaseFormatter.player_to_dict(self.player)
+    def test_character_to_dict(self):
+        output = BaseFormatter.character_to_dict(self.character)
         self.assertEqual('Alice', output['name'])
         self.assertEqual(4, output['action_count'])
         self.assertEqual(2, len(output['hand']))
         self.assertEqual('London', output['hand'][0]['name'])
         self.assertEqual('London', output['location'])
-
-
-if __name__ == '__main__':
-    unittest.main()

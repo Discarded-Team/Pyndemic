@@ -1,4 +1,3 @@
-# coding: utf-8
 import logging
 
 from .exceptions import GameException
@@ -19,7 +18,6 @@ class City:
         self.has_lab = False
         self.colour = colour
         self.infection_levels = {}
-        self.distance = 999 # TODO unused?
         self.connected_cities = []
         logging.debug(
             f'Created location {self}')
@@ -72,4 +70,3 @@ class City:
             f'{colour} disease infection in {self} dropped to zero level')
 
         return level_reduction
-

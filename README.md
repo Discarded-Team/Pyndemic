@@ -8,7 +8,7 @@ This project is started after [this repository][ref] and is expected to be writt
 ## Project status
 The current release version is 0.1. This release is focused on implementing MVP providing minimalistic console client with limited gameplay and hotseat multiplayer introduced.
 Here's part of how a game session looks for now:
-![gameplay screenshot](/assets/readme/game_screenshot_1.png)
+![gameplay screenshot](/doc/readme/game_screenshot_1.png)
 
 Game mechanics:
  - [x] Basic player actions
@@ -47,7 +47,7 @@ python3 -m unittest
 
 And for running test game session you can type:
 ```bash
-python3 pyndemic.py test/test_input.txt 42
+python3 pyndemic.py 42 test/test_input.txt
 ```
 
 ---

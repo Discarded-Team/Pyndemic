@@ -1,4 +1,3 @@
-# coding: utf-8
 import logging
 
 
@@ -6,9 +5,9 @@ class Command:
     command = None
     min_arguments = 0
 
-    def __init__(self, game, player, controller):
+    def __init__(self, game, character, controller):
         self.game = game
-        self.player = player
+        self.character = character
         self.controller = controller
 
     def check_valid_command(self, command):
@@ -32,11 +31,11 @@ class MoveCommand(Command):
         return True
 
     def execute(self, command):
-        player = self.player
-        location = player.location.name
+        character = self.character
+        location = character.location.name
         destination = command[1]
 
-        success = player.standard_move(location, destination)
+        success = character.standard_move(location, destination)
         return success
 
 
@@ -51,11 +50,11 @@ class FlyCommand(Command):
         return True
 
     def execute(self, command):
-        player = self.player
-        location = player.location.name
+        character = self.character
+        location = character.location.name
         destination = command[1]
 
-        success = player.direct_flight(location, destination)
+        success = character.direct_flight(location, destination)
         return success
 
 
@@ -70,12 +69,13 @@ class CharterCommand(Command):
         return True
 
     def execute(self, command):
-        player = self.player
-        location = player.location.name
+        character = self.character
+        location = character.location.name
         destination = command[1]
 
-        success = player.charter_flight(location, destination)
+        success = character.charter_flight(location, destination)
         return success
+
 
 class ShuttleCommand(Command):
     command = 'shuttle'
@@ -88,11 +88,11 @@ class ShuttleCommand(Command):
         return True
 
     def execute(self, command):
-        player = self.player
-        location = player.location.name
+        character = self.character
+        location = character.location.name
         destination = command[1]
 
-        success = player.shuttle_flight(location, destination)
+        success = character.shuttle_flight(location, destination)
         return success
 
 
@@ -104,9 +104,9 @@ class BuildCommand(Command):
         return True
 
     def execute(self, command):
-        player = self.player
+        character = self.character
 
-        success = player.build_lab()
+        success = character.build_lab()
         return success
 
 
@@ -116,16 +116,16 @@ class TreatCommand(Command):
 
     def check_arguments(self, command):
         colour = command[1]
-        location = self.player.location
+        location = self.character.location
         if colour not in location.infection_levels:
             return False
         return True
 
     def execute(self, command):
-        player = self.player
+        character = self.character
         colour = command[1]
 
-        success = player.treat_disease(colour)
+        success = character.treat_disease(colour)
         return success
 
 
@@ -142,10 +142,10 @@ class CureCommand(Command):
         return True
 
     def execute(self, command):
-        player = self.player
+        character = self.character
         card_names = command[1:6]
 
-        success = player.cure_disease(*card_names)
+        success = character.cure_disease(*card_names)
         return success
 
 
@@ -158,20 +158,20 @@ class ShareCommand(Command):
         if card_name not in self.game.city_map:
             return False
 
-        player_name = command[2]
-        if player_name not in self.controller.player_names:
+        character_name = command[2]
+        if character_name not in self.controller.character_names:
             return False
-        if player_name == self.player.name:
+        if character_name == self.character.name:
             return False
 
         return True
 
     def execute(self, command):
-        player = self.player
+        character = self.character
         card_name = command[1]
-        other_player = self.controller.players[command[2]]
+        other_character = self.controller.characters[command[2]]
 
-        success = player.share_knowledge(card_name, other_player)
+        success = character.share_knowledge(card_name, other_character)
         return success
 
 
@@ -182,11 +182,11 @@ class PassCommand(Command):
         return True
 
     def execute(self, command):
-        player = self.player
-        player.action_count = 0
+        character = self.character
+        character.action_count = 0
 
         logging.info(
-            f'{player}: made magic pass.')
+            f'{character}: made magic pass.')
 
         return True
 
@@ -202,4 +202,3 @@ COMMANDS = [
     ShareCommand,
     PassCommand,
 ]
-

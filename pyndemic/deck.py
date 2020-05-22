@@ -1,4 +1,3 @@
-# coding: utf-8
 import random
 from itertools import cycle, chain
 import logging
@@ -77,7 +76,7 @@ class InfectDeck(Deck):
             self.add_card(new_card)
 
         logging.debug(
-            f'{self} prepared.'.format(self))
+            f'{self} prepared.')
 
     def shuffle_discard_to_top(self):
         random.shuffle(self.discard)
@@ -85,4 +84,3 @@ class InfectDeck(Deck):
         self.discard = []
         logging.debug(
             f'Shuffled infect discard and placed on top of {self}.')
-

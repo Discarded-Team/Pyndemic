@@ -1,4 +1,3 @@
-# coding: utf-8
 import sys
 import os
 import logging
@@ -12,7 +11,7 @@ LOG_DIR = os.path.join(config.ROOT_DIR, 'log')
 LOG_FILENAME = os.path.join(LOG_DIR, 'game.log')
 
 
-logger = logging.getLogger('PANDEMIC')
+logger = logging.getLogger('PYNDEMIC')
 logger.setLevel('DEBUG')
 formatter = Formatter('%(name)s %(levelname)s: %(message)s')
 
@@ -40,4 +39,3 @@ if file_log_enabled:
 
 
 logging.root = logger
-

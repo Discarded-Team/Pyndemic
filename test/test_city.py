@@ -1,12 +1,7 @@
-# coding: utf-8
-import unittest
-from unittest import TestCase, skip, expectedFailure
+from unittest import TestCase
 
-import os.path as op
-import random
-
-from src.exceptions import *
-from src.city import City
+from pyndemic.exceptions import *
+from pyndemic.city import City
 
 
 class CityTestCase(TestCase):
@@ -64,4 +59,3 @@ class CityTestCase(TestCase):
         another_city = City('New York', 'Yellow')
         self.city.add_connection(another_city)
         self.assertIn(another_city, self.city.connected_cities)
-

@@ -1,10 +1,10 @@
-# coding: utf-8
 import os
 from configparser import ConfigParser
 
 
 ROOT_DIR = os.path.join(os.path.dirname(__file__), os.pardir)
-SETTINGS_DEFAULT_LOCATION = os.path.join(ROOT_DIR, 'settings.cfg')
+WORK_DIR = os.path.dirname(__file__)
+SETTINGS_DEFAULT_LOCATION = os.path.join(WORK_DIR, 'settings.cfg')
 
 _CACHED_SETTINGS = None
 
@@ -29,4 +29,3 @@ def refresh_settings(settings_location=None):
     app_config.read(settings_location)
 
     _CACHED_SETTINGS = app_config
-

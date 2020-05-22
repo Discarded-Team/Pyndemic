@@ -1,4 +1,3 @@
-# coding: utf-8
 
 
 class GameException(Exception):
@@ -15,4 +14,3 @@ class GameCrisisException(Exception):
     game rules, such as game winning/losing conditions.
     """
     pass
-

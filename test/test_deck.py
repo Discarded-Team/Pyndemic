@@ -1,12 +1,10 @@
-# coding: utf-8
-import unittest
-from unittest import TestCase, skip, expectedFailure
+from unittest import TestCase
 
 import random
 
-from src.city import City
-from src.card import Card, PlayerCard, InfectCard
-from src.deck import Deck, PlayerDeck, InfectDeck
+from pyndemic.city import City
+from pyndemic.card import Card, PlayerCard, InfectCard
+from pyndemic.deck import Deck, PlayerDeck, InfectDeck
 
 
 class DeckTestCase(TestCase):
@@ -152,4 +150,3 @@ class InfectDeckTestCase(TestCase):
         self.assertFalse(self.deck.discard)
         self.assertEqual('London', self.deck.cards[8].name)
         self.assertEqual('Washington', self.deck.cards[10].name)
-

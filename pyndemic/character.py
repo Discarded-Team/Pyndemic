@@ -1,4 +1,3 @@
-# coding: utf-8
 import logging
 
 from .exceptions import GameCrisisException
@@ -9,22 +8,21 @@ class LastDiseaseCuredException(GameCrisisException):
         return 'All diseases have been cured!'
 
 
-class Player:
+class Character:
     def __init__(self, name):
         self.game = None
         self.location = None
         self.action_count = 0
         self.hand = []
         self.name = name
-        self.controller = None # TODO is it used?
         logging.debug(
             f'Created {self}')
 
     def __str__(self):
-        return f'Player "{self.name}"'
+        return f'Character "{self.name}"'
 
     def info(self):
-        result = f'Player {self.name}'
+        result = f'Character {self.name}'
         if self.location is not None:
             result += f' (stays at: {self.location.name}).'
 
@@ -35,21 +33,21 @@ class Player:
             if card.name == card_name:
                 return card
         raise ValueError(
-            f"No such card in {self.name} player's hand: {card_name}.")
+            f"No such card in {self.name} character's hand: {card_name}.")
 
     def set_location(self, new_location):
         self.location = self.game.city_map[new_location]
         logging.debug(
             f'{self}: changed location to {new_location}.')
 
-    def check_charter_flight(self, location, destination):
+    def check_charter_flight(self, location):
         if self.action_count > 0 and self.location.name == location:
             if self.hand_contains(location):
                 return True
         return False
 
     def charter_flight(self, location, destination):
-        if self.check_charter_flight(location, destination):
+        if self.check_charter_flight(location):
             self.discard_card(location)
             self.set_location(destination)
             self.action_count -= 1
@@ -94,7 +92,8 @@ class Player:
 
     def check_shuttle_flight(self, location, destination):
         if self.action_count > 0 and self.location.name == location:
-            if self.location.has_lab and self.game.city_map.get(destination).has_lab:
+            if self.location.has_lab and \
+                    self.game.city_map.get(destination).has_lab:
                 return True
         return False
 
@@ -129,7 +128,8 @@ class Player:
                     f'{self}: Treated {colour} disease in {self.location}.')
             self.action_count -= 1
             logging.info(
-                (f'Now {self.location} has {self.location.infection_levels[colour]} '
+                (f'Now {self.location} has '
+                 f'{self.location.infection_levels[colour]} '
                  f'level of {colour} disease.'))
 
             return True
@@ -163,37 +163,37 @@ class Player:
             return True
         return False
 
-    def check_share_knowledge(self, card_name, player):
-        if player is self:
+    def check_share_knowledge(self, card_name, other_character):
+        if other_character is self:
             return False
 
         no_actions = self.action_count == 0
-        different_locations = self.location.name != player.location.name
-        card_mismatch = card_name != player.location.name
+        different_locations = self.location.name != other_character.location.name
+        card_mismatch = card_name != other_character.location.name
         if no_actions or different_locations or card_mismatch:
             return False
 
-        if self.hand_contains(card_name) or player.hand_contains(card_name):
+        if self.hand_contains(card_name) or other_character.hand_contains(card_name):
             return True
         return False
 
-    def share_knowledge(self, card_name, player):
-        if self.check_share_knowledge(card_name, player):
+    def share_knowledge(self, card_name, other_character):
+        if self.check_share_knowledge(card_name, other_character):
             transfer_forward = True
             try:
                 held_card = self.get_card(card_name)
             except ValueError:
-                held_card = player.get_card(card_name)
+                held_card = other_character.get_card(card_name)
                 transfer_forward = False
             if transfer_forward:
-                player.add_card(held_card)
+                other_character.add_card(held_card)
                 self.hand.remove(held_card)
             else:
                 self.add_card(held_card)
-                player.hand.remove(held_card)
+                other_character.hand.remove(held_card)
             self.action_count -= 1
             logging.info(
-                f'{self}: Shared knowledge {held_card} with {player}.')
+                f'{self}: Shared knowledge {held_card} with {other_character}.')
 
             return True
         return False
@@ -234,4 +234,3 @@ class Player:
 
             return True
         return False
-
