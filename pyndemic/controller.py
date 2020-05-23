@@ -8,6 +8,7 @@ from .city import NoDiseaseInCityException
 from .character import LastDiseaseCuredException, Character
 from . import log
 from .commands import COMMANDS
+from . import api
 
 
 class AbstractController(ABC):
@@ -30,18 +31,6 @@ class AbstractController(ABC):
 
     def throw(self, exception):
         self._loop.throw(exception)
-
-    def empty_response(self):
-        return {
-            'type': 'empty',
-        }
-
-    def final_response(self, message):
-        final_response = {
-            'type': 'termination',
-            'message': message,
-        }
-        return final_response
 
 
 class GameController(AbstractController):
@@ -83,7 +72,7 @@ class GameController(AbstractController):
 
     def send(self, command):
         if command == 'quit':
-            return self.final_response('---<<< That\'s all! >>>---')
+            return api.final_response('---<<< That\'s all! >>>---')
         try:
             return self._loop.send(command)
         except LastDiseaseCuredException as e:
@@ -93,18 +82,18 @@ class GameController(AbstractController):
             logging.warning(e)
             logging.warning('Game lost!')
 
-        return self.final_response('---<<< That\'s all! >>>---')
+        return api.final_response('---<<< That\'s all! >>>---')
 
     def game_loop(self):
         response = None
         while True:
             command = yield response
             if not command:
-                response = self.empty_response()
+                response = api.empty_response()
                 continue
 
             self.run_single_command(command)
-            response = self.empty_response()
+            response = api.empty_response()
 
     def run_single_command(self, command):
         logging.debug(
