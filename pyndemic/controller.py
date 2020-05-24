@@ -1,7 +1,6 @@
+from abc import ABC, abstractmethod
 import itertools as its
 import random
-
-from abc import ABC, abstractmethod
 
 from .game import *
 from .city import NoDiseaseInCityException
@@ -71,7 +70,7 @@ class GameController(AbstractController):
         self._switch_character()
 
     def send(self, command):
-        if command == 'quit':
+        if command['type'] == api.CommandTypes.TERMINATION.value:
             return api.final_response('---<<< That\'s all! >>>---')
         try:
             return self._loop.send(command)
@@ -97,8 +96,7 @@ class GameController(AbstractController):
 
     def run_single_command(self, command):
         logging.debug(
-            'Character action: ' + command)
-        command = command.split()
+            f'Character action: {command}.')
 
         for executor_class in COMMANDS:
             executor = executor_class(self.game, self.current_character, self)

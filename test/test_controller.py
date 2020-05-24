@@ -1,4 +1,4 @@
-from unittest import TestCase
+from unittest import TestCase, skip
 
 import os.path as op
 import os
@@ -10,6 +10,7 @@ INPUT_LOCATION = op.join(op.dirname(__file__), 'test_input.txt')
 
 
 # TODO: expand test case for controller
+@skip('Should be used with ConsoleUI command parser.')
 class GameControllerTestCase(TestCase):
     def test_game_session(self):
         stdout, sys.stdout = sys.stdout, open(os.devnull, 'w')
