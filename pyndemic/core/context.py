@@ -1,0 +1,67 @@
+import weakref
+import random
+import string
+
+
+class ContextError(Exception):
+    pass
+
+
+class ContextNotFoundError(ContextError):
+    pass
+
+
+class _ContextManager:
+    _contexts = {}
+
+
+def register_context(context_id, context):
+    if context_id in _ContextManager._contexts:
+        raise ContextError(
+            f'Such context is already present: {context_id}')
+    _ContextManager._contexts[context_id] = context
+
+
+def unregister_context(context_id):
+    if context_id not in _ContextManager._contexts:
+        raise ContextNotFoundError(
+            f'Such context is not registered: {context_id}')
+
+    _ContextManager._contexts.pop(context_id)
+
+
+def get_context(context_id):
+    try:
+        context = _ContextManager._contexts[context_id]
+    except KeyError:
+        raise ContextNotFoundError(
+            f'Such context is not registered: {context_id}')
+
+    return context
+
+
+# TODO: regenerate when conflict occures
+def generate_id():
+    context_id = ''.join(
+        random.choice(string.ascii_lowercase) for _ in range(8))
+    return context_id
+
+
+class ContextRegistrationMeta(type):
+    """When a class instance is created with this class builder, it creates a
+    new game context attached to it.
+    """
+    def __call__(cls, *args, **kwargs):
+        obj = super().__call__(*args, **kwargs)
+
+        context_id = generate_id()
+        obj_key = cls.__name__.lower() + '_weakref'
+        ctx = {
+            obj_key: weakref.ref(obj),
+            'id': context_id,
+        }
+
+        register_context(context_id, ctx)
+        obj._ctx = ctx
+
+        return obj
