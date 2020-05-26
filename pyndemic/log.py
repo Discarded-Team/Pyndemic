@@ -17,15 +17,8 @@ formatter = Formatter('%(name)s %(levelname)s: %(message)s')
 
 
 settings = config.get_settings()
-stream_log_enabled = settings['Log'].getboolean('enable_stream_log')
-file_log_enabled = settings['Log'].getboolean('enable_file_log')
+file_log_enabled = settings['Log'].getboolean('enable_log')
 
-
-if stream_log_enabled:
-    stream_handler = StreamHandler(sys.stdout)
-    stream_handler.setFormatter(formatter)
-    stream_handler.setLevel('INFO')
-    logger.addHandler(stream_handler)
 
 if file_log_enabled:
     os.makedirs(LOG_DIR, exist_ok=True)

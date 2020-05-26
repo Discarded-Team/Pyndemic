@@ -2,8 +2,8 @@
 import sys
 from queue import Queue
 
-from .. import api
-from ..api import CommandTypes, ResponseTypes, GameplayCommands
+from ..core import api
+from ..core.api import CommandTypes, ResponseTypes, GameplayCommands
 
 
 class ConsoleUI:
@@ -16,7 +16,15 @@ class ConsoleUI:
     def run(self):
         self.termination_step = False
         with self.io, self.controller:
+            command = {'type': CommandTypes.CHECK.value}
+            check_response = self.controller.send(command)
+            self.process_response(check_response)
+
             while True:
+                if self.termination_step:
+                    self.io.send('Finishing program...')
+                    break
+
                 self.io.send('Waiting for command...')
                 try:
                     command = self.io.listen()
@@ -36,20 +44,18 @@ class ConsoleUI:
                 else:
                     controller_response = self.controller.send(command)
 
-                response = self.process_response(controller_response)
-                self.io.send(response)
-
-                if self.termination_step:
-                    self.io.send('Finishing program...')
-                    break
+                self.process_response(controller_response)
 
     def process_response(self, response):
         if response['type'] == ResponseTypes.TERMINATION.value:
             self.termination_step = True
 
-        response = response['message'] if 'message' in response else None
-
-        return response
+        if 'message_list' in response:
+            io_response = '\n'.join(response['message_list'])
+            self.io.send(io_response)
+        if 'message' in response:
+            io_response = response['message']
+            self.io.send(io_response)
 
 
 class ConsoleIO:

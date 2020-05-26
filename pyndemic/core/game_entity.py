@@ -2,7 +2,7 @@ import inspect
 import logging
 
 from .context import ContextError
-from .. import api
+from . import api
 
 
 class GameEntityCreationMeta(type):
@@ -15,16 +15,20 @@ class GameEntityCreationMeta(type):
     def __call__(cls, *args, **kwargs):
         obj = super().__call__(*args, **kwargs)
 
-        upper_stack_frame = inspect.stack()[1].frame
         try:
-            calling_object = upper_stack_frame.f_locals['self']
+            frame = inspect.currentframe()
+            while frame is not None:
+                frame = frame.f_back
+                if 'self' in frame.f_locals:
+                    break
+            calling_object = frame.f_locals['self']
             ctx = calling_object._ctx
         except (KeyError, AttributeError):
             logging.warning(
                 f'Creating game object "{obj}" with no context attached.')
             ctx = {}
         finally:
-            del upper_stack_frame
+            del frame
 
         obj._ctx = ctx
 
@@ -33,7 +37,12 @@ class GameEntityCreationMeta(type):
 
 class GameEntity(metaclass=GameEntityCreationMeta):
     """Base class for every game object."""
-    def emit_signal(self, message):
+    signals_enabled = True
+
+    def emit_signal(self, message, log_level=logging.INFO):
+        if not self.signals_enabled:
+            return
+
         if not hasattr(self, '_ctx'):
             raise ContextError(
                 (f'Object {self} cannot emit signals because it is created '
@@ -55,5 +64,8 @@ class GameEntity(metaclass=GameEntityCreationMeta):
             signal = api.message_response(message)
         else:
             signal = message
+
+        if log_level is not None:
+            logging.log(log_level, signal)
 
         controller.signals.put(signal)

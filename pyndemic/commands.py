@@ -1,7 +1,7 @@
-import logging
+from .core import GameEntity
 
 
-class Command:
+class Command(GameEntity):
     command = None
     min_arguments = 0
 
@@ -186,8 +186,9 @@ class PassCommand(Command):
         character = self.character
         character.action_count = 0
 
-        logging.info(
-            f'{character}: made magic pass.')
+        self.emit_signal(
+            f'{character}: made magic pass.',
+        )
 
         return True
 

@@ -1,6 +1,7 @@
 import logging
 
 from .exceptions import GameCrisisException
+from .core import GameEntity
 
 
 class LastDiseaseCuredException(GameCrisisException):
@@ -8,7 +9,7 @@ class LastDiseaseCuredException(GameCrisisException):
         return 'All diseases have been cured!'
 
 
-class Character:
+class Character(GameEntity):
     def __init__(self, name):
         self.game = None
         self.location = None
@@ -51,9 +52,10 @@ class Character:
             self.discard_card(location)
             self.set_location(destination)
             self.action_count -= 1
-            logging.info(
+            self.emit_signal(
                 (f'{self}: Performed charter flight from {location} to '
-                 f'{destination}.'))
+                 f'{destination}.'),
+            )
             return True
         return False
 
@@ -68,9 +70,10 @@ class Character:
             self.discard_card(destination)
             self.set_location(destination)
             self.action_count -= 1
-            logging.info(
+            self.emit_signal(
                 (f'{self}: Performed direct flight from {location} to '
-                 f'{destination}.'))
+                 f'{destination}.'),
+            )
             return True
         return False
 
@@ -85,8 +88,9 @@ class Character:
             self.discard_card(self.location.name)
             self.location.build_lab()
             self.action_count -= 1
-            logging.info(
-                f'{self}: Built laboratory in {self.location}.')
+            self.emit_signal(
+                f'{self}: Built laboratory in {self.location}.',
+            )
             return True
         return False
 
@@ -101,9 +105,10 @@ class Character:
         if self.check_shuttle_flight(location, destination):
             self.set_location(destination)
             self.action_count -= 1
-            logging.info(
+            self.emit_signal(
                 (f'{self}: Performed shuttle flight from {location} to '
-                 f'{destination}.'))
+                 f'{destination}.'),
+            )
             return True
         return False
 
@@ -118,19 +123,22 @@ class Character:
             if self.game.diseases[colour].cured:
                 level_reduction = self.location.nullify_infection_level(colour)
                 self.game.diseases[colour].increase_resistance(level_reduction)
-                logging.info(
+                self.emit_signal(
                     (f'{self}: Treated {colour} disease in {self.location} '
-                     f'(effectively).'))
+                     f'(effectively).'),
+                )
             else:
                 self.location.decrease_infection_level(colour)
                 self.game.diseases[colour].increase_resistance(1)
-                logging.info(
-                    f'{self}: Treated {colour} disease in {self.location}.')
+                self.emit_signal(
+                    f'{self}: Treated {colour} disease in {self.location}.',
+                    log_level=logging.INFO)
             self.action_count -= 1
-            logging.info(
+            self.emit_signal(
                 (f'Now {self.location} has '
                  f'{self.location.infection_levels[colour]} '
-                 f'level of {colour} disease.'))
+                 f'level of {colour} disease.'),
+            )
 
             return True
         return False
@@ -154,8 +162,9 @@ class Character:
             for card in card_list:
                 self.discard_card(card)
             self.action_count -= 1
-            logging.info(
-                f'{self}: Cured {colour} disease in {self.location}.')
+            self.emit_signal(
+                f'{self}: Cured {colour} disease in {self.location}.',
+            )
 
             if self.game.all_diseases_cured():
                 raise LastDiseaseCuredException
@@ -192,8 +201,9 @@ class Character:
                 self.add_card(held_card)
                 other_character.hand.remove(held_card)
             self.action_count -= 1
-            logging.info(
-                f'{self}: Shared knowledge {held_card} with {other_character}.')
+            self.emit_signal(
+                f'{self}: Shared knowledge {held_card} with {other_character}.',
+            )
 
             return True
         return False
@@ -208,8 +218,9 @@ class Character:
             card_to_discard = self.get_card(to_discard)
             self.hand.remove(card_to_discard)
             self.game.player_deck.add_discard(card_to_discard)
-            logging.info(
-                f'{self}: discarded {card_to_discard}.')
+            self.emit_signal(
+                f'{self}: discarded {card_to_discard}.',
+            )
 
             return True
         return False
@@ -228,9 +239,10 @@ class Character:
         if self.check_standard_move(location, destination):
             self.set_location(destination)
             self.action_count -= 1
-            logging.info(
+            self.emit_signal(
                 (f'{self}: Performed standard move from {location} to '
-                 f'{destination}.'))
+                 f'{destination}.'),
+            )
 
             return True
         return False

@@ -1,6 +1,7 @@
 import logging
 
 from .exceptions import GameCrisisException
+from .core import GameEntity
 
 
 class NoHealthException(GameCrisisException):
@@ -11,7 +12,7 @@ class NoHealthException(GameCrisisException):
         return f'Public health resistance to {self.colour} disease is over! Pandemic!'
 
 
-class Disease:
+class Disease(GameEntity):
     """
         Monitors public health resistance to this disease and whether the disease has been cured completely
         :param colour: Str
@@ -39,7 +40,8 @@ class Disease:
 
         logging.debug(
             (f'Public health resistance to {self.colour} disease is now '
-             f'{self.public_health}.'))
+             f'{self.public_health}.'),
+        )
 
     def decrease_resistance(self, change_size):
         """
@@ -53,4 +55,5 @@ class Disease:
 
             logging.debug(
                 (f'Public health resistance to {self.colour} disease is now '
-                 f'{self.public_health}.'))
+                 f'{self.public_health}.'),
+            )

@@ -51,13 +51,20 @@ class ContextRegistrationMeta(type):
     """When a class instance is created with this class builder, it creates a
     new game context attached to it.
     """
+    def __new__(mcs, name, bases, attrs, **options):
+        return super().__new__(mcs, name, bases, attrs)
+
+    def __init__(cls, name, bases, attrs, **options):
+        if hasattr(cls, '_ctx_name'):
+            return
+        cls._ctx_name = options.get('ctx_name') or cls.__name__.lower()
+
     def __call__(cls, *args, **kwargs):
         obj = super().__call__(*args, **kwargs)
 
         context_id = generate_id()
-        obj_key = cls.__name__.lower() + '_weakref'
         ctx = {
-            obj_key: weakref.ref(obj),
+            cls._ctx_name + '_weakref': weakref.ref(obj),
             'id': context_id,
         }
 

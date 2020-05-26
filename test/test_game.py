@@ -6,6 +6,7 @@ import random
 
 from pyndemic import config
 from pyndemic.exceptions import *
+from pyndemic.deck import PlayerDeck, InfectDeck
 from pyndemic.game import Game
 from pyndemic.character import Character
 
@@ -73,6 +74,9 @@ class GameSetupTestCase(TestCase):
         self.assertNotIn(self.pg.city_map['Liverpool'], city.connected_cities)
 
     def test_get_new_decks(self):
+        self.pg.player_deck = PlayerDeck()
+        self.pg.infect_deck = InfectDeck()
+
         self.pg.get_new_city_map()
         self.pg.get_new_decks()
 
