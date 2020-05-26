@@ -40,6 +40,7 @@ def get_context(context_id):
     return context
 
 
+# TODO: regenerate when conflict occures
 def generate_id():
     context_id = ''.join(
         random.choice(string.ascii_lowercase) for _ in range(8))

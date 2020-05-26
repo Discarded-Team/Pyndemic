@@ -1,1 +1,1 @@
-from . import GameEntity
+from .game_entity import GameEntity

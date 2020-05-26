@@ -1,8 +1,9 @@
 import inspect
 import logging
 
-from .context import get_context, ContextError
+from .context import ContextError
 from .. import api
+
 
 class GameEntityCreationMeta(type):
     """This class builder ensures that the object created as an instance of
@@ -21,7 +22,7 @@ class GameEntityCreationMeta(type):
         except (KeyError, AttributeError):
             logging.warning(
                 f'Creating game object "{obj}" with no context attached.')
-            ctx = None
+            ctx = {}
         finally:
             del upper_stack_frame
 
@@ -33,10 +34,15 @@ class GameEntityCreationMeta(type):
 class GameEntity(metaclass=GameEntityCreationMeta):
     """Base class for every game object."""
     def emit_signal(self, message):
-        if not hasattr(self, '_context_id'):
+        if not hasattr(self, '_ctx'):
             raise ContextError(
                 (f'Object {self} cannot emit signals because it is created '
                  'outside any game context.'))
+
+        if 'controller_weakref' not in self._ctx:
+            raise ContextError(
+                (f'Cannot find signal receiver for this object {self} - '
+                 'game context is empty.'))
 
         controller = self._ctx['controller_weakref']()
 
