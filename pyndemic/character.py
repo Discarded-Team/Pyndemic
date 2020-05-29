@@ -235,3 +235,17 @@ class Character:
 
             return True
         return False
+
+    def check_action_card(self, card, *args):
+        if card not in self.hand:
+            return False
+        return card.check_playable(args)
+
+    def play_action_card(self, card, *args):
+        if self.check_action_card(card, args):
+            logging.info(
+                f'{self}: Playing {card}.')
+            card.play(args)
+            self.discard_card(card.name)
+            return True
+        return False
