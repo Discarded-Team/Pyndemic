@@ -1,6 +1,4 @@
-# coding: utf-8
-
-from unittest import TestCase, skip, expectedFailure
+from unittest import TestCase
 
 import os.path as op
 
@@ -42,4 +40,3 @@ class ConfigModuleTestCase(TestCase):
         self.assertIsNot(settings_reloaded, settings)
         self.assertEqual(settings['Cities']['city9'],
                          settings_reloaded['Cities']['city9'])
-

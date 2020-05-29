@@ -1,4 +1,3 @@
-# coding: utf-8
 import logging
 
 from .exceptions import GameCrisisException
@@ -208,7 +207,7 @@ class Character:
         if self.hand_contains(to_discard):
             card_to_discard = self.get_card(to_discard)
             self.hand.remove(card_to_discard)
-            self.game.character_deck.add_discard(card_to_discard)
+            self.game.player_deck.add_discard(card_to_discard)
             logging.info(
                 f'{self}: discarded {card_to_discard}.')
 

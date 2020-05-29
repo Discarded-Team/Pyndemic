@@ -1,4 +1,3 @@
-# coding: utf-8
 import logging
 
 from collections import OrderedDict
@@ -6,11 +5,11 @@ from collections import OrderedDict
 from . import config
 from .exceptions import GameCrisisException
 from .city import City
-from .deck import CharacterDeck, InfectDeck
+from .deck import PlayerDeck, InfectDeck
 from .disease import Disease
 
 
-class ExhaustedCharacterDeckException(GameCrisisException):
+class ExhaustedPlayerDeckException(GameCrisisException):
     def __str__(self):
         return 'Character deck exhausted!'
 
@@ -27,7 +26,7 @@ class Game:
         self.game_over = False
         self.game_won = False
         self.city_map = OrderedDict()
-        self.character_deck = CharacterDeck()
+        self.player_deck = PlayerDeck()
         self.infect_deck = InfectDeck()
         self.infection_rate = None
         self.infection_rates = []
@@ -76,7 +75,7 @@ class Game:
         return all(disease.cured for disease in self.diseases.values())
 
     def add_epidemics(self):
-        self.character_deck.add_epidemics(self.starting_epidemics)
+        self.player_deck.add_epidemics(self.starting_epidemics)
         logging.info(
             f'Added {self.starting_epidemics} Epidemics to a character deck.')
 
@@ -88,9 +87,9 @@ class Game:
 
     def draw_card(self, character_drawing):
         try:
-            drawn_card = self.character_deck.take_top_card()
+            drawn_card = self.player_deck.take_top_card()
         except IndexError:
-            raise ExhaustedCharacterDeckException
+            raise ExhaustedPlayerDeckException
 
         if drawn_card.name == 'Epidemic':
             logging.info(
@@ -103,7 +102,7 @@ class Game:
 
     def shuffle_decks(self):
         self.infect_deck.shuffle()
-        self.character_deck.shuffle()
+        self.player_deck.shuffle()
         logging.info(
             'Decks shuffled.')
 
@@ -225,7 +224,7 @@ class Game:
             'Created city graph.')
 
     def get_new_decks(self):
-        self.character_deck.prepare(self.city_map.values())
+        self.player_deck.prepare(self.city_map.values())
         self.infect_deck.prepare(self.city_map.values())
         logging.debug(
             'Decks prepared.')

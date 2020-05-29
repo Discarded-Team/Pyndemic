@@ -1,4 +1,3 @@
-# coding: utf-8
 import logging
 
 from .exceptions import GameException
@@ -71,4 +70,3 @@ class City:
             f'{colour} disease infection in {self} dropped to zero level')
 
         return level_reduction
-

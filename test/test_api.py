@@ -1,9 +1,5 @@
-# coding: utf-8
-import unittest
-from unittest import TestCase, skip, expectedFailure
-from unittest.mock import patch
-
-import os.path as op
+from unittest import TestCase
 
 
-INPUT_LOCATION = op.join(op.dirname(__file__), 'test_input.txt')
+class ApiTestCase(TestCase):
+    pass
