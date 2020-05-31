@@ -166,7 +166,8 @@ class Game:
             self.infect_deck.add_discard(drawn_card)
             infected_city = self.city_map.get(drawn_card.name)
             self.infect_city(infected_city.name, infected_city.colour)
-        self.outbreak_stack.clear()
+            # TODO test that outbreak stack is cleared after each drawn card
+            self.outbreak_stack.clear()
 
         logging.info(
             'Infect phase finished.')
