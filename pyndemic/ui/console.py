@@ -3,7 +3,7 @@ import sys
 from queue import Queue
 
 from ..core import api
-from ..core.api import CommandTypes, ResponseTypes, GameplayCommands
+from ..core.api import RequestTypes, ResponseTypes, GameplayCommands
 
 
 class ConsoleUI:
@@ -16,8 +16,8 @@ class ConsoleUI:
     def run(self):
         self.termination_step = False
         with self.io, self.controller:
-            command = {'type': CommandTypes.CHECK.value}
-            check_response = self.controller.send(command)
+            request = {'type': RequestTypes.CHECK.value}
+            check_response = self.controller.send(request)
             self.process_response(check_response)
 
             while True:
@@ -27,22 +27,22 @@ class ConsoleUI:
 
                 self.io.send('Waiting for command...')
                 try:
-                    command = self.io.listen()
+                    request = self.io.listen()
                 except KeyboardInterrupt:
                     self.io.send('You decided to exit the game...')
-                    command = 'quit'
+                    request = 'quit'
 
-                if not command:
+                if not request:
                     continue
 
                 try:
-                    command = parse_command(command)
+                    request = parse_request(request)
                 except LookupError:
                     controller_response = api.message_response(
                         'ERROR: this command cannot be parsed. '
                         'Type a correct command.')
                 else:
-                    controller_response = self.controller.send(command)
+                    controller_response = self.controller.send(request)
 
                 self.process_response(controller_response)
 
@@ -90,48 +90,48 @@ class ConsoleIO:
             print(response, flush=True)
 
 
-def parse_command(input_command):
-    input_command = input_command.split()
-    if input_command[0] == 'quit':
-        return api.termination_command()
+def parse_request(input_request):
+    input_request = input_request.split()
+    if input_request[0] == 'quit':
+        return api.termination_request()
 
-    command = {
-        'type': CommandTypes.COMMAND.value,
-        'command': input_command[0],
+    request = {
+        'type': RequestTypes.COMMAND.value,
+        'command': input_request[0],
         'args': {},
     }
-    command_update_method = update_command[command['command']]
-    command_update_method(command, input_command)
+    command_update_method = update_command[request['command']]
+    command_update_method(request, input_request)
 
-    return command
+    return request
 
 
-def _update_move_command(command, input_command):
-    command['args'] = {
-        'destination': input_command[1],
+def _update_move_command(request, input_request):
+    request['args'] = {
+        'destination': input_request[1],
     }
 
 
-def _update_no_args_command(command, input_command):
+def _update_no_args_command(request, input_request):
     pass
 
 
-def _update_treat_command(command, input_command):
-    command['args'] = {
-        'colour': input_command[1],
+def _update_treat_command(request, input_request):
+    request['args'] = {
+        'colour': input_request[1],
     }
 
 
-def _update_cure_command(command, input_command):
-    command['args'] = {
-        'cards': input_command[1:],
+def _update_cure_command(request, input_request):
+    request['args'] = {
+        'cards': input_request[1:],
     }
 
 
-def _update_share_command(command, input_command):
-    command['args'] = {
-        'card': input_command[1],
-        'player': input_command[2],
+def _update_share_command(request, input_request):
+    request['args'] = {
+        'card': input_request[1],
+        'player': input_request[2],
     }
 
 

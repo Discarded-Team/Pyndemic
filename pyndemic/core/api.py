@@ -1,7 +1,7 @@
 from enum import Enum
 
 
-class CommandTypes(Enum):
+class RequestTypes(Enum):
     EMPTY = 'empty'
     CHECK = 'check'
     COMMAND = 'command'
@@ -27,11 +27,11 @@ class GameplayCommands(Enum):
     PASS = 'pass'
 
 
-def termination_command():
-    command = {
-        'type': CommandTypes.TERMINATION.value,
+def termination_request():
+    request = {
+        'type': RequestTypes.TERMINATION.value,
     }
-    return command
+    return request
 
 
 def empty_response():

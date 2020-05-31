@@ -90,15 +90,15 @@ class GameController(AbstractController):
         self.game.start_game()
         self._switch_character()
 
-    def send(self, command):
-        if command['type'] == api.CommandTypes.TERMINATION.value:
+    def send(self, request):
+        if request['type'] == api.RequestTypes.TERMINATION.value:
             return api.final_response('---<<< That\'s all! >>>---')
 
-        if command['type'] == api.CommandTypes.CHECK.value:
+        if request['type'] == api.RequestTypes.CHECK.value:
             return api.message_response(self._flush_signals())
 
         try:
-            response = self._loop.send(command)
+            response = self._loop.send(request)
             return response
         except LastDiseaseCuredException as e:
             self.emit_signal(str(e), log_level=logging.WARNING)
