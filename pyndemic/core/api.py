@@ -1,7 +1,7 @@
-from enum import Enum
+from .utils import StringEnum
 
 
-class RequestTypes(Enum):
+class RequestTypes(StringEnum):
     EMPTY = 'empty'
     CHECK = 'check'
     COMMAND = 'command'
@@ -9,13 +9,13 @@ class RequestTypes(Enum):
     TERMINATION = 'termination'
 
 
-class ResponseTypes(Enum):
+class ResponseTypes(StringEnum):
     EMPTY = 'empty'
     MESSAGE = 'message'
     TERMINATION = 'termination'
 
 
-class GameplayCommands(Enum):
+class GameplayCommands(StringEnum):
     MOVE = 'move'
     FLY = 'fly'
     CHARTER = 'charter'
@@ -29,21 +29,21 @@ class GameplayCommands(Enum):
 
 def termination_request():
     request = {
-        'type': RequestTypes.TERMINATION.value,
+        'type': RequestTypes.TERMINATION,
     }
     return request
 
 
 def empty_response():
     response = {
-        'type': ResponseTypes.EMPTY.value,
+        'type': ResponseTypes.EMPTY,
     }
     return response
 
 
 def final_response(message=None):
     response = {
-        'type': ResponseTypes.TERMINATION.value,
+        'type': ResponseTypes.TERMINATION,
         'message': message,
     }
 
@@ -52,7 +52,7 @@ def final_response(message=None):
 
 def message_response(message):
     response = {
-        'type': ResponseTypes.MESSAGE.value,
+        'type': ResponseTypes.MESSAGE,
         'message': message,
     }
 

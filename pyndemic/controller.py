@@ -91,10 +91,10 @@ class GameController(AbstractController):
         self._switch_character()
 
     def send(self, request):
-        if request['type'] == api.RequestTypes.TERMINATION.value:
+        if request['type'] == api.RequestTypes.TERMINATION:
             return api.final_response('---<<< That\'s all! >>>---')
 
-        if request['type'] == api.RequestTypes.CHECK.value:
+        if request['type'] == api.RequestTypes.CHECK:
             return api.message_response(self._flush_signals())
 
         try:

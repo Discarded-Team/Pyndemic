@@ -16,7 +16,7 @@ class ConsoleUI:
     def run(self):
         self.termination_step = False
         with self.io, self.controller:
-            request = {'type': RequestTypes.CHECK.value}
+            request = {'type': RequestTypes.CHECK}
             check_response = self.controller.send(request)
             self.process_response(check_response)
 
@@ -47,7 +47,7 @@ class ConsoleUI:
                 self.process_response(controller_response)
 
     def process_response(self, response):
-        if response['type'] == ResponseTypes.TERMINATION.value:
+        if response['type'] == ResponseTypes.TERMINATION:
             self.termination_step = True
 
         if 'message_list' in response:
@@ -96,7 +96,7 @@ def parse_request(input_request):
         return api.termination_request()
 
     request = {
-        'type': RequestTypes.COMMAND.value,
+        'type': RequestTypes.COMMAND,
         'command': input_request[0],
         'args': {},
     }
@@ -136,13 +136,13 @@ def _update_share_command(request, input_request):
 
 
 update_command = {
-    GameplayCommands.MOVE.value: _update_move_command,
-    GameplayCommands.FLY.value: _update_move_command,
-    GameplayCommands.CHARTER.value: _update_move_command,
-    GameplayCommands.SHUTTLE.value: _update_move_command,
-    GameplayCommands.BUILD.value: _update_no_args_command,
-    GameplayCommands.TREAT.value: _update_treat_command,
-    GameplayCommands.CURE.value: _update_cure_command,
-    GameplayCommands.SHARE.value: _update_share_command,
-    GameplayCommands.PASS.value: _update_no_args_command,
+    GameplayCommands.MOVE: _update_move_command,
+    GameplayCommands.FLY: _update_move_command,
+    GameplayCommands.CHARTER: _update_move_command,
+    GameplayCommands.SHUTTLE: _update_move_command,
+    GameplayCommands.BUILD: _update_no_args_command,
+    GameplayCommands.TREAT: _update_treat_command,
+    GameplayCommands.CURE: _update_cure_command,
+    GameplayCommands.SHARE: _update_share_command,
+    GameplayCommands.PASS: _update_no_args_command,
 }
