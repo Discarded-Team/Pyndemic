@@ -2,10 +2,11 @@ import random
 from itertools import cycle, chain
 import logging
 
+from .core import GameEntity
 from .card import PlayerCard, InfectCard
 
 
-class Deck:
+class Deck(GameEntity):
     def __init__(self):
         self.cards = []
         self.discard = []

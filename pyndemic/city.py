@@ -1,6 +1,7 @@
 import logging
 
 from .exceptions import GameException
+from .core import GameEntity
 
 
 class NoDiseaseInCityException(GameException):
@@ -12,7 +13,7 @@ class NoDiseaseInCityException(GameException):
         return f'No {self.colour} disease found in {self.city.name}!'
 
 
-class City:
+class City(GameEntity):
     def __init__(self, name, colour):
         self.name = name
         self.has_lab = False
@@ -20,7 +21,7 @@ class City:
         self.infection_levels = {}
         self.connected_cities = []
         logging.debug(
-            f'Created location {self}')
+            f'Created location {self}.')
 
     def __str__(self):
         return f'City {self.name} ({self.colour})'
@@ -41,19 +42,19 @@ class City:
             raise NoDiseaseInCityException(self, colour)
         self.infection_levels[colour] -= 1
         logging.debug(
-            f'{colour} disease infection in {self} went one level down')
+            f'{colour} disease infection in {self} went one level down.')
 
     def increase_infection_level(self, colour):
         self.infection_levels[colour] += 1
         logging.debug(
-            f'{colour} disease infection in {self} went one level up')
+            f'{colour} disease infection in {self} went one level up.')
 
     def build_lab(self):
         if self.has_lab:
             return False
         self.has_lab = True
         logging.debug(
-            f'Built laboratory in {self}')
+            f'Built laboratory in {self}.')
 
         return True
 
@@ -67,6 +68,6 @@ class City:
         level_reduction = self.infection_levels[colour]
         self.infection_levels[colour] = 0
         logging.debug(
-            f'{colour} disease infection in {self} dropped to zero level')
+            f'{colour} disease infection in {self} dropped to zero level.')
 
         return level_reduction

@@ -4,6 +4,7 @@ from collections import OrderedDict
 
 from . import config
 from .exceptions import GameCrisisException
+from .core import GameEntity
 from .city import City
 from .deck import PlayerDeck, InfectDeck
 from .disease import Disease
@@ -11,7 +12,7 @@ from .disease import Disease
 
 class ExhaustedPlayerDeckException(GameCrisisException):
     def __str__(self):
-        return 'Character deck exhausted!'
+        return 'Player deck exhausted!'
 
 
 class DeathOutbreakLevelException(GameCrisisException):
@@ -19,15 +20,13 @@ class DeathOutbreakLevelException(GameCrisisException):
         return 'Number of outbreaks reached death level!'
 
 
-class Game:
+class Game(GameEntity):
     def __init__(self):
         self.starting_epidemics = None
         self.outbreak_count = 0
         self.game_over = False
         self.game_won = False
         self.city_map = OrderedDict()
-        self.player_deck = PlayerDeck()
-        self.infect_deck = InfectDeck()
         self.infection_rate = None
         self.infection_rates = []
         self.epidemic_count = 0
@@ -36,29 +35,28 @@ class Game:
         self.turn_number = None
         self.outbreak_stack = set()
         self.settings = None
-        logging.debug(
-            'Created new game.')
 
     def setup_game(self, settings_location=None):
         self.settings = config.get_settings(settings_location)
         self.get_infection_rate()
         self.get_new_diseases()
         self.get_new_city_map()
+        self.player_deck = PlayerDeck()
+        self.infect_deck = InfectDeck()
         self.get_new_decks()
         self.set_starting_epidemics()
 
-        logging.info(
-            'Game ready to begin.')
-        logging.info(
-            f'Difficulty level: {self.starting_epidemics} Epidemics.')
+        self.emit_signal('Game ready to begin.')
+        self.emit_signal(
+            f'Difficulty level: {self.starting_epidemics} Epidemics.',
+        )
 
     def start_game(self):
         self.shuffle_decks()
         self.initial_infect_phase()
         self.draw_initial_hands()
         self.add_epidemics()
-        logging.info(
-            'Game started.')
+        self.emit_signal('Game started.')
 
         initial_city = self.settings['Other']['initial_city']
         for character in self.characters:
@@ -76,14 +74,16 @@ class Game:
 
     def add_epidemics(self):
         self.player_deck.add_epidemics(self.starting_epidemics)
-        logging.info(
-            f'Added {self.starting_epidemics} Epidemics to a character deck.')
+        self.emit_signal(
+            f'Added {self.starting_epidemics} Epidemics to a character deck.',
+        )
 
     def add_character(self, new_character):
         new_character.game = self
         self.characters.append(new_character)
-        logging.info(
-            f'Added new {new_character}.')
+        self.emit_signal(
+            f'Added new {new_character}.',
+        )
 
     def draw_card(self, character_drawing):
         try:
@@ -92,35 +92,42 @@ class Game:
             raise ExhaustedPlayerDeckException
 
         if drawn_card.name == 'Epidemic':
-            logging.info(
-                f'{character_drawing} drew Epidemic!')
+            self.emit_signal(
+                f'{character_drawing} drew Epidemic!',
+            )
+
             self.epidemic_phase()
         else:
             character_drawing.add_card(drawn_card)
-            logging.info(
-                f'{character_drawing} got {drawn_card}.')
+            self.emit_signal(
+                f'{character_drawing} got {drawn_card}.',
+            )
 
     def shuffle_decks(self):
         self.infect_deck.shuffle()
         self.player_deck.shuffle()
-        logging.info(
-            'Decks shuffled.')
+        self.emit_signal('Decks shuffled.')
 
     # TODO: Extend this method for arbitrary change of levels
     def infect_city(self, city_name, colour):
         infected_city = self.city_map.get(city_name)
-        logging.info(
-            f'Infecting {infected_city} with {colour} disease.')
+        self.emit_signal(
+            f'Infecting {infected_city} with {colour} disease.',
+        )
+
         if infected_city.infection_levels[colour] < 3:
             self.diseases[colour].decrease_resistance(1)
             infected_city.increase_infection_level(colour)
-            logging.info(
+            self.emit_signal(
                 (f'Infected {infected_city} with {colour} disease (reached '
-                 f'level {infected_city.infection_levels[colour]}).'))
+                 f'level {infected_city.infection_levels[colour]}).'),
+            )
+
         else:
-            logging.info(
+            self.emit_signal(
                 (f'{infected_city} has already maximum {colour} disease '
-                 'level. Outbreak is coming!'))
+                 'level. Outbreak is coming!'),
+            )
             self.outbreak(city_name, colour)
 
     def outbreak(self, city_name, colour):
@@ -128,12 +135,14 @@ class Game:
         if city_name in self.outbreak_stack:
             return
 
-        logging.info(
-            f'Starting outbreak in {outbreak_city} ({colour} disease).')
+        self.emit_signal(
+            f'Starting outbreak in {outbreak_city} ({colour} disease).',
+        )
         self.outbreak_stack.add(city_name)
         self.outbreak_count += 1
-        logging.info(
-            f'Outbreak level is now {self.outbreak_count}.')
+        self.emit_signal(
+            f'Outbreak level is now {self.outbreak_count}.',
+        )
         if self.outbreak_count == 8:
             raise DeathOutbreakLevelException
 
@@ -143,8 +152,7 @@ class Game:
             self.infect_city(connected_city.name, colour)
 
     def initial_infect_phase(self):
-        logging.info(
-            'Starting initial infect phase.')
+        self.emit_signal('Starting initial infect phase.')
         levels_to_add = 3
         for i in range(3):
             for j in range(3):
@@ -153,13 +161,13 @@ class Game:
                 for k in range(levels_to_add):
                     self.infect_city(drawn_card.name, drawn_card.colour)
             levels_to_add -= 1
-        logging.info(
-            'Initial infect phase finished.')
+        self.emit_signal('Initial infect phase finished.')
 
     def infect_city_phase(self):
         self.outbreak_stack.clear()
-        logging.info(
-            f'Starting infect phase ({self.infection_rate} cities to infect).')
+        self.emit_signal(
+            f'Starting infect phase ({self.infection_rate} cities to infect).',
+        )
 
         for i in range(self.infection_rate):
             drawn_card = self.infect_deck.take_top_card()
@@ -169,49 +177,44 @@ class Game:
             # TODO test that outbreak stack is cleared after each drawn card
             self.outbreak_stack.clear()
 
-        logging.info(
-            'Infect phase finished.')
+        self.emit_signal('Infect phase finished.')
 
     def start_turn(self, character):
         character.action_count = 4
-        logging.info(
-            f'{character} now plays.')
+        self.emit_signal(
+            f'{character} now plays.',
+        )
         # TODO test?
 
     def end_turn(self, character):
-        logging.info(
-            'No actions left. Now getting cards...')
+        self.emit_signal('No actions left. Now getting cards...')
 
         for i in range(2):
             self.draw_card(character)
 
-        logging.info(
-            'Cards drawn. Now starting infect phase.')
+        self.emit_signal('Cards drawn. Now starting infect phase.')
 
         self.infect_city_phase()
-        logging.info(
-            'Infect phase gone. Starting new turn.')
+        self.emit_signal('Infect phase gone. Starting new turn.')
         # TODO test ?
 
     def epidemic_phase(self):
-        logging.info(
-            'Starting epidemic phase.')
+        self.emit_signal('Starting epidemic phase.')
         self.increment_epidemic_count()
 
         drawn_card = self.infect_deck.take_bottom_card()
         self.infect_deck.add_discard(drawn_card)
         city_epidemic = self.city_map.get(drawn_card.name)
-        logging.info(
-            f'Starting epidemic in {city_epidemic}.')
+        self.emit_signal(
+            f'Starting epidemic in {city_epidemic}.',
+        )
         for i in range(3):
             self.infect_city(city_epidemic.name, city_epidemic.colour)
             if city_epidemic in self.outbreak_stack:
                 break
         self.infect_deck.shuffle_discard_to_top()
-        logging.info(
-            'Infect discard shuffled and returned to deck.')
-        logging.info(
-            'Epidemic phase finished.')
+        self.emit_signal('Infect discard shuffled and returned to deck.')
+        self.emit_signal('Epidemic phase finished.')
 
     def set_starting_epidemics(self):
         self.starting_epidemics = self.settings['Other'].getint('epidemics')
@@ -221,14 +224,12 @@ class Game:
     def get_new_city_map(self):
         self.create_cities()
         self.connect_cities()
-        logging.debug(
-            'Created city graph.')
+        logging.debug('Created city graph.')
 
     def get_new_decks(self):
         self.player_deck.prepare(self.city_map.values())
         self.infect_deck.prepare(self.city_map.values())
-        logging.debug(
-            'Decks prepared.')
+        logging.debug('Decks prepared.')
 
     def get_new_diseases(self):
         diseases_section = self.settings['Diseases']
@@ -268,15 +269,17 @@ class Game:
     def increment_epidemic_count(self):
         self.epidemic_count += 1
         self.infection_rate = int(self.infection_rates[self.epidemic_count])
-        logging.info(
-            f'Incremented infection rate (now {self.infection_rate}).')
+        self.emit_signal(
+            f'Incremented infection rate (now {self.infection_rate}).',
+        )
 
     def draw_initial_hands(self):
         num_cards_by_characters = {4: 2, 3: 3, 2: 4}
         num_characters = len(self.characters)
         cards_to_draw = num_cards_by_characters[num_characters]
-        logging.info(
-            f'Draw initial character cards ({cards_to_draw} per character).')
+        self.emit_signal(
+            f'Draw initial character cards ({cards_to_draw} per character).',
+        )
 
         for character in self.characters:
             for i in range(cards_to_draw):
