@@ -1,13 +1,13 @@
 import unittest
-from pyndemic.core.api import CommandTypes, ResponseTypes, \
-    GameplayCommands, termination_command, empty_response, \
+from pyndemic.core.api import RequestTypes, ResponseTypes, \
+    GameplayCommands, termination_request, empty_response, \
     final_response, message_response
 
 
 class APITestCase(unittest.TestCase):
-    def test_termination_command(self):
-        response = termination_command()
-        required = CommandTypes.TERMINATION.value
+    def test_termination_request(self):
+        response = termination_request()
+        required = RequestTypes.TERMINATION.value
         self.assertEqual(response['type'], required)
 
     def test_empty_response(self):
