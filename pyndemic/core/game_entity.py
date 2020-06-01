@@ -1,7 +1,6 @@
-import inspect
 import logging
 
-from .context import ContextError
+from .context import ContextError, search_context
 from . import api
 
 
@@ -15,20 +14,11 @@ class GameEntityCreationMeta(type):
     def __call__(cls, *args, **kwargs):
         obj = super().__call__(*args, **kwargs)
 
-        try:
-            frame = inspect.currentframe()
-            while frame is not None:
-                frame = frame.f_back
-                if 'self' in frame.f_locals:
-                    break
-            calling_object = frame.f_locals['self']
-            ctx = calling_object._ctx
-        except (KeyError, AttributeError):
+        ctx = search_context()
+        if not ctx:
             logging.warning(
                 f'Creating game object "{obj}" with no context attached.')
             ctx = {}
-        finally:
-            del frame
 
         obj._ctx = ctx
 
@@ -39,26 +29,30 @@ class GameEntity(metaclass=GameEntityCreationMeta):
     """Base class for every game object."""
     signals_enabled = True
 
+    def assert_has_context(self):
+        try:
+            self._ctx['id']
+        except (LookupError, AttributeError):
+            raise ContextError(
+                (f'Object {self} attempts to perform context-dependent '
+                 'procedure but is outside any game context or has invalid '
+                 'context.'))
+
     def emit_signal(self, message, log_level=logging.INFO):
         if not self.signals_enabled:
+            logging.debug(
+                (f'Attempting to send a message ({message}) from {self}, '
+                 'however, signal emitting is disabled.'))
             return
 
-        if not hasattr(self, '_ctx'):
-            raise ContextError(
-                (f'Object {self} cannot emit signals because it is created '
-                 'outside any game context.'))
+        self.assert_has_context()
 
-        if 'controller_weakref' not in self._ctx:
+        if 'controller' not in self._ctx:
             raise ContextError(
                 (f'Cannot find signal receiver for this object {self} - '
                  'game context is empty.'))
 
-        controller = self._ctx['controller_weakref']()
-
-        if controller is None:
-            raise ContextError(
-                (f'The context for this object ({self}) was destroyed and is '
-                 'no longer available'))
+        controller = self._ctx['controller']
 
         if isinstance(message, str):
             signal = api.message_response(message)
