@@ -6,7 +6,7 @@ from pyndemic.core.context import ContextError, ContextNotFoundError, \
 
 class ContextManagerTestCase(unittest.TestCase):
     def test_register_unregister(self):
-        """A comprehensive test for registring, getting and unregistering
+        """A comprehensive test for registering, getting and unregistering
         the context"""
         mock_context = "mock_string_instead_of_an_object"
         register_context(42, mock_context)
