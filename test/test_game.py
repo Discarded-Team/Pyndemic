@@ -283,7 +283,7 @@ class GameTestCase(unittest.TestCase):
         with self.assertRaises(GameCrisisException):
             self.pg.draw_card(self.character1)
 
-    def test_get_new_diseaes(self):
+    def test_get_new_disease(self):
         self.assertFalse(self.pg.diseases['Blue'].cured)
         self.assertFalse(self.pg.diseases['Red'].cured)
         self.pg.diseases['Blue'].cured = True
