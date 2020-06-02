@@ -1,7 +1,7 @@
 import unittest
 from pyndemic.core.context import ContextError, ContextNotFoundError, \
     ContextRegistrationMeta, register_context, unregister_context, \
-    get_context, generate_id
+    get_context, generate_id, search_context
 
 
 class ContextManagerTestCase(unittest.TestCase):
@@ -41,11 +41,29 @@ class ContextManagerTestCase(unittest.TestCase):
 
 class MockController(metaclass=ContextRegistrationMeta,
                      ctx_name='mock_controller'):
-    pass
+    def create_mock_object(self):
+        return MockObject()
 
 
 class ContextMetaClassTestCase(unittest.TestCase):
     def test_context(self):
         mock = MockController()
         self.assertIsNotNone(mock._ctx)
+
+
+class MockObject():
+    def __init__(self):
+        ctx = search_context()
+        self.ctx = ctx
+
+
+class SearchContextTestCase(unittest.TestCase):
+    def test_search_context(self):
+        ctx = search_context()
+        self.assertIsNone(ctx)
+
+        controller = MockController()
+        mock = controller.create_mock_object()
+        ctx = mock.ctx
+        self.assertIsNotNone(ctx)
 
