@@ -1,29 +1,25 @@
 from unittest import TestCase, skip
+from unittest.mock import patch
 
+from io import StringIO
 import os.path as op
-import os
-import sys
 
+from pyndemic.ui.console import ConsoleUI
 from pyndemic.controller import GameController
 
 INPUT_LOCATION = op.join(op.dirname(__file__), 'test_input.txt')
 
 
-# TODO: expand test case for controller
-@skip('Should be used with ConsoleUI command parser.')
+# TODO: expand test case, remove the hardcoded exit message
 class GameControllerTestCase(TestCase):
-    def test_game_session(self):
-        stdout, sys.stdout = sys.stdout, open(os.devnull, 'w')
-        stdin, sys.stdin = sys.stdin, open(INPUT_LOCATION, 'r')
-        random_state = 42
-        controller = GameController(random_state)
 
-        try:
-            with sys.stdout, sys.stdin, controller:
-                while True:
-                    command = sys.stdin.readline().rstrip()
-                    response = controller.send(command)
-                    if response['type'] == 'termination':
-                        break
-        finally:
-            sys.stdout, sys.stdin = stdout, stdin
+    @patch('sys.stdout', new_callable=StringIO)
+    @patch('sys.stdin.readline', side_effect=open(INPUT_LOCATION, 'r'))
+    def test_game_session(self, mock_input, mock_stdout):
+        random_state = 42
+        controller = GameController(random_state=random_state)
+        ui = ConsoleUI(controller=controller)
+        ui.run()
+
+        received_output = mock_stdout.getvalue().split("\n")
+        self.assertEqual("Finishing program...", received_output[-2])

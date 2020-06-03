@@ -43,5 +43,6 @@ class ConsoleIOCase(unittest.TestCase):
 
 
 # TODO: Provide tests for ConsoleUI
+# There is a test in test_controller.py that relies on ConsoleUI
 class ConsoleUICase(unittest.TestCase):
     pass
