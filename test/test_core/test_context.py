@@ -39,15 +39,18 @@ class ContextManagerTestCase(unittest.TestCase):
         self.assertNotEqual(ctx_id_1, ctx_id_2)
 
 
-class MockController(metaclass=ContextRegistrationMeta,
-                     ctx_name='mock_controller'):
-    def create_mock_object(self):
-        return MockObject()
-
 
 class ContextMetaClassTestCase(unittest.TestCase):
+    def construct_controller_mock_class(self):
+        class MockController(metaclass=ContextRegistrationMeta,
+                             ctx_name='mock_controller'):
+            def create_mock_object(self):
+                return MockObject()
+        return MockController
+
     def test_context(self):
-        mock = MockController()
+        mock_controller_class = self.construct_controller_mock_class()
+        mock = mock_controller_class()
         self.assertIsNotNone(mock._ctx)
 
 
@@ -58,11 +61,19 @@ class MockObject():
 
 
 class SearchContextTestCase(unittest.TestCase):
+    def construct_controller_mock_class(self):
+        class MockController(metaclass=ContextRegistrationMeta,
+                             ctx_name='mock_controller'):
+            def create_mock_object(self):
+                return MockObject()
+        return MockController
+
     def test_search_context(self):
         ctx = search_context()
         self.assertIsNone(ctx)
 
-        controller = MockController()
+        mock_controller_class = self.construct_controller_mock_class()
+        controller = mock_controller_class()
         mock = controller.create_mock_object()
         ctx = mock.ctx
         self.assertIsNotNone(ctx)
