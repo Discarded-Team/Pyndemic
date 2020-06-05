@@ -187,6 +187,9 @@ class GameTestCase(unittest.TestCase):
         self.assertEqual('London', self.pg.infect_deck.discard[0].name)
         self.assertEqual(28, self.pg.diseases['Blue'].public_health)
 
+        self.pg.infect_city('London', 'Blue')
+        self.assertEqual(0, len(self.pg.outbreak_stack))
+
     def test_epidemic_phase(self):
         self.pg.epidemic_phase()
         self.assertEqual(3, self.pg.city_map['Belgorod'].infection_levels['Black'])

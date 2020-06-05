@@ -448,3 +448,31 @@ class ShareCommandTestCase(unittest.TestCase):
         })
         self.command.execute(command)
         self.character.share_knowledge.assert_called()
+
+
+class PassCommandTestCase(unittest.TestCase):
+    def setUp(self):
+        self.game = Mock()
+        self.controller = MockController()
+        self.character = Mock()
+        self.character.name = 'Alice'
+
+        self.command = PassCommand(self.game, self.character,
+                                    self.controller)
+
+    def test_check_valid_command(self):
+        # irrelevant command
+        command = dict(command='move', args={})
+        response = self.command.check_valid_command(command)
+        self.assertFalse(response)
+
+        # correct command
+        command = dict(command='pass', args={})
+        response = self.command.check_valid_command(command)
+        self.assertTrue(response)
+
+    def test_execute(self):
+        # valid command
+        command = dict(command='pass', args={})
+        self.command.execute(command)
+        self.assertEqual(0, self.character.action_count)
