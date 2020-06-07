@@ -190,6 +190,21 @@ class GameTestCase(unittest.TestCase):
         self.pg.infect_city('London', 'Blue')
         self.assertEqual(0, len(self.pg.outbreak_stack))
 
+    def test_infect_city_phase_ouitbreak_stack(self):
+        """Tests that the outbreak stack is cleaned after each drawn card.
+        This reflects in how many cities are infected and how much.
+        """
+        london = self.pg.city_map['London']
+        oxford = self.pg.city_map['Oxford']
+        london.infection_levels['Blue'] = 3
+        oxford.infection_levels['Blue'] = 3
+
+        self.pg.infect_city_phase()
+        self.assertEqual(6, self.pg.outbreak_count)
+        self.assertEqual(10, self.pg.diseases['Blue'].public_health)
+        self.assertEqual(2, self.pg.city_map['Bristol'].infection_levels['Blue'])
+        self.assertEqual(3, self.pg.city_map['Cambridge'].infection_levels['Blue'])
+
     def test_epidemic_phase(self):
         self.pg.epidemic_phase()
         self.assertEqual(3, self.pg.city_map['Belgorod'].infection_levels['Black'])
