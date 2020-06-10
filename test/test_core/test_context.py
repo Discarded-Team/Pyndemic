@@ -1,31 +1,45 @@
-import unittest
-from pyndemic.core.context import ContextError, ContextNotFoundError, \
-    ContextRegistrationMeta, register_context, unregister_context, \
-    get_context, generate_id, search_context
+from unittest import TestCase
+
+from pyndemic.core.context import (ContextError, ContextNotFoundError,
+                                   register_context, unregister_context,
+                                   get_context, generate_id, search_context,
+                                   ContextRegistrationMeta, _ContextManager)
 
 
-class ContextManagerTestCase(unittest.TestCase):
-    def test_register_unregister(self):
+class ContextManagerTestCase(TestCase):
+    mock_context = 'mock_string_instead_of_an_object'
+
+    def setUp(self):
+        self.contexts = _ContextManager._contexts
+
+    def tearDown(self):
+        self.contexts.clear()
+
+    def test_register_context(self):
         """A comprehensive test for registering, getting and unregistering
-        the context"""
-        mock_context = "mock_string_instead_of_an_object"
-        register_context(42, mock_context)
+        contexts.
+        """
+        register_context(42, self.mock_context)
+        self.assertIn(42, self.contexts)
+        self.assertEqual(self.mock_context, self.contexts[42])
 
-        # register a conflicting context
+        another_context = 'another_mock_string_instead_of_an_object'
         with self.assertRaises(ContextError):
-            register_context(42, "mock_string_instead_of_an_object")
+            register_context(42, another_context)
 
-        # get the existing context
+    def test_get_context(self):
+        self.contexts[42] = self.mock_context
         ctx = get_context(42)
-        self.assertEqual(ctx, mock_context)
+        self.assertEqual(ctx, self.mock_context)
 
-        unregister_context(42)
-
-        # get a non-existing context
         with self.assertRaises(ContextNotFoundError):
-            get_context(42)
+            get_context(43)
 
-        # unregister a non-existing context
+    def test_unregister_context(self):
+        self.contexts[42] = self.mock_context
+        unregister_context(42)
+        self.assertNotIn(42, self.contexts)
+
         with self.assertRaises(ContextNotFoundError):
             unregister_context(42)
 
@@ -33,48 +47,60 @@ class ContextManagerTestCase(unittest.TestCase):
         ctx_id_1 = generate_id()
         self.assertIsNotNone(ctx_id_1)
         self.assertIsInstance(ctx_id_1, str)
-        self.assertEqual(8, len(ctx_id_1))
 
         ctx_id_2 = generate_id()
         self.assertNotEqual(ctx_id_1, ctx_id_2)
 
-
-
-class ContextMetaClassTestCase(unittest.TestCase):
-    def construct_controller_mock_class(self):
-        class MockController(metaclass=ContextRegistrationMeta,
-                             ctx_name='mock_controller'):
-            def create_mock_object(self):
-                return MockObject()
-        return MockController
-
-    def test_context(self):
-        mock_controller_class = self.construct_controller_mock_class()
-        mock = mock_controller_class()
-        self.assertIsNotNone(mock._ctx)
-
-
-class MockObject():
-    def __init__(self):
-        ctx = search_context()
-        self.ctx = ctx
-
-
-class SearchContextTestCase(unittest.TestCase):
-    def construct_controller_mock_class(self):
-        class MockController(metaclass=ContextRegistrationMeta,
-                             ctx_name='mock_controller'):
-            def create_mock_object(self):
-                return MockObject()
-        return MockController
-
     def test_search_context(self):
+        self._ctx = self.mock_context
+        ctx = search_context()
+        self.assertEqual(self._ctx, ctx)
+
+        del self._ctx
         ctx = search_context()
         self.assertIsNone(ctx)
 
-        mock_controller_class = self.construct_controller_mock_class()
-        controller = mock_controller_class()
-        mock = controller.create_mock_object()
-        ctx = mock.ctx
-        self.assertIsNotNone(ctx)
 
+class ContextRegistrationMetaTestCase(TestCase):
+    def construct_context_creator_mock_class(self, ctx_name=None):
+        if ctx_name is None:
+            class MockContextCreator(metaclass=ContextRegistrationMeta):
+                pass
+        else:
+            class MockContextCreator(metaclass=ContextRegistrationMeta,
+                                     ctx_name=ctx_name):
+                pass
+
+        return MockContextCreator
+
+    def setUp(self):
+        self.contexts = _ContextManager._contexts
+
+    def tearDown(self):
+        self.contexts.clear()
+
+    def test_init(self):
+        test_class = self.construct_context_creator_mock_class()
+        default_ctx_name = test_class.__name__.lower()
+        self.assertTrue(hasattr(test_class, '_ctx_name'))
+        self.assertEqual(default_ctx_name, test_class._ctx_name)
+
+        test_class = self.construct_context_creator_mock_class(ctx_name='mock')
+        self.assertTrue(hasattr(test_class, '_ctx_name'))
+        self.assertEqual('mock', test_class._ctx_name)
+
+    def test_call(self):
+        test_class = self.construct_context_creator_mock_class(
+            ctx_name='test_context')
+
+        instance = test_class()
+        self.assertTrue(hasattr(instance, '_ctx'))
+
+        ctx = instance._ctx
+        self.assertIn('id', ctx)
+        context_id = ctx['id']
+        self.assertIn(context_id, self.contexts)
+        self.assertIs(self.contexts[context_id], ctx)
+
+        ctx_registered_instance = ctx['test_context']
+        self.assertIs(ctx_registered_instance, instance)
