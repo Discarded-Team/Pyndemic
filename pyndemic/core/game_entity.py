@@ -8,7 +8,7 @@ class GameEntityCreationMeta(type):
     """This class builder ensures that the object created as an instance of
     that class will get access to the context kept by the object that caused
     the creation of this instance.
-    If caller object context is not present, the instance contest will also be
+    If caller object context is not present, the instance context will also be
     undefined.
     """
     def __call__(cls, *args, **kwargs):
