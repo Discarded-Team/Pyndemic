@@ -6,6 +6,7 @@ import random
 
 from pyndemic import config
 from pyndemic.exceptions import *
+from pyndemic.deck import PlayerDeck, InfectDeck
 from pyndemic.game import Game
 from pyndemic.character import Character
 
@@ -73,6 +74,9 @@ class GameSetupTestCase(TestCase):
         self.assertNotIn(self.pg.city_map['Liverpool'], city.connected_cities)
 
     def test_get_new_decks(self):
+        self.pg.player_deck = PlayerDeck()
+        self.pg.infect_deck = InfectDeck()
+
         self.pg.get_new_city_map()
         self.pg.get_new_decks()
 
@@ -183,6 +187,24 @@ class GameTestCase(unittest.TestCase):
         self.assertEqual('London', self.pg.infect_deck.discard[0].name)
         self.assertEqual(28, self.pg.diseases['Blue'].public_health)
 
+        self.pg.infect_city('London', 'Blue')
+        self.assertEqual(0, len(self.pg.outbreak_stack))
+
+    def test_infect_city_phase_ouitbreak_stack(self):
+        """Tests that the outbreak stack is cleaned after each drawn card.
+        This reflects in how many cities are infected and how much.
+        """
+        london = self.pg.city_map['London']
+        oxford = self.pg.city_map['Oxford']
+        london.infection_levels['Blue'] = 3
+        oxford.infection_levels['Blue'] = 3
+
+        self.pg.infect_city_phase()
+        self.assertEqual(6, self.pg.outbreak_count)
+        self.assertEqual(10, self.pg.diseases['Blue'].public_health)
+        self.assertEqual(2, self.pg.city_map['Bristol'].infection_levels['Blue'])
+        self.assertEqual(3, self.pg.city_map['Cambridge'].infection_levels['Blue'])
+
     def test_epidemic_phase(self):
         self.pg.epidemic_phase()
         self.assertEqual(3, self.pg.city_map['Belgorod'].infection_levels['Black'])
@@ -279,7 +301,7 @@ class GameTestCase(unittest.TestCase):
         with self.assertRaises(GameCrisisException):
             self.pg.draw_card(self.character1)
 
-    def test_get_new_diseaes(self):
+    def test_get_new_disease(self):
         self.assertFalse(self.pg.diseases['Blue'].cured)
         self.assertFalse(self.pg.diseases['Red'].cured)
         self.pg.diseases['Blue'].cured = True
