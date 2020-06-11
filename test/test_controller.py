@@ -11,23 +11,27 @@ from pyndemic.core import api
 
 from pyndemic.ui.console import ConsoleUI
 from pyndemic.controller import GameController
+from pyndemic.core.context import _ContextManager
 
 INPUT_LOCATION = op.join(op.dirname(__file__), 'test_input.txt')
 
 
 # TODO: expand test case, remove the hardcoded exit message
 class GameControllerTestCase(TestCase):
+    def setUp(self):
+        self.controller = GameController(random_state=42)
 
-    @patch('sys.stdout', new_callable=StringIO)
-    @patch('sys.stdin.readline', side_effect=open(INPUT_LOCATION, 'r'))
-    def test_game_session(self, mock_input, mock_stdout):
-        random_state = 42
-        controller = GameController(random_state=random_state)
-        ui = ConsoleUI(controller=controller)
-        ui.run()
+    def tearDown(self):
+        _ContextManager._contexts.clear()
+        del self.controller
 
-        received_output = mock_stdout.getvalue().split("\n")
-        self.assertEqual("Finishing program...", received_output[-2])
+    def test_init(self):
+        self.assertTrue(hasattr(self.controller, '_ctx'))
+        ctx = self.controller._ctx
+        ctx_id = ctx['id']
+        self.assertIn(ctx_id, _ContextManager._contexts)
+        self.assertIs(ctx, _ContextManager._contexts[ctx_id])
+        self.assertIs(self.controller, ctx['controller'])
 
     @patch('pyndemic.controller.Game')
     def test_start_game(self, game_class):
@@ -91,9 +95,14 @@ class GameControllerTestCase(TestCase):
             self.assertEqual("", result['message'])
 
 
+class GameRunTestCase(TestCase):
+    @patch('sys.stdout', new_callable=StringIO)
+    @patch('sys.stdin.readline', side_effect=open(INPUT_LOCATION, 'r'))
+    def test_game_session(self, mock_input, mock_stdout):
+        random_state = 42
+        controller = GameController(random_state=random_state)
+        ui = ConsoleUI(controller=controller)
+        ui.run()
 
-
-
-
-
-
+        received_output = mock_stdout.getvalue().split("\n")
+        self.assertEqual("Finishing program...", received_output[-2])

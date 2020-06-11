@@ -7,6 +7,9 @@ from pyndemic.core.context import (ContextError, ContextNotFoundError,
 
 
 class ContextManagerTestCase(TestCase):
+    """A comprehensive test for registering, getting, and unregistering
+    contexts.
+    """
     mock_context = 'mock_string_instead_of_an_object'
 
     def setUp(self):
@@ -16,9 +19,6 @@ class ContextManagerTestCase(TestCase):
         self.contexts.clear()
 
     def test_register_context(self):
-        """A comprehensive test for registering, getting and unregistering
-        contexts.
-        """
         register_context(42, self.mock_context)
         self.assertIn(42, self.contexts)
         self.assertEqual(self.mock_context, self.contexts[42])
@@ -51,10 +51,18 @@ class ContextManagerTestCase(TestCase):
         ctx_id_2 = generate_id()
         self.assertNotEqual(ctx_id_1, ctx_id_2)
 
+
+class SearchContextTestCase(TestCase):
     def test_search_context(self):
-        self._ctx = self.mock_context
-        ctx = search_context()
-        self.assertEqual(self._ctx, ctx)
+        self._ctx = 'mock_string_instead_of_an_object'
+
+        # Imitating nested scopes
+        proxy_caller = (lambda: search_context())
+
+        for function in [search_context, proxy_caller]:
+            with self.subTest(function=function):
+                ctx = function()
+                self.assertEqual(self._ctx, ctx)
 
         del self._ctx
         ctx = search_context()
