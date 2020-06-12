@@ -156,6 +156,7 @@ class GameController(AbstractController):
 
     def _switch_character(self):
         self.current_character = self.characters[next(self.name_cycle)]
+        self.game.active_character = self.current_character.name
         self.emit_signal(
             f'Active player: {self.current_character.name}',
         )
