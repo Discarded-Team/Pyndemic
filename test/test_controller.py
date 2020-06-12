@@ -94,6 +94,17 @@ class GameControllerTestCase(TestCase):
             self.assertEqual(api.RequestTypes.MESSAGE, result['type'])
             self.assertEqual("", result['message'])
 
+    @patch('pyndemic.controller.Game')
+    def test_switch_player(self, game_class):
+        self.controller.start_game(["A", "B"])
+        active_player = self.controller.current_character
+        self.controller._switch_character()
+        new_player = self.controller.current_character
+
+        self.assertNotEqual(new_player, active_player)
+        self.assertIsInstance(self.controller.game.active_character, str)
+        self.assertEqual(new_player.name, self.controller.game.active_character)
+
 
 class GameRunTestCase(TestCase):
     @patch('sys.stdout', new_callable=StringIO)

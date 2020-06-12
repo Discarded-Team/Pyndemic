@@ -35,6 +35,7 @@ class GameStateSerialisationCase(unittest.TestCase):
         top_infect_card = self.pg.infect_deck.take_top_card()
         self.pg.player_deck.discard.append(top_player_card)
         self.pg.infect_deck.discard.append(top_infect_card)
+        self.pg.active_character = 'Evie'
 
     def test_game_to_dict(self):
         output = BaseFormatter.game_to_dict(self.pg)
@@ -60,6 +61,7 @@ class GameStateSerialisationCase(unittest.TestCase):
 
         self.assertEqual(2, output['infection_rate'])
         self.assertEqual(0, output['epidemic_count'])
+        self.assertEqual('Evie', output['active_character'])
 
 
 class CardSerialisationTestCase(unittest.TestCase):

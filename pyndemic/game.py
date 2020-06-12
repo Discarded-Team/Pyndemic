@@ -35,6 +35,7 @@ class Game(GameEntity):
         self.turn_number = None
         self.outbreak_stack = set()
         self.settings = None
+        self.active_character = None
 
     def setup_game(self, settings_location=None):
         self.settings = config.get_settings(settings_location)
