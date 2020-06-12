@@ -1,8 +1,7 @@
 import itertools as its
-import weakref
 import random
 import logging
-from queue import Queue
+from collections import deque
 
 from .game import Game, GameCrisisException
 from .city import NoDiseaseInCityException
@@ -18,6 +17,9 @@ class AbstractController(metaclass=ContextRegistrationMeta,
     """Abstract interface for all game controller classes.
     This class cannot have instances and must be inherited.
     """
+    def __init__(self):
+        self.signals = deque()
+
     def __enter__(self):
         self.run()
         return self
@@ -26,16 +28,26 @@ class AbstractController(metaclass=ContextRegistrationMeta,
         self.stop()
 
     def run(self):
+        """Launch the controller so it can receive requests and send responses
+        No request/response interactions allowed before this method is called.
+        """
         raise NotImplementedError
 
     def stop(self):
-        self._loop.close()
+        """Stop the controller and finish request/response mode.
+        After this method is called, no requests/responses are allowed.
+        """
+        raise NotImplementedError
 
-    def send(self, command):
-        return self._loop.send(command)
+    def send(self, request):
+        """Get the request from outside and handle it.
+        This method must return a response object.
+        """
+        raise NotImplementedError
 
     def throw(self, exception):
-        self._loop.throw(exception)
+        """Handle an exception that is sent from outside."""
+        raise NotImplementedError
 
     def emit_signal(self, message, log_level=logging.INFO):
         if isinstance(message, str):
@@ -46,17 +58,24 @@ class AbstractController(metaclass=ContextRegistrationMeta,
         if log_level is not None:
             logging.log(log_level, signal)
 
-        self.signals.put(signal)
+        self.signals.append(signal)
+
+    def _flush_signals(self):
+        message_block = '\n'.join(signal['message'] for signal in self.signals)
+        self.signals.clear()
+
+        return message_block
 
 
 class GameController(AbstractController):
     def __init__(self, random_state=None):
+        super().__init__()
+
         self.game = None
         self.characters = {}
         self.current_character = None
         self.name_cycle = None
         self._loop = None
-        self.signals = Queue()
         self.random_state = random_state
 
     @property
@@ -67,6 +86,12 @@ class GameController(AbstractController):
         self.start_game(['Alpha', 'Bravo', 'Charlie', 'Delta'])
         self._loop = self.game_loop()
         self._loop.send(None)
+
+    def stop(self):
+        self._loop.close()
+
+    def throw(self, exception):
+        self._loop.throw(exception)
 
     def start_game(self, character_names):
         self.emit_signal(
@@ -165,11 +190,3 @@ class GameController(AbstractController):
         self.emit_signal(
             f'Actions left: {self.current_character.action_count}',
         )
-
-    def _flush_signals(self):
-        message_list = []
-        while not self.signals.empty():
-            message = self.signals.get()['message']
-            message_list.append(message)
-
-        return '\n'.join(message_list)
