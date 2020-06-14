@@ -1,4 +1,4 @@
-from unittest import TestCase, skip
+from unittest import TestCase
 from unittest.mock import patch, Mock, MagicMock
 
 from io import StringIO
@@ -6,12 +6,11 @@ import os.path as op
 
 from pyndemic.game import ExhaustedPlayerDeckException
 from pyndemic.character import LastDiseaseCuredException
-
 from pyndemic.core import api
-
 from pyndemic.ui.console import ConsoleUI
 from pyndemic.controller import GameController
 from pyndemic.core.context import _ContextManager
+
 
 INPUT_LOCATION = op.join(op.dirname(__file__), 'test_input.txt')
 
@@ -37,7 +36,8 @@ class GameControllerTestCase(TestCase):
         singleton_game_instance = MagicMock()
         game_class.return_value = singleton_game_instance
 
-        self.controller.start_game(["A", "B"])
+        self.controller.setup({'players': ['A', 'B']})
+        self.controller.start_game()
 
         # test that Game setup methods called
         self.assertIs(singleton_game_instance, self.controller.game)
@@ -50,7 +50,8 @@ class GameControllerTestCase(TestCase):
     @patch('pyndemic.controller.Game')
     def test_send(self, game_class):
         with patch("pyndemic.controller.GameController.emit_signal") as emit:
-            self.controller.start_game(["A", "B"])
+            self.controller.setup({'players': ['A', 'B']})
+            self.controller.start_game()
             self.controller._loop = Mock()
 
             # test LastDiseaseCuredException
@@ -91,7 +92,8 @@ class GameControllerTestCase(TestCase):
 
     @patch('pyndemic.controller.Game')
     def test_switch_player(self, game_class):
-        self.controller.start_game(["A", "B"])
+        self.controller.setup({'players': ['A', 'B']})
+        self.controller.start_game()
         active_player = self.controller.current_character
         self.controller._switch_character()
         new_player = self.controller.current_character

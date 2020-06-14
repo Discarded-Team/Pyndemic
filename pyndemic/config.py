@@ -1,4 +1,5 @@
 import os
+from copy import deepcopy
 from configparser import ConfigParser
 
 
@@ -15,7 +16,7 @@ def get_settings(settings_location=None, *, refresh=False):
     if refresh or _CACHED_SETTINGS is None:
         refresh_settings(settings_location)
 
-    app_config = _CACHED_SETTINGS
+    app_config = deepcopy(_CACHED_SETTINGS)
     return app_config
 
 

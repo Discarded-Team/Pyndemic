@@ -28,7 +28,7 @@ class GameStateSerialisationCase(unittest.TestCase):
         self.pg = Game()
         self.pg.add_character(self.character1)
         self.pg.add_character(self.character2)
-        self.pg.setup_game(SETTINGS_LOCATION)
+        self.pg.setup_game(self.settings)
         self.pg.start_game()
 
         top_player_card = self.pg.player_deck.take_top_card()
@@ -127,12 +127,16 @@ class DiseaseSerialisationTestCase(unittest.TestCase):
 
 
 class CharacterSerialisationTestCase(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.settings = config.get_settings(SETTINGS_LOCATION, refresh=True)
+
     def setUp(self):
         random.seed(42)
         self.game = Game()
         self.character = Character('Alice')
         self.game.add_character(self.character)
-        self.game.setup_game(SETTINGS_LOCATION)
+        self.game.setup_game(self.settings)
         self.character.set_location('London')
         self.character.action_count = 4
         self.character.hand = [PlayerCard('London', 'Blue'),
