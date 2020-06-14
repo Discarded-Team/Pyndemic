@@ -10,6 +10,7 @@ from . import log
 from .commands import COMMANDS
 from .core import api
 from .core.context import ContextRegistrationMeta
+from . import config
 
 
 class AbstractController(metaclass=ContextRegistrationMeta,
@@ -68,7 +69,7 @@ class AbstractController(metaclass=ContextRegistrationMeta,
 
 
 class GameController(AbstractController):
-    def __init__(self, random_state=None):
+    def __init__(self, **settings):
         super().__init__()
 
         self.game = None
@@ -76,14 +77,29 @@ class GameController(AbstractController):
         self.current_character = None
         self.name_cycle = None
         self._loop = None
-        self.random_state = random_state
+        self.settings = config.get_settings()
+
+        if settings:
+            self.setup(settings)
+
+    def setup(self, settings):
+        manual_settings = self.settings['Other']
+
+        for key, value in settings.items():
+            if key == 'players':
+                value = ' '.join(value)
+            if value is not None:
+                manual_settings[key] = str(value)
+
+        if 'players' not in manual_settings:
+            manual_settings['players'] = 'Alpha Bravo Charlie Delta'
 
     @property
     def character_names(self):
         return self.characters.keys()
 
     def run(self):
-        self.start_game(['Alpha', 'Bravo', 'Charlie', 'Delta'])
+        self.start_game()
         self._loop = self.game_loop()
         self._loop.send(None)
 
@@ -93,12 +109,16 @@ class GameController(AbstractController):
     def throw(self, exception):
         self._loop.throw(exception)
 
-    def start_game(self, character_names):
+    def start_game(self):
+        manual_settings = self.settings['Other']
+        character_names = manual_settings['players'].split()
         self.emit_signal(
             f'Starting game for {len(character_names)} players.',
         )
 
+        self.random_state = manual_settings.getint('random_state')
         if self.random_state is not None:
+            # TODO thread-safe random seeding
             random.seed(self.random_state)
             self.emit_signal(
                 f'Random state is fixed ({self.random_state})',
@@ -111,7 +131,7 @@ class GameController(AbstractController):
         for character in self.characters.values():
             self.game.add_character(character)
 
-        self.game.setup_game()
+        self.game.setup_game(self.settings)
         self.game.start_game()
         self._switch_character()
 
