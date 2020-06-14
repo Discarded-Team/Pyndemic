@@ -8,6 +8,7 @@ from .city import NoDiseaseInCityException
 from .character import LastDiseaseCuredException, Character
 from . import log
 from .commands import COMMANDS
+from .formatter import BaseFormatter
 from .core import api
 from .core.context import ContextRegistrationMeta
 from . import config
@@ -140,10 +141,13 @@ class GameController(AbstractController):
             return api.final_response('---<<< That\'s all! >>>---')
 
         if request['type'] == api.RequestTypes.CHECK:
-            return api.message_response(self._flush_signals())
+            response = api.message_response(self._flush_signals())
+            response['game_data'] = BaseFormatter.game_to_dict(self.game)
+            return response
 
         try:
             response = self._loop.send(request)
+            response['game_data'] = BaseFormatter.game_to_dict(self.game)
             return response
         except LastDiseaseCuredException as e:
             self.emit_signal(str(e), log_level=logging.WARNING)
@@ -154,7 +158,9 @@ class GameController(AbstractController):
 
         self.emit_signal('---<<< That\'s all! >>>---')
         final_message = self._flush_signals()
-        return api.final_response(final_message)
+        response = api.final_response(final_message)
+        response['game_data'] = BaseFormatter.game_to_dict(self.game)
+        return response
 
     def game_loop(self):
         response = None

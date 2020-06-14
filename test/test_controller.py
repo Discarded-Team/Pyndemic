@@ -70,20 +70,19 @@ class GameControllerTestCase(TestCase):
             emit.assert_any_call(str(ExhaustedPlayerDeckException()),
                                  log_level=30)
             # some message
-            self.controller._loop.send = Mock(side_effect=["send it back"])
+            expected_response = {'type': 'message', 'message': "send it back"}
+            self.controller._loop.send = Mock(side_effect=[expected_response])
             request = {'type': 'message', 'message': 'some text'}
             result = self.controller.send(request)
-            self.assertEqual("send it back", result)
+            self.assertEqual(expected_response, result)
 
             # termination
-            self.controller._loop.send = Mock(side_effect=["send it back"])
             request = {'type': api.RequestTypes.TERMINATION,
                        'message': 'some text'}
             result = self.controller.send(request)
             self.assertEqual(api.RequestTypes.TERMINATION, result['type'])
 
             # check
-            self.controller._loop.send = Mock(side_effect=["send it back"])
             request = {'type': api.RequestTypes.CHECK,
                        'message': 'some text'}
             result = self.controller.send(request)
