@@ -105,7 +105,7 @@ class GameSetupTestCase(TestCase):
         for character in characters:
             self.pg.add_character(character)
 
-        self.pg.setup_game(SETTINGS_LOCATION)
+        self.pg.setup_game(self.settings)
 
         self.assertEqual(self.pg.settings, self.settings)
 
@@ -136,6 +136,10 @@ class GameSetupTestCase(TestCase):
 
 
 class GameTestCase(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.settings = config.get_settings(SETTINGS_LOCATION, refresh=True)
+
     def setUp(self):
         random.seed(42)
         self.character1 = Character('Evie')
@@ -143,7 +147,7 @@ class GameTestCase(unittest.TestCase):
         self.pg = Game()
         self.pg.add_character(self.character1)
         self.pg.add_character(self.character2)
-        self.pg.setup_game(SETTINGS_LOCATION)
+        self.pg.setup_game(self.settings)
 
     def test_all_one_colour(self):
         card_names = ['London', 'Oxford', 'Cambridge', 'Brighton', 'Southampton']

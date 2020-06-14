@@ -30,13 +30,14 @@ class ConfigModuleTestCase(TestCase):
         settings = config.get_settings(SETTINGS_LOCATION)
 
         self.assertIsNotNone(config._CACHED_SETTINGS)
-        self.assertIs(config._CACHED_SETTINGS, settings)
+        self.assertIsNot(config._CACHED_SETTINGS, settings)
+        self.assertEqual(config._CACHED_SETTINGS, settings)
 
         settings_again = config.get_settings(SETTINGS_LOCATION)
-        self.assertIs(settings, settings_again)
+        self.assertEqual(settings, settings_again)
 
         settings_reloaded = config.get_settings(SETTINGS_LOCATION, refresh=True)
-        self.assertIs(config._CACHED_SETTINGS, settings_reloaded)
+        self.assertEqual(config._CACHED_SETTINGS, settings_reloaded)
         self.assertIsNot(settings_reloaded, settings)
         self.assertEqual(settings['Cities']['city9'],
                          settings_reloaded['Cities']['city9'])

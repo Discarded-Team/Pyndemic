@@ -23,7 +23,7 @@ class CharacterTestCase(TestCase):
         self.other_character = Character('Bob')
         self.game.add_character(self.character)
         self.game.add_character(self.other_character)
-        self.game.setup_game(SETTINGS_LOCATION)
+        self.game.setup_game(self.settings)
 
     def test_init(self):
         character = Character('Bob')
