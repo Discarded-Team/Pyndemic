@@ -1,22 +1,10 @@
 from unittest import TestCase
+from collections import deque
+
 from pyndemic.core.context import ContextError
 from pyndemic.core import api
 
 from pyndemic.core.game_entity import GameEntity, GameEntityCreationMeta
-
-
-class DumbQueue:
-    def __init__(self):
-        self.queue = list()
-
-    def put(self, something):
-        self.queue.append(something)
-
-    def get(self):
-        return self.queue.pop(0)
-
-    def empty(self):
-        return not self.queue
 
 
 class GameEntityCreationMetaTestCase(TestCase):
@@ -50,7 +38,7 @@ class GameEntityTestCase(TestCase):
         """
         class MockController:
             def __init__(self):
-                self.signals = DumbQueue()
+                self.signals = deque()
 
         return MockController
 
@@ -73,11 +61,11 @@ class GameEntityTestCase(TestCase):
 
         entity.signals_enabled = False
         entity.emit_signal("message")
-        self.assertTrue(self.controller.signals.empty())
+        self.assertFalse(self.controller.signals)
 
         entity.signals_enabled = True
         entity.emit_signal("message")
-        received = self.controller.signals.get()
+        received = self.controller.signals.popleft()
         required = api.message_response("message")
         self.assertEqual(required, received)
 

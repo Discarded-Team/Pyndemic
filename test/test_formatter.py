@@ -28,13 +28,14 @@ class GameStateSerialisationCase(unittest.TestCase):
         self.pg = Game()
         self.pg.add_character(self.character1)
         self.pg.add_character(self.character2)
-        self.pg.setup_game(SETTINGS_LOCATION)
+        self.pg.setup_game(self.settings)
         self.pg.start_game()
 
         top_player_card = self.pg.player_deck.take_top_card()
         top_infect_card = self.pg.infect_deck.take_top_card()
         self.pg.player_deck.discard.append(top_player_card)
         self.pg.infect_deck.discard.append(top_infect_card)
+        self.pg.active_character = 'Evie'
 
     def test_game_to_dict(self):
         output = BaseFormatter.game_to_dict(self.pg)
@@ -60,6 +61,7 @@ class GameStateSerialisationCase(unittest.TestCase):
 
         self.assertEqual(2, output['infection_rate'])
         self.assertEqual(0, output['epidemic_count'])
+        self.assertEqual('Evie', output['active_character'])
 
 
 class CardSerialisationTestCase(unittest.TestCase):
@@ -125,12 +127,16 @@ class DiseaseSerialisationTestCase(unittest.TestCase):
 
 
 class CharacterSerialisationTestCase(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.settings = config.get_settings(SETTINGS_LOCATION, refresh=True)
+
     def setUp(self):
         random.seed(42)
         self.game = Game()
         self.character = Character('Alice')
         self.game.add_character(self.character)
-        self.game.setup_game(SETTINGS_LOCATION)
+        self.game.setup_game(self.settings)
         self.character.set_location('London')
         self.character.action_count = 4
         self.character.hand = [PlayerCard('London', 'Blue'),

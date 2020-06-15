@@ -2,7 +2,6 @@ import logging
 
 from collections import OrderedDict
 
-from . import config
 from .exceptions import GameCrisisException
 from .core import GameEntity
 from .city import City
@@ -35,9 +34,10 @@ class Game(GameEntity):
         self.turn_number = None
         self.outbreak_stack = set()
         self.settings = None
+        self.active_character = None
 
-    def setup_game(self, settings_location=None):
-        self.settings = config.get_settings(settings_location)
+    def setup_game(self, settings):
+        self.settings = settings
         self.get_infection_rate()
         self.get_new_diseases()
         self.get_new_city_map()

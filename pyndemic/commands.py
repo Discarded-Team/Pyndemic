@@ -19,6 +19,9 @@ class Command(GameEntity):
             return False
         return True
 
+    def check_arguments(self, args):
+        raise NotImplementedError
+
 
 class MoveCommand(Command):
     command = 'move'

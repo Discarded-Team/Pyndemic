@@ -62,4 +62,4 @@ class GameEntity(metaclass=GameEntityCreationMeta):
         if log_level is not None:
             logging.log(log_level, signal)
 
-        controller.signals.put(signal)
+        controller.signals.append(signal)
