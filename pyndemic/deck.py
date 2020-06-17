@@ -4,6 +4,7 @@ import logging
 
 from .core import GameEntity
 from .card import PlayerCard, InfectCard
+from .actioncard import ACTION_CARDS
 
 
 class Deck(GameEntity):
@@ -40,15 +41,19 @@ class Deck(GameEntity):
 
 
 class PlayerDeck(Deck):
-    def prepare(self, cities):
+    def prepare(self, cities, game):
         self.clear()
         for city in cities:
             new_card = PlayerCard(city.name, city.colour)
             self.add_card(new_card)
 
+        for card_class in ACTION_CARDS:
+            # TODO: somehow get the settings which cards to include
+            new_card = card_class(game)
+            self.add_card(new_card)
+
         logging.debug(
             f'{self} prepared.')
-        # TODO: add action cards
 
     def add_epidemics(self, number_epidemics):
         card_piles = [[] for i in range(number_epidemics)]
