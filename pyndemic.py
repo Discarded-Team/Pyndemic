@@ -4,7 +4,7 @@ import sys
 from pyndemic.controller import GameController
 from pyndemic.ui import ConsoleUI
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 
 def main(args):
