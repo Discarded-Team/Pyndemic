@@ -1,4 +1,5 @@
 from unittest import TestCase
+from unittest.mock import MagicMock
 
 import random
 
@@ -79,7 +80,7 @@ TEST_CITIES = [
     City('Tula', 'Black'),          City('Cherepovets', 'Black'),
     City('Vologda', 'Black'),       City('Bryansk', 'Black'),
     City('Smolensk', 'Black'),      City('Oryol', 'Black'),
-    City('Krusk', 'Black'),         City('Belgorod', 'Black'),
+    City('Kursk', 'Black'),         City('Belgorod', 'Black'),
 ]
 
 
@@ -90,31 +91,32 @@ class PlayerDeckTestCase(TestCase):
 
     def setUp(self):
         self.deck = PlayerDeck()
+        self.game = MagicMock()
 
     def test_prepare(self):
-        self.deck.prepare(self.cities)
+        self.deck.prepare(self.cities, self.game)
 
         self.assertIsInstance(self.deck.cards[10], PlayerCard)
         self.assertEqual('London', self.deck.cards[0].name)
         self.assertEqual('Black', self.deck.cards[29].colour)
 
     def test_multiple_prepare(self):
-        self.deck.prepare(self.cities)
+        self.deck.prepare(self.cities, self.game)
         deck_size = len(self.deck.cards)
 
-        self.deck.prepare(self.cities)
+        self.deck.prepare(self.cities, self.game)
         self.assertEqual(deck_size, len(self.deck.cards))
 
     def test_add_epidemics(self):
-        self.deck.prepare(self.cities)
+        self.deck.prepare(self.cities, self.game)
 
         random.seed(42)
         self.deck.add_epidemics(6)
 
-        self.assertEqual(46, len(self.deck.cards))
+        self.assertEqual(46 + 1, len(self.deck.cards))
         self.assertEqual('Epidemic', self.deck.cards[13].name)
         self.assertEqual('Epidemic', self.deck.cards[24].name)
-        self.assertEqual('London', self.deck.cards[33].name)
+        self.assertEqual('Kursk', self.deck.cards[33].name)
 
 
 class InfectDeckTestCase(TestCase):
