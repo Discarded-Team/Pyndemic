@@ -30,7 +30,7 @@ jobs:
           pip install pytest-cov
           pip install -r requirements.txt
       - name: Test with pytest
-        run: python3 -m  pytest --doctest-modules --cov=src --junitxml=report-${{ matrix.python-version }}/test-results.xml --cov-report=xml:report-${{ matrix.python-version }}/coverage.xml --cov-report=html:report-${{ matrix.python-version }}/htmlcov --cov-report term:skip-covered
+        run: PY_IGNORE_IMPORTMISMATCH=1 python3 -m  pytest --doctest-modules --cov=pyndemic --junitxml=report-${{ matrix.python-version }}/test-results.xml --cov-report=xml:report-${{ matrix.python-version }}/coverage.xml --cov-report=html:report-${{ matrix.python-version }}/htmlcov --cov-report term:skip-covered
       - name: Upload pytest test results
         uses: actions/upload-artifact@master
         with:
