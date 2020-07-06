@@ -6,9 +6,7 @@ from pyndemic.exceptions import *
 from pyndemic.game import Game
 from pyndemic.card import PlayerCard
 from pyndemic.character import Character
-
-
-SETTINGS_LOCATION = op.join(op.dirname(__file__), 'test_settings.cfg')
+from .test_helpers import SETTINGS_LOCATION
 
 
 class CharacterTestCase(TestCase):

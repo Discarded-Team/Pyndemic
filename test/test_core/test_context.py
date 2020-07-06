@@ -5,6 +5,8 @@ from pyndemic.core.context import (ContextError, ContextNotFoundError,
                                    get_context, generate_id, search_context,
                                    ContextRegistrationMeta, _ContextManager)
 
+# TODO: fix strange bug (reproduced when running unit tests twice or more)
+
 
 class ContextManagerTestCase(TestCase):
     """A comprehensive test for registering, getting, and unregistering
@@ -110,5 +112,5 @@ class ContextRegistrationMetaTestCase(TestCase):
         self.assertIn(context_id, self.contexts)
         self.assertIs(self.contexts[context_id], ctx)
 
-        ctx_registered_instance = ctx['test_context']
+        ctx_registered_instance = ctx['test_context']()
         self.assertIs(ctx_registered_instance, instance)

@@ -5,10 +5,18 @@ import random
 from pyndemic.city import City
 from pyndemic.card import Card, PlayerCard, InfectCard
 from pyndemic.deck import Deck, PlayerDeck, InfectDeck
+from pyndemic.game import Game
+from .test_helpers import MockController
 
 
 class DeckTestCase(TestCase):
     def setUp(self):
+        self.controller = MockController()
+        self._ctx = self.controller._ctx
+        self.game = Game()
+        self.controller.game = self.game
+        self.game.settings = self.controller.settings
+
         self.deck = Deck()
         self.test_cards = [
             Card('London', 'Blue'),
@@ -18,6 +26,9 @@ class DeckTestCase(TestCase):
             Card('New York', 'Yellow'),
         ]
         self.deck.cards = self.test_cards.copy()
+
+    def tearDown(self):
+        del self.controller
 
     def test_clear(self):
         self.deck.clear()
@@ -89,7 +100,16 @@ class PlayerDeckTestCase(TestCase):
         cls.cities = TEST_CITIES
 
     def setUp(self):
+        self.controller = MockController()
+        self._ctx = self.controller._ctx
+        self.game = Game()
+        self.controller.game = self.game
+        self.game.settings = self.controller.settings
+
         self.deck = PlayerDeck()
+
+    def tearDown(self):
+        del self.controller
 
     def test_prepare(self):
         self.deck.prepare(self.cities)
@@ -109,9 +129,10 @@ class PlayerDeckTestCase(TestCase):
         self.deck.prepare(self.cities)
 
         random.seed(42)
+        expected_deck_size = len(self.deck.cards) + 6
         self.deck.add_epidemics(6)
 
-        self.assertEqual(46, len(self.deck.cards))
+        self.assertEqual(expected_deck_size, len(self.deck.cards))
         self.assertEqual('Epidemic', self.deck.cards[13].name)
         self.assertEqual('Epidemic', self.deck.cards[24].name)
         self.assertEqual('London', self.deck.cards[33].name)

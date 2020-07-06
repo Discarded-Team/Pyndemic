@@ -4,24 +4,26 @@ from unittest import TestCase
 import os.path as op
 import random
 
-from pyndemic import config
 from pyndemic.exceptions import *
 from pyndemic.deck import PlayerDeck, InfectDeck
 from pyndemic.game import Game
 from pyndemic.character import Character
-
-
-SETTINGS_LOCATION = op.join(op.dirname(__file__), 'test_settings.cfg')
+from .test_helpers import MockController
 
 
 class GameSetupTestCase(TestCase):
-    @classmethod
-    def setUpClass(cls):
-        cls.settings = config.get_settings(SETTINGS_LOCATION, refresh=True)
-
     def setUp(self):
+        self.controller = MockController()
+        self._ctx = self.controller._ctx
+
         self.pg = Game()
+        self.controller.game = self.pg
+        self.settings = self.controller.settings
+
         self.pg.settings = self.settings
+
+    def tearDown(self):
+        del self.controller
 
     def test_add_character(self):
         characters = [Character('Evie'), Character('Amelia')]
@@ -136,18 +138,24 @@ class GameSetupTestCase(TestCase):
 
 
 class GameTestCase(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls):
-        cls.settings = config.get_settings(SETTINGS_LOCATION, refresh=True)
 
     def setUp(self):
+        self.controller = MockController()
+        self._ctx = self.controller._ctx
+        self.settings = self.controller.settings
+
         random.seed(42)
         self.character1 = Character('Evie')
         self.character2 = Character('Amelia')
         self.pg = Game()
         self.pg.add_character(self.character1)
         self.pg.add_character(self.character2)
+
+        self.controller.game = self.pg
         self.pg.setup_game(self.settings)
+
+    def tearDown(self):
+        del self.controller
 
     def test_all_one_colour(self):
         card_names = ['London', 'Oxford', 'Cambridge', 'Brighton', 'Southampton']

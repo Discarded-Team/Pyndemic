@@ -18,6 +18,9 @@ class CommandTestCase(unittest.TestCase):
         self.character = Mock()
         self.command = Command(self.game, self.character, self.controller)
 
+    def tearDown(self):
+        del self.controller
+
     def test_check_valid_command(self):
         # empty argument
         response = self.command.check_valid_command("")
@@ -41,6 +44,9 @@ class MoveCommandTestCase(unittest.TestCase):
         self.character.standard_move = MagicMock(return_value=True)
 
         self.command = MoveCommand(self.game, self.character, self.controller)
+
+    def tearDown(self):
+        del self.controller
 
     def test_check_valid_command(self):
         # irrelevant command
@@ -93,6 +99,9 @@ class FlyCommandTestCase(unittest.TestCase):
 
         self.command = FlyCommand(self.game, self.character, self.controller)
 
+    def tearDown(self):
+        del self.controller
+
     def test_check_valid_command(self):
         # irrelevant command
         command = dict(command='move', args={})
@@ -144,6 +153,9 @@ class CharterCommandTestCase(unittest.TestCase):
 
         self.command = CharterCommand(self.game, self.character,
                                       self.controller)
+
+    def tearDown(self):
+        del self.controller
 
     def test_check_valid_command(self):
         # irrelevant command
@@ -198,6 +210,9 @@ class ShuttleCommandTestCase(unittest.TestCase):
         self.command = ShuttleCommand(self.game, self.character,
                                       self.controller)
 
+    def tearDown(self):
+        del self.controller
+
     def test_check_valid_command(self):
         # irrelevant command
         command = dict(command='move', args={})
@@ -250,6 +265,9 @@ class BuildCommandTestCase(unittest.TestCase):
         self.command = BuildCommand(self.game, self.character,
                                     self.controller)
 
+    def tearDown(self):
+        del self.controller
+
     def test_check_valid_command(self):
         # irrelevant command
         command = dict(command='move', args={})
@@ -273,6 +291,9 @@ class TreatCommandTestCase(unittest.TestCase):
 
         self.command = TreatCommand(self.game, self.character,
                                     self.controller)
+
+    def tearDown(self):
+        del self.controller
 
     def test_check_valid_command(self):
         # irrelevant command
@@ -326,6 +347,9 @@ class CureCommandTestCase(unittest.TestCase):
         self.command = CureCommand(self.game, self.character,
                                    self.controller)
 
+    def tearDown(self):
+        del self.controller
+
     def test_check_valid_command(self):
         # irrelevant command
         command = dict(command='move', args={})
@@ -378,6 +402,9 @@ class ShareCommandTestCase(unittest.TestCase):
 
         self.command = ShareCommand(self.game, self.character,
                                     self.controller)
+
+    def tearDown(self):
+        del self.controller
 
     def test_check_valid_command(self):
         # irrelevant command
@@ -459,6 +486,9 @@ class PassCommandTestCase(unittest.TestCase):
 
         self.command = PassCommand(self.game, self.character,
                                     self.controller)
+
+    def tearDown(self):
+        del self.controller
 
     def test_check_valid_command(self):
         # irrelevant command

@@ -11,24 +11,23 @@ from pyndemic.card import Card, PlayerCard
 from pyndemic.deck import Deck
 from pyndemic.character import Character
 from pyndemic.formatter import BaseFormatter
-
-
-SETTINGS_LOCATION = op.join(op.dirname(__file__), 'test_settings.cfg')
+from .test_helpers import MockController
 
 
 class GameStateSerialisationCase(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls):
-        cls.settings = config.get_settings(SETTINGS_LOCATION, refresh=True)
-
     def setUp(self):
+        self.controller = MockController()
+        self._ctx = self.controller._ctx
+
         random.seed(42)
         self.character1 = Character('Evie')
         self.character2 = Character('Amelia')
         self.pg = Game()
         self.pg.add_character(self.character1)
         self.pg.add_character(self.character2)
-        self.pg.setup_game(self.settings)
+
+        self.controller.game = self.pg
+        self.pg.setup_game(self.controller.settings)
         self.pg.start_game()
 
         top_player_card = self.pg.player_deck.take_top_card()
@@ -36,6 +35,9 @@ class GameStateSerialisationCase(unittest.TestCase):
         self.pg.player_deck.discard.append(top_player_card)
         self.pg.infect_deck.discard.append(top_infect_card)
         self.pg.active_character = 'Evie'
+
+    def tearDown(self):
+        del self.controller
 
     def test_game_to_dict(self):
         output = BaseFormatter.game_to_dict(self.pg)
@@ -127,20 +129,23 @@ class DiseaseSerialisationTestCase(unittest.TestCase):
 
 
 class CharacterSerialisationTestCase(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls):
-        cls.settings = config.get_settings(SETTINGS_LOCATION, refresh=True)
-
     def setUp(self):
+        self.controller = MockController()
+        self._ctx = self.controller._ctx
+
         random.seed(42)
         self.game = Game()
         self.character = Character('Alice')
         self.game.add_character(self.character)
-        self.game.setup_game(self.settings)
+        self.controller.game = self.game
+        self.game.setup_game(self.controller.settings)
         self.character.set_location('London')
         self.character.action_count = 4
         self.character.hand = [PlayerCard('London', 'Blue'),
                                PlayerCard('New York', 'Yellow')]
+
+    def tearDown(self):
+        del self.controller
 
     def test_character_to_dict(self):
         output = BaseFormatter.character_to_dict(self.character)
