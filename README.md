@@ -27,7 +27,7 @@ Game mechanics:
 ## How to
 
 ### Requirements
-For now, the application requires a Python version 3.6 or higher to be installed on your computer for a console playing.
+For now, the application requires a Python version 3.7 or higher to be installed on your computer for a console playing.
 
 ### Run the game in console
 To play a game, run a console client in an interactive mode:
@@ -35,7 +35,7 @@ To play a game, run a console client in an interactive mode:
 python3 pyndemic.py
 ```
 
-### Possible commands
+#### Possible commands
 The console mode supports the following commands:
 
  * `move <location>` - perform a standard move action
@@ -49,6 +49,31 @@ The console mode supports the following commands:
  * `pass` - end turn
 
 Also you can do `Ctrl`+`C` to terminate the game.
+
+### Launch the game programmatically
+It is possible to launch a game session inside another program, e.g. on a server. To do this, create and start a game object, and after that, you can interact with the game by a sequence of requests and responses.
+
+While creating the game, you can pass some game parameters as keyword arguments. For now the supported game parameters are "players", "random_state", and "epidemics" (difficulty level).
+
+See [API description](/API.md) to check how to create appropriate request objects.
+
+```python3
+from pyndemic.controller import GameController
+
+controller = GameController(players=['Alpha', 'Bravo', 'Charlie', 'Delta'])
+controller.run()
+
+...
+
+# Somewhere in the code
+response = controller.send(request)
+do_something_with_response(response)
+
+...
+
+# After game end
+controller.stop()
+```
 
 ### Test run
 For tests run:
