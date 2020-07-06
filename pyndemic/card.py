@@ -1,5 +1,7 @@
 from .core import GameEntity
 
+
+# TODO: add more test cases for this module
 class Card(GameEntity):
     def __init__(self, name, colour):
         self.name = name
@@ -8,10 +10,52 @@ class Card(GameEntity):
     def __str__(self):
         return f'Card "{self.name}-{self.colour}"'
 
+    def on_draw(self, character_drawing):
+        pass
+
+    def on_play(self, character_playing):
+        pass
+
+    def on_discard(self, character_discarding):
+        pass
+
 
 class PlayerCard(Card):
     pass
 
 
+class CityCard(PlayerCard):
+    def on_draw(self, character_drawing):
+        character_drawing.add_card(self)
+        self.emit_signal(
+            f'{character_drawing} got {self}.',
+        )
+
+
+class EpidemicCard(PlayerCard):
+    def on_draw(self, character_drawing):
+        super().on_draw(character_drawing)
+
+        self.emit_signal(
+            f'{character_drawing} drew Epidemic!',
+        )
+
+        self.game = self._ctx['controller']().game
+        self.game.epidemic_phase()
+
+
+class ActionCard(PlayerCard):
+    def on_draw(self, character_drawing):
+        character_drawing.add_card(self)
+        self.emit_signal(
+            f'{character_drawing} got {self}.',
+        )
+
+
 class InfectCard(Card):
-    pass
+    def on_draw(self, character_drawing):
+        super().on_draw(character_drawing)
+
+        self.game = self._ctx['controller']().game
+        city = self.game.city_map[self.name]
+        self.game.infect_city(self.name, self.colour)
