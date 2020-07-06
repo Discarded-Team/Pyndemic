@@ -1,19 +1,21 @@
 #!/usr/bin/env python3
-# coding: utf-8
 import sys
 
-from src.controller import MainController
+from pyndemic.controller import GameController
+from pyndemic.ui import ConsoleUI
+
+__version__ = "0.2.0"
 
 
-__version__ = "0.1.0"
+def main(args):
+    random_state = int(args[0]) if args else None
+
+    controller = GameController(random_state=random_state)
+    ui = ConsoleUI(controller=controller)
+
+    ui.run()
 
 
 if __name__ == '__main__':
     cli_args = sys.argv[1:]
-
-    input_file = cli_args[0] if cli_args else None
-    random_state = int(cli_args[1]) if cli_args[1:] else None
-
-    controller = MainController(input_file, random_state)
-    controller.run()
-
+    main(cli_args)

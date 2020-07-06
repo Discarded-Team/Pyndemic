@@ -1,7 +1,6 @@
-# coding: utf-8
+from .core import GameEntity
 
-
-class Card:
+class Card(GameEntity):
     def __init__(self, name, colour):
         self.name = name
         self.colour = colour

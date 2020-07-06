@@ -1,8 +1,6 @@
-# coding: utf-8
-import unittest
-from unittest import TestCase, skip, expectedFailure
+from unittest import TestCase
 
-from src.card import Card, PlayerCard, InfectCard
+from pyndemic.card import Card
 
 
 class CardTestCase(TestCase):
@@ -10,4 +8,3 @@ class CardTestCase(TestCase):
         card = Card('London', 'Blue')
         self.assertEqual('London', card.name)
         self.assertEqual('Blue', card.colour)
-
