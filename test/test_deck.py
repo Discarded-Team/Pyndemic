@@ -3,32 +3,26 @@ from unittest import TestCase
 import random
 
 from pyndemic.city import City
-from pyndemic.card import Card, PlayerCard, InfectCard
+from pyndemic.card import Card, PlayerCard, CityCard, InfectCard
 from pyndemic.deck import Deck, PlayerDeck, InfectDeck
-from pyndemic.game import Game
-from .test_helpers import MockController
+
+
+class MockCard:
+    def on_draw(self, drawing_character):
+        self.drawing_character = drawing_character
 
 
 class DeckTestCase(TestCase):
     def setUp(self):
-        self.controller = MockController()
-        self._ctx = self.controller._ctx
-        self.game = Game()
-        self.controller.game = self.game
-        self.game.settings = self.controller.settings
-
         self.deck = Deck()
         self.test_cards = [
-            Card('London', 'Blue'),
-            Card('Washington', 'Yellow'),
-            Card('Bejing', 'Red'),
-            Card('Moscow', 'Black'),
-            Card('New York', 'Yellow'),
+            CityCard('London', 'Blue'),
+            CityCard('Washington', 'Yellow'),
+            CityCard('Bejing', 'Red'),
+            CityCard('Moscow', 'Black'),
+            CityCard('New York', 'Yellow'),
         ]
         self.deck.cards = self.test_cards.copy()
-
-    def tearDown(self):
-        del self.controller
 
     def test_clear(self):
         self.deck.clear()
@@ -50,13 +44,13 @@ class DeckTestCase(TestCase):
         self.assertEqual('Moscow', next_card.name)
 
     def test_add_card(self):
-        new_card = Card('Cherepovets', 'Black')
+        new_card = CityCard('Cherepovets', 'Black')
         self.deck.add_card(new_card)
 
         self.assertEqual('Cherepovets', self.deck.cards[-1].name)
 
     def test_add_discard(self):
-        discarded_card = Card('Cherepovets', 'Black')
+        discarded_card = CityCard('Cherepovets', 'Black')
         self.deck.add_discard(discarded_card)
 
         self.assertEqual('Cherepovets', self.deck.discard[-1].name)
@@ -68,6 +62,24 @@ class DeckTestCase(TestCase):
         random.seed(42)
         self.deck.shuffle()
         self.assertEqual(self.test_cards, self.deck.cards)
+
+    def test_draw_card(self):
+        card = MockCard()
+        drawing_character = 'Bob'
+        self.deck.cards = [card]
+
+        drawn_card = self.deck.draw_card(drawing_character)
+        self.assertIs(card, drawn_card)
+        self.assertEqual(drawing_character, drawn_card.drawing_character)
+
+    def test_draw_card_without_callback(self):
+        card = MockCard()
+        drawing_character = 'Bob'
+        self.deck.cards = [card]
+
+        drawn_card = self.deck.draw_card(drawing_character, on_draw=False)
+        self.assertIs(card, drawn_card)
+        self.assertFalse(hasattr(drawn_card, 'drawing_character'))
 
 
 TEST_CITIES = [
@@ -100,16 +112,7 @@ class PlayerDeckTestCase(TestCase):
         cls.cities = TEST_CITIES
 
     def setUp(self):
-        self.controller = MockController()
-        self._ctx = self.controller._ctx
-        self.game = Game()
-        self.controller.game = self.game
-        self.game.settings = self.controller.settings
-
         self.deck = PlayerDeck()
-
-    def tearDown(self):
-        del self.controller
 
     def test_prepare(self):
         self.deck.prepare(self.cities)

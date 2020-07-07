@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from pyndemic.card import Card
+from pyndemic.card import Card, PlayerCard, CityCard, EpidemicCard
 from pyndemic.game import Game
 from .test_helpers import MockController
 

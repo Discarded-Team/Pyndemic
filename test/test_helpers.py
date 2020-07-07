@@ -1,8 +1,7 @@
 import os.path as op
 from collections import deque
 
-from pyndemic.core.context import (ContextRegistrationMeta, unregister_context,
-                                   ContextNotFoundError)
+from pyndemic.core.context import ContextRegistrationMeta
 from pyndemic import config
 
 

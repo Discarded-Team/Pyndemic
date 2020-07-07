@@ -4,7 +4,7 @@ from unittest.mock import patch, Mock, MagicMock
 from io import StringIO
 import os.path as op
 
-from pyndemic.game import ExhaustedPlayerDeckException
+from pyndemic.deck import ExhaustedPlayerDeckException
 from pyndemic.character import LastDiseaseCuredException
 from pyndemic.core import api
 from pyndemic.ui.console import ConsoleUI

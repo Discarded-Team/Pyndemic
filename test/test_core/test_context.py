@@ -1,11 +1,10 @@
 from unittest import TestCase
+import gc
 
 from pyndemic.core.context import (ContextError, ContextNotFoundError,
                                    register_context, unregister_context,
                                    get_context, generate_id, search_context,
                                    ContextRegistrationMeta, _ContextManager)
-
-# TODO: fix strange bug (reproduced when running unit tests twice or more)
 
 
 class ContextManagerTestCase(TestCase):
@@ -18,6 +17,7 @@ class ContextManagerTestCase(TestCase):
         self.contexts = _ContextManager._contexts
 
     def tearDown(self):
+        gc.collect()
         self.contexts.clear()
 
     def test_register_context(self):
@@ -87,6 +87,7 @@ class ContextRegistrationMetaTestCase(TestCase):
         self.contexts = _ContextManager._contexts
 
     def tearDown(self):
+        gc.collect()
         self.contexts.clear()
 
     def test_init(self):

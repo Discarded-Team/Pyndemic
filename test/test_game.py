@@ -279,7 +279,7 @@ class GameTestCase(unittest.TestCase):
         self.assertTrue(self.pg.city_map['London'].has_lab)
 
         for i in range(10):
-            self.pg.draw_card(self.character1)
+            self.pg.player_deck.draw_card(self.character1)
         self.assertEqual(1, self.pg.epidemic_count)
 
     def test_initial_infect_phase(self):
@@ -304,14 +304,6 @@ class GameTestCase(unittest.TestCase):
             with self.subTest(i=i, character=character):
                 self.assertEqual(4, len(character.hand))
                 self.assertEqual(test_cards[i * 4 + 3].name, character.hand[3].name)
-
-    def test_draw_card(self):
-        self.pg.draw_card(self.character1)
-        self.assertEqual('London', self.character1.hand[0].name)
-
-        self.pg.player_deck.cards = []
-        with self.assertRaises(GameCrisisException):
-            self.pg.draw_card(self.character1)
 
     def test_get_new_disease(self):
         self.assertFalse(self.pg.diseases['Blue'].cured)
