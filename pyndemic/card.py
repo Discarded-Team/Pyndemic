@@ -21,18 +21,22 @@ class Card(GameEntity):
 
 
 class PlayerCard(Card):
-    pass
-
-
-class CityCard(PlayerCard):
     def on_draw(self, character_drawing):
         character_drawing.add_card(self)
         self.emit_signal(
-            f'{character_drawing} got {self}.',
+            f'{character_drawing} drew {self}.',
         )
 
 
+class CityCard(PlayerCard):
+    pass
+
+
 class EpidemicCard(PlayerCard):
+    def __init__(self):
+        self.name = 'Epidemic'
+        self.colour = None
+
     def on_draw(self, character_drawing):
         super().on_draw(character_drawing)
 
@@ -45,11 +49,9 @@ class EpidemicCard(PlayerCard):
 
 
 class ActionCard(PlayerCard):
-    def on_draw(self, character_drawing):
-        character_drawing.add_card(self)
-        self.emit_signal(
-            f'{character_drawing} got {self}.',
-        )
+    def __init__(self, name):
+        self.name = name
+        self.colour = None
 
 
 class InfectCard(Card):
