@@ -147,11 +147,7 @@ class Game(GameEntity):
         )
 
         for i in range(self.infection_rate):
-            drawn_card = self.infect_deck.take_top_card()
-            self.infect_deck.add_discard(drawn_card)
-            infected_city = self.city_map.get(drawn_card.name)
-            self.infect_city(infected_city.name, infected_city.colour)
-            self.outbreak_stack.clear()
+            self.infect_deck.draw_card(self.active_character)
 
         self.emit_signal('Infect phase finished.')
 

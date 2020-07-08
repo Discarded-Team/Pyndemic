@@ -38,13 +38,14 @@ class Deck(GameEntity):
     def add_card(self, new_card):
         self.cards.append(new_card)
 
-    def add_discard(self, discarded_card):
+    def add_discard(self, discarded_card, *, on_discard=True):
+        if on_discard:
+            discarded_card.on_discard()
         self.discard.append(discarded_card)
 
     def shuffle(self):
         random.shuffle(self.cards)
 
-    # TODO: test method
     def draw_card(self, drawing_character, *, on_draw=True):
         """Draws a card from the deck.
         If `on_draw` parameter is set to False, the card object will not

@@ -1,7 +1,6 @@
 from .core import GameEntity
 
 
-# TODO: add more test cases for this module
 class Card(GameEntity):
     def __init__(self, name, colour):
         self.name = name
@@ -10,13 +9,13 @@ class Card(GameEntity):
     def __str__(self):
         return f'Card "{self.name}-{self.colour}"'
 
-    def on_draw(self, character_drawing):
+    def on_draw(self, *args, **kwargs):
         pass
 
-    def on_play(self, character_playing):
+    def on_play(self, *args, **kwargs):
         pass
 
-    def on_discard(self, character_discarding):
+    def on_discard(self, *args, **kwargs):
         pass
 
 
@@ -38,14 +37,12 @@ class EpidemicCard(PlayerCard):
         self.colour = None
 
     def on_draw(self, character_drawing):
-        super().on_draw(character_drawing)
-
         self.emit_signal(
             f'{character_drawing} drew Epidemic!',
         )
 
-        self.game = self._ctx['controller']().game
-        self.game.epidemic_phase()
+        game = self._ctx['controller']().game
+        game.epidemic_phase()
 
 
 class ActionCard(PlayerCard):
@@ -56,8 +53,10 @@ class ActionCard(PlayerCard):
 
 class InfectCard(Card):
     def on_draw(self, character_drawing):
-        super().on_draw(character_drawing)
+        self.on_play(character_drawing)
 
-        self.game = self._ctx['controller']().game
-        city = self.game.city_map[self.name]
-        self.game.infect_city(self.name, self.colour)
+    def on_play(self, character_playing):
+        game = self._ctx['controller']().game
+        game.infect_city(self.name, self.colour)
+        game.outbreak_stack.clear()
+        game.infect_deck.add_discard(self)

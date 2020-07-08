@@ -1,15 +1,11 @@
 from unittest import TestCase
+from unittest.mock import patch, MagicMock
 
 import random
 
 from pyndemic.city import City
-from pyndemic.card import Card, PlayerCard, CityCard, InfectCard
+from pyndemic.card import PlayerCard, CityCard, InfectCard
 from pyndemic.deck import Deck, PlayerDeck, InfectDeck
-
-
-class MockCard:
-    def on_draw(self, drawing_character):
-        self.drawing_character = drawing_character
 
 
 class DeckTestCase(TestCase):
@@ -49,11 +45,21 @@ class DeckTestCase(TestCase):
 
         self.assertEqual('Cherepovets', self.deck.cards[-1].name)
 
-    def test_add_discard(self):
+    @patch.object(CityCard, 'on_discard')
+    def test_add_discard(self, mock_method):
         discarded_card = CityCard('Cherepovets', 'Black')
         self.deck.add_discard(discarded_card)
 
+        mock_method.assert_called()
         self.assertEqual('Cherepovets', self.deck.discard[-1].name)
+
+    @patch.object(CityCard, 'on_discard')
+    def test_add_discard_without_callback(self, mock_method):
+        discarded_card = CityCard('Oryol', 'Black')
+        self.deck.add_discard(discarded_card, on_discard=False)
+
+        mock_method.assert_not_called()
+        self.assertEqual('Oryol', self.deck.discard[-1].name)
 
     def test_shuffle(self):
         random.seed(42)
@@ -64,22 +70,22 @@ class DeckTestCase(TestCase):
         self.assertEqual(self.test_cards, self.deck.cards)
 
     def test_draw_card(self):
-        card = MockCard()
+        card = MagicMock()
         drawing_character = 'Bob'
         self.deck.cards = [card]
 
         drawn_card = self.deck.draw_card(drawing_character)
         self.assertIs(card, drawn_card)
-        self.assertEqual(drawing_character, drawn_card.drawing_character)
+        card.on_draw.assert_called_with(drawing_character)
 
     def test_draw_card_without_callback(self):
-        card = MockCard()
+        card = MagicMock()
         drawing_character = 'Bob'
         self.deck.cards = [card]
 
         drawn_card = self.deck.draw_card(drawing_character, on_draw=False)
         self.assertIs(card, drawn_card)
-        self.assertFalse(hasattr(drawn_card, 'drawing_character'))
+        card.on_draw.assert_not_called()
 
 
 TEST_CITIES = [
