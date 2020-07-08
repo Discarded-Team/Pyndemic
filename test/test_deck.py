@@ -1,9 +1,10 @@
 from unittest import TestCase
+from unittest.mock import patch, MagicMock
 
 import random
 
 from pyndemic.city import City
-from pyndemic.card import Card, PlayerCard, InfectCard
+from pyndemic.card import PlayerCard, CityCard, InfectCard
 from pyndemic.deck import Deck, PlayerDeck, InfectDeck
 
 
@@ -11,11 +12,11 @@ class DeckTestCase(TestCase):
     def setUp(self):
         self.deck = Deck()
         self.test_cards = [
-            Card('London', 'Blue'),
-            Card('Washington', 'Yellow'),
-            Card('Bejing', 'Red'),
-            Card('Moscow', 'Black'),
-            Card('New York', 'Yellow'),
+            CityCard('London', 'Blue'),
+            CityCard('Washington', 'Yellow'),
+            CityCard('Bejing', 'Red'),
+            CityCard('Moscow', 'Black'),
+            CityCard('New York', 'Yellow'),
         ]
         self.deck.cards = self.test_cards.copy()
 
@@ -39,16 +40,26 @@ class DeckTestCase(TestCase):
         self.assertEqual('Moscow', next_card.name)
 
     def test_add_card(self):
-        new_card = Card('Cherepovets', 'Black')
+        new_card = CityCard('Cherepovets', 'Black')
         self.deck.add_card(new_card)
 
         self.assertEqual('Cherepovets', self.deck.cards[-1].name)
 
-    def test_add_discard(self):
-        discarded_card = Card('Cherepovets', 'Black')
+    @patch.object(CityCard, 'on_discard')
+    def test_add_discard(self, mock_method):
+        discarded_card = CityCard('Cherepovets', 'Black')
         self.deck.add_discard(discarded_card)
 
+        mock_method.assert_called()
         self.assertEqual('Cherepovets', self.deck.discard[-1].name)
+
+    @patch.object(CityCard, 'on_discard')
+    def test_add_discard_without_callback(self, mock_method):
+        discarded_card = CityCard('Oryol', 'Black')
+        self.deck.add_discard(discarded_card, on_discard=False)
+
+        mock_method.assert_not_called()
+        self.assertEqual('Oryol', self.deck.discard[-1].name)
 
     def test_shuffle(self):
         random.seed(42)
@@ -57,6 +68,24 @@ class DeckTestCase(TestCase):
         random.seed(42)
         self.deck.shuffle()
         self.assertEqual(self.test_cards, self.deck.cards)
+
+    def test_draw_card(self):
+        card = MagicMock()
+        drawing_character = 'Bob'
+        self.deck.cards = [card]
+
+        drawn_card = self.deck.draw_card(drawing_character)
+        self.assertIs(card, drawn_card)
+        card.on_draw.assert_called_with(drawing_character)
+
+    def test_draw_card_without_callback(self):
+        card = MagicMock()
+        drawing_character = 'Bob'
+        self.deck.cards = [card]
+
+        drawn_card = self.deck.draw_card(drawing_character, on_draw=False)
+        self.assertIs(card, drawn_card)
+        card.on_draw.assert_not_called()
 
 
 TEST_CITIES = [
@@ -109,9 +138,10 @@ class PlayerDeckTestCase(TestCase):
         self.deck.prepare(self.cities)
 
         random.seed(42)
+        expected_deck_size = len(self.deck.cards) + 6
         self.deck.add_epidemics(6)
 
-        self.assertEqual(46, len(self.deck.cards))
+        self.assertEqual(expected_deck_size, len(self.deck.cards))
         self.assertEqual('Epidemic', self.deck.cards[13].name)
         self.assertEqual('Epidemic', self.deck.cards[24].name)
         self.assertEqual('London', self.deck.cards[33].name)

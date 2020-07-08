@@ -2,8 +2,14 @@ import random
 from itertools import cycle, chain
 import logging
 
+from .exceptions import GameCrisisException
 from .core import GameEntity
-from .card import PlayerCard, InfectCard
+from .card import CityCard, InfectCard, EpidemicCard
+
+
+class ExhaustedPlayerDeckException(GameCrisisException):
+    def __str__(self):
+        return 'Player deck exhausted!'
 
 
 class Deck(GameEntity):
@@ -32,18 +38,37 @@ class Deck(GameEntity):
     def add_card(self, new_card):
         self.cards.append(new_card)
 
-    def add_discard(self, discarded_card):
+    def add_discard(self, discarded_card, *, on_discard=True):
+        if on_discard:
+            discarded_card.on_discard()
         self.discard.append(discarded_card)
 
     def shuffle(self):
         random.shuffle(self.cards)
+
+    def draw_card(self, drawing_character, *, on_draw=True):
+        """Draws a card from the deck.
+        If `on_draw` parameter is set to False, the card object will not
+        perform its on-draw action.
+        """
+        try:
+            drawn_card = self.take_top_card()
+        except IndexError:
+            return self.on_deck_exhausted(drawing_character)
+
+        if on_draw:
+            drawn_card.on_draw(drawing_character)
+        return drawn_card
+
+    def on_deck_exhausted(self, drawing_character):
+        return None
 
 
 class PlayerDeck(Deck):
     def prepare(self, cities):
         self.clear()
         for city in cities:
-            new_card = PlayerCard(city.name, city.colour)
+            new_card = CityCard(city.name, city.colour)
             self.add_card(new_card)
 
         logging.debug(
@@ -60,13 +85,16 @@ class PlayerDeck(Deck):
                 break
 
         for pile in card_piles:
-            epidemic_card = PlayerCard('Epidemic', 'no-colour')
+            epidemic_card = EpidemicCard()
             place_to_insert = random.randint(0, len(pile))
             pile.insert(place_to_insert, epidemic_card)
 
         self.cards = list(chain(*card_piles))
         logging.debug(
             f'Added {number_epidemics} Epidemics to {self}.')
+
+    def on_deck_exhausted(self, drawing_character):
+        raise ExhaustedPlayerDeckException
 
 
 class InfectDeck(Deck):

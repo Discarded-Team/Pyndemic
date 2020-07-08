@@ -9,11 +9,6 @@ from .deck import PlayerDeck, InfectDeck
 from .disease import Disease
 
 
-class ExhaustedPlayerDeckException(GameCrisisException):
-    def __str__(self):
-        return 'Player deck exhausted!'
-
-
 class DeathOutbreakLevelException(GameCrisisException):
     def __str__(self):
         return 'Number of outbreaks reached death level!'
@@ -85,24 +80,6 @@ class Game(GameEntity):
             f'Added new {new_character}.',
         )
 
-    def draw_card(self, character_drawing):
-        try:
-            drawn_card = self.player_deck.take_top_card()
-        except IndexError:
-            raise ExhaustedPlayerDeckException
-
-        if drawn_card.name == 'Epidemic':
-            self.emit_signal(
-                f'{character_drawing} drew Epidemic!',
-            )
-
-            self.epidemic_phase()
-        else:
-            character_drawing.add_card(drawn_card)
-            self.emit_signal(
-                f'{character_drawing} got {drawn_card}.',
-            )
-
     def shuffle_decks(self):
         self.infect_deck.shuffle()
         self.player_deck.shuffle()
@@ -170,11 +147,7 @@ class Game(GameEntity):
         )
 
         for i in range(self.infection_rate):
-            drawn_card = self.infect_deck.take_top_card()
-            self.infect_deck.add_discard(drawn_card)
-            infected_city = self.city_map.get(drawn_card.name)
-            self.infect_city(infected_city.name, infected_city.colour)
-            self.outbreak_stack.clear()
+            self.infect_deck.draw_card(self.active_character)
 
         self.emit_signal('Infect phase finished.')
 
@@ -189,7 +162,7 @@ class Game(GameEntity):
         self.emit_signal('No actions left. Now getting cards...')
 
         for i in range(2):
-            self.draw_card(character)
+            self.player_deck.draw_card(character)
 
         self.emit_signal('Cards drawn. Now starting infect phase.')
 
@@ -269,7 +242,7 @@ class Game(GameEntity):
         self.epidemic_count += 1
         self.infection_rate = int(self.infection_rates[self.epidemic_count])
         self.emit_signal(
-            f'Incremented infection rate (now {self.infection_rate}).',
+            f'Infection rate incremented (now {self.infection_rate}).',
         )
 
     def draw_initial_hands(self):
@@ -282,4 +255,4 @@ class Game(GameEntity):
 
         for character in self.characters:
             for i in range(cards_to_draw):
-                self.draw_card(character)
+                self.player_deck.draw_card(character)

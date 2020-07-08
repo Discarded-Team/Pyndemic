@@ -4,24 +4,26 @@ from unittest import TestCase
 import os.path as op
 import random
 
-from pyndemic import config
 from pyndemic.exceptions import *
 from pyndemic.deck import PlayerDeck, InfectDeck
 from pyndemic.game import Game
 from pyndemic.character import Character
-
-
-SETTINGS_LOCATION = op.join(op.dirname(__file__), 'test_settings.cfg')
+from .test_helpers import MockController
 
 
 class GameSetupTestCase(TestCase):
-    @classmethod
-    def setUpClass(cls):
-        cls.settings = config.get_settings(SETTINGS_LOCATION, refresh=True)
-
     def setUp(self):
+        self.controller = MockController()
+        self._ctx = self.controller._ctx
+
         self.pg = Game()
+        self.controller.game = self.pg
+        self.settings = self.controller.settings
+
         self.pg.settings = self.settings
+
+    def tearDown(self):
+        del self.controller
 
     def test_add_character(self):
         characters = [Character('Evie'), Character('Amelia')]
@@ -136,18 +138,24 @@ class GameSetupTestCase(TestCase):
 
 
 class GameTestCase(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls):
-        cls.settings = config.get_settings(SETTINGS_LOCATION, refresh=True)
 
     def setUp(self):
+        self.controller = MockController()
+        self._ctx = self.controller._ctx
+        self.settings = self.controller.settings
+
         random.seed(42)
         self.character1 = Character('Evie')
         self.character2 = Character('Amelia')
         self.pg = Game()
         self.pg.add_character(self.character1)
         self.pg.add_character(self.character2)
+
+        self.controller.game = self.pg
         self.pg.setup_game(self.settings)
+
+    def tearDown(self):
+        del self.controller
 
     def test_all_one_colour(self):
         card_names = ['London', 'Oxford', 'Cambridge', 'Brighton', 'Southampton']
@@ -271,7 +279,7 @@ class GameTestCase(unittest.TestCase):
         self.assertTrue(self.pg.city_map['London'].has_lab)
 
         for i in range(10):
-            self.pg.draw_card(self.character1)
+            self.pg.player_deck.draw_card(self.character1)
         self.assertEqual(1, self.pg.epidemic_count)
 
     def test_initial_infect_phase(self):
@@ -296,14 +304,6 @@ class GameTestCase(unittest.TestCase):
             with self.subTest(i=i, character=character):
                 self.assertEqual(4, len(character.hand))
                 self.assertEqual(test_cards[i * 4 + 3].name, character.hand[3].name)
-
-    def test_draw_card(self):
-        self.pg.draw_card(self.character1)
-        self.assertEqual('London', self.character1.hand[0].name)
-
-        self.pg.player_deck.cards = []
-        with self.assertRaises(GameCrisisException):
-            self.pg.draw_card(self.character1)
 
     def test_get_new_disease(self):
         self.assertFalse(self.pg.diseases['Blue'].cured)
