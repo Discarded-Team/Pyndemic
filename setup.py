@@ -3,7 +3,7 @@ import re
 from setuptools import find_packages, setup
 
 
-with open('pyndemic.py') as f:
+with open('pyndemic/__init__.py') as f:
     version = re.search(r'__version__ = "(.*?)"', f.read()).group(1)
 
 setup(
