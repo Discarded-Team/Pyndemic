@@ -4,11 +4,9 @@ import os.path as op
 from pyndemic import config
 from pyndemic.exceptions import *
 from pyndemic.game import Game
-from pyndemic.card import PlayerCard
+from pyndemic.card import CityCard
 from pyndemic.character import Character
-
-
-SETTINGS_LOCATION = op.join(op.dirname(__file__), 'test_settings.cfg')
+from .test_helpers import SETTINGS_LOCATION
 
 
 class CharacterTestCase(TestCase):
@@ -33,8 +31,8 @@ class CharacterTestCase(TestCase):
         self.assertEqual(0, character.action_count)
 
     def test_get_card(self):
-        self.character.hand = [PlayerCard('London', 'Blue'),
-                               PlayerCard('New York', 'Yellow')]
+        self.character.hand = [CityCard('London', 'Blue'),
+                               CityCard('New York', 'Yellow')]
 
         card = self.character.get_card('London')
         self.assertIs(self.character.hand[0], card)
@@ -49,14 +47,14 @@ class CharacterTestCase(TestCase):
         self.assertTrue(self.character.hand_contains('London'))
 
     def test_hand_contains(self):
-        self.character.hand = [PlayerCard('London', 'Blue'),
-                               PlayerCard('New York', 'Yellow')]
+        self.character.hand = [CityCard('London', 'Blue'),
+                               CityCard('New York', 'Yellow')]
 
         self.assertTrue(self.character.hand_contains('New York'))
         self.assertFalse(self.character.hand_contains('Oxford'))
 
     def test_discard_card(self):
-        self.game.draw_card(self.character)
+        self.game.player_deck.draw_card(self.character)
         card = self.character.hand[0]
 
         success = self.character.discard_card(card.name)
@@ -78,8 +76,8 @@ class CharacterTestCase(TestCase):
         self.character.action_count = 1
         self.assertFalse(self.character.check_charter_flight('London'))
 
-        self.character.hand = [PlayerCard('London', 'Blue'),
-                               PlayerCard('Moscow', 'Black')]
+        self.character.hand = [CityCard('London', 'Blue'),
+                               CityCard('Moscow', 'Black')]
         self.assertTrue(self.character.check_charter_flight('London'))
         self.assertFalse(self.character.check_charter_flight('Moscow'))
 
@@ -93,7 +91,7 @@ class CharacterTestCase(TestCase):
     def test_charter_flight(self):
         self.character.set_location('London')
         self.character.action_count = 4
-        self.game.draw_card(self.character)
+        self.game.player_deck.draw_card(self.character)
         card = self.character.hand[0]
 
         success = self.character.charter_flight(card.name, 'New York')
@@ -112,7 +110,7 @@ class CharacterTestCase(TestCase):
 
     def test_check_direct_flight(self):
         self.character.set_location('London')
-        self.character.hand = [PlayerCard('Moscow', 'Black')]
+        self.character.hand = [CityCard('Moscow', 'Black')]
         self.character.action_count = 4
 
         self.assertFalse(self.character.check_direct_flight('London', 'Bejing'))
@@ -125,7 +123,7 @@ class CharacterTestCase(TestCase):
     def test_direct_flight(self):
         self.character.set_location('Moscow')
         self.character.action_count = 4
-        self.game.draw_card(self.character)
+        self.game.player_deck.draw_card(self.character)
         card = self.character.hand[0]
 
         success = self.character.direct_flight('Moscow', card.name)
@@ -144,7 +142,7 @@ class CharacterTestCase(TestCase):
 
     def test_check_cure_disease(self):
         for i in range(9):
-            self.game.draw_card(self.character)
+            self.game.player_deck.draw_card(self.character)
         location = self.game.city_map['London']
         self.character.set_location('London')
 
@@ -166,7 +164,7 @@ class CharacterTestCase(TestCase):
 
     def test_cure_disease(self):
         for i in range(9):
-            self.game.draw_card(self.character)
+            self.game.player_deck.draw_card(self.character)
         location = self.game.city_map['London']
         self.character.set_location('London')
 
@@ -190,7 +188,7 @@ class CharacterTestCase(TestCase):
 
     def test_game_won(self):
         for i in range(9):
-            self.game.draw_card(self.character)
+            self.game.player_deck.draw_card(self.character)
         location = self.game.city_map['London']
         self.character.set_location('London')
 
@@ -206,8 +204,8 @@ class CharacterTestCase(TestCase):
             success = self.character.cure_disease(*card_names)
 
     def test_check_share_knowledge(self):
-        self.character.hand = [PlayerCard('London', 'Blue'),
-                               PlayerCard('Moscow', 'Black')]
+        self.character.hand = [CityCard('London', 'Blue'),
+                               CityCard('Moscow', 'Black')]
 
         self.character.set_location('London')
         self.other_character.set_location('London')
@@ -229,8 +227,8 @@ class CharacterTestCase(TestCase):
         self.assertFalse(self.character.check_share_knowledge('New York', self.other_character))
 
     def test_share_knowledge(self):
-        shared_card = PlayerCard('London', 'Blue')
-        unshared_card = PlayerCard('Moscow', 'Black')
+        shared_card = CityCard('London', 'Blue')
+        unshared_card = CityCard('Moscow', 'Black')
         self.character.hand = [shared_card, unshared_card]
 
         self.character.set_location('London')
@@ -361,8 +359,8 @@ class CharacterTestCase(TestCase):
         self.character.set_location('London')
         self.character.action_count = 4
 
-        self.character.hand = [PlayerCard('London', 'Blue'),
-                               PlayerCard('Moscow', 'Black')]
+        self.character.hand = [CityCard('London', 'Blue'),
+                               CityCard('Moscow', 'Black')]
 
         self.assertTrue(self.character.check_build_lab())
 
@@ -380,7 +378,7 @@ class CharacterTestCase(TestCase):
     def test_build_lab(self):
         location = self.game.city_map['London']
         location.has_lab = False
-        card = PlayerCard('London', 'Blue')
+        card = CityCard('London', 'Blue')
         self.character.hand.append(card)
         self.character.set_location('London')
         self.character.action_count = 4
@@ -394,7 +392,7 @@ class CharacterTestCase(TestCase):
 
         location = self.game.city_map['Moscow']
         lab_status = location.has_lab
-        card = PlayerCard('Moscow', 'Black')
+        card = CityCard('Moscow', 'Black')
         self.character.hand.append(card)
         self.character.set_location('Moscow')
         self.character.action_count = 0

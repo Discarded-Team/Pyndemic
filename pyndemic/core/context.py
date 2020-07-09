@@ -1,6 +1,10 @@
 import random
 import string
 import inspect
+import weakref
+
+
+_ISOLATED_RANDOM = random.Random()
 
 
 class ContextError(Exception):
@@ -43,7 +47,7 @@ def get_context(context_id):
 # TODO: regenerate when conflict occures
 def generate_id():
     context_id = ''.join(
-        random.choice(string.ascii_lowercase) for _ in range(8))
+        _ISOLATED_RANDOM.choice(string.ascii_lowercase) for _ in range(8))
     return context_id
 
 
@@ -87,8 +91,10 @@ class ContextRegistrationMeta(type):
         obj = super().__call__(*args, **kwargs)
 
         context_id = generate_id()
+        on_obj_delete = (lambda ref, ctx_id=context_id:
+                         unregister_context(ctx_id))
         ctx = {
-            cls._ctx_name: obj,
+            cls._ctx_name: weakref.ref(obj, on_obj_delete),
             'id': context_id,
         }
 

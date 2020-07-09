@@ -1,5 +1,6 @@
 from unittest import TestCase
 from collections import deque
+import weakref
 
 from pyndemic.core.context import ContextError
 from pyndemic.core import api
@@ -45,7 +46,8 @@ class GameEntityTestCase(TestCase):
     def setUp(self):
         controller_class = self.construct_controller_mock_class()
         self.controller = controller_class()
-        self._ctx = {'id': 'mock_context', 'controller': self.controller}
+        self._ctx = {'id': 'mock_context',
+                     'controller': weakref.ref(self.controller)}
 
     def test_assert_has_context(self):
         entity = GameEntity()

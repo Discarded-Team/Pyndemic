@@ -52,7 +52,7 @@ class GameEntity(metaclass=GameEntityCreationMeta):
                 (f'Cannot find signal receiver for this object {self} - '
                  'game context is empty.'))
 
-        controller = self._ctx['controller']
+        controller = self._ctx['controller']()
 
         if isinstance(message, str):
             signal = api.message_response(message)

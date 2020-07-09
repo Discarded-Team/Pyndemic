@@ -1,4 +1,5 @@
 from unittest import TestCase
+import gc
 
 from pyndemic.core.context import (ContextError, ContextNotFoundError,
                                    register_context, unregister_context,
@@ -16,6 +17,7 @@ class ContextManagerTestCase(TestCase):
         self.contexts = _ContextManager._contexts
 
     def tearDown(self):
+        gc.collect()
         self.contexts.clear()
 
     def test_register_context(self):
@@ -85,6 +87,7 @@ class ContextRegistrationMetaTestCase(TestCase):
         self.contexts = _ContextManager._contexts
 
     def tearDown(self):
+        gc.collect()
         self.contexts.clear()
 
     def test_init(self):
@@ -110,5 +113,5 @@ class ContextRegistrationMetaTestCase(TestCase):
         self.assertIn(context_id, self.contexts)
         self.assertIs(self.contexts[context_id], ctx)
 
-        ctx_registered_instance = ctx['test_context']
+        ctx_registered_instance = ctx['test_context']()
         self.assertIs(ctx_registered_instance, instance)

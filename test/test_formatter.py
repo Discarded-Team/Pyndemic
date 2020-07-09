@@ -1,34 +1,31 @@
 import unittest
 
-import os.path as op
 import random
 
-from pyndemic import config
 from pyndemic.game import Game
 from pyndemic.city import City
 from pyndemic.disease import Disease
-from pyndemic.card import Card, PlayerCard
+from pyndemic.card import Card, CityCard, EpidemicCard
 from pyndemic.deck import Deck
 from pyndemic.character import Character
 from pyndemic.formatter import BaseFormatter
-
-
-SETTINGS_LOCATION = op.join(op.dirname(__file__), 'test_settings.cfg')
+from .test_helpers import MockController
 
 
 class GameStateSerialisationCase(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls):
-        cls.settings = config.get_settings(SETTINGS_LOCATION, refresh=True)
-
     def setUp(self):
+        self.controller = MockController()
+        self._ctx = self.controller._ctx
+
         random.seed(42)
         self.character1 = Character('Evie')
         self.character2 = Character('Amelia')
         self.pg = Game()
         self.pg.add_character(self.character1)
         self.pg.add_character(self.character2)
-        self.pg.setup_game(self.settings)
+
+        self.controller.game = self.pg
+        self.pg.setup_game(self.controller.settings)
         self.pg.start_game()
 
         top_player_card = self.pg.player_deck.take_top_card()
@@ -36,6 +33,9 @@ class GameStateSerialisationCase(unittest.TestCase):
         self.pg.player_deck.discard.append(top_player_card)
         self.pg.infect_deck.discard.append(top_infect_card)
         self.pg.active_character = 'Evie'
+
+    def tearDown(self):
+        del self.controller
 
     def test_game_to_dict(self):
         output = BaseFormatter.game_to_dict(self.pg)
@@ -65,24 +65,32 @@ class GameStateSerialisationCase(unittest.TestCase):
 
 
 class CardSerialisationTestCase(unittest.TestCase):
-    def setUp(self):
-        self.card = Card('London', 'Blue')
-
     def test_card_to_dict(self):
-        output = BaseFormatter.card_to_dict(self.card)
+        card = Card('London', 'Blue')
+        output = BaseFormatter.card_to_dict(card)
         self.assertEqual('London', output['name'])
         self.assertEqual('Blue', output['colour'])
+
+        card = CityCard('London', 'Blue')
+        output = BaseFormatter.card_to_dict(card)
+        self.assertEqual('London', output['name'])
+        self.assertEqual('Blue', output['colour'])
+
+        card = EpidemicCard()
+        output = BaseFormatter.card_to_dict(card)
+        self.assertEqual('Epidemic', output['name'])
+        self.assertIsNone(output['colour'])
 
 
 class DeckSerialisationTestCase(unittest.TestCase):
     def setUp(self):
         self.deck = Deck()
         self.test_cards = [
-            Card('London', 'Blue'),
-            Card('Washington', 'Yellow'),
-            Card('Bejing', 'Red'),
-            Card('Moscow', 'Black'),
-            Card('New York', 'Yellow'),
+            CityCard('London', 'Blue'),
+            CityCard('Washington', 'Yellow'),
+            CityCard('Bejing', 'Red'),
+            CityCard('Moscow', 'Black'),
+            CityCard('New York', 'Yellow'),
         ]
         self.deck.cards = self.test_cards.copy()
 
@@ -90,9 +98,9 @@ class DeckSerialisationTestCase(unittest.TestCase):
         self.deck.clear()
         self.assertEqual([], BaseFormatter.deck_to_list(self.deck))
 
-        discarded_card = Card('Cherepovets', 'Black')
+        discarded_card = CityCard('Cherepovets', 'Black')
         self.deck.add_discard(discarded_card)
-        discarded_card = Card('London', 'Blue')
+        discarded_card = CityCard('London', 'Blue')
         self.deck.add_discard(discarded_card)
         output = BaseFormatter.deck_to_list(self.deck)
         self.assertEqual('Cherepovets', output[0]['name'])
@@ -127,20 +135,23 @@ class DiseaseSerialisationTestCase(unittest.TestCase):
 
 
 class CharacterSerialisationTestCase(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls):
-        cls.settings = config.get_settings(SETTINGS_LOCATION, refresh=True)
-
     def setUp(self):
+        self.controller = MockController()
+        self._ctx = self.controller._ctx
+
         random.seed(42)
         self.game = Game()
         self.character = Character('Alice')
         self.game.add_character(self.character)
-        self.game.setup_game(self.settings)
+        self.controller.game = self.game
+        self.game.setup_game(self.controller.settings)
         self.character.set_location('London')
         self.character.action_count = 4
-        self.character.hand = [PlayerCard('London', 'Blue'),
-                               PlayerCard('New York', 'Yellow')]
+        self.character.hand = [CityCard('London', 'Blue'),
+                               CityCard('New York', 'Yellow')]
+
+    def tearDown(self):
+        del self.controller
 
     def test_character_to_dict(self):
         output = BaseFormatter.character_to_dict(self.character)

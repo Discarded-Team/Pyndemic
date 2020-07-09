@@ -4,7 +4,7 @@ from unittest.mock import patch, Mock, MagicMock
 from io import StringIO
 import os.path as op
 
-from pyndemic.game import ExhaustedPlayerDeckException
+from pyndemic.deck import ExhaustedPlayerDeckException
 from pyndemic.character import LastDiseaseCuredException
 from pyndemic.core import api
 from pyndemic.ui.console import ConsoleUI
@@ -20,7 +20,6 @@ class GameControllerTestCase(TestCase):
         self.controller = GameController(random_state=42)
 
     def tearDown(self):
-        _ContextManager._contexts.clear()
         del self.controller
 
     def test_init(self):
@@ -29,7 +28,7 @@ class GameControllerTestCase(TestCase):
         ctx_id = ctx['id']
         self.assertIn(ctx_id, _ContextManager._contexts)
         self.assertIs(ctx, _ContextManager._contexts[ctx_id])
-        self.assertIs(self.controller, ctx['controller'])
+        self.assertIs(self.controller, ctx['controller']())
 
     @patch('pyndemic.controller.Game')
     def test_start_game(self, game_class):
