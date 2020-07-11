@@ -4,7 +4,7 @@ import logging
 
 from .exceptions import GameCrisisException
 from .core import GameEntity
-from .actioncard import ACTION_CARDS
+from .action_card import ACTION_CARDS
 from .card import CityCard, InfectCard, EpidemicCard
 
 
@@ -74,7 +74,7 @@ class PlayerDeck(Deck):
 
         for card_class in ACTION_CARDS:
             # TODO: somehow get the settings which cards to include
-            new_card = card_class(game)
+            new_card = card_class()
             self.add_card(new_card)
 
         logging.debug(

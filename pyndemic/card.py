@@ -46,9 +46,20 @@ class EpidemicCard(PlayerCard):
 
 
 class ActionCard(PlayerCard):
-    def __init__(self, name):
-        self.name = name
+    """
+    Action Cards can be played anytime, even during the other player's turn.
+    Playing the card does not take any action points.
+    """
+
+    def __init__(self):
+        self.name = None
         self.colour = None
+
+    def check_payable(self, *args):
+        pass
+
+    def __str__(self):
+        return f'Action Card "{self.name}"'
 
 
 class InfectCard(Card):
