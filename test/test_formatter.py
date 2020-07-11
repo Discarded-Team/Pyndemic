@@ -62,7 +62,7 @@ class GameStateSerialisationCase(unittest.TestCase):
         self.assertEqual(2, output['infection_rate'])
         self.assertEqual(0, output['epidemic_count'])
         self.assertEqual('Evie', output['active_character'])
-        self.assertEqual('normal', output['infect_phase_mode'])
+        self.assertFalse(output['skip_infect_phase'])
 
 
 class CardSerialisationTestCase(unittest.TestCase):

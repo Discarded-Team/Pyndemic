@@ -100,22 +100,6 @@ class GameControllerTestCase(TestCase):
         self.assertIsInstance(self.controller.game.active_character, str)
         self.assertEqual(new_player.name, self.controller.game.active_character)
 
-    @patch('pyndemic.controller.Game')
-    def test_switch_player_quiet_night(self, game_class):
-        """
-        temporary test due to current implementation of Quiet Night Action Card
-        """
-        self.controller.setup({'players': ['A', 'B']})
-        self.controller.start_game()
-
-        self.controller.game.infect_phase_mode = 'normal'
-        self.controller._switch_character()
-        self.assertEqual('normal', self.controller.game.infect_phase_mode)
-
-        self.controller.game.infect_phase_mode = 'skip for the next player'
-        self.controller._switch_character()
-        self.assertEqual('skip for the current player',
-                         self.controller.game.infect_phase_mode)
 
 # TODO: expand test case, remove the hardcoded exit message
 # TODO: skip because adding ActionCards ruins card sequence

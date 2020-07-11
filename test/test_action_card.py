@@ -58,12 +58,12 @@ class QuietNightActionCardCase(TestCase):
 
     def test_on_play(self):
         card = QuietNightActionCard()
-        self.mock_game.infect_phase_mode = "normal"
+        self.mock_game.skip_infect_phase = False
         card.on_play()
-        mode = self.mock_game.infect_phase_mode
-        self.assertEqual("skip for the next player", mode)
+        mode = self.mock_game.skip_infect_phase
+        self.assertTrue(mode)
 
     def integration_test(self):
-        #TODO a comprehensive test is needed, with actual Game and Controller
+        #TODO a comprehensive test is needed, with an actual Game
         pass
 

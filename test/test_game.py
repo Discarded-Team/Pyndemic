@@ -203,7 +203,7 @@ class GameTestCase(unittest.TestCase):
         self.assertEqual(0, len(self.pg.outbreak_stack))
 
     def test_skipping_infect_city_phase(self):
-        self.pg.infect_phase_mode = "skip for the current player"
+        self.pg.skip_infect_phase = True
         self.pg.infect_city_phase()
         self.assertEqual(0, self.pg.city_map['London'].infection_levels['Blue'])
 

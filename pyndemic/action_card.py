@@ -30,13 +30,7 @@ class GovernmentGrantActionCard(ActionCard):
 
 class QuietNightActionCard(ActionCard):
     """
-    Next player turn does not have infection phase.
-    The current player infection phase is still active though.
-
-    game.infect_phase_mode cycles through:
-    'normal'->'skip for the next player' by Card
-    'skip for the next player'->'skip for the current player' by Controller
-    'skip for the current player'->'normal' by Game
+    The next infection phase is skipped.
     """
 
     def __init__(self):
@@ -48,7 +42,7 @@ class QuietNightActionCard(ActionCard):
 
     def on_play(self):
         game = self._ctx['controller']().game
-        game.infect_phase_mode = "skip for the next player"
+        game.skip_infect_phase = True
 
 
 # repeats are in order to take physical space in the deck

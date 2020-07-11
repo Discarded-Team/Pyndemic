@@ -30,7 +30,7 @@ class Game(GameEntity):
         self.outbreak_stack = set()
         self.settings = None
         self.active_character = None
-        self.infect_phase_mode = "normal" # for Calm Night AC
+        self.skip_infect_phase = False # for Calm Night AC
 
     def setup_game(self, settings):
         self.settings = settings
@@ -143,11 +143,11 @@ class Game(GameEntity):
 
     def infect_city_phase(self):
         self.outbreak_stack.clear()
-        if self.infect_phase_mode == "skip for the current player":
+        if self.skip_infect_phase:
             self.emit_signal(
                 f'Infect phase is passed due to the Quiet Night event.',
             )
-            self.infect_phase_mode = "normal"
+            self.skip_infect_phase = False
             return
         else:
             self.emit_signal(
