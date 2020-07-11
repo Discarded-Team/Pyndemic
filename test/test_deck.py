@@ -143,9 +143,9 @@ class PlayerDeckTestCase(TestCase):
         self.deck.add_epidemics(6)
 
         self.assertEqual(expected_deck_size, len(self.deck.cards))
-        self.assertEqual('Epidemic', self.deck.cards[13].name)
-        self.assertEqual('Epidemic', self.deck.cards[24].name)
-        self.assertEqual('Kursk', self.deck.cards[33].name)
+        self.assertEqual('Epidemic', self.deck.cards[16].name)
+        self.assertEqual('Epidemic', self.deck.cards[26].name)
+        self.assertEqual('Kursk', self.deck.cards[32].name)
 
 
 class InfectDeckTestCase(TestCase):

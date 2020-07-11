@@ -212,6 +212,11 @@ class GameController(AbstractController):
             f'Active player: {self.current_character.name}',
         )
 
+        # temporary, a plug for Quiet Night Action card,
+        # see the class for comments
+        if self.game.infect_phase_mode == 'skip for the next player':
+            self.game.infect_phase_mode = 'skip for the current player'
+
         self.game.start_turn(self.current_character)
         self.emit_signal(
             f'Actions left: {self.current_character.action_count}',

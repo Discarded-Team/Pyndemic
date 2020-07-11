@@ -46,7 +46,7 @@ class GameStateSerialisationCase(unittest.TestCase):
 
         self.assertEqual(1, len(output['player_deck_discard']))
         self.assertEqual(10, len(output['infect_deck_discard'])) # 9 start + 1
-        self.assertEqual('Plymouth', output['player_deck_discard'][0]['name'])
+        self.assertEqual('Oryol', output['player_deck_discard'][0]['name'])
         self.assertEqual('Tula', output['infect_deck_discard'][9]['name'])
 
         self.assertEqual(4, len(output['diseases']))
@@ -62,6 +62,7 @@ class GameStateSerialisationCase(unittest.TestCase):
         self.assertEqual(2, output['infection_rate'])
         self.assertEqual(0, output['epidemic_count'])
         self.assertEqual('Evie', output['active_character'])
+        self.assertEqual('normal', output['infect_phase_mode'])
 
 
 class CardSerialisationTestCase(unittest.TestCase):
