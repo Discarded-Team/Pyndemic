@@ -4,8 +4,6 @@ import sys
 from pyndemic.controller import GameController
 from pyndemic.ui import ConsoleUI
 
-__version__ = "0.2.0"
-
 
 def main(args):
     random_state = int(args[0]) if args else None
