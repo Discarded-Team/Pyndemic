@@ -10,7 +10,7 @@ class GovernmentGrantActionCard(ActionCard):
         super().__init__()
         self.name = "Government Grant"
 
-    def check_payable(self, city_name):
+    def check_playable(self, city_name):
         game = self._ctx['controller']().game
         if city_name not in game.city_map:
             return False
@@ -18,7 +18,7 @@ class GovernmentGrantActionCard(ActionCard):
 
     def on_play(self, city_name):
         game = self._ctx['controller']().game
-        if self.check_payable(city_name):
+        if self.check_playable(city_name):
             game.city_map[city_name].build_lab()
             self.emit_signal(
                 f'Action: Built a lab in {city_name}.',
@@ -43,7 +43,7 @@ class QuietNightActionCard(ActionCard):
         super().__init__()
         self.name = "Quiet Night"
 
-    def check_payable(self):
+    def check_playable(self):
         return True
 
     def on_play(self):

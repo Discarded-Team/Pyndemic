@@ -247,19 +247,17 @@ class Character(GameEntity):
             return True
         return False
 
-    def check_action_card(self, card, *args):
-        #TODO a test is needed
-        if card not in self.hand:
-            return False
-        return card.check_playable(args)
+    def check_action_card(self, card_name, *args):
+        card = self.get_card(card_name)
+        return card.check_playable(*args)
 
-    def play_action_card(self, card, *args):
-        #TODO a test is needed
-        if self.check_action_card(card, args):
+    def play_action_card(self, card_name, *args):
+        if self.check_action_card(card_name, *args):
             logging.info(
-                f'{self}: Playing {card}.')
-            card.on_play(args)
+                f'{self}: Playing {card_name}.')
+            card = self.get_card(card_name)
+            card.on_play(*args)
             #TODO check if fails
-            self.discard_card(card.name)
+            self.discard_card(card_name)
             return True
         return False

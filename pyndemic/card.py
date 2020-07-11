@@ -55,7 +55,7 @@ class ActionCard(PlayerCard):
         self.name = None
         self.colour = None
 
-    def check_payable(self, *args):
+    def check_playable(self, *args):
         pass
 
     def __str__(self):

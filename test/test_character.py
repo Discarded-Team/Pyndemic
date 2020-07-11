@@ -1,10 +1,12 @@
 from unittest import TestCase
+from unittest.mock import patch
 
 import os.path as op
 from pyndemic import config
 from pyndemic.exceptions import *
 from pyndemic.game import Game
 from pyndemic.card import CityCard
+from pyndemic.action_card import QuietNightActionCard
 from pyndemic.character import Character
 from .test_helpers import SETTINGS_LOCATION
 
@@ -438,3 +440,20 @@ class CharacterTestCase(TestCase):
         success = self.character.standard_move('Brighton', 'London')
         self.assertFalse(success)
         self.assertEqual('Brighton', self.character.location.name)
+
+    def test_check_action_card(self):
+        with self.assertRaises(ValueError):
+            result = self.character.check_action_card('Quiet Night')
+
+        self.character.hand = [QuietNightActionCard()]
+        result = self.character.check_action_card('Quiet Night')
+        self.assertTrue(result)
+
+    @patch.object(QuietNightActionCard, 'on_play')
+    def test_play_action_card(self, mock_method):
+        self.character.hand = [QuietNightActionCard()]
+        result = self.character.play_action_card('Quiet Night')
+        mock_method.assert_called()
+        self.assertTrue(result)
+        self.assertTrue('Quiet Night', self.game.player_deck.discard[-1])
+

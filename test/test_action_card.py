@@ -20,17 +20,17 @@ class GovernmentGrantActionCardCase(TestCase):
         card = GovernmentGrantActionCard()
 
         self.mock_game.city_map = {}
-        playable = card.check_payable("London")
+        playable = card.check_playable("London")
         self.assertFalse(playable)
 
         self.mock_game.city_map["London"] = MagicMock()
         self.mock_game.city_map["London"].has_lab = True
-        playable = card.check_payable("London")
+        playable = card.check_playable("London")
         self.assertFalse(playable)
 
         self.mock_game.city_map["London"] = MagicMock()
         self.mock_game.city_map["London"].has_lab = False
-        playable = card.check_payable("London")
+        playable = card.check_playable("London")
         self.assertTrue(playable)
 
     def test_on_play(self):
@@ -53,7 +53,7 @@ class QuietNightActionCardCase(TestCase):
 
     def test_check_playable(self):
         card = QuietNightActionCard()
-        playable = card.check_payable()
+        playable = card.check_playable()
         self.assertTrue(playable)
 
     def test_on_play(self):
