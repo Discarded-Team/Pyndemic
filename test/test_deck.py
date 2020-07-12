@@ -108,7 +108,7 @@ TEST_CITIES = [
     City('Tula', 'Black'),          City('Cherepovets', 'Black'),
     City('Vologda', 'Black'),       City('Bryansk', 'Black'),
     City('Smolensk', 'Black'),      City('Oryol', 'Black'),
-    City('Krusk', 'Black'),         City('Belgorod', 'Black'),
+    City('Kursk', 'Black'),         City('Belgorod', 'Black'),
 ]
 
 
@@ -119,6 +119,7 @@ class PlayerDeckTestCase(TestCase):
 
     def setUp(self):
         self.deck = PlayerDeck()
+        self.game = MagicMock()
 
     def test_prepare(self):
         self.deck.prepare(self.cities)
@@ -142,9 +143,9 @@ class PlayerDeckTestCase(TestCase):
         self.deck.add_epidemics(6)
 
         self.assertEqual(expected_deck_size, len(self.deck.cards))
-        self.assertEqual('Epidemic', self.deck.cards[13].name)
-        self.assertEqual('Epidemic', self.deck.cards[24].name)
-        self.assertEqual('London', self.deck.cards[33].name)
+        self.assertEqual('Epidemic', self.deck.cards[16].name)
+        self.assertEqual('Epidemic', self.deck.cards[26].name)
+        self.assertEqual('Kursk', self.deck.cards[32].name)
 
 
 class InfectDeckTestCase(TestCase):

@@ -36,6 +36,7 @@ class BaseFormatter:
         :infection_rate: int
         :epidemic_count: int
         :active_character: str
+        :skip_infect_phase: Boolean
         """
         characters = [cls.character_to_dict(character)
                       for character in game.characters]
@@ -51,6 +52,7 @@ class BaseFormatter:
         infection_rate = game.infection_rate
         epidemic_count = game.epidemic_count
         active_character = game.active_character
+        skip_infect_phase = game.skip_infect_phase
 
         output = {
             'characters': characters,
@@ -60,7 +62,8 @@ class BaseFormatter:
             'cities': cities,
             'infection_rate': infection_rate,
             'epidemic_count': epidemic_count,
-            'active_character': active_character
+            'active_character': active_character,
+            'skip_infect_phase': skip_infect_phase
         }
         return output
 

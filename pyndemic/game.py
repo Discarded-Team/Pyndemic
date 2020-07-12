@@ -30,6 +30,7 @@ class Game(GameEntity):
         self.outbreak_stack = set()
         self.settings = None
         self.active_character = None
+        self.skip_infect_phase = False # for Calm Night AC
 
     def setup_game(self, settings):
         self.settings = settings
@@ -142,14 +143,21 @@ class Game(GameEntity):
 
     def infect_city_phase(self):
         self.outbreak_stack.clear()
-        self.emit_signal(
-            f'Starting infect phase ({self.infection_rate} cities to infect).',
-        )
+        if self.skip_infect_phase:
+            self.emit_signal(
+                f'Infect phase is passed due to the Quiet Night event.',
+            )
+            self.skip_infect_phase = False
+            return
+        else:
+            self.emit_signal(
+                f'Starting infect phase ({self.infection_rate} cities to infect).',
+            )
 
-        for i in range(self.infection_rate):
-            self.infect_deck.draw_card(self.active_character)
+            for i in range(self.infection_rate):
+                self.infect_deck.draw_card(self.active_character)
 
-        self.emit_signal('Infect phase finished.')
+            self.emit_signal('Infect phase finished.')
 
     def start_turn(self, character):
         character.action_count = 4
@@ -199,6 +207,7 @@ class Game(GameEntity):
         logging.debug('Created city graph.')
 
     def get_new_decks(self):
+        # TODO: does not read card set settings yet
         self.player_deck.prepare(self.city_map.values())
         self.infect_deck.prepare(self.city_map.values())
         logging.debug('Decks prepared.')
