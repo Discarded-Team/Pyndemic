@@ -48,7 +48,7 @@ class EpidemicCardTestCase(TestCase):
 class ActionCardTestCase(TestCase):
     def test_init(self):
         card = ActionCard()
-        self.assertEqual(None, card.name)
+        self.assertIsNone(card.name)
         self.assertIsNone(card.colour)
 
 

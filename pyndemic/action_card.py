@@ -28,7 +28,7 @@ class GovernmentGrantActionCard(ActionCard):
             return False
 
 
-class QuietNightActionCard(ActionCard):
+class OneQuietNightActionCard(ActionCard):
     """
     The next infection phase is skipped.
     """
@@ -48,7 +48,7 @@ class QuietNightActionCard(ActionCard):
 # repeats are in order to take physical space in the deck
 ACTION_CARDS = [
     GovernmentGrantActionCard,
-    QuietNightActionCard,
+    OneQuietNightActionCard,
     GovernmentGrantActionCard,
     GovernmentGrantActionCard,
     GovernmentGrantActionCard

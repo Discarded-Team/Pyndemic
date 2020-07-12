@@ -122,21 +122,21 @@ class PlayerDeckTestCase(TestCase):
         self.game = MagicMock()
 
     def test_prepare(self):
-        self.deck.prepare(self.cities, self.game)
+        self.deck.prepare(self.cities)
 
         self.assertIsInstance(self.deck.cards[10], PlayerCard)
         self.assertEqual('London', self.deck.cards[0].name)
         self.assertEqual('Black', self.deck.cards[29].colour)
 
     def test_multiple_prepare(self):
-        self.deck.prepare(self.cities, self.game)
+        self.deck.prepare(self.cities)
         deck_size = len(self.deck.cards)
 
-        self.deck.prepare(self.cities, self.game)
+        self.deck.prepare(self.cities)
         self.assertEqual(deck_size, len(self.deck.cards))
 
     def test_add_epidemics(self):
-        self.deck.prepare(self.cities, self.game)
+        self.deck.prepare(self.cities)
 
         random.seed(42)
         expected_deck_size = len(self.deck.cards) + 6

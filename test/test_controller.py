@@ -102,9 +102,8 @@ class GameControllerTestCase(TestCase):
 
 
 # TODO: expand test case, remove the hardcoded exit message
-# TODO: skip because adding ActionCards ruins card sequence
-# One needs to reconstruct after all cards were added
-@skip
+# TODO: reconstruct after all cards are added
+@skip('Broken by action card integration')
 class GameRunTestCase(TestCase):
     @patch('sys.stdout', new_callable=StringIO)
     @patch('sys.stdin.readline', side_effect=open(INPUT_LOCATION, 'r'))

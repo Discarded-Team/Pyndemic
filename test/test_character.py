@@ -6,7 +6,7 @@ from pyndemic import config
 from pyndemic.exceptions import *
 from pyndemic.game import Game
 from pyndemic.card import CityCard
-from pyndemic.action_card import QuietNightActionCard
+from pyndemic.action_card import OneQuietNightActionCard
 from pyndemic.character import Character
 from .test_helpers import SETTINGS_LOCATION
 
@@ -445,13 +445,13 @@ class CharacterTestCase(TestCase):
         with self.assertRaises(ValueError):
             result = self.character.check_action_card('Quiet Night')
 
-        self.character.hand = [QuietNightActionCard()]
+        self.character.hand = [OneQuietNightActionCard()]
         result = self.character.check_action_card('Quiet Night')
         self.assertTrue(result)
 
-    @patch.object(QuietNightActionCard, 'on_play')
+    @patch.object(OneQuietNightActionCard, 'on_play')
     def test_play_action_card(self, mock_method):
-        self.character.hand = [QuietNightActionCard()]
+        self.character.hand = [OneQuietNightActionCard()]
         result = self.character.play_action_card('Quiet Night')
         mock_method.assert_called()
         self.assertTrue(result)

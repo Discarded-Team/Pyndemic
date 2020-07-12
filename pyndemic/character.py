@@ -253,7 +253,7 @@ class Character(GameEntity):
 
     def play_action_card(self, card_name, *args):
         if self.check_action_card(card_name, *args):
-            logging.info(
+            self.emit_signal(
                 f'{self}: Playing {card_name}.')
             card = self.get_card(card_name)
             card.on_play(*args)

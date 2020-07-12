@@ -3,7 +3,7 @@ from unittest.mock import MagicMock
 from .test_helpers import construct_mock_context
 
 from pyndemic.action_card import (GovernmentGrantActionCard,
-                                  QuietNightActionCard)
+                                  OneQuietNightActionCard)
 
 
 class GovernmentGrantActionCardCase(TestCase):
@@ -39,25 +39,26 @@ class GovernmentGrantActionCardCase(TestCase):
         self.mock_game.city_map["London"].has_lab = False
         result = card.on_play("London")
         self.assertTrue(result)
+        self.mock_game.city_map["London"].build_lab.assert_called()
 
 
-class QuietNightActionCardCase(TestCase):
+class OneQuietNightActionCardCase(TestCase):
     def setUp(self):
         self._ctx = construct_mock_context()
         self.mock_game = self._ctx['controller']().game
 
     def test_init(self):
-        card = QuietNightActionCard()
+        card = OneQuietNightActionCard()
         self.assertEqual("Quiet Night", card.name)
         self.assertIsNone(card.colour)
 
     def test_check_playable(self):
-        card = QuietNightActionCard()
+        card = OneQuietNightActionCard()
         playable = card.check_playable()
         self.assertTrue(playable)
 
     def test_on_play(self):
-        card = QuietNightActionCard()
+        card = OneQuietNightActionCard()
         self.mock_game.skip_infect_phase = False
         card.on_play()
         mode = self.mock_game.skip_infect_phase

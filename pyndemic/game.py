@@ -208,7 +208,7 @@ class Game(GameEntity):
 
     def get_new_decks(self):
         # TODO: does not read card set settings yet
-        self.player_deck.prepare(self.city_map.values(), self)
+        self.player_deck.prepare(self.city_map.values())
         self.infect_deck.prepare(self.city_map.values())
         logging.debug('Decks prepared.')
 

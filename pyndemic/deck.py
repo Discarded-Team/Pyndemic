@@ -66,7 +66,7 @@ class Deck(GameEntity):
 
 
 class PlayerDeck(Deck):
-    def prepare(self, cities, game):
+    def prepare(self, cities):
         self.clear()
         for city in cities:
             new_card = CityCard(city.name, city.colour)
