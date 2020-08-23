@@ -506,3 +506,91 @@ class PassCommandTestCase(unittest.TestCase):
         command = dict(command='pass', args={})
         self.command.execute(command)
         self.assertEqual(0, self.character.action_count)
+
+
+class CardGrantCommandTestCase(unittest.TestCase):
+    def setUp(self):
+        self.game = Mock()
+        self.game.city_map = ['Yakutsk', 'Karlmarxstadt']
+        self.controller = MockController()
+        self.character = Mock()
+        self.character.play_action_card = MagicMock(return_value=True)
+
+        self.command = CardGrantCommand(self.game, self.character,
+                                      self.controller)
+
+    def tearDown(self):
+        del self.controller
+
+    def test_check_valid_command(self):
+        # irrelevant command
+        command = dict(command='move', args={})
+        response = self.command.check_valid_command(command)
+        self.assertFalse(response)
+
+        # too few arguments
+        command = dict(command='card_grant', args={})
+        response = self.command.check_valid_command(command)
+        self.assertFalse(response)
+
+        # wrong argument
+        command = dict(command='card_grant', args={
+            'colour': 'cyan'
+        })
+        with self.assertRaises(KeyError):
+            self.command.check_valid_command(command)
+
+        # wrong destination
+        command = dict(command='card_grant', args={
+            'destination': 'London'
+        })
+        response = self.command.check_valid_command(command)
+        self.assertFalse(response)
+
+        # correct destination
+        command = dict(command='card_grant', args={
+            'destination': 'Karlmarxstadt'
+        })
+
+        response = self.command.check_valid_command(command)
+        self.assertTrue(response)
+
+    def test_execute(self):
+        # valid command
+        command = dict(command='card_grant', args={
+            'destination': 'Karlmarxstadt'
+        })
+        self.command.execute(command)
+        self.character.play_action_card.assert_called_with('Government Grant',
+                                                           'Karlmarxstadt')
+
+
+class CardNightCommandTestCase(unittest.TestCase):
+    def setUp(self):
+        self.game = Mock()
+        self.controller = MockController()
+        self.character = Mock()
+        self.character.name = 'Alice'
+
+        self.command = CardNightCommand(self.game, self.character,
+                                    self.controller)
+
+    def tearDown(self):
+        del self.controller
+
+    def test_check_valid_command(self):
+        # irrelevant command
+        command = dict(command='move', args={})
+        response = self.command.check_valid_command(command)
+        self.assertFalse(response)
+
+        # correct command
+        command = dict(command='card_night', args={})
+        response = self.command.check_valid_command(command)
+        self.assertTrue(response)
+
+    def test_execute(self):
+        # valid command
+        command = dict(command='card_night', args={})
+        self.command.execute(command)
+        self.character.play_action_card.assert_called_with('One Quiet Night')

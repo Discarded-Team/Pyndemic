@@ -25,6 +25,8 @@ class GameplayCommands(StringEnum):
     CURE = 'cure'
     SHARE = 'share'
     PASS = 'pass'
+    CARD_GRANT = 'card_grant'
+    CARD_NIGHT = 'card_night'
 
 
 def termination_request():

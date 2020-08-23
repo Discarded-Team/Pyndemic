@@ -47,6 +47,8 @@ The console mode supports the following commands:
  * `cure <card_1> ... <card_5>` - perform a cure disease action
  * `share <card> <player name>` - perform a share knowledge action
  * `pass` - end turn
+ * `card_grant <location>` - play the 'Government Grant' action card
+ * `card_night` - play the 'One Quiet Night' action card
 
 Also you can do `Ctrl`+`C` to terminate the game.
 

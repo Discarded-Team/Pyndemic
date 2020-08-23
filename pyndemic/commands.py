@@ -196,6 +196,36 @@ class PassCommand(Command):
         return True
 
 
+class CardGrantCommand(Command):
+    command = 'card_grant'
+    min_arguments = 1
+
+    def check_arguments(self, args):
+        destination = args['destination']
+        if destination not in self.game.city_map:
+            return False
+        return True
+
+    def execute(self, command):
+        character = self.character
+        destination = command['args']['destination']
+
+        success = character.play_action_card('Government Grant', destination)
+        return success
+
+
+class CardNightCommand(Command):
+    command = 'card_night'
+
+    def check_arguments(self, args):
+        return True
+
+    def execute(self, command):
+        character = self.character
+        success = character.play_action_card('One Quiet Night')
+        return success
+
+
 COMMANDS = [
     MoveCommand,
     FlyCommand,
@@ -206,4 +236,6 @@ COMMANDS = [
     CureCommand,
     ShareCommand,
     PassCommand,
+    CardGrantCommand,
+    CardNightCommand
 ]

@@ -35,7 +35,7 @@ class OneQuietNightActionCard(ActionCard):
 
     def __init__(self):
         super().__init__()
-        self.name = "Quiet Night"
+        self.name = "One Quiet Night"
 
     def check_playable(self):
         return True

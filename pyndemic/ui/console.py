@@ -145,4 +145,6 @@ update_command = {
     GameplayCommands.CURE: _update_cure_command,
     GameplayCommands.SHARE: _update_share_command,
     GameplayCommands.PASS: _update_no_args_command,
+    GameplayCommands.CARD_GRANT: _update_move_command,
+    GameplayCommands.CARD_NIGHT: _update_no_args_command
 }

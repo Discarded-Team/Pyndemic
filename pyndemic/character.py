@@ -248,7 +248,10 @@ class Character(GameEntity):
         return False
 
     def check_action_card(self, card_name, *args):
-        card = self.get_card(card_name)
+        try:
+            card = self.get_card(card_name)
+        except ValueError:
+            return False
         return card.check_playable(*args)
 
     def play_action_card(self, card_name, *args):

@@ -174,6 +174,25 @@ This type of request serves to send various gameplay commands representing playe
   }
   ```
 
+* Play 'Government Grant' action card:
+  ```python
+  {
+      "type": "command",
+      "command": "card_grant",
+      "args" : {
+          "destination": "London"
+      }
+  }
+  ```
+
+* Play 'One Quiet Night' action card:
+  ```python
+  {
+      "type": "command",
+      "command": "card_night"
+  }
+  ```
+
 The response is a "message" response with messages emitted during the command execution (if it does not fail). Also, the resulting game state information is included in the `"game_data"` field.
 
 ---

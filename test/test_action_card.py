@@ -13,7 +13,7 @@ class GovernmentGrantActionCardCase(TestCase):
 
     def test_init(self):
         card = GovernmentGrantActionCard()
-        self.assertEqual("Government Grant", card.name)
+        self.assertEqual('Government Grant', card.name)
         self.assertIsNone(card.colour)
 
     def test_check_playable(self):
@@ -49,7 +49,7 @@ class OneQuietNightActionCardCase(TestCase):
 
     def test_init(self):
         card = OneQuietNightActionCard()
-        self.assertEqual("Quiet Night", card.name)
+        self.assertEqual('One Quiet Night', card.name)
         self.assertIsNone(card.colour)
 
     def test_check_playable(self):

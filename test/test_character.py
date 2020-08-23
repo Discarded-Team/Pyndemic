@@ -442,18 +442,17 @@ class CharacterTestCase(TestCase):
         self.assertEqual('Brighton', self.character.location.name)
 
     def test_check_action_card(self):
-        with self.assertRaises(ValueError):
-            result = self.character.check_action_card('Quiet Night')
+        self.assertFalse(self.character.check_action_card('One Quiet Night'))
 
         self.character.hand = [OneQuietNightActionCard()]
-        result = self.character.check_action_card('Quiet Night')
+        result = self.character.check_action_card('One Quiet Night')
         self.assertTrue(result)
 
     @patch.object(OneQuietNightActionCard, 'on_play')
     def test_play_action_card(self, mock_method):
         self.character.hand = [OneQuietNightActionCard()]
-        result = self.character.play_action_card('Quiet Night')
+        result = self.character.play_action_card('One Quiet Night')
         mock_method.assert_called()
         self.assertTrue(result)
-        self.assertTrue('Quiet Night', self.game.player_deck.discard[-1])
+        self.assertTrue('One Quiet Night', self.game.player_deck.discard[-1])
 
