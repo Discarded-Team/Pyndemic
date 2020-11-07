@@ -35,6 +35,7 @@ class BaseFormatter:
             :infection_levels: dict (colour => lvl)
         :infection_rate: int
         :epidemic_count: int
+        :outbreak_count: int
         :active_character: str
         """
         characters = [cls.character_to_dict(character)
@@ -50,6 +51,7 @@ class BaseFormatter:
 
         infection_rate = game.infection_rate
         epidemic_count = game.epidemic_count
+        outbreak_count = game.outbreak_count
         active_character = game.active_character
 
         output = {
@@ -60,6 +62,7 @@ class BaseFormatter:
             'cities': cities,
             'infection_rate': infection_rate,
             'epidemic_count': epidemic_count,
+            'outbreak_count': outbreak_count,
             'active_character': active_character
         }
         return output
