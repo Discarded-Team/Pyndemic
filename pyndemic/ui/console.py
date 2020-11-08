@@ -66,6 +66,13 @@ class ConsoleUI:
             elif self.last_ui_command == 'infection':
                 self._infection_ui_command(response)
 
+            elif self.last_ui_command == 'position':
+                self._chars_ui_command(response)
+                self._labs_ui_command(response)
+
+            elif self.last_ui_command == 'discard':
+                self._discard_ui_command(response)
+
             self.last_ui_command = None
             self.last_ui_command_args = None
 
@@ -154,14 +161,14 @@ class ConsoleUI:
         # city infection status section
         for c in city_names:
             city_output = c
-            total_disease = 0
+            total_disease = 0 # clean city filter
             if len(c) < 8: # fix for names that are too short
                 city_output += "\t"
             city_output += "\t"
             for d in disease_names:
                 lvl_output = city_dict[c]['infection_levels'][d]
                 total_disease += lvl_output
-                # better visibility for other numbers in a table
+                # better visibility for other numbers in the table
                 if lvl_output == 0:
                     lvl_output = "."
                 city_output += "\t{}".format(lvl_output)
@@ -169,6 +176,37 @@ class ConsoleUI:
                 self.io.send(city_output)
 
         self.io.send("=" * break_length + "\n")
+
+    def _discard_ui_command(self, response):
+        player_d = response['game_data']['player_deck_discard']
+        infect_d = response['game_data']['infect_deck_discard']
+        break_length = 56
+
+        self.io.send("\nDiscards:\n" + "=" * break_length)
+        # player deck
+        self.io.send("Player cards")
+        if len(player_d) == 0:
+            self.io.send("Nothing is here")
+        else:
+            for c in player_d:
+                name = c['name']
+                if len(name) < 8:
+                    name += "\t"
+                self.io.send("{}\t{}".format(name, c['colour']))
+        self.io.send("-" * break_length)
+
+        # infect deck
+        self.io.send("Infect cards")
+        if len(infect_d) == 0:
+            self.io.send("Nothing is here")
+        else:
+            for c in infect_d:
+                name = c['name']
+                if len(name) < 8:
+                    name += "\t"
+                self.io.send("{}\t{}".format(name, c['colour']))
+        self.io.send("=" * break_length)
+
 
     def parse_user_input(self, input_request):
         input_request = input_request.split()
@@ -179,6 +217,8 @@ class ConsoleUI:
             self.last_ui_command = input_request[0]
             if len(input_request) > 1:
                 self.last_ui_command_args = input_request[1:]
+            # TODO: this request can be cached
+            #  Every controller command includes game state in the response
             request = {'type': RequestTypes.CHECK}
             return request
 
@@ -274,5 +314,7 @@ update_command = {
 CLI_COMMANDS = ['chars', 'characters',
                 'hand',
                 'labs',
-                'infection']
+                'infection',
+                'position',
+                'discard']
 
