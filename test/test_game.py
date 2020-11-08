@@ -202,6 +202,11 @@ class GameTestCase(unittest.TestCase):
         self.pg.infect_city('London', 'Blue')
         self.assertEqual(0, len(self.pg.outbreak_stack))
 
+    def test_skipping_infect_city_phase(self):
+        self.pg.skip_infect_phase = True
+        self.pg.infect_city_phase()
+        self.assertEqual(0, self.pg.city_map['London'].infection_levels['Blue'])
+
     def test_infect_city_phase_ouitbreak_stack(self):
         """Tests that the outbreak stack is cleaned after each drawn card.
         This reflects in how many cities are infected and how much.
